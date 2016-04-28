@@ -59,7 +59,7 @@
         android:id="@+id/lin_three"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="80dp"
         android:layout_below="@+id/lin_two">
     </LinearLayout>
 
@@ -71,11 +71,11 @@
         android:layout_below="@+id/lin_two">
 
 
-        <ImageView
-            android:id="@+id/camera_image_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+        <!--<ImageView-->
+            <!--android:id="@+id/camera_image_view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1" />-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -101,7 +101,7 @@
     <FrameLayout
         android:id="@+id/camera_frame2"
         android:layout_width="match_parent"
-        android:layout_height="800dp"
+        android:layout_height="match_parent"
         android:layout_below="@+id/lin_three"
         >
     </FrameLayout>

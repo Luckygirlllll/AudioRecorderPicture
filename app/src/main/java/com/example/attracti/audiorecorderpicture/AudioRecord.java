@@ -391,6 +391,7 @@ public class AudioRecord extends AppCompatActivity {
         super.onCreate(icicle);
         setContentView(R.layout.activity_main);
 
+
         LinearLayout ll= (LinearLayout) findViewById(R.id.lin_three);
         mNextButton  =(Button) findViewById(R.id.test4);
         mPreviousButton=(Button) findViewById(R.id.test5);
@@ -399,8 +400,6 @@ public class AudioRecord extends AppCompatActivity {
 
 
         //-----Camera features
-
-
         mCaptureImageButton = (Button) findViewById(R.id.capture_image_button);
         mCaptureImageButton.setOnClickListener(mCaptureImageButtonClickListener);
 
@@ -409,8 +408,6 @@ public class AudioRecord extends AppCompatActivity {
         mSaveImageButton = (Button) findViewById(R.id.save_image_button);
         mSaveImageButton.setOnClickListener(mSaveImageButtonClickListener);
         mSaveImageButton.setEnabled(true);
-
-
         //----Camera features
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -437,7 +434,6 @@ public class AudioRecord extends AppCompatActivity {
                     Log.i("Current", String.valueOf(labeltime));
 
                     try {
-                        // File root = new File(Environment.getExternalStorageDirectory()+File.separator+"Music_Folder", "Report Files");
                         File root = new File(Environment.getExternalStorageDirectory(), "Audio_Recorder");
                         if (!root.exists()) {
                             root.mkdirs();
