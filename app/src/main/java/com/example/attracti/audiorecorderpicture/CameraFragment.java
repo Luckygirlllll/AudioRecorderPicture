@@ -62,30 +62,16 @@ public class CameraFragment extends Fragment
     static int currentZoomLevel;
     ZoomControls zoomControls;
 
-    //    private ImageView mCameraImageView;
+
     private Bitmap mCameraBitmap;
-//    private Button mSaveImageButton;
-
     private ImageView mCameraImageView;
-
-    ImageView imageView2;
-
-
     Bitmap bitmap;
-    Canvas canvas;
-    Paint paint;
+    Canvas tempCanvas;
+    Bitmap tempBitmap;
+    Paint myPaint;
 
-    static int x;
-    static int y;
+        private View view;
 
-
-//    private OnClickListener mCaptureImageButtonClickListener = new OnClickListener() {
-//        @Override
-//        public void onClick(View v) {
-//            captureImage();
-//            mCameraImage.setImageBitmap(bitmap);
-//        }
-//    };
 
     private OnClickListener mSaveImageButtonClickListener = new OnClickListener() {
         @Override
@@ -141,8 +127,9 @@ public class CameraFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.activity_camera,
+        view = inflater.inflate(R.layout.activity_camera,
                 container, false);
+
 
         mCameraImage = (ImageView) view.findViewById(R.id.camera_image_view);
         // mCameraImage.setVisibility(View.INVISIBLE);
@@ -150,7 +137,8 @@ public class CameraFragment extends Fragment
         mCameraPreview = (SurfaceView) view.findViewById(R.id.preview_view);
 
         RelativeLayout fragment = (RelativeLayout) view.findViewById(R.id.fragment);
-        fragment.setOnTouchListener(onTouchListener);
+//        fragment.setOnTouchListener(onTouchListener);
+        mCameraImage.setOnTouchListener(onTouchListener);
 
         final SurfaceHolder surfaceHolder = mCameraPreview.getHolder();
         surfaceHolder.addCallback(this);
@@ -183,47 +171,34 @@ public class CameraFragment extends Fragment
         }
         zoom();
 
+         tempBitmap = Bitmap.createBitmap(4000, 4000, Bitmap.Config.RGB_565);
+         tempCanvas = new Canvas(tempBitmap);
 
-//        Bitmap tempBitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.RGB_565);
-//        Canvas tempCanvas = new Canvas(tempBitmap);
-//        Paint myPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-//        tempCanvas.drawBitmap(mCameraBitmap, 0, 0, null);
-//         paint.setColor(Color.BLACK);
-//        tempCanvas.drawRoundRect(new RectF(200, 200, 200, 200), 2, 2, myPaint);
-//        mCameraImage.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));
-
-//        bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
-//        canvas = new Canvas(bitmap);
-//        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-//        paint.setColor(Color.BLACK);
-//        canvas.drawCircle(50, 50, 10, paint);
-//        mCameraImage.setImageBitmap(bitmap);
-//
-//        canvas.drawBitmap(bitmap, 0, 0, null);
-//        canvas.drawRoundRect(new RectF(800, 800, 800, 800), 2, 2, paint);
-//        mCameraImage.setImageDrawable(new BitmapDrawable(getResources(), bitmap));
 
         return view;
     }
 
     private View.OnTouchListener onTouchListener = new View.OnTouchListener() {
         public boolean onTouch(View v, MotionEvent event) {
-             x = (int) event.getX();
-             y = (int) event.getY();
+           int  x = (int) event.getX();
+           int  y = (int) event.getY();
+
             Log.i("X", "case 0 " + x);
             Log.i("Y", "case 0 " + y);
             switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    Log.i("X", "case 1 " + x);
-                    Log.i("Y", "case 1 " + y);
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    Log.i("X", "case 2 " + x);
-                    Log.i("Y", "case 2 " + y);
-                    break;
+//                case MotionEvent.ACTION_DOWN:
+//                    Log.i("X", "case 1 " + x);
+//                    Log.i("Y", "case 1 " + y);
+//                    break;
+//                case MotionEvent.ACTION_MOVE:
+//                    Log.i("X", "case 2 " + x);
+//                    Log.i("Y", "case 2 " + y);
+//                    break;
                 case MotionEvent.ACTION_UP:
                     Log.i("X", "case 3 " + x);
                     Log.i("Y", "case 3 " + y);
+                    tempCanvas.drawCircle(x*8, y*8, 200,myPaint);
+                    view.invalidate();
                     break;
             }
             return true;
@@ -251,8 +226,6 @@ public class CameraFragment extends Fragment
 //    }
 
 
-
-    // @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.i("onActivityResult", "image");
         if (requestCode == TAKE_PICTURE_REQUEST_B) {
@@ -401,6 +374,8 @@ public class CameraFragment extends Fragment
                     }
                 }
                 Bitmap bitmap = BitmapFactory.decodeByteArray(mCameraData, 0, mCameraData.length);
+                Log.i("Bitmap height: ", String.valueOf(bitmap.getHeight()));
+                Log.i("Bitmap width: ", String.valueOf(bitmap.getWidth()));
                 mCameraImage.setImageBitmap(bitmap);
                 mCamera.stopPreview();
                 mCameraPreview.setVisibility(View.INVISIBLE);
@@ -410,18 +385,10 @@ public class CameraFragment extends Fragment
                 mCaptureImageButton.setOnClickListener(mRecaptureImageButtonClickListener);
 
 
-                Bitmap tempBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.RGB_565);
-                Canvas tempCanvas = new Canvas(tempBitmap);
-                Paint myPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+                myPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
                 tempCanvas.drawBitmap(bitmap, 0, 0, null);
-                myPaint.setColor(Color.BLACK);
-               // tempCanvas.drawRoundRect(new RectF(200, 200, 200, 200), 2, 2, myPaint);
-               // tempCanvas.drawCircle(20, 20, 10, myPaint);
-                tempCanvas.drawLine(0,1000,0,1000,myPaint);
-                tempCanvas.drawCircle(x, y, 10,myPaint);
+                myPaint.setColor(Color.RED);
                 mCameraImage.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));
-
-
             }
         });
     }
@@ -484,7 +451,6 @@ public class CameraFragment extends Fragment
             zoomControls.setVisibility(View.GONE);
     }
 
-    // @Override
     public void savePicture() {
         File saveFile = openFileForImage();
         if (saveFile != null) {
@@ -496,7 +462,6 @@ public class CameraFragment extends Fragment
         }
     }
 
-    //   @Override
     public void takePicture() {
 
     }
