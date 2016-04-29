@@ -1,7 +1,7 @@
 package com.example.attracti.audiorecorderpicture;
 
 /**
- * Created by attracti on 4/28/16.
+ * Created by Iryna on 4/28/16.
  */
 import android.content.Context;
 import android.graphics.Canvas;

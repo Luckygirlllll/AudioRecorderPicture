@@ -1,7 +1,7 @@
 package com.example.attracti.audiorecorderpicture;
 
 /**
- * Created by attracti on 4/28/16.
+ * Created by Iryna on 4/28/16.
  */
 
 import android.content.Context;
@@ -9,7 +9,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
 import android.os.Bundle;
@@ -72,6 +74,9 @@ public class CameraFragment extends Fragment
     Bitmap bitmap;
     Canvas canvas;
     Paint paint;
+
+    static int x;
+    static int y;
 
 
 //    private OnClickListener mCaptureImageButtonClickListener = new OnClickListener() {
@@ -178,7 +183,15 @@ public class CameraFragment extends Fragment
         }
         zoom();
 
-//        mCameraImageView.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.logo));
+
+//        Bitmap tempBitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.RGB_565);
+//        Canvas tempCanvas = new Canvas(tempBitmap);
+//        Paint myPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+//        tempCanvas.drawBitmap(mCameraBitmap, 0, 0, null);
+//         paint.setColor(Color.BLACK);
+//        tempCanvas.drawRoundRect(new RectF(200, 200, 200, 200), 2, 2, myPaint);
+//        mCameraImage.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));
+
 //        bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
 //        canvas = new Canvas(bitmap);
 //        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -195,8 +208,8 @@ public class CameraFragment extends Fragment
 
     private View.OnTouchListener onTouchListener = new View.OnTouchListener() {
         public boolean onTouch(View v, MotionEvent event) {
-            int x = (int) event.getX();
-            int y = (int) event.getY();
+             x = (int) event.getX();
+             y = (int) event.getY();
             Log.i("X", "case 0 " + x);
             Log.i("Y", "case 0 " + y);
             switch (event.getAction()) {
@@ -395,6 +408,20 @@ public class CameraFragment extends Fragment
                 mCameraImage.setRotation(90);
                 mCaptureImageButton.setText(R.string.recapture_image);
                 mCaptureImageButton.setOnClickListener(mRecaptureImageButtonClickListener);
+
+
+                Bitmap tempBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.RGB_565);
+                Canvas tempCanvas = new Canvas(tempBitmap);
+                Paint myPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+                tempCanvas.drawBitmap(bitmap, 0, 0, null);
+                myPaint.setColor(Color.BLACK);
+               // tempCanvas.drawRoundRect(new RectF(200, 200, 200, 200), 2, 2, myPaint);
+               // tempCanvas.drawCircle(20, 20, 10, myPaint);
+                tempCanvas.drawLine(0,1000,0,1000,myPaint);
+                tempCanvas.drawCircle(x, y, 10,myPaint);
+                mCameraImage.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));
+
+
             }
         });
     }
