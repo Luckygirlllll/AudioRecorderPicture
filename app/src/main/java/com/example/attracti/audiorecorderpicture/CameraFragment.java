@@ -62,15 +62,16 @@ public class CameraFragment extends Fragment
     static int currentZoomLevel;
     ZoomControls zoomControls;
 
-
     private Bitmap mCameraBitmap;
     private ImageView mCameraImageView;
+
     Bitmap bitmap;
+
     Canvas tempCanvas;
     Bitmap tempBitmap;
     Paint myPaint;
 
-        private View view;
+    private View view;
 
 
     private OnClickListener mSaveImageButtonClickListener = new OnClickListener() {
@@ -171,9 +172,8 @@ public class CameraFragment extends Fragment
         }
         zoom();
 
-         tempBitmap = Bitmap.createBitmap(4000, 4000, Bitmap.Config.RGB_565);
+         tempBitmap = Bitmap.createBitmap(4000, 3000, Bitmap.Config.RGB_565);
          tempCanvas = new Canvas(tempBitmap);
-
 
         return view;
     }
@@ -197,7 +197,7 @@ public class CameraFragment extends Fragment
                 case MotionEvent.ACTION_UP:
                     Log.i("X", "case 3 " + x);
                     Log.i("Y", "case 3 " + y);
-                    tempCanvas.drawCircle(x*8, y*8, 200,myPaint);
+                    tempCanvas.drawCircle(x*6, y*6, 200,myPaint);
                     view.invalidate();
                     break;
             }
@@ -381,6 +381,7 @@ public class CameraFragment extends Fragment
                 mCameraPreview.setVisibility(View.INVISIBLE);
                 mCameraImage.setVisibility(View.VISIBLE);
                 mCameraImage.setRotation(90);
+
                 mCaptureImageButton.setText(R.string.recapture_image);
                 mCaptureImageButton.setOnClickListener(mRecaptureImageButtonClickListener);
 
@@ -392,7 +393,6 @@ public class CameraFragment extends Fragment
             }
         });
     }
-
 
     private void setupImageCapture() {
         mCameraImage.setVisibility(View.INVISIBLE);
