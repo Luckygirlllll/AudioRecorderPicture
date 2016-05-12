@@ -17,19 +17,23 @@ import android.widget.LinearLayout;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
 
 public class AudioRecord extends AppCompatActivity {
 
-    long start;
-    long after;
+  //  private int i = 22;
+
+    static long start;
+    public static long getStart() {
+        return start;
+    }
+    private long after;
 
     int current = 1;
     int currlabel = 1;
@@ -52,7 +56,7 @@ public class AudioRecord extends AppCompatActivity {
     SavePictureListener savePictureListener;
 
     BufferedReader br = null;
-    File gpxfile;
+    File xfile;
 
     static String info2;
 
@@ -72,7 +76,12 @@ public class AudioRecord extends AppCompatActivity {
     private MediaRecorder mRecorder = null;
 
     private PlayButton playButton = null;
-    private MediaPlayer mPlayer = null;
+
+    private static MediaPlayer mPlayer = null;
+
+    public MediaPlayer getmPlayer() {
+        return mPlayer;
+    }
 
     private LabelButton labelButton = null;
     private Button mLabelPlayButton = null;
@@ -89,6 +98,11 @@ public class AudioRecord extends AppCompatActivity {
 
     private Button mCaptureImageButton;
     private Button mSaveImageButton;
+
+    CameraFragment fragment = new CameraFragment();
+    static String[] filetime3;
+
+    static ArrayList time = new ArrayList();
 
 
     private void initHeaderFragmet() {
@@ -147,7 +161,7 @@ public class AudioRecord extends AppCompatActivity {
         }
     }
 
-    private void startPlaying() {
+    public void startPlaying() {
         mPlayer = new MediaPlayer();
         try {
             mPlayer.setDataSource(mFileName);
@@ -159,17 +173,26 @@ public class AudioRecord extends AppCompatActivity {
     }
 
     private void startPlayingmodified() {
+
+  //filetime = fragment.getFiletime2();
+       // Log.i("Filetime 3", String.valueOf(Integer.parseInt(filetime[0])));
+
+        time= fragment.getFiletime3();
+        Log.i("Time 0", (String) time.get(0));
+        Log.i("Time 1", (String) time.get(1));
+
         mPlayer = new MediaPlayer();
         try {
             mPlayer.setDataSource(mFileName);
             mPlayer.prepare();
-            mPlayer.seekTo(Integer.parseInt(filetime[0]));
+           // Log.i("Filetime 3", String.valueOf(Integer.parseInt(filetime3[0])));
+            mPlayer.seekTo(Integer.parseInt((String) time.get(0)));
             mPlayer.start();
 
-            Log.i("Stop", String.valueOf(filetime[1]));
+//            Log.i("Stop", String.valueOf(filetime[1]));
 
             //playing the next label
-            new CountDownTimer(Integer.parseInt(filetime[1]) - Integer.parseInt(filetime[0]), 1000) {
+            new CountDownTimer(Integer.parseInt( (String) time.get(1)) - Integer.parseInt((String) time.get(0)), 1000) {
                 public void onTick(long millisUntilFinished) {
                 }
 
@@ -185,18 +208,19 @@ public class AudioRecord extends AppCompatActivity {
 
     private void startNextPlaying() {
         mPlayer = new MediaPlayer();
+        time= fragment.getFiletime3();
         try {
-            if (currlabel < filetime.length - 1) {
+            if (currlabel < time.size() - 1) {
                 currlabel++;
             }
             mPlayer.setDataSource(mFileName);
             mPlayer.prepare();
-            mPlayer.seekTo(Integer.parseInt(filetime[currlabel - 1]));
+            mPlayer.seekTo(Integer.parseInt((String) time.get(currlabel-1)));
             mPlayer.start();
 
             Log.i("CurrentLabel", String.valueOf(currlabel));
 
-            new CountDownTimer(Integer.parseInt(filetime[currlabel]) - Integer.parseInt(filetime[currlabel - 1]), 1000) {
+            new CountDownTimer(Integer.parseInt((String) time.get(currlabel)) - Integer.parseInt((String) time.get(currlabel - 1)), 1000) {
                 public void onTick(long millisUntilFinished) {
                 }
 
@@ -211,6 +235,7 @@ public class AudioRecord extends AppCompatActivity {
 
     private void startPreviousPlaying() {
         mPlayer = new MediaPlayer();
+        time= fragment.getFiletime3();
         try {
 
             if (currlabel > 1) {
@@ -218,10 +243,10 @@ public class AudioRecord extends AppCompatActivity {
             }
             mPlayer.setDataSource(mFileName);
             mPlayer.prepare();
-            mPlayer.seekTo(Integer.parseInt(filetime[currlabel - 1]));
+            mPlayer.seekTo(Integer.parseInt((String) time.get(currlabel - 1)));
             mPlayer.start();
             Log.i("CurrentLabelPrevious", String.valueOf(currlabel));
-            new CountDownTimer(Integer.parseInt(filetime[currlabel]) - Integer.parseInt(filetime[currlabel - 1]), 1000) {
+            new CountDownTimer(Integer.parseInt((String) time.get(currlabel)) - Integer.parseInt((String) time.get(currlabel - 1)), 1000) {
                 public void onTick(long millisUntilFinished) {
                 }
 
@@ -262,30 +287,30 @@ public class AudioRecord extends AppCompatActivity {
     }
 
 
-    public void readFromFile() {
-        StringBuilder text = new StringBuilder();
-
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(gpxfile));
-            String line;
-
-            while ((line = br.readLine()) != null) {
-
-                text.append(line);
-                text.append('\n');
-            }
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Log.i("TextInfo", String.valueOf(text));
-
-        filetime = text.toString().split("\n");
-        Arrays.sort(filetime);
-        for (int i = 0; i < filetime.length - 1; i++) {
-            Log.i("Sorted array 2", filetime[i]);
-        }
-    };
+//    public void readFromFile() {
+//        StringBuilder text = new StringBuilder();
+//
+//        try {
+//            BufferedReader br = new BufferedReader(new FileReader(gpxfile));
+//            String line;
+//
+//            while ((line = br.readLine()) != null) {
+//
+//                text.append(line);
+//                text.append('\n');
+//            }
+//            br.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        Log.i("TextInfo", String.valueOf(text));
+//
+//        filetime = text.toString().split("\n");
+//        Arrays.sort(filetime);
+//        for (int i = 0; i < filetime.length - 1; i++) {
+//            Log.i("Sorted array 2", filetime[i]);
+//        }
+//    };
 
     public class RecordButton extends Button {
         boolean mStartRecording = true;
@@ -391,12 +416,10 @@ public class AudioRecord extends AppCompatActivity {
         super.onCreate(icicle);
         setContentView(R.layout.activity_main);
 
-
         LinearLayout ll= (LinearLayout) findViewById(R.id.lin_three);
         mNextButton  =(Button) findViewById(R.id.test4);
         mPreviousButton=(Button) findViewById(R.id.test5);
         mLabelPlayButton=(Button) findViewById(R.id.test6);
-
 
 
         //-----Camera features
@@ -427,7 +450,7 @@ public class AudioRecord extends AppCompatActivity {
 
                     int sBody = difference;
 
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy_mm_dd_hh_mm",
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy_mm_dd_hh_mm_ss",
                             Locale.getDefault());;
                     Date now = new Date();
                     String fileName = formatter.format(now) + ".txt";//like 2016_01_12.txt
@@ -438,9 +461,9 @@ public class AudioRecord extends AppCompatActivity {
                         if (!root.exists()) {
                             root.mkdirs();
                         }
-                        gpxfile = new File(root, fileName);
+                        xfile = new File(root, fileName);
 
-                        FileWriter writer = new FileWriter(gpxfile, true);
+                        FileWriter writer = new FileWriter(xfile, true);
                         writer.append(sBody + "\n");
                         writer.flush();
                         writer.close();
@@ -448,7 +471,7 @@ public class AudioRecord extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    readFromFile();
+                    //readFromFile();
                     mCanvasView.drawLine();
 
                 } else {
@@ -468,16 +491,16 @@ public class AudioRecord extends AppCompatActivity {
                         if (!root.exists()) {
                             root.mkdirs();
                         }
-                        gpxfile = new File(root, fileName);
+                        xfile = new File(root, fileName);
 
-                        FileWriter writer = new FileWriter(gpxfile, true);
+                        FileWriter writer = new FileWriter(xfile, true);
                         writer.append(sBody + "\n");
                         writer.flush();
                         writer.close();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    readFromFile();
+                   // readFromFile();
                     mCanvasView.drawLine();
                 }
             }
@@ -488,8 +511,9 @@ public class AudioRecord extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+                fragment.readFromFile();
+                time= fragment.getFiletime3();
                 boolean mStartPlaying = true;
-                readFromFile();
                 mCanvasView = new CanvasView(AudioRecord.this);
                 onPlayLabel(mStartPlaying);
             }
@@ -501,33 +525,35 @@ public class AudioRecord extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 boolean mStartPlaying = true;
-                StringBuilder text = new StringBuilder();
+//                StringBuilder text = new StringBuilder();
+//
+//                try {
+//                    BufferedReader br = new BufferedReader(new FileReader(fragment.getGpxfile()));
+//                    String line;
+//
+//                    while ((line = br.readLine()) != null) {
+//
+//                        text.append(line);
+//                        text.append('\n');
+//                    }
+//                    br.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                Log.i("TextInfo", String.valueOf(text));
 
-                try {
-                    BufferedReader br = new BufferedReader(new FileReader(gpxfile));
-                    String line;
+               // String[] filetime = text.toString().split("\n");
 
-                    while ((line = br.readLine()) != null) {
-
-                        text.append(line);
-                        text.append('\n');
-                    }
-                    br.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                Log.i("TextInfo", String.valueOf(text));
-
-                String[] filetime = text.toString().split("\n");
-
-                if (current - 1 < filetime.length - 1) {
+                time= fragment.getFiletime3();
+                Log.i("Time size", String.valueOf(time.size()));
+                if (current - 1 < time.size() - 1) {
                     current++;
                 }
-
+                Log.i("Time size", String.valueOf(time.size()));
                 Log.i("Iinfo!!!!", String.valueOf(current));
 
-                mCanvasView = new CanvasView(AudioRecord.this);
-                mCanvasView.invalidate();
+//                mCanvasView = new CanvasView(AudioRecord.this);
+//                mCanvasView.invalidate();
                 onPlayNext(mStartPlaying);
             }
         });

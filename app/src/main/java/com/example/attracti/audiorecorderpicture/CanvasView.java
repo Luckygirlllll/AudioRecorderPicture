@@ -49,9 +49,9 @@ public class CanvasView extends View {
 
         times = audio.getFiletime();
 
-        for (int i = 0; i < times.length; i++) {
-            Log.i("TIME ALl", audio.getFiletime()[i]);
-        }
+//        for (int i = 0; i < times.length; i++) {
+//            Log.i("TIME ALl", audio.getFiletime()[i]);
+//        }
 
         Log.i("Number of times", String.valueOf(times.length));
 
