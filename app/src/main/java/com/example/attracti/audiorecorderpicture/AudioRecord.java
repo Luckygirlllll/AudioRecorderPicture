@@ -174,9 +174,6 @@ public class AudioRecord extends AppCompatActivity {
 
     private void startPlayingmodified() {
 
-  //filetime = fragment.getFiletime2();
-       // Log.i("Filetime 3", String.valueOf(Integer.parseInt(filetime[0])));
-
         time= fragment.getFiletime3();
         Log.i("Time 0", (String) time.get(0));
         Log.i("Time 1", (String) time.get(1));
@@ -185,11 +182,9 @@ public class AudioRecord extends AppCompatActivity {
         try {
             mPlayer.setDataSource(mFileName);
             mPlayer.prepare();
-           // Log.i("Filetime 3", String.valueOf(Integer.parseInt(filetime3[0])));
             mPlayer.seekTo(Integer.parseInt((String) time.get(0)));
             mPlayer.start();
 
-//            Log.i("Stop", String.valueOf(filetime[1]));
 
             //playing the next label
             new CountDownTimer(Integer.parseInt( (String) time.get(1)) - Integer.parseInt((String) time.get(0)), 1000) {
@@ -205,6 +200,54 @@ public class AudioRecord extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    public void startPlayingPictureLabel(int i) {
+
+        time= fragment.getFiletime3();
+        Log.i("Time i", (String) time.get(i));
+      //  Log.i("Time i+1", (String) time.get(i+1));
+
+        mPlayer = new MediaPlayer();
+        try {
+            mPlayer.setDataSource(mFileName);
+            mPlayer.prepare();
+            mPlayer.seekTo(Integer.parseInt((String) time.get(i)));
+            mPlayer.start();
+
+            if (i < time.size()-1) {
+
+                new CountDownTimer(Integer.parseInt((String) time.get(i + 1)) - Integer.parseInt((String) time.get(i)), 1000) {
+                    public void onTick(long millisUntilFinished) {
+                    }
+
+                    public void onFinish() {
+                        stopPlaying();
+                    }
+                }.start();
+            }
+        else{
+                new CountDownTimer(10000, 1000) {
+                    public void onTick(long millisUntilFinished) {
+                    }
+
+                    public void onFinish() {
+                        stopPlaying();
+                    }
+                }.start();
+            }
+
+            }catch(IOException e) {
+            e.printStackTrace();
+
+        }
+    }
+
+
+
+
+
+
+
 
     private void startNextPlaying() {
         mPlayer = new MediaPlayer();

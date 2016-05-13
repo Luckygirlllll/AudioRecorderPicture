@@ -196,34 +196,6 @@ public class CameraFragment extends Fragment
 
         mIsCapturing = true;
 
-        // ----------- reflection
-
-        //     AudioRecord audioRecord = new AudioRecord();
-
-
-//        Class clazz = AudioRecord.class;
-//        Field iField = null;
-//        try {
-//            iField = clazz.getDeclaredField("i");
-//        } catch (NoSuchFieldException e) {
-//            e.printStackTrace();
-//        }
-//        iField.setAccessible(true);
-//        try {
-//            iField.set(audioRecord, 5);
-//        } catch (IllegalAccessException e) {
-//            e.printStackTrace();
-//        }
-//        int fieldValue = 0;
-//        try {
-//            fieldValue = iField.getInt(audioRecord);
-//        } catch (IllegalAccessException e) {
-//            e.printStackTrace();
-//        }
-//        Log.i("i!!!!! ", String.valueOf(fieldValue));
-
-        //-----reflection
-
 //        if (mCamera == null) {
 //            Log.i("Camera open", "Camera open");
         try {
@@ -259,127 +231,6 @@ public class CameraFragment extends Fragment
 
     private View.OnTouchListener onTouchListener = new View.OnTouchListener() {
         public boolean onTouch(View v, MotionEvent event) {
-//            int x = (int) event.getX();
-//            int y = (int) event.getY();
-//
-//            Log.i("X", "case 0 " + x);
-//            Log.i("Y", "case 0 " + y);
-//            switch (event.getAction()) {
-////                case MotionEvent.ACTION_DOWN:
-////                    Log.i("X", "case 1 " + x);
-////                    Log.i("Y", "case 1 " + y);
-////                    break;
-////                case MotionEvent.ACTION_MOVE:
-////                    Log.i("X", "case 2 " + x);
-////                    Log.i("Y", "case 2 " + y);
-////                    break;
-//                case MotionEvent.ACTION_UP:
-//                    Log.i("X", "case 3 " + x);
-//                    Log.i("Y", "case 3 " + y);
-//
-//                    // раскомментировать при необходимости
-////                    tempCanvas.drawCircle(x*6, y*6, 200,myPaint);
-////                    view.invalidate();
-//
-//                    // adding info about the label
-//                    AudioRecord audioRecord = new AudioRecord();
-//                    MediaPlayer mPlayer2 = audioRecord.getmPlayer();
-//                    Log.i("mPlayer2!!!", String.valueOf(mPlayer2));
-//
-//                    //                   if (mPlayer2 == null) {
-//                    long after = System.currentTimeMillis();
-//                    android.util.Log.i("Time after click", " Time value in milliseconds " + after);
-//                    int difference = (int) (after - audioRecord.getStart());
-//                    Log.i("difference", String.valueOf(difference));
-//
-//                    int sBody = difference;
-//
-//                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy_mm_dd_hh",
-//                            Locale.getDefault());
-//                    ;
-//                    Date now = new Date();
-//                    String fileName = formatter.format(now) + ".txt";//like 2016_01_12.txt
-//
-//                    try {
-//                        File root = new File(Environment.getExternalStorageDirectory(), "Audio_Recorder_Picture");
-//                        if (!root.exists()) {
-//                            root.mkdirs();
-//                        }
-//
-//                        gpxfile = new File(root, fileName);
-//
-//                        FileWriter writer = new FileWriter(gpxfile, true);
-//                        Log.i("Time, X, Y", "Time:" + sBody + " X:" + x + "\n" + "Y" + y + "\n");
-//                        writer.append(sBody + "\n" + x + "\n" + y + "\n");
-//                        writer.flush();
-//                        writer.close();
-//
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                    // readFromFile();
-//                    tempCanvas.drawCircle(x * 6, y * 6, 200, myPaint);
-//                    view.invalidate();
-//
-//
-////                    } else {
-////
-////                        String info2 = String.valueOf(mPlayer2.getCurrentPosition());
-////                        long labeltime = mPlayer2.getCurrentPosition();
-////                        String sBody = info2;
-////
-////                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy_mm_dd_hh",
-////                                Locale.getDefault());;
-////                        Date now = new Date();
-////                        String fileName = formatter.format(now) + ".txt";//like 2016_01_12.txt
-////                        Log.i("Current", String.valueOf(labeltime));
-////
-////                        try {
-////                            File root = new File(Environment.getExternalStorageDirectory(), "Audio_Recorder_Picture");
-////                            if (!root.exists()) {
-////                                root.mkdirs();
-////                            }
-////                             File gpxfile = new File(root, fileName);
-////
-////                            FileWriter writer = new FileWriter(gpxfile, true);
-////                            writer.append(sBody + "\n");
-////                            writer.flush();
-////                            writer.close();
-////                        } catch (IOException e) {
-////                            e.printStackTrace();
-////                        }
-////                  //    readFromFile();
-////                        tempCanvas.drawCircle(x*6, y*6, 200,myPaint);
-////                        view.invalidate();
-////                    }
-//
-//
-//                    //----Saving process
-////                    int sBody = x;
-////
-////                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy_mm_dd_hh_mm",
-////                            Locale.getDefault());;
-////                    Date now = new Date();
-////                    String fileName = formatter.format(now) + ".txt";
-//
-////                    try {
-////                        File root = new File(Environment.getExternalStorageDirectory(), "Audio_Recorder_Picture");
-////                        if (!root.exists()) {
-////                            root.mkdirs();
-////                        }
-////                        File file = new File(root, fileName);
-////
-////                        FileWriter writer = new FileWriter(file, true);
-////                        writer.append(x+"\n"+y+"\n");
-////                        writer.flush();
-////                        writer.close();
-////                    } catch (IOException e) {
-////                        e.printStackTrace();
-//                    //                   }
-//
-//                    //                   break;
-//            }
-//            //   return true;
             return DoubleTap.onTouchEvent(event);
         }
     };
@@ -709,7 +560,8 @@ public class CameraFragment extends Fragment
                 int yfile = Integer.parseInt((String) ycoordin.get(i));
 
                 if ((xlong < xfile + 100 && xlong > xfile - 100) && (ylong < yfile + 100 && ylong > yfile - 100)) {
-                    audioRecord.startPlaying();
+                    audioRecord.startPlayingPictureLabel(i);
+                    Log.i("Index i of the label", String.valueOf(i));
                 }
             }
 
@@ -736,7 +588,7 @@ public class CameraFragment extends Fragment
                 case MotionEvent.ACTION_DOWN:
                     Log.i("X", "case 3 " + x);
                     Log.i("Y", "case 3 " + y);
-                    
+
 
                     MediaPlayer mPlayer2 = audioRecord.getmPlayer();
                     Log.i("mPlayer2!!!", String.valueOf(mPlayer2));
@@ -760,7 +612,6 @@ public class CameraFragment extends Fragment
                         if (!root.exists()) {
                             root.mkdirs();
                         }
-
                         gpxfile = new File(root, fileName);
 
                         FileWriter writer = new FileWriter(gpxfile, true);
@@ -775,8 +626,6 @@ public class CameraFragment extends Fragment
                     // readFromFile();
                     tempCanvas.drawCircle(x * 6, y * 6, 200, myPaint);
                     view.invalidate();
-
-
 //                    } else {
 //
 //                        String info2 = String.valueOf(mPlayer2.getCurrentPosition());
@@ -838,7 +687,7 @@ public class CameraFragment extends Fragment
             }
             //   return true;
 //            return DoubleTap.onTouchEvent(e);
-       //     return true;
+            //     return true;
         }
     }
 
