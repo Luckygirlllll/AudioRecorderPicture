@@ -160,7 +160,7 @@ public class CameraFragment extends Fragment
         super.onAttach(context);
         this.context = context;
         this.activity = (AppCompatActivity) context;
-        audioRecord = (AudioRecord)context;
+        audioRecord = (AudioRecord) context;
     }
 
     @Nullable
@@ -684,10 +684,9 @@ public class CameraFragment extends Fragment
     }
 
     private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
-
         @Override
-        public void onLongPress(MotionEvent e) {
-            Log.d("...", "LongPress сработал");
+        public boolean onDown(MotionEvent e) {
+            Log.d("...", "onDown сработал");
             int xlong = (int) e.getX();
             int ylong = (int) e.getY();
             Log.wtf("Coordinates of xlong: ", String.valueOf(xlong));
@@ -713,11 +712,13 @@ public class CameraFragment extends Fragment
                     audioRecord.startPlaying();
                 }
             }
+
+            return true;
         }
 
         @Override
-        public boolean onDown(MotionEvent e) {
-            Log.d("...", "onDown сработал");
+        public void onLongPress(MotionEvent e) {
+            Log.d("...", "onLongPress сработал");
             int x = (int) e.getX();
             int y = (int) e.getY();
 
@@ -741,7 +742,7 @@ public class CameraFragment extends Fragment
 //                    view.invalidate();
 
                     // adding info about the label
-                   // AudioRecord audioRecord = new AudioRecord();
+                    // AudioRecord audioRecord = new AudioRecord();
                     MediaPlayer mPlayer2 = audioRecord.getmPlayer();
                     Log.i("mPlayer2!!!", String.valueOf(mPlayer2));
 
@@ -837,21 +838,19 @@ public class CameraFragment extends Fragment
                     //                   }
 
 //                                       break;
-            //       onLongPress(e);
+                    //       onLongPress(e);
 
             }
             //   return true;
 //            return DoubleTap.onTouchEvent(e);
-            return true;
+       //     return true;
         }
-        }
-
-        public boolean onDoubleTap(MotionEvent e) {
-            Log.d("...", "DoubleTap сработал");
-            return false;
-        }
-
-
     }
+
+    public boolean onDoubleTap(MotionEvent e) {
+        Log.d("...", "DoubleTap сработал");
+        return false;
+    }
+}
 
 
