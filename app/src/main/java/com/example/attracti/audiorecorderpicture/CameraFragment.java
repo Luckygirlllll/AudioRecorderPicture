@@ -736,13 +736,8 @@ public class CameraFragment extends Fragment
                 case MotionEvent.ACTION_DOWN:
                     Log.i("X", "case 3 " + x);
                     Log.i("Y", "case 3 " + y);
+                    
 
-                    // раскомментировать при необходимости
-//                    tempCanvas.drawCircle(x*6, y*6, 200,myPaint);
-//                    view.invalidate();
-
-                    // adding info about the label
-                    // AudioRecord audioRecord = new AudioRecord();
                     MediaPlayer mPlayer2 = audioRecord.getmPlayer();
                     Log.i("mPlayer2!!!", String.valueOf(mPlayer2));
 
