@@ -97,6 +97,8 @@ public class CameraFragment extends Fragment
     static ArrayList xcoordin = new ArrayList();
     static ArrayList ycoordin = new ArrayList();
 
+    AudioRecord audioRecord;
+
     public static ArrayList getXcoordin() {
         return xcoordin;
     }
@@ -158,6 +160,7 @@ public class CameraFragment extends Fragment
         super.onAttach(context);
         this.context = context;
         this.activity = (AppCompatActivity) context;
+        audioRecord = (AudioRecord)context;
     }
 
     @Nullable
@@ -256,127 +259,127 @@ public class CameraFragment extends Fragment
 
     private View.OnTouchListener onTouchListener = new View.OnTouchListener() {
         public boolean onTouch(View v, MotionEvent event) {
-            int x = (int) event.getX();
-            int y = (int) event.getY();
-
-            Log.i("X", "case 0 " + x);
-            Log.i("Y", "case 0 " + y);
-            switch (event.getAction()) {
-//                case MotionEvent.ACTION_DOWN:
-//                    Log.i("X", "case 1 " + x);
-//                    Log.i("Y", "case 1 " + y);
-//                    break;
-//                case MotionEvent.ACTION_MOVE:
-//                    Log.i("X", "case 2 " + x);
-//                    Log.i("Y", "case 2 " + y);
-//                    break;
-                case MotionEvent.ACTION_UP:
-                    Log.i("X", "case 3 " + x);
-                    Log.i("Y", "case 3 " + y);
-
-                    // раскомментировать при необходимости
-//                    tempCanvas.drawCircle(x*6, y*6, 200,myPaint);
-//                    view.invalidate();
-
-                    // adding info about the label
-                    AudioRecord audioRecord = new AudioRecord();
-                    MediaPlayer mPlayer2 = audioRecord.getmPlayer();
-                    Log.i("mPlayer2!!!", String.valueOf(mPlayer2));
-
-                    //                   if (mPlayer2 == null) {
-                    long after = System.currentTimeMillis();
-                    android.util.Log.i("Time after click", " Time value in milliseconds " + after);
-                    int difference = (int) (after - audioRecord.getStart());
-                    Log.i("difference", String.valueOf(difference));
-
-                    int sBody = difference;
-
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy_mm_dd_hh",
-                            Locale.getDefault());
-                    ;
-                    Date now = new Date();
-                    String fileName = formatter.format(now) + ".txt";//like 2016_01_12.txt
-
-                    try {
-                        File root = new File(Environment.getExternalStorageDirectory(), "Audio_Recorder_Picture");
-                        if (!root.exists()) {
-                            root.mkdirs();
-                        }
-
-                        gpxfile = new File(root, fileName);
-
-                        FileWriter writer = new FileWriter(gpxfile, true);
-                        Log.i("Time, X, Y", "Time:" + sBody + " X:" + x + "\n" + "Y" + y + "\n");
-                        writer.append(sBody + "\n" + x + "\n" + y + "\n");
-                        writer.flush();
-                        writer.close();
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    // readFromFile();
-                    tempCanvas.drawCircle(x * 6, y * 6, 200, myPaint);
-                    view.invalidate();
-
-
-//                    } else {
+//            int x = (int) event.getX();
+//            int y = (int) event.getY();
 //
-//                        String info2 = String.valueOf(mPlayer2.getCurrentPosition());
-//                        long labeltime = mPlayer2.getCurrentPosition();
-//                        String sBody = info2;
+//            Log.i("X", "case 0 " + x);
+//            Log.i("Y", "case 0 " + y);
+//            switch (event.getAction()) {
+////                case MotionEvent.ACTION_DOWN:
+////                    Log.i("X", "case 1 " + x);
+////                    Log.i("Y", "case 1 " + y);
+////                    break;
+////                case MotionEvent.ACTION_MOVE:
+////                    Log.i("X", "case 2 " + x);
+////                    Log.i("Y", "case 2 " + y);
+////                    break;
+//                case MotionEvent.ACTION_UP:
+//                    Log.i("X", "case 3 " + x);
+//                    Log.i("Y", "case 3 " + y);
 //
-//                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy_mm_dd_hh",
-//                                Locale.getDefault());;
-//                        Date now = new Date();
-//                        String fileName = formatter.format(now) + ".txt";//like 2016_01_12.txt
-//                        Log.i("Current", String.valueOf(labeltime));
+//                    // раскомментировать при необходимости
+////                    tempCanvas.drawCircle(x*6, y*6, 200,myPaint);
+////                    view.invalidate();
 //
-//                        try {
-//                            File root = new File(Environment.getExternalStorageDirectory(), "Audio_Recorder_Picture");
-//                            if (!root.exists()) {
-//                                root.mkdirs();
-//                            }
-//                             File gpxfile = new File(root, fileName);
+//                    // adding info about the label
+//                    AudioRecord audioRecord = new AudioRecord();
+//                    MediaPlayer mPlayer2 = audioRecord.getmPlayer();
+//                    Log.i("mPlayer2!!!", String.valueOf(mPlayer2));
 //
-//                            FileWriter writer = new FileWriter(gpxfile, true);
-//                            writer.append(sBody + "\n");
-//                            writer.flush();
-//                            writer.close();
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                  //    readFromFile();
-//                        tempCanvas.drawCircle(x*6, y*6, 200,myPaint);
-//                        view.invalidate();
-//                    }
-
-
-                    //----Saving process
-//                    int sBody = x;
+//                    //                   if (mPlayer2 == null) {
+//                    long after = System.currentTimeMillis();
+//                    android.util.Log.i("Time after click", " Time value in milliseconds " + after);
+//                    int difference = (int) (after - audioRecord.getStart());
+//                    Log.i("difference", String.valueOf(difference));
 //
-//                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy_mm_dd_hh_mm",
-//                            Locale.getDefault());;
+//                    int sBody = difference;
+//
+//                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy_mm_dd_hh",
+//                            Locale.getDefault());
+//                    ;
 //                    Date now = new Date();
-//                    String fileName = formatter.format(now) + ".txt";
-
+//                    String fileName = formatter.format(now) + ".txt";//like 2016_01_12.txt
+//
 //                    try {
 //                        File root = new File(Environment.getExternalStorageDirectory(), "Audio_Recorder_Picture");
 //                        if (!root.exists()) {
 //                            root.mkdirs();
 //                        }
-//                        File file = new File(root, fileName);
 //
-//                        FileWriter writer = new FileWriter(file, true);
-//                        writer.append(x+"\n"+y+"\n");
+//                        gpxfile = new File(root, fileName);
+//
+//                        FileWriter writer = new FileWriter(gpxfile, true);
+//                        Log.i("Time, X, Y", "Time:" + sBody + " X:" + x + "\n" + "Y" + y + "\n");
+//                        writer.append(sBody + "\n" + x + "\n" + y + "\n");
 //                        writer.flush();
 //                        writer.close();
+//
 //                    } catch (IOException e) {
 //                        e.printStackTrace();
-                    //                   }
-
-                    //                   break;
-            }
-            //   return true;
+//                    }
+//                    // readFromFile();
+//                    tempCanvas.drawCircle(x * 6, y * 6, 200, myPaint);
+//                    view.invalidate();
+//
+//
+////                    } else {
+////
+////                        String info2 = String.valueOf(mPlayer2.getCurrentPosition());
+////                        long labeltime = mPlayer2.getCurrentPosition();
+////                        String sBody = info2;
+////
+////                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy_mm_dd_hh",
+////                                Locale.getDefault());;
+////                        Date now = new Date();
+////                        String fileName = formatter.format(now) + ".txt";//like 2016_01_12.txt
+////                        Log.i("Current", String.valueOf(labeltime));
+////
+////                        try {
+////                            File root = new File(Environment.getExternalStorageDirectory(), "Audio_Recorder_Picture");
+////                            if (!root.exists()) {
+////                                root.mkdirs();
+////                            }
+////                             File gpxfile = new File(root, fileName);
+////
+////                            FileWriter writer = new FileWriter(gpxfile, true);
+////                            writer.append(sBody + "\n");
+////                            writer.flush();
+////                            writer.close();
+////                        } catch (IOException e) {
+////                            e.printStackTrace();
+////                        }
+////                  //    readFromFile();
+////                        tempCanvas.drawCircle(x*6, y*6, 200,myPaint);
+////                        view.invalidate();
+////                    }
+//
+//
+//                    //----Saving process
+////                    int sBody = x;
+////
+////                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy_mm_dd_hh_mm",
+////                            Locale.getDefault());;
+////                    Date now = new Date();
+////                    String fileName = formatter.format(now) + ".txt";
+//
+////                    try {
+////                        File root = new File(Environment.getExternalStorageDirectory(), "Audio_Recorder_Picture");
+////                        if (!root.exists()) {
+////                            root.mkdirs();
+////                        }
+////                        File file = new File(root, fileName);
+////
+////                        FileWriter writer = new FileWriter(file, true);
+////                        writer.append(x+"\n"+y+"\n");
+////                        writer.flush();
+////                        writer.close();
+////                    } catch (IOException e) {
+////                        e.printStackTrace();
+//                    //                   }
+//
+//                    //                   break;
+//            }
+//            //   return true;
             return DoubleTap.onTouchEvent(event);
         }
     };
@@ -682,20 +685,7 @@ public class CameraFragment extends Fragment
 
     private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
 
-        AudioRecord audioRecord = new AudioRecord();
-        CameraFragment cameraFragment = new CameraFragment();
-
         @Override
-        public boolean onDown(MotionEvent e) {
-            Log.d("...", "onDown сработал");
-            return true;
-        }
-
-        public boolean onDoubleTap(MotionEvent e) {
-            Log.d("...", "DoubleTap сработал");
-            return false;
-        }
-
         public void onLongPress(MotionEvent e) {
             Log.d("...", "LongPress сработал");
             int xlong = (int) e.getX();
@@ -722,9 +712,146 @@ public class CameraFragment extends Fragment
                 if ((xlong < xfile + 100 && xlong > xfile - 100) && (ylong < yfile + 100 && ylong > yfile - 100)) {
                     audioRecord.startPlaying();
                 }
-
             }
         }
+
+        @Override
+        public boolean onDown(MotionEvent e) {
+            Log.d("...", "onDown сработал");
+            int x = (int) e.getX();
+            int y = (int) e.getY();
+
+            Log.i("X", "case 0 " + x);
+            Log.i("Y", "case 0 " + y);
+            switch (e.getAction()) {
+//                case MotionEvent.ACTION_DOWN:
+//                    Log.i("X", "case 1 " + x);
+//                    Log.i("Y", "case 1 " + y);
+//                    break;
+//                case MotionEvent.ACTION_MOVE:
+//                    Log.i("X", "case 2 " + x);
+//                    Log.i("Y", "case 2 " + y);
+//                    break;
+                case MotionEvent.ACTION_DOWN:
+                    Log.i("X", "case 3 " + x);
+                    Log.i("Y", "case 3 " + y);
+
+                    // раскомментировать при необходимости
+//                    tempCanvas.drawCircle(x*6, y*6, 200,myPaint);
+//                    view.invalidate();
+
+                    // adding info about the label
+                   // AudioRecord audioRecord = new AudioRecord();
+                    MediaPlayer mPlayer2 = audioRecord.getmPlayer();
+                    Log.i("mPlayer2!!!", String.valueOf(mPlayer2));
+
+                    //                   if (mPlayer2 == null) {
+                    long after = System.currentTimeMillis();
+                    android.util.Log.i("Time after click", " Time value in milliseconds " + after);
+                    int difference = (int) (after - audioRecord.getStart());
+                    Log.i("difference", String.valueOf(difference));
+
+                    int sBody = difference;
+
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy_mm_dd_hh",
+                            Locale.getDefault());
+                    ;
+                    Date now = new Date();
+                    String fileName = formatter.format(now) + ".txt";//like 2016_01_12.txt
+
+                    try {
+                        File root = new File(Environment.getExternalStorageDirectory(), "Audio_Recorder_Picture");
+                        if (!root.exists()) {
+                            root.mkdirs();
+                        }
+
+                        gpxfile = new File(root, fileName);
+
+                        FileWriter writer = new FileWriter(gpxfile, true);
+                        Log.i("Time, X, Y", "Time:" + sBody + " X:" + x + "\n" + "Y" + y + "\n");
+                        writer.append(sBody + "\n" + x + "\n" + y + "\n");
+                        writer.flush();
+                        writer.close();
+
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                    // readFromFile();
+                    tempCanvas.drawCircle(x * 6, y * 6, 200, myPaint);
+                    view.invalidate();
+
+
+//                    } else {
+//
+//                        String info2 = String.valueOf(mPlayer2.getCurrentPosition());
+//                        long labeltime = mPlayer2.getCurrentPosition();
+//                        String sBody = info2;
+//
+//                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy_mm_dd_hh",
+//                                Locale.getDefault());;
+//                        Date now = new Date();
+//                        String fileName = formatter.format(now) + ".txt";//like 2016_01_12.txt
+//                        Log.i("Current", String.valueOf(labeltime));
+//
+//                        try {
+//                            File root = new File(Environment.getExternalStorageDirectory(), "Audio_Recorder_Picture");
+//                            if (!root.exists()) {
+//                                root.mkdirs();
+//                            }
+//                             File gpxfile = new File(root, fileName);
+//
+//                            FileWriter writer = new FileWriter(gpxfile, true);
+//                            writer.append(sBody + "\n");
+//                            writer.flush();
+//                            writer.close();
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                  //    readFromFile();
+//                        tempCanvas.drawCircle(x*6, y*6, 200,myPaint);
+//                        view.invalidate();
+//                    }
+
+
+                    //----Saving process
+//                    int sBody = x;
+//
+//                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy_mm_dd_hh_mm",
+//                            Locale.getDefault());;
+//                    Date now = new Date();
+//                    String fileName = formatter.format(now) + ".txt";
+
+//                    try {
+//                        File root = new File(Environment.getExternalStorageDirectory(), "Audio_Recorder_Picture");
+//                        if (!root.exists()) {
+//                            root.mkdirs();
+//                        }
+//                        File file = new File(root, fileName);
+//
+//                        FileWriter writer = new FileWriter(file, true);
+//                        writer.append(x+"\n"+y+"\n");
+//                        writer.flush();
+//                        writer.close();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+                    //                   }
+
+//                                       break;
+            //       onLongPress(e);
+
+            }
+            //   return true;
+//            return DoubleTap.onTouchEvent(e);
+            return true;
+        }
+        }
+
+        public boolean onDoubleTap(MotionEvent e) {
+            Log.d("...", "DoubleTap сработал");
+            return false;
+        }
+
+
     }
-}
+
 
