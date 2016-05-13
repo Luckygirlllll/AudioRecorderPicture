@@ -552,19 +552,21 @@ public class CameraFragment extends Fragment
             Log.wtf("Xcoordin size", String.valueOf(xcoordin.size()));
             Log.wtf("Ycoordin size", String.valueOf(ycoordin.size()));
 
-
             for (int i = 0; i < xcoordin.size(); i++) {
                 Log.i("Xcoordin", (String) xcoordin.get(i));
                 Log.i("Ycoordin", (String) ycoordin.get(i));
                 int xfile = Integer.parseInt((String) xcoordin.get(i));
                 int yfile = Integer.parseInt((String) ycoordin.get(i));
 
+
                 if ((xlong < xfile + 100 && xlong > xfile - 100) && (ylong < yfile + 100 && ylong > yfile - 100)) {
                     audioRecord.startPlayingPictureLabel(i);
                     Log.i("Index i of the label", String.valueOf(i));
+                    tempCanvas.drawCircle(xfile * 6, yfile * 6, 150, myPaint);
+                    myPaint.setColor(Color.BLUE);
+                    view.invalidate();
                 }
             }
-
             return true;
         }
 
@@ -588,7 +590,6 @@ public class CameraFragment extends Fragment
                 case MotionEvent.ACTION_DOWN:
                     Log.i("X", "case 3 " + x);
                     Log.i("Y", "case 3 " + y);
-
 
                     MediaPlayer mPlayer2 = audioRecord.getmPlayer();
                     Log.i("mPlayer2!!!", String.valueOf(mPlayer2));
@@ -624,8 +625,10 @@ public class CameraFragment extends Fragment
                         e1.printStackTrace();
                     }
                     // readFromFile();
-                    tempCanvas.drawCircle(x * 6, y * 6, 200, myPaint);
+
+                    tempCanvas.drawCircle(x * 6, y * 6, 150, myPaint);
                     view.invalidate();
+
 //                    } else {
 //
 //                        String info2 = String.valueOf(mPlayer2.getCurrentPosition());

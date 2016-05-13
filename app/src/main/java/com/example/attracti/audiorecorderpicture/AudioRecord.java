@@ -185,7 +185,6 @@ public class AudioRecord extends AppCompatActivity {
             mPlayer.seekTo(Integer.parseInt((String) time.get(0)));
             mPlayer.start();
 
-
             //playing the next label
             new CountDownTimer(Integer.parseInt( (String) time.get(1)) - Integer.parseInt((String) time.get(0)), 1000) {
                 public void onTick(long millisUntilFinished) {
@@ -238,15 +237,8 @@ public class AudioRecord extends AppCompatActivity {
 
             }catch(IOException e) {
             e.printStackTrace();
-
         }
     }
-
-
-
-
-
-
 
 
     private void startNextPlaying() {
@@ -303,8 +295,13 @@ public class AudioRecord extends AppCompatActivity {
     }
 
     private void stopPlaying() {
+        if (mPlayer!=null){
         mPlayer.release();
         mPlayer = null;
+        }
+        else {
+            Log.i("mPlayer is null", "Nothing to stop");
+        }
     }
 
     private void startRecording() {
