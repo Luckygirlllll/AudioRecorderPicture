@@ -663,8 +663,6 @@ public class CameraFragment extends Fragment
                         e1.printStackTrace();
                     }
                     // readFromFile();
-
-                  //  tempCanvas.drawCircle(x * 6, y * 6, 150, myPaint);
                     textPaint=new Paint();
                     tempCanvas.save();
                     tempCanvas.rotate(-90, x* 6, y* 6);
@@ -687,8 +685,6 @@ public class CameraFragment extends Fragment
                     };
 
                     tempCanvas.drawText(String.valueOf(clicked), x * 6, y * 6, textPaint);
-
-                  //  tempCanvas.drawText(String.valueOf(clicked),(x+8)*6, (y+8) * 6, textPaint);
                     clicked++;
                     tempCanvas.restore();
                     view.invalidate();
@@ -748,8 +744,7 @@ public class CameraFragment extends Fragment
                     //                   }
 
 //                                       break;
-                    //       onLongPress(e);
-
+                    //       onLongPress(e)
             }
             //   return true;
 //            return DoubleTap.onTouchEvent(e);
