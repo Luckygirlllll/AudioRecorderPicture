@@ -562,13 +562,10 @@ public class CameraFragment extends Fragment
                 int xfile = Integer.parseInt((String) xcoordin.get(i));
                 int yfile = Integer.parseInt((String) ycoordin.get(i));
 
-
-
                 if ((xlong < xfile + 50 && xlong > xfile - 50) && (ylong < yfile + 50 && ylong > yfile - 50)) {
                     audioRecord.startPlayingPictureLabel(i);
                     Log.i("Index i of the label", String.valueOf(i));
                     myPaint.setColor(Color.BLUE);
-                   // tempCanvas.drawCircle(xfile * 6, yfile * 6, 150, myPaint);
                     tempCanvas.save();
                     tempCanvas.rotate(-90, xfile * 6, yfile * 6);
                     textPaint.setTextSize(140);
