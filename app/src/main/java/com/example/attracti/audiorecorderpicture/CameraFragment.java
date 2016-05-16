@@ -111,6 +111,9 @@ public class CameraFragment extends Fragment
         return filetime3;
     }
 
+    Paint textPaint;
+    static int clicked=1;
+
 
     private OnClickListener mSaveImageButtonClickListener = new OnClickListener() {
         @Override
@@ -559,12 +562,31 @@ public class CameraFragment extends Fragment
                 int yfile = Integer.parseInt((String) ycoordin.get(i));
 
 
-                if ((xlong < xfile + 100 && xlong > xfile - 100) && (ylong < yfile + 100 && ylong > yfile - 100)) {
+
+                if ((xlong < xfile + 50 && xlong > xfile - 50) && (ylong < yfile + 50 && ylong > yfile - 50)) {
                     audioRecord.startPlayingPictureLabel(i);
                     Log.i("Index i of the label", String.valueOf(i));
-                    tempCanvas.drawCircle(xfile * 6, yfile * 6, 150, myPaint);
                     myPaint.setColor(Color.BLUE);
+                    tempCanvas.drawCircle(xfile * 6, yfile * 6, 150, myPaint);
+                    tempCanvas.save();
+                    tempCanvas.rotate(-90, (xfile + 8) * 6, (yfile + 8) * 6);
+                    textPaint.setTextSize(140);
+                    textPaint.setColor(Color.WHITE);
+                    tempCanvas.drawText(String.valueOf(i+1), (xfile + 8) * 6, (yfile + 8) * 6, textPaint);
+                    tempCanvas.restore();
+
                     view.invalidate();
+//                    for (int j = 0; j < xcoordin.size(); j++){
+//                        Log.i("J", "J in for cycle");
+//                        if (j!=i) {
+//                            Log.i("J", "J after the for cycle");
+//                            int xfilej = Integer.parseInt((String) xcoordin.get(j));
+//                            int yfilej = Integer.parseInt((String) ycoordin.get(j));
+//                            tempCanvas.drawCircle(xfilej * 6, yfilej * 6, 150, myPaint);
+//                            myPaint.setColor(Color.WHITE);
+//                            view.invalidate();
+//                        }
+//                    }
                 }
             }
             return true;
@@ -627,8 +649,16 @@ public class CameraFragment extends Fragment
                     // readFromFile();
 
                     tempCanvas.drawCircle(x * 6, y * 6, 150, myPaint);
+                    textPaint=new Paint();
+                    tempCanvas.save();
+                    tempCanvas.rotate(-90, (x + 8) * 6, (y + 8) * 6);
+                    textPaint.setTextSize(140);
+                    textPaint.setColor(Color.WHITE);
+                   // textPaint.setTextAlign(Paint.Align.CENTER);
+                    tempCanvas.drawText(String.valueOf(clicked),(x+8)*6, (y+8) * 6, textPaint);
+                    clicked++;
+                    tempCanvas.restore();
                     view.invalidate();
-
 //                    } else {
 //
 //                        String info2 = String.valueOf(mPlayer2.getCurrentPosition());
