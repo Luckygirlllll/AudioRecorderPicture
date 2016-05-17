@@ -26,9 +26,7 @@ import java.util.Locale;
 
 
 public class AudioRecord extends AppCompatActivity {
-
-  //  private int i = 22;
-
+    
     static long start;
     public static long getStart() {
         return start;
@@ -103,6 +101,8 @@ public class AudioRecord extends AppCompatActivity {
     static String[] filetime3;
 
     static ArrayList time = new ArrayList();
+
+    Button recordButtonpause;
 
 
     private void initHeaderFragmet() {
@@ -354,6 +354,24 @@ public class AudioRecord extends AppCompatActivity {
 //            Log.i("Sorted array 2", filetime[i]);
 //        }
 //    };
+//boolean mStartRecording = true;
+//
+//    OnClickListener clicker2 = new OnClickListener() {
+//        public void onClick(View v) {
+//            onRecord(mStartRecording);
+//            start = System.currentTimeMillis();
+//
+//            android.util.Log.i("Time Current ", " Time value in millisecinds " + start);
+//
+//            if (mStartRecording) {
+////                setText("Stop recording");
+//            } else {
+////                setText("Start recording");
+//            }
+//            mStartRecording = !mStartRecording;
+//        }
+//
+
 
     public class RecordButton extends Button {
         boolean mStartRecording = true;
@@ -438,13 +456,43 @@ public class AudioRecord extends AppCompatActivity {
         mFileName += "/audiorecordtest.3gp";
     }
 
+    boolean x = true;
+
     private OnClickListener mCaptureImageButtonClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
+            Log.wtf("TAG", "First listener");
             initHeaderFragmet();
-            takePictureListener.takePicture();
+//            takePictureListener.takePicture();
+
+            mCaptureImageButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.wtf("TAG", "Second listener");
+                    takePictureListener.takePicture();
+                }
+            });
         }
     };
+
+    boolean mStartRecording = true;
+    private OnClickListener recordButtonListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            onRecord(mStartRecording);
+            start = System.currentTimeMillis();
+
+            android.util.Log.i("Time Current ", " Time value in millisecinds " + start);
+            if (mStartRecording) {
+                recordButtonpause.setBackgroundResource(R.drawable.pause_black);
+            } else {
+                recordButtonpause.setBackgroundResource(R.drawable.mic_black);
+            }
+            mStartRecording = !mStartRecording;
+
+    }
+        };
+
 
     private OnClickListener mSaveImageButtonClickListener = new OnClickListener() {
         @Override
@@ -466,14 +514,20 @@ public class AudioRecord extends AppCompatActivity {
 
 
         //-----Camera features
-        mCaptureImageButton = (Button) findViewById(R.id.capture_image_button);
+        mCaptureImageButton = (Button) findViewById(R.id.capture_image);
         mCaptureImageButton.setOnClickListener(mCaptureImageButtonClickListener);
 
-        findViewById(R.id.capture_image_button).setOnClickListener(mCaptureImageButtonClickListener);
+        findViewById(R.id.capture_image).setOnClickListener(mCaptureImageButtonClickListener);
 
-        mSaveImageButton = (Button) findViewById(R.id.save_image_button);
-        mSaveImageButton.setOnClickListener(mSaveImageButtonClickListener);
-        mSaveImageButton.setEnabled(true);
+          recordButtonpause = (Button) findViewById(R.id.record_button);
+        // TODO: 5/17/16 Add functions to the recor_button
+          recordButtonpause.setOnClickListener(recordButtonListener);
+          findViewById(R.id.record_button).setOnClickListener(recordButtonListener);
+
+
+//        mSaveImageButton = (Button) findViewById(R.id.save_image_button);
+//        mSaveImageButton.setOnClickListener(mSaveImageButtonClickListener);
+//        mSaveImageButton.setEnabled(true);
         //----Camera features
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);

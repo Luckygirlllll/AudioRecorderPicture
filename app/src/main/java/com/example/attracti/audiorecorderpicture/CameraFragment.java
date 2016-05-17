@@ -172,7 +172,7 @@ public class CameraFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 
-        view = inflater.inflate(R.layout.activity_camera,
+        view = inflater.inflate(R.layout.camera_fragment,
                 container, false);
 
         mCameraImage = (ImageView) view.findViewById(R.id.camera_image_view);
@@ -190,13 +190,13 @@ public class CameraFragment extends Fragment
         surfaceHolder.addCallback(this);
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
-        mCaptureImageButton = (Button) view.findViewById(R.id.capture_image_button);
-        mCaptureImageButton.setOnClickListener(mCaptureImageButtonClickListener);
+//        mCaptureImageButton = (Button) view.findViewById(R.id.capture_image_button);
+//        mCaptureImageButton.setOnClickListener(mCaptureImageButtonClickListener);
+//
+//        final Button doneButton = (Button) view.findViewById(R.id.done_button);
+//        doneButton.setOnClickListener(mDoneButtonClickListener);
 
-        final Button doneButton = (Button) view.findViewById(R.id.done_button);
-        doneButton.setOnClickListener(mDoneButtonClickListener);
-
-        zoomControls = (ZoomControls) view.findViewById(R.id.cameraZoom);
+//        zoomControls = (ZoomControls) view.findViewById(R.id.cameraZoom);
 
         mIsCapturing = true;
 
@@ -215,7 +215,7 @@ public class CameraFragment extends Fragment
                     .show();
             Log.i("Unable to open camera", "Unable to open camera");
         }
-        zoom();
+      //  zoom();
 
         tempBitmap = Bitmap.createBitmap(4000, 3000, Bitmap.Config.RGB_565);
         tempCanvas = new Canvas(tempBitmap);
@@ -402,7 +402,7 @@ public class CameraFragment extends Fragment
     public void surfaceDestroyed(SurfaceHolder holder) {
     }
 
-    private void captureImage() {
+    public void captureImage() {
         mCamera.takePicture(null, null, new PictureCallback() {
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
@@ -454,8 +454,8 @@ public class CameraFragment extends Fragment
                 mCameraImage.setVisibility(View.VISIBLE);
                 mCameraImage.setRotation(90);
 
-                mCaptureImageButton.setText(R.string.recapture_image);
-                mCaptureImageButton.setOnClickListener(mRecaptureImageButtonClickListener);
+//                mCaptureImageButton.setText(R.string.recapture_image);
+//                mCaptureImageButton.setOnClickListener(mRecaptureImageButtonClickListener);
 
 
                 myPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -533,8 +533,17 @@ public class CameraFragment extends Fragment
                     Toast.LENGTH_LONG).show();
         }
     }
-
+    boolean x = true;
     public void takePicture() {
+        if (x){
+            captureImage();
+            x = !x;
+        } else {
+            x = !x;
+            setupImageCapture();
+            mCameraImage.setImageBitmap(bitmap);
+            // TODO: 5/17/16 Decide what to do when button is clicked second time
+        }
 
     }
 
