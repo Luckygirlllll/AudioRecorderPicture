@@ -50,7 +50,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class CameraFragment extends Fragment
-        implements SurfaceHolder.Callback, AudioRecord.TakePictureListener, AudioRecord.SavePictureListener {
+        implements SurfaceHolder.Callback, AudioRecord.TakePictureListener, AudioRecord.SavePictureListener, AudioRecord.ReceivePictureListener {
 
     private Context context;
     private AppCompatActivity activity;
@@ -470,8 +470,8 @@ public class CameraFragment extends Fragment
         mCameraImage.setVisibility(View.INVISIBLE);
         mCameraPreview.setVisibility(View.VISIBLE);
         mCamera.startPreview();
-        mCaptureImageButton.setText(R.string.capture_image);
-        mCaptureImageButton.setOnClickListener(mCaptureImageButtonClickListener);
+
+   //     mCaptureImageButton.setOnClickListener(mCaptureImageButtonClickListener);
     }
 
     private void setupImageDisplay() {
@@ -542,10 +542,16 @@ public class CameraFragment extends Fragment
             x = !x;
             setupImageCapture();
             mCameraImage.setImageBitmap(bitmap);
-            // TODO: 5/17/16 Decide what to do when button is clicked second time
         }
 
     }
+
+    @Override
+    public void recievePicture(Bitmap bitmap) {
+        mCameraImage.setImageBitmap(bitmap);
+        mCameraImage.setRotation(0);
+    }
+
 
     private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
@@ -763,6 +769,10 @@ public class CameraFragment extends Fragment
         Log.d("...", "DoubleTap сработал");
         return false;
     }
+
+
+
+
 }
 
 

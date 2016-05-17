@@ -2,18 +2,27 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/GridLayout1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#118b0a"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
     <LinearLayout
         android:id="@+id/lin_one"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="3" >
+        android:weightSum="3"
+        android:layout_below="@+id/toolbar">
     </LinearLayout>
 
 
@@ -117,6 +126,7 @@
                 android:background="@drawable/camera_black"/>
 
             <Button
+                android:id="@+id/choose_button"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:background="@drawable/photo_black"/>

@@ -1,22 +1,36 @@
 package com.example.attracti.audiorecorderpicture;
 
+import android.app.Activity;
+import android.content.ClipData;
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -25,9 +39,11 @@ import java.util.Date;
 import java.util.Locale;
 
 
-public class AudioRecord extends AppCompatActivity {
-    
+public class AudioRecord extends AppCompatActivity{
+
     static long start;
+    private ArrayList<String> imagesPathList;
+
     public static long getStart() {
         return start;
     }
@@ -52,6 +68,7 @@ public class AudioRecord extends AppCompatActivity {
 
     TakePictureListener takePictureListener;
     SavePictureListener savePictureListener;
+    ReceivePictureListener receivePictureListener;
 
     BufferedReader br = null;
     File xfile;
@@ -103,7 +120,10 @@ public class AudioRecord extends AppCompatActivity {
     static ArrayList time = new ArrayList();
 
     Button recordButtonpause;
+    Button chooseButton;
+    Toolbar myToolbar;
 
+    ImageView cameraImage;
 
     private void initHeaderFragmet() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -112,6 +132,7 @@ public class AudioRecord extends AppCompatActivity {
         fragmentTransaction.commit();
         takePictureListener = cameraActivity;
         savePictureListener = cameraActivity;
+        receivePictureListener = cameraActivity;
     }
 
 //------Camera features
@@ -330,6 +351,7 @@ public class AudioRecord extends AppCompatActivity {
     }
 
 
+
 //    public void readFromFile() {
 //        StringBuilder text = new StringBuilder();
 //
@@ -463,7 +485,6 @@ public class AudioRecord extends AppCompatActivity {
         public void onClick(View v) {
             Log.wtf("TAG", "First listener");
             initHeaderFragmet();
-//            takePictureListener.takePicture();
 
             mCaptureImageButton.setOnClickListener(new OnClickListener() {
                 @Override
@@ -485,13 +506,62 @@ public class AudioRecord extends AppCompatActivity {
             android.util.Log.i("Time Current ", " Time value in millisecinds " + start);
             if (mStartRecording) {
                 recordButtonpause.setBackgroundResource(R.drawable.pause_black);
+                myToolbar.setBackgroundColor(Color.RED);
+
             } else {
                 recordButtonpause.setBackgroundResource(R.drawable.mic_black);
+                myToolbar.setBackgroundColor(Color.parseColor("#118b0a"));
             }
             mStartRecording = !mStartRecording;
 
     }
         };
+
+    private static final int SELECT_PICTURE = 1;
+    private String selectedImagePath;
+
+    private OnClickListener chooseButtonListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent,
+                    "Select Picture"), SELECT_PICTURE);
+        }
+    };
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == SELECT_PICTURE) {
+                extractPickedImages(requestCode, resultCode,data);
+                Uri selectedImageUri = data.getData();
+                selectedImagePath = getPath(selectedImageUri);
+            }
+        }
+    }
+    /**
+     * helper to retrieve the path of an image URI
+     */
+    public String getPath(Uri uri) {
+        // just some safety built in
+        if( uri == null ) {
+            // TODO perform some logging or show user feedback
+            return null;
+        }
+        // try to retrieve the image from the media store first
+        // this will only work for images selected from gallery
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        if( cursor != null ){
+            int column_index = cursor
+                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        }
+        // this is our fallback here
+        return uri.getPath();
+    }
 
 
     private OnClickListener mSaveImageButtonClickListener = new OnClickListener() {
@@ -512,6 +582,10 @@ public class AudioRecord extends AppCompatActivity {
         mPreviousButton=(Button) findViewById(R.id.test5);
         mLabelPlayButton=(Button) findViewById(R.id.test6);
 
+        myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Log.wtf("TAG", String.valueOf("TOOLBAR: " + myToolbar == null));
+        setSupportActionBar(myToolbar);
+        getSupportActionBar().setTitle("");
 
         //-----Camera features
         mCaptureImageButton = (Button) findViewById(R.id.capture_image);
@@ -520,9 +594,16 @@ public class AudioRecord extends AppCompatActivity {
         findViewById(R.id.capture_image).setOnClickListener(mCaptureImageButtonClickListener);
 
           recordButtonpause = (Button) findViewById(R.id.record_button);
-        // TODO: 5/17/16 Add functions to the recor_button
           recordButtonpause.setOnClickListener(recordButtonListener);
           findViewById(R.id.record_button).setOnClickListener(recordButtonListener);
+
+        chooseButton = (Button) findViewById(R.id.choose_button);
+        chooseButton.setOnClickListener(chooseButtonListener);
+        findViewById(R.id.choose_button).setOnClickListener(chooseButtonListener);
+
+      cameraImage = (ImageView) findViewById(R.id.camera_image_view);
+//        chooseButton.setOnClickListener(chooseButtonListener);
+//        findViewById(R.id.choose_button).setOnClickListener(chooseButtonListener);
 
 
 //        mSaveImageButton = (Button) findViewById(R.id.save_image_button);
@@ -686,5 +767,119 @@ public class AudioRecord extends AppCompatActivity {
             mPlayer.release();
             mPlayer = null;
         }
+    }
+
+    private void extractPickedImages(int requestCode, int resultCode, Intent data) {
+        String realPath;
+
+        try {
+            // When an Image is picked
+            if (requestCode == 1 && resultCode == Activity.RESULT_OK && null != data) {
+
+                imagesPathList = new ArrayList<String>();
+
+                if (data.getData() != null) {
+                    if (Build.VERSION.SDK_INT < 11)
+                        realPath = RealPathUtil.getRealPathFromURI_BelowAPI11(this, data.getData());
+
+                        // SDK >= 11 && SDK < 19
+                    else if (Build.VERSION.SDK_INT < 19)
+                        realPath = RealPathUtil.getRealPathFromURI_API11to18(this, data.getData());
+
+                        // SDK > 19 (Android 4.4)
+                    else
+                        realPath = RealPathUtil.getRealPathFromURI_API19(this, data.getData());
+
+
+                    saveImageOnDevice(Build.VERSION.SDK_INT, data.getData().getPath(), realPath);
+
+                    Log.e("TAG", "imageEncoded:" + realPath);
+
+                } else {
+                    if (data.getClipData() != null) {
+                        ClipData mClipData = data.getClipData();
+                        ArrayList<Uri> mArrayUri = new ArrayList<Uri>();
+                        for (int i = 0; i < mClipData.getItemCount(); i++) {
+
+                            ClipData.Item item = mClipData.getItemAt(i);
+                            Uri uri = item.getUri();
+
+                            if (Build.VERSION.SDK_INT < 11)
+                                realPath = RealPathUtil.getRealPathFromURI_BelowAPI11(this, uri);
+
+                                // SDK >= 11 && SDK < 19
+                            else if (Build.VERSION.SDK_INT < 19)
+                                realPath = RealPathUtil.getRealPathFromURI_API11to18(this, uri);
+
+                                // SDK > 19 (Android 4.4)
+                            else
+                                realPath = RealPathUtil.getRealPathFromURI_API19(this, uri);
+
+
+                            saveImageOnDevice(Build.VERSION.SDK_INT, uri.getPath(), realPath);
+
+                            Log.e("TAG", "imageEncoded:" + realPath);
+
+                            imagesPathList.add(realPath);
+                        }
+                        Log.v("LOG_TAG", "Selected Images" + mArrayUri.size());
+                    }
+                }
+            } else {
+                Toast.makeText(getApplicationContext(), "You haven't picked Image",
+                        Toast.LENGTH_LONG).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_LONG)
+                    .show();
+            e.printStackTrace();
+        }
+    }
+
+    private void saveImageOnDevice(int sdk, String uriPath, String realPath) {
+
+        Uri uriFromPath = Uri.fromFile(new File(realPath));
+        Uri photoUri = uriFromPath;
+
+        Log.e("TAG", "photoUri: " + uriFromPath);
+
+        // you have two ways to display selected image
+
+        // ( 1 ) imageView.setImageURI(uriFromPath);
+
+        // ( 2 ) imageView.setImageBitmap(bitmap);
+        Bitmap bitmap = null;
+        try {
+            bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uriFromPath));
+          //  cameraImage.setImageBitmap(bitmap);
+
+            if (receivePictureListener != null){
+                receivePictureListener.recievePicture(bitmap);
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+//        //save path photo fro current message
+//        photoPath = uriFromPath.toString().substring(uriFromPath.toString().lastIndexOf("/") + 1, uriFromPath.toString().length());
+//
+//        //save photo drawable for current message to device storage
+//        new FileStorage(getApplicationContext()).saveChatImageToFile(photoPath, bitmap);
+//
+//        //get photo drawable to current message
+//        photo = new FileStorage(getApplicationContext()).getChatImageFromFile(photoPath);
+//
+//        Log.e("TAG", "Saving file: " + photoPath);
+//
+////        imageView.setImageBitmap(bitmap);
+//
+//        Log.d("HMKCODE", "Build.VERSION.SDK_INT:" + sdk);
+//        Log.d("HMKCODE", "URI Path:" + uriPath);
+//        Log.d("HMKCODE", "Real Path: " + realPath);
+    }
+
+    interface ReceivePictureListener {
+        public void recievePicture(Bitmap bitmap);
     }
 }
