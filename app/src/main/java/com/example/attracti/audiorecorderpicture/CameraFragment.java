@@ -541,7 +541,7 @@ public class CameraFragment extends Fragment
     private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onDown(MotionEvent e) {
-            Log.d("...", "onDown сработал");
+            Log.d("...", "onDown works");
             int xlong = (int) e.getX();
             int ylong = (int) e.getY();
             Log.wtf("Coordinates of xlong: ", String.valueOf(xlong));
@@ -565,10 +565,12 @@ public class CameraFragment extends Fragment
                 if ((xlong < xfile + 50 && xlong > xfile - 50) && (ylong < yfile + 50 && ylong > yfile - 50)) {
                     audioRecord.startPlayingPictureLabel(i);
                     Log.i("Index i of the label", String.valueOf(i));
+
                     myPaint.setColor(Color.BLUE);
                     tempCanvas.save();
                     tempCanvas.rotate(-90, xfile * 6, yfile * 6);
                     textPaint.setTextSize(140);
+
                     textPaint.setColor(Color.WHITE);
                     textPaint.setAntiAlias(true);
                     textPaint.setTextAlign(Paint.Align.CENTER);
@@ -587,7 +589,6 @@ public class CameraFragment extends Fragment
 
                     tempCanvas.drawText(String.valueOf(i+1), xfile * 6, yfile * 6, textPaint);
                     tempCanvas.restore();
-
                     view.invalidate();
 //                    for (int j = 0; j < xcoordin.size(); j++){
 //                        Log.i("J", "J in for cycle");

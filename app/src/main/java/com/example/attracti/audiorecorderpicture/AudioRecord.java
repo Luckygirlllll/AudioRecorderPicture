@@ -200,7 +200,7 @@ public class AudioRecord extends AppCompatActivity {
         }
     }
 
-    public void startPlayingPictureLabel(int i) {
+    public void  startPlayingPictureLabel(int i) {
 
         time= fragment.getFiletime3();
         Log.i("Time i", (String) time.get(i));
@@ -231,8 +231,11 @@ public class AudioRecord extends AppCompatActivity {
 
                     public void onFinish() {
                         stopPlaying();
+
+
                     }
                 }.start();
+
             }
 
             }catch(IOException e) {
