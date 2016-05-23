@@ -326,13 +326,15 @@ public class CameraFragment extends Fragment
         File imageDirectory = null;
         String storageState = Environment.getExternalStorageState();
         if (storageState.equals(Environment.MEDIA_MOUNTED)) {
+            SimpleDateFormat dateFormatfolder = new SimpleDateFormat("yyyy_MM_dd_hh",
+                    Locale.getDefault());
             imageDirectory = new File(
-                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-                    "CameraApp");
+                    Environment.getExternalStorageDirectory() +
+                            "/Audio_Recorder_Picture/Picture", dateFormatfolder.format(new Date()));
             if (!imageDirectory.exists() && !imageDirectory.mkdirs()) {
                 imageDirectory = null;
             } else {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_mm_dd_hh_mm",
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_mm_dd_hh_mm_ss",
                         Locale.getDefault());
 
                 return new File(imageDirectory.getPath() +
@@ -410,9 +412,11 @@ public class CameraFragment extends Fragment
                 mCameraData = data;
                 Log.i("Real saving", "Real saving");
                 File imageDirectory = null;
+                SimpleDateFormat dateFormatfolder = new SimpleDateFormat("yyyy_MM_dd_hh",
+                        Locale.getDefault());
                 imageDirectory = new File(
-                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-                        "CameraApp");
+                        Environment.getExternalStorageDirectory() +
+                                "/Audio_Recorder_Picture/Picture", dateFormatfolder.format(new Date()));
                 if (!imageDirectory.exists() && !imageDirectory.mkdirs()) {
                     imageDirectory = null;
                 } else {

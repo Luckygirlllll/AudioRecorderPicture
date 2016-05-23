@@ -20,6 +20,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -508,6 +510,9 @@ public class AudioRecord extends AppCompatActivity{
                 recordButtonpause.setBackgroundResource(R.drawable.pause_black);
                 myToolbar.setBackgroundColor(Color.RED);
 
+
+
+
             } else {
                 recordButtonpause.setBackgroundResource(R.drawable.mic_black);
                 myToolbar.setBackgroundColor(Color.parseColor("#118b0a"));
@@ -601,7 +606,11 @@ public class AudioRecord extends AppCompatActivity{
         chooseButton.setOnClickListener(chooseButtonListener);
         findViewById(R.id.choose_button).setOnClickListener(chooseButtonListener);
 
-      cameraImage = (ImageView) findViewById(R.id.camera_image_view);
+        cameraImage = (ImageView) findViewById(R.id.camera_image_view);
+
+
+       
+
 //        chooseButton.setOnClickListener(chooseButtonListener);
 //        findViewById(R.id.choose_button).setOnClickListener(chooseButtonListener);
 
@@ -882,4 +891,25 @@ public class AudioRecord extends AppCompatActivity{
     interface ReceivePictureListener {
         public void recievePicture(Bitmap bitmap);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.doneItem:
+                Intent firstScreen = new Intent(getApplicationContext(), FirstscreenActivity.class);
+                startActivity(firstScreen);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
 }

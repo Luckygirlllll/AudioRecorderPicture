@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
-        <!--android:theme="@style/AppTheme"-->
+        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
         <activity android:name=".AudioRecord">
         </activity>

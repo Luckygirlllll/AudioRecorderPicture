@@ -16,6 +16,9 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
+
+    <!--android:theme="@style/ThemeOverlay.AppCompat.ActionBar"-->
+
     <LinearLayout
         android:id="@+id/lin_one"
         android:orientation="horizontal"
