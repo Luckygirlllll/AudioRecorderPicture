@@ -326,7 +326,7 @@ public class CameraFragment extends Fragment
         File imageDirectory = null;
         String storageState = Environment.getExternalStorageState();
         if (storageState.equals(Environment.MEDIA_MOUNTED)) {
-            SimpleDateFormat dateFormatfolder = new SimpleDateFormat("yyyy_MM_dd_hh",
+            SimpleDateFormat dateFormatfolder = new SimpleDateFormat("yyyy_MM_dd_hh_mm",
                     Locale.getDefault());
             imageDirectory = new File(
                     Environment.getExternalStorageDirectory() +
@@ -412,7 +412,7 @@ public class CameraFragment extends Fragment
                 mCameraData = data;
                 Log.i("Real saving", "Real saving");
                 File imageDirectory = null;
-                SimpleDateFormat dateFormatfolder = new SimpleDateFormat("yyyy_MM_dd_hh",
+                SimpleDateFormat dateFormatfolder = new SimpleDateFormat("yyyy_MM_dd_hh_mm",
                         Locale.getDefault());
                 imageDirectory = new File(
                         Environment.getExternalStorageDirectory() +

@@ -98,7 +98,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView mTextView;
         public TextView title;
-        ImageView image1;
+        public ImageView image1;
         ImageView image2;
         ImageView image3;
         ImageView image4;
@@ -151,22 +151,49 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         options.inPreferredConfig = Bitmap.Config.RGB_565;
         options.inSampleSize = 10;
 
+
+
         for (int i = 0; i < 5; i++) {
             switch (i) {
                 case 0:
-                    loadBitmap(imgs.get(i), holder.image1);
+                    if (imgs.size()>i && imgs.size()!=0) {
+                        loadBitmap(imgs.get(i), holder.image1);
+                    }
+                    else{
+                        holder.image1.setImageResource(R.drawable.placeholder);
+                    }
                     break;
                 case 1:
-                    loadBitmap(imgs.get(i), holder.image2);
+                    if (imgs.size()>i && imgs.size()!=0 ) {
+                        loadBitmap(imgs.get(i), holder.image2);
+                    }
+                    else{
+                        holder.image2.setImageResource(R.drawable.placeholder);
+                    }
                     break;
                 case 2:
-                    loadBitmap(imgs.get(i), holder.image3);
+                    if (imgs.size()>i && imgs.size()!=0) {
+                        loadBitmap(imgs.get(i), holder.image3);
+                    }
+                    else{
+                        holder.image3.setImageResource(R.drawable.placeholder);
+                    }
                     break;
                 case 3:
-                    loadBitmap(imgs.get(i), holder.image4);
+                    if (imgs.size()>i && imgs.size()!=0) {
+                        loadBitmap(imgs.get(i), holder.image4);
+                    }
+                    else{
+                        holder.image4.setImageResource(R.drawable.placeholder);
+                    }
                     break;
                 case 4:
-                    loadBitmap(imgs.get(i), holder.image5);
+                    if (imgs.size()>i && imgs.size()!=0) {
+                        loadBitmap(imgs.get(i), holder.image5);
+                    }
+                    else{
+                        holder.image5.setImageResource(R.drawable.placeholder);
+                    }
                     break;
             }
         }
