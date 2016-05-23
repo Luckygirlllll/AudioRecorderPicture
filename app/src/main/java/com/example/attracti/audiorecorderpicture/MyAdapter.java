@@ -137,10 +137,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Log.wtf("TAG", "onBindViewHolder works!");
-        Log.wtf("TAG", "get view works");
-        Log.wtf("TAG", "Position: " + position);
-
         Folder folder = FOLDERS.get(position);
 
         ArrayList<String> imgs = folder.getPicturelist();
@@ -150,7 +146,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.RGB_565;
         options.inSampleSize = 10;
-
 
 
         for (int i = 0; i < 5; i++) {
