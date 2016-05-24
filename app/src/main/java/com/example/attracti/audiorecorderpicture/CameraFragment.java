@@ -116,6 +116,8 @@ public class CameraFragment extends Fragment
     static int clicked=1;
 
 
+
+
     private OnClickListener mSaveImageButtonClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -406,10 +408,14 @@ public class CameraFragment extends Fragment
 
     public void captureImage() {
         mCamera.takePicture(null, null, new PictureCallback() {
+
+
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
+
                 Log.i("Data", "Data: " + data + "Length" + data.length);
                 mCameraData = data;
+
                 Log.i("Real saving", "Real saving");
                 File imageDirectory = null;
                 SimpleDateFormat dateFormatfolder = new SimpleDateFormat("yyyy_MM_dd_hh_mm",
