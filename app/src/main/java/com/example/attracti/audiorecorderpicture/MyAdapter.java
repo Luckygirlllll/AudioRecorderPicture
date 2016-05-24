@@ -139,7 +139,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         Folder folder = FOLDERS.get(position);
 
-     //   holder.image1.setImageBitmap(null);
+
         holder.image1.setImageResource(R.drawable.placeholder);
         holder.image2.setImageResource(R.drawable.placeholder);
         holder.image3.setImageResource(R.drawable.placeholder);

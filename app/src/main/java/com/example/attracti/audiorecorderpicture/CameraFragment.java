@@ -407,80 +407,83 @@ public class CameraFragment extends Fragment
     }
 
     public void captureImage() {
-        mCamera.takePicture(null, null, new PictureCallback() {
+        if (mCamera != null) {
+            mCamera.takePicture(null, null, new PictureCallback() {
 
 
-            @Override
-            public void onPictureTaken(byte[] data, Camera camera) {
+                @Override
+                public void onPictureTaken(byte[] data, Camera camera) {
 
-                Log.i("Data", "Data: " + data + "Length" + data.length);
-                mCameraData = data;
+                    Log.i("Data", "Data: " + data + "Length" + data.length);
+                    mCameraData = data;
 
-                Log.i("Real saving", "Real saving");
-                File imageDirectory = null;
-                SimpleDateFormat dateFormatfolder = new SimpleDateFormat("yyyy_MM_dd_hh_mm",
-                        Locale.getDefault());
-                imageDirectory = new File(
-                        Environment.getExternalStorageDirectory() +
-                                "/Audio_Recorder_Picture/Picture", dateFormatfolder.format(new Date()));
-                if (!imageDirectory.exists() && !imageDirectory.mkdirs()) {
-                    imageDirectory = null;
-                } else {
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_mm_dd_hh_mm_ss",
+                    Log.i("Real saving", "Real saving");
+                    File imageDirectory = null;
+                    SimpleDateFormat dateFormatfolder = new SimpleDateFormat("yyyy_MM_dd_hh_mm",
                             Locale.getDefault());
-                    File file = new File(
-                            imageDirectory.getPath() +
-                                    File.separator + "image_" +
-                                    dateFormat.format(new Date()) + ".png");
+                    imageDirectory = new File(
+                            Environment.getExternalStorageDirectory() +
+                                    "/Audio_Recorder_Picture/Picture", dateFormatfolder.format(new Date()));
+                    if (!imageDirectory.exists() && !imageDirectory.mkdirs()) {
+                        imageDirectory = null;
+                    } else {
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_mm_dd_hh_mm_ss",
+                                Locale.getDefault());
+                        File file = new File(
+                                imageDirectory.getPath() +
+                                        File.separator + "image_" +
+                                        dateFormat.format(new Date()) + ".png");
 
-                    FileOutputStream fos = null;
-                    try {
-                        fos = new FileOutputStream(file);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
+                        FileOutputStream fos = null;
+                        try {
+                            fos = new FileOutputStream(file);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            fos.write(data);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            fos.flush();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            fos.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
-                    try {
-                        fos.write(data);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        fos.flush();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        fos.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                Bitmap bitmap = BitmapFactory.decodeByteArray(mCameraData, 0, mCameraData.length);
-                Log.i("Bitmap height: ", String.valueOf(bitmap.getHeight()));
-                Log.i("Bitmap width: ", String.valueOf(bitmap.getWidth()));
-                mCameraImage.setImageBitmap(bitmap);
-                mCamera.stopPreview();
-                mCameraPreview.setVisibility(View.INVISIBLE);
-                mCameraImage.setVisibility(View.VISIBLE);
-                mCameraImage.setRotation(90);
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(mCameraData, 0, mCameraData.length);
+                    Log.i("Bitmap height: ", String.valueOf(bitmap.getHeight()));
+                    Log.i("Bitmap width: ", String.valueOf(bitmap.getWidth()));
+                    mCameraImage.setImageBitmap(bitmap);
+                    mCamera.stopPreview();
+                    mCameraPreview.setVisibility(View.INVISIBLE);
+                    mCameraImage.setVisibility(View.VISIBLE);
+                    mCameraImage.setRotation(90);
 
 //                mCaptureImageButton.setText(R.string.recapture_image);
 //                mCaptureImageButton.setOnClickListener(mRecaptureImageButtonClickListener);
 
 
-                myPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-                tempCanvas.drawBitmap(bitmap, 0, 0, null);
-                myPaint.setColor(Color.RED);
-                mCameraImage.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));
-            }
-        });
+                    myPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+                    tempCanvas.drawBitmap(bitmap, 0, 0, null);
+                    myPaint.setColor(Color.RED);
+                    mCameraImage.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));
+                }
+            });
+        }
     }
 
     private void setupImageCapture() {
         mCameraImage.setVisibility(View.INVISIBLE);
         mCameraPreview.setVisibility(View.VISIBLE);
-        mCamera.startPreview();
-
+        if(mCamera!=null) {
+            mCamera.startPreview();
+        }
    //     mCaptureImageButton.setOnClickListener(mCaptureImageButtonClickListener);
     }
 
