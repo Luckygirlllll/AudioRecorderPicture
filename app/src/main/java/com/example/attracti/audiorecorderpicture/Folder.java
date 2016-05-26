@@ -5,6 +5,11 @@ import java.util.ArrayList;
 /**
  * Created by attracti on 5/23/16.
  */
+
+/*
+ * represented folder structure of the project
+ */
+
 public class Folder {
 
     String name;

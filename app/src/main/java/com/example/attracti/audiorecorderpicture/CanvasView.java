@@ -14,6 +14,9 @@ import android.view.View;
 /**
  * Created by Iryna on 4/5/16.
  */
+
+
+
 public class CanvasView extends View {
     public Paint mPaint;
     public static Canvas mCanvas;

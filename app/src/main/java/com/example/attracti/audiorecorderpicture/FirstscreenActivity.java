@@ -19,6 +19,11 @@ import java.util.ArrayList;
 /**
  * Created by Iryna on 5/17/16.
  */
+
+/*
+* First screen of the project with RecyclerView  (shows pictures of the all projects)
+*/
+
 public class FirstscreenActivity extends AppCompatActivity {
 
     private MyAdapter mAdapter;
@@ -84,7 +89,7 @@ public class FirstscreenActivity extends AppCompatActivity {
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
 
         // Use 1/8th of the available memory for this memory cache.
-        final int cacheSize = maxMemory / 8;
+        final int cacheSize = maxMemory / 4;
 
         mMemoryCache
                 = new LruCache<String, Bitmap>(cacheSize) {
@@ -95,12 +100,8 @@ public class FirstscreenActivity extends AppCompatActivity {
                 return bitmap.getByteCount() / 1024;
             }
         };
-
-
-
-
-
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 

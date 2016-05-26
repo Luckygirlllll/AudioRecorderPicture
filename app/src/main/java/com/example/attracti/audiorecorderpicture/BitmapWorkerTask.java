@@ -11,9 +11,9 @@ import android.widget.ImageView;
 import java.lang.ref.WeakReference;
 import static com.example.attracti.audiorecorderpicture.MyAdapter.decodeSampledBitmapFromResource;
 
-/*
-* Download bitmaps in AsyncTask
-*/
+ /*
+  * Download bitmaps in AsyncTask
+  */
 
 
 class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
@@ -29,7 +29,7 @@ class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
         Log.i("TAG", "Async task works in background");
         data = String.valueOf(params[0]);
         Log.wtf("Params: ", params[0]);
-        final Bitmap bitmap =decodeSampledBitmapFromResource(data, 30, 30);
+        final Bitmap bitmap =decodeSampledBitmapFromResource(data, 100, 100);
         addBitmapToMemoryCache(String.valueOf(params[0]), bitmap);
         return bitmap;
     }

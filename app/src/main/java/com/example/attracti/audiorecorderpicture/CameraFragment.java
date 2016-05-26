@@ -12,7 +12,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
 import android.media.MediaPlayer;
@@ -60,7 +59,7 @@ public class CameraFragment extends Fragment
     private static final String KEY_IS_CAPTURING = "is_capturing";
     private static final int TAKE_PICTURE_REQUEST_B = 100;
 
-    private Camera mCamera;
+    private static Camera mCamera =null;
     private ImageView mCameraImage;
     private SurfaceView mCameraPreview;
     private Button mCaptureImageButton;
@@ -70,10 +69,8 @@ public class CameraFragment extends Fragment
     static int currentZoomLevel;
     ZoomControls zoomControls;
 
-    private Bitmap mCameraBitmap;
+    public static Bitmap mCameraBitmap;
     private ImageView mCameraImageView;
-
-    Bitmap bitmap;
 
     Canvas tempCanvas;
     Bitmap tempBitmap;
@@ -81,15 +78,9 @@ public class CameraFragment extends Fragment
 
     private View view;
 
-    MediaPlayer mPlayer2;
-
     private GestureDetectorCompat DoubleTap;
 
     static File gpxfile;
-
-    public static File getGpxfile() {
-        return gpxfile;
-    }
 
     static String[] filetime2 = new String[100];
 
@@ -115,8 +106,7 @@ public class CameraFragment extends Fragment
     Paint textPaint;
     static int clicked=1;
 
-
-
+   public static  ArrayList <String> bitmappaths = new ArrayList<>();
 
     private OnClickListener mSaveImageButtonClickListener = new OnClickListener() {
         @Override
@@ -136,7 +126,7 @@ public class CameraFragment extends Fragment
         @Override
         public void onClick(View v) {
             setupImageCapture();
-            mCameraImage.setImageBitmap(bitmap);
+           // mCameraImage.setImageBitmap(bitmap);
         }
     };
 
@@ -202,20 +192,22 @@ public class CameraFragment extends Fragment
 
         mIsCapturing = true;
 
-//        if (mCamera == null) {
-//            Log.i("Camera open", "Camera open");
-        try {
-            mCamera = Camera.open();
-            Log.i("Camera open2", "Camera open2");
-            mCamera.setPreviewDisplay(mCameraPreview.getHolder());
-            mCamera.setDisplayOrientation(90);
-            if (mIsCapturing) {
-                mCamera.startPreview();
+        if (mCamera == null) {
+            Log.i("Camera open", "Camera open");
+            try {
+                mCamera = Camera.open();
+                Log.i("Camera created: ", String.valueOf(mCamera!=null));
+                Log.i("Camera open2", "Camera open2");
+                mCamera.setPreviewDisplay(mCameraPreview.getHolder());
+                mCamera.setDisplayOrientation(90);
+                if (mIsCapturing) {
+                    mCamera.startPreview();
+                }
+            } catch (Exception e) {
+                Toast.makeText(context, "Unable to open camera.", Toast.LENGTH_LONG)
+                        .show();
+                Log.i("Unable to open camera", "Unable to open camera");
             }
-        } catch (Exception e) {
-            Toast.makeText(context, "Unable to open camera.", Toast.LENGTH_LONG)
-                    .show();
-            Log.i("Unable to open camera", "Unable to open camera");
         }
       //  zoom();
 
@@ -306,7 +298,7 @@ public class CameraFragment extends Fragment
         if (requestCode == TAKE_PICTURE_REQUEST_B) {
             if (resultCode == AppCompatActivity.RESULT_OK) {
                 Log.i("Bitmap", "bitmap recycled");
-                // Recycle the previous bitmap.
+
                 if (mCameraBitmap != null) {
                     mCameraBitmap.recycle();
                     mCameraBitmap = null;
@@ -316,6 +308,7 @@ public class CameraFragment extends Fragment
                 if (cameraData != null) {
                     mCameraBitmap = BitmapFactory.decodeByteArray(cameraData, 0, cameraData.length);
                     mCameraImageView.setImageBitmap(mCameraBitmap);
+
                     //   mSaveImageButton.setEnabled(true);
                 }
             } else {
@@ -376,12 +369,15 @@ public class CameraFragment extends Fragment
     @Override
     public void onPause() {
         super.onPause();
-
+        Log.i("On pause method works!", "works!");
         if (mCamera != null) {
             mCamera.release();
             mCamera = null;
         }
     }
+
+
+
 
 
     @Override
@@ -407,15 +403,29 @@ public class CameraFragment extends Fragment
     }
 
     public void captureImage() {
+
+
+        Log.i("Camera exists", String.valueOf(mCamera!=null));
         if (mCamera != null) {
             mCamera.takePicture(null, null, new PictureCallback() {
-
 
                 @Override
                 public void onPictureTaken(byte[] data, Camera camera) {
 
                     Log.i("Data", "Data: " + data + "Length" + data.length);
                     mCameraData = data;
+
+//                    new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            bitmap3 = BitmapFactory.decodeByteArray(mCameraData, 0, mCameraData.length);
+//                            bitmaplist.add(CameraFragment.bitmap3);
+//                            Log.i("BitmapList in the CF", String.valueOf(bitmap3));
+//                            for (int i=0; i<bitmaplist.size(); i++){
+//                                Log.i("BitmapList in the CF 2", String.valueOf(bitmaplist.get(i)));
+//                            }
+//                        }
+//                    }.run();
 
                     Log.i("Real saving", "Real saving");
                     File imageDirectory = null;
@@ -433,7 +443,8 @@ public class CameraFragment extends Fragment
                                 imageDirectory.getPath() +
                                         File.separator + "image_" +
                                         dateFormat.format(new Date()) + ".png");
-
+                           String filepath= file.getPath();
+                        bitmappaths.add(filepath);
                         FileOutputStream fos = null;
                         try {
                             fos = new FileOutputStream(file);
@@ -456,33 +467,39 @@ public class CameraFragment extends Fragment
                             e.printStackTrace();
                         }
                     }
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(mCameraData, 0, mCameraData.length);
-                    Log.i("Bitmap height: ", String.valueOf(bitmap.getHeight()));
-                    Log.i("Bitmap width: ", String.valueOf(bitmap.getWidth()));
-                    mCameraImage.setImageBitmap(bitmap);
-                    mCamera.stopPreview();
-                    mCameraPreview.setVisibility(View.INVISIBLE);
-                    mCameraImage.setVisibility(View.VISIBLE);
-                    mCameraImage.setRotation(90);
+//                    bitmap2 = BitmapFactory.decodeByteArray(mCameraData, 0, mCameraData.length);
+//
+//                    Log.i("Bitmap height: ", String.valueOf(bitmap2.getHeight()));
+//                    Log.i("Bitmap width: ", String.valueOf(bitmap2.getWidth()));
+                    //mCameraImage.setImageBitmap(bitmap2);
+
+
+          //          mCamera.stopPreview();
+
+//                    mCameraPreview.setVisibility(View.INVISIBLE);
+                   // mCameraImage.setVisibility(View.VISIBLE);
+ //                   mCameraImage.setRotation(90);
 
 //                mCaptureImageButton.setText(R.string.recapture_image);
 //                mCaptureImageButton.setOnClickListener(mRecaptureImageButtonClickListener);
 
 
-                    myPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-                    tempCanvas.drawBitmap(bitmap, 0, 0, null);
-                    myPaint.setColor(Color.RED);
-                    mCameraImage.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));
+//                    myPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+//                    tempCanvas.drawBitmap(bitmap, 0, 0, null);
+//                    myPaint.setColor(Color.RED);
+//                    mCameraImage.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));
                 }
             });
         }
     }
 
     private void setupImageCapture() {
-        mCameraImage.setVisibility(View.INVISIBLE);
-        mCameraPreview.setVisibility(View.VISIBLE);
-        if(mCamera!=null) {
-            mCamera.startPreview();
+       // mCameraImage.setVisibility(View.INVISIBLE);
+        if(mCameraPreview!=null) {
+            mCameraPreview.setVisibility(View.VISIBLE);
+            if (mCamera != null) {
+                mCamera.startPreview();
+            }
         }
    //     mCaptureImageButton.setOnClickListener(mCaptureImageButtonClickListener);
     }
@@ -546,17 +563,17 @@ public class CameraFragment extends Fragment
                     Toast.LENGTH_LONG).show();
         }
     }
-    boolean x = true;
+ //   boolean x = true;
     public void takePicture() {
-        if (x){
-            captureImage();
-            x = !x;
-        } else {
-            x = !x;
-            setupImageCapture();
-            mCameraImage.setImageBitmap(bitmap);
-        }
+ //       if (x){
 
+            captureImage();
+   //         x = !x;
+   //     } else {
+   //         x = !x;
+   //         setupImageCapture();
+//            mCameraImage.setImageBitmap(bitmap);
+  //      }
     }
 
     @Override

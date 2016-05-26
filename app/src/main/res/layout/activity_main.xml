@@ -17,6 +17,9 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
 
+
+
+
     <!--android:theme="@style/ThemeOverlay.AppCompat.ActionBar"-->
 
     <LinearLayout
@@ -96,13 +99,20 @@
             android:layout_alignParentTop="true"
             android:layout_above="@+id/linearLayout_button_case"
             >
-            <ImageView
-                android:id="@+id/camera_image_view"
+            <com.example.attracti.audiorecorderpicture.CustomViewPagerH
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/pager"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/dots"
-                />
+                android:layout_height="match_parent" />
+
+
+            <!--<ImageView-->
+                <!--android:id="@+id/camera_image_view"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:background="@drawable/dots"-->
+                <!--/>-->
 
         </FrameLayout>
 
