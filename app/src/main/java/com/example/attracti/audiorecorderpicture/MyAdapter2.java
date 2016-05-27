@@ -138,8 +138,11 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyAdapter2.ViewHolder> {
         options.inSampleSize = 2;
 
       // loadBitmap(position, imgs.get(0), holder.image1);
+
         if (position<CameraFragment.bitmappaths.size()) {
+                    Log.i("CF Bitmp size: ", String.valueOf(CameraFragment.bitmappaths.size()));
                     loadBitmap(position, CameraFragment.bitmappaths.get(position), holder.image1);
+                    Log.i("Bitmappaths in MA2:", CameraFragment.bitmappaths.get(position));
         }
 
         view.setTag(holder);

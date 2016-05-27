@@ -29,7 +29,7 @@ class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
         Log.i("TAG", "Async task works in background");
         data = String.valueOf(params[0]);
         Log.wtf("Params: ", params[0]);
-        final Bitmap bitmap =decodeSampledBitmapFromResource(data, 100, 100);
+        final Bitmap bitmap =decodeSampledBitmapFromResource(data, 30, 30);
         addBitmapToMemoryCache(String.valueOf(params[0]), bitmap);
         return bitmap;
     }

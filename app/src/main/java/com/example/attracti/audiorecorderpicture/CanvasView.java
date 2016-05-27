@@ -15,8 +15,6 @@ import android.view.View;
  * Created by Iryna on 4/5/16.
  */
 
-
-
 public class CanvasView extends View {
     public Paint mPaint;
     public static Canvas mCanvas;
@@ -45,7 +43,7 @@ public class CanvasView extends View {
         // x= time/300
 
 
-        //TODO
+
         // fix error which appears while press the stop button (when audio is finished)
         // create customize waveforms for audio
         // create roller which will displays while audio is playing

@@ -45,9 +45,9 @@ import java.util.Date;
 import java.util.Locale;
 
 
-public class AudioRecord extends AppCompatActivity {
+public class AudioRecord extends AppCompatActivity implements UpdateBitmapPaths{
 
-    ArrayList <Bitmap> bitmaplist =new ArrayList<>();
+    ArrayList bitmapppaths;
 
     int firstslide =0;
 
@@ -362,6 +362,16 @@ public class AudioRecord extends AppCompatActivity {
         mRecorder = null;
     }
 
+    @Override
+    public void updateBitmap(ArrayList bitmappaths) {
+        Log.i("Update bitmap works!", "!!!");
+        this.bitmapppaths=bitmappaths;
+    }
+    public void setArrayBitmap(ArrayList bitmappaths){
+        Log.i("Update bitmap works!", "!!!");
+        this.bitmapppaths=bitmappaths;
+    }
+
 
 //    public void readFromFile() {
 //        StringBuilder text = new StringBuilder();
@@ -497,22 +507,20 @@ public class AudioRecord extends AppCompatActivity {
         public void onClick(View v) {
             Log.wtf("TAG", "First listener");
 
-
                 mCaptureImageButton.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (firstslide==0) {
-                            mPager.setCurrentItem(mPager.getCurrentItem() + 1);
                             firstslide++;
                             if (fragment!=null) {
                                 fragment.takePicture();
-                                new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        RecyclerViewFragment.mAdapter.notifyDataSetChanged();
-                                        RecyclerViewFragment.list.scrollToPosition(CameraFragment.bitmappaths.size());
-                                    }
-                                }.run();
+                                // TODO: 5/26/16 Do the calbacks, instead of the calling static fields
+                            }
+                            mPager.setCurrentItem(mPager.getCurrentItem() + 1);
+
+                            updateCallback.update(bitmapppaths.size());
+                            for (int i =0; i<bitmapppaths.size(); i++ ){
+                                Log.i("BITMAPPATHS", (String) bitmapppaths.get(i));
                             }
                         }
                         else{
@@ -631,14 +639,8 @@ public class AudioRecord extends AppCompatActivity {
         chooseButton.setOnClickListener(chooseButtonListener);
         findViewById(R.id.choose_button).setOnClickListener(chooseButtonListener);
 
-       // cameraImage = (ImageView) findViewById(R.id.camera_image_view);
-
-        //viewPager
-      //  setContentView(R.layout.activity_screen_slide);
-
         mPager = (CustomViewPagerH) findViewById(R.id.pager);
         mPager.setPagingEnabled(false);
-
 
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
@@ -666,7 +668,6 @@ public class AudioRecord extends AppCompatActivity {
                     android.util.Log.i("Time after click", " Time value in millisecinds " + after);
                     int difference = (int) (after - start);
                     Log.i("difference", String.valueOf(difference));
-
 
                     int sBody = difference;
 
@@ -934,6 +935,7 @@ public class AudioRecord extends AppCompatActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -968,9 +970,11 @@ public class AudioRecord extends AppCompatActivity {
             switch (position) {
                 case 0:
                     return new CameraFragment();
-
+//
                 case 1:
-                    return new RecyclerViewFragment();
+                    RecyclerViewFragment recyclerViewFragment = new RecyclerViewFragment();
+                    updateCallback = recyclerViewFragment;
+                    return recyclerViewFragment;
                 default:
                     break;
             }
@@ -984,4 +988,12 @@ public class AudioRecord extends AppCompatActivity {
 
 
     }
+
+    private UpdateRecyckerView updateCallback;
+    public interface UpdateRecyckerView{
+        void update(int position);
+    }
+
+
+
 }

@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
-    private final Activity context;
+    public final Activity context;
 
     private final ArrayList<Folder> FOLDERS;
    // Activity MainActivity = new MainActivity();
@@ -120,6 +120,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             image4 = (ImageView) v.findViewById(R.id.icon4);
             image5 = (ImageView) v.findViewById(R.id.icon5);
             slides = (TextView) v.findViewById(R.id.textView1);
+
         }
     }
 
@@ -145,13 +146,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         Folder folder = FOLDERS.get(position);
 
-
         holder.image1.setImageResource(R.drawable.placeholder);
         holder.image2.setImageResource(R.drawable.placeholder);
         holder.image3.setImageResource(R.drawable.placeholder);
         holder.image4.setImageResource(R.drawable.placeholder);
         holder.image5.setImageResource(R.drawable.placeholder);
 
+//        holder.image1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                context.startActivity(new Intent(context, AudioRecord.class).putExtra(""));
+//            }
+
+//        });
 
         ArrayList<String> imgs = folder.getPicturelist();
 
@@ -210,7 +217,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.slides.setText("Количество слайдов: " + imgs.size());
         view.setTag(holder);
     }
-
 
     public  Bitmap getBitmapFromMemCache(String key) {
         return com.example.attracti.audiorecorderpicture.FirstscreenActivity.mMemoryCache.get(key);

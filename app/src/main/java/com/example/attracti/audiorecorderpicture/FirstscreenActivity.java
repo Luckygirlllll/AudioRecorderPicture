@@ -34,6 +34,8 @@ public class FirstscreenActivity extends AppCompatActivity {
     File[] listFile;
     File[] listFolders;
 
+    static int newpressed =0;
+
     ArrayList<Folder> FOLDERS = new ArrayList<>();
     public static LruCache<String, Bitmap> mMemoryCache;
 
@@ -109,10 +111,14 @@ public class FirstscreenActivity extends AppCompatActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.addItem:
+                newpressed++;
+                Log.d("newpressed: ", String.valueOf(newpressed));
                 Intent nextScreen = new Intent(getApplicationContext(), AudioRecord.class);
                 startActivity(nextScreen);
                 return true;

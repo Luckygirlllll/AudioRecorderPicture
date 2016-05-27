@@ -49,8 +49,10 @@ import java.util.Date;
 import java.util.Locale;
 
 public class CameraFragment extends Fragment
-        implements SurfaceHolder.Callback, AudioRecord.TakePictureListener, AudioRecord.SavePictureListener, AudioRecord.ReceivePictureListener {
+        implements SurfaceHolder.Callback, AudioRecord.TakePictureListener, AudioRecord.SavePictureListener,
+        AudioRecord.ReceivePictureListener {
 
+    private String TAG = CameraFragment.class.getSimpleName();
     private Context context;
     private AppCompatActivity activity;
 
@@ -91,6 +93,9 @@ public class CameraFragment extends Fragment
 
     AudioRecord audioRecord;
 
+    private UpdateBitmapPaths bitmapCallback;
+
+
     public static ArrayList getXcoordin() {
         return xcoordin;
     }
@@ -106,7 +111,7 @@ public class CameraFragment extends Fragment
     Paint textPaint;
     static int clicked=1;
 
-   public static  ArrayList <String> bitmappaths = new ArrayList<>();
+   public static ArrayList <String> bitmappaths = new ArrayList<>();
 
     private OnClickListener mSaveImageButtonClickListener = new OnClickListener() {
         @Override
@@ -157,6 +162,8 @@ public class CameraFragment extends Fragment
         this.context = context;
         this.activity = (AppCompatActivity) context;
         audioRecord = (AudioRecord) context;
+        bitmapCallback  = (AudioRecord) context;
+        bitmapCallback.updateBitmap(bitmappaths);
     }
 
     @Nullable
@@ -213,6 +220,9 @@ public class CameraFragment extends Fragment
 
         tempBitmap = Bitmap.createBitmap(4000, 3000, Bitmap.Config.RGB_565);
         tempCanvas = new Canvas(tempBitmap);
+
+        //bitmapCallback = (AudioRecord)context;
+        Log.wtf(TAG, "IsNull : "+String.valueOf(bitmapCallback == null));
 
         return view;
     }
@@ -321,11 +331,11 @@ public class CameraFragment extends Fragment
         File imageDirectory = null;
         String storageState = Environment.getExternalStorageState();
         if (storageState.equals(Environment.MEDIA_MOUNTED)) {
-            SimpleDateFormat dateFormatfolder = new SimpleDateFormat("yyyy_MM_dd_hh_mm",
+            SimpleDateFormat dateFormatfolder = new SimpleDateFormat("yyyy_MM_dd",
                     Locale.getDefault());
             imageDirectory = new File(
                     Environment.getExternalStorageDirectory() +
-                            "/Audio_Recorder_Picture/Picture", dateFormatfolder.format(new Date()));
+                            "/Audio_Recorder_Picture/Picture", dateFormatfolder.format(new Date())+"_"+FirstscreenActivity.newpressed);
             if (!imageDirectory.exists() && !imageDirectory.mkdirs()) {
                 imageDirectory = null;
             } else {
@@ -377,9 +387,6 @@ public class CameraFragment extends Fragment
     }
 
 
-
-
-
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         if (mCamera != null) {
@@ -404,7 +411,6 @@ public class CameraFragment extends Fragment
 
     public void captureImage() {
 
-
         Log.i("Camera exists", String.valueOf(mCamera!=null));
         if (mCamera != null) {
             mCamera.takePicture(null, null, new PictureCallback() {
@@ -426,14 +432,14 @@ public class CameraFragment extends Fragment
 //                            }
 //                        }
 //                    }.run();
-
                     Log.i("Real saving", "Real saving");
                     File imageDirectory = null;
-                    SimpleDateFormat dateFormatfolder = new SimpleDateFormat("yyyy_MM_dd_hh_mm",
+                    //FirstscreenActivity.newpressed
+                    SimpleDateFormat dateFormatfolder = new SimpleDateFormat("yyyy_MM_dd",
                             Locale.getDefault());
                     imageDirectory = new File(
                             Environment.getExternalStorageDirectory() +
-                                    "/Audio_Recorder_Picture/Picture", dateFormatfolder.format(new Date()));
+                                    "/Audio_Recorder_Picture/Picture", dateFormatfolder.format(new Date()) + "_" + FirstscreenActivity.newpressed);
                     if (!imageDirectory.exists() && !imageDirectory.mkdirs()) {
                         imageDirectory = null;
                     } else {
@@ -443,8 +449,21 @@ public class CameraFragment extends Fragment
                                 imageDirectory.getPath() +
                                         File.separator + "image_" +
                                         dateFormat.format(new Date()) + ".png");
-                           String filepath= file.getPath();
+                        String filepath = file.getPath();
+
                         bitmappaths.add(filepath);
+                        for (int i = 0; i < bitmappaths.size(); i++) {
+                            Log.i("BITMAPTH", "in the fragment" + bitmappaths.get(i));
+                        }
+                        Log.i("BITMAPTH", String.valueOf(bitmappaths.size()));
+
+                        bitmapCallback = (AudioRecord) context;
+                        Log.wtf("Bitmap Callback null: ", String.valueOf(bitmapCallback == null));
+//                        if (bitmappaths.size() != 0 && bitmapCallback!=null) {
+//                            Log.i("Bitmap callback null2", String.valueOf(bitmapCallback!=null));
+//                            bitmapCallback.updateBitmap(bitmappaths);
+                            ((AudioRecord)getActivity()).setArrayBitmap(bitmappaths);
+//                        }
                         FileOutputStream fos = null;
                         try {
                             fos = new FileOutputStream(file);
@@ -474,11 +493,11 @@ public class CameraFragment extends Fragment
                     //mCameraImage.setImageBitmap(bitmap2);
 
 
-          //          mCamera.stopPreview();
+                    //          mCamera.stopPreview();
 
 //                    mCameraPreview.setVisibility(View.INVISIBLE);
-                   // mCameraImage.setVisibility(View.VISIBLE);
- //                   mCameraImage.setRotation(90);
+                    // mCameraImage.setVisibility(View.VISIBLE);
+                    //                   mCameraImage.setRotation(90);
 
 //                mCaptureImageButton.setText(R.string.recapture_image);
 //                mCaptureImageButton.setOnClickListener(mRecaptureImageButtonClickListener);
@@ -581,6 +600,7 @@ public class CameraFragment extends Fragment
         mCameraImage.setImageBitmap(bitmap);
         mCameraImage.setRotation(0);
     }
+
 
 
     private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
@@ -799,7 +819,6 @@ public class CameraFragment extends Fragment
         Log.d("...", "DoubleTap сработал");
         return false;
     }
-
 
 
 

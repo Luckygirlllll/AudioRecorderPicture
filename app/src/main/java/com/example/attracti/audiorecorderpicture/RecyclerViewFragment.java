@@ -19,12 +19,12 @@ import java.util.Iterator;
 /**
  * Created by Iryna on 5/25/16.
  */
-public class RecyclerViewFragment extends Fragment {
+public class RecyclerViewFragment extends Fragment implements AudioRecord.UpdateRecyckerView{
 
-    public static MyAdapter2 mAdapter;
+    public  MyAdapter2 mAdapter;
     private LinearLayoutManager mLayoutManager;
 
-    static RecyclerView list;
+     RecyclerView list;
 
     File[] listFile;
     File[] listFolders;
@@ -57,12 +57,6 @@ public class RecyclerViewFragment extends Fragment {
             }
         }
     }
-
-
-//    private void updateList(){
-//        mAdapter.notifyDataSetChanged();
-//        list.scrollBy();
-//    }
 
 
     @Override
@@ -140,6 +134,13 @@ public class RecyclerViewFragment extends Fragment {
         };
 
         return rootView;
+    }
+
+    @Override
+    public void update(int position) {
+        mAdapter.notifyDataSetChanged();
+        list.scrollToPosition(position);
+        mAdapter.notifyItemChanged(position);
     }
 }
 
