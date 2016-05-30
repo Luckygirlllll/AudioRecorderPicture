@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -74,9 +73,10 @@ public class CameraFragment extends Fragment
     public static Bitmap mCameraBitmap;
     private ImageView mCameraImageView;
 
-    Canvas tempCanvas;
-    Bitmap tempBitmap;
-    Paint myPaint;
+//    Canvas tempCanvas;
+//    Bitmap tempBitmap;
+//    Paint myPaint;
+    public static Bitmap bitmap;
 
     private View view;
 
@@ -91,11 +91,6 @@ public class CameraFragment extends Fragment
     static ArrayList xcoordin = new ArrayList();
     static ArrayList ycoordin = new ArrayList();
 
-    AudioRecord audioRecord;
-
-    private UpdateBitmapPaths bitmapCallback;
-
-
     public static ArrayList getXcoordin() {
         return xcoordin;
     }
@@ -103,15 +98,17 @@ public class CameraFragment extends Fragment
     public static ArrayList getYcoordin() {
         return ycoordin;
     }
-
     public static ArrayList getFiletime3() {
         return filetime3;
     }
 
+    AudioRecord audioRecord;
+
     Paint textPaint;
     static int clicked=1;
 
-   public static ArrayList <String> bitmappaths = new ArrayList<>();
+    public static ArrayList <String> bitmappaths = new ArrayList<>();
+
 
     private OnClickListener mSaveImageButtonClickListener = new OnClickListener() {
         @Override
@@ -161,9 +158,10 @@ public class CameraFragment extends Fragment
         super.onAttach(context);
         this.context = context;
         this.activity = (AppCompatActivity) context;
-        audioRecord = (AudioRecord) context;
-        bitmapCallback  = (AudioRecord) context;
-        bitmapCallback.updateBitmap(bitmappaths);
+    }
+
+    public void setActivityContext(AudioRecord activity){
+        audioRecord = activity;
     }
 
     @Nullable
@@ -218,11 +216,8 @@ public class CameraFragment extends Fragment
         }
       //  zoom();
 
-        tempBitmap = Bitmap.createBitmap(4000, 3000, Bitmap.Config.RGB_565);
-        tempCanvas = new Canvas(tempBitmap);
-
-        //bitmapCallback = (AudioRecord)context;
-        Log.wtf(TAG, "IsNull : "+String.valueOf(bitmapCallback == null));
+//        tempBitmap = Bitmap.createBitmap(4000, 3000, Bitmap.Config.RGB_565);
+//        tempCanvas = new Canvas(tempBitmap);
 
         return view;
     }
@@ -456,13 +451,12 @@ public class CameraFragment extends Fragment
                             Log.i("BITMAPTH", "in the fragment" + bitmappaths.get(i));
                         }
                         Log.i("BITMAPTH", String.valueOf(bitmappaths.size()));
-
-                        bitmapCallback = (AudioRecord) context;
-                        Log.wtf("Bitmap Callback null: ", String.valueOf(bitmapCallback == null));
+                       AudioRecord.setArrayBitmap(bitmappaths);
+//                        Log.wtf("Bitmap Callback null: ", String.valueOf(bitmapCallback == null));
 //                        if (bitmappaths.size() != 0 && bitmapCallback!=null) {
 //                            Log.i("Bitmap callback null2", String.valueOf(bitmapCallback!=null));
 //                            bitmapCallback.updateBitmap(bitmappaths);
-                            ((AudioRecord)getActivity()).setArrayBitmap(bitmappaths);
+//                            audioRecord.setArrayBitmap(bitmappaths);
 //                        }
                         FileOutputStream fos = null;
                         try {
@@ -486,14 +480,12 @@ public class CameraFragment extends Fragment
                             e.printStackTrace();
                         }
                     }
-//                    bitmap2 = BitmapFactory.decodeByteArray(mCameraData, 0, mCameraData.length);
-//
-//                    Log.i("Bitmap height: ", String.valueOf(bitmap2.getHeight()));
-//                    Log.i("Bitmap width: ", String.valueOf(bitmap2.getWidth()));
-                    //mCameraImage.setImageBitmap(bitmap2);
+//                    bitmap = BitmapFactory.decodeByteArray(mCameraData, 0, mCameraData.length);
+//                    Log.i("Bitmap height: ", String.valueOf(bitmap.getHeight()));
+//                    Log.i("Bitmap width: ", String.valueOf(bitmap.getWidth()));
+                    //mCameraImage.setImageBitmap(bitmap);
 
-
-                    //          mCamera.stopPreview();
+                    //mCamera.stopPreview();
 
 //                    mCameraPreview.setVisibility(View.INVISIBLE);
                     // mCameraImage.setVisibility(View.VISIBLE);
@@ -502,11 +494,10 @@ public class CameraFragment extends Fragment
 //                mCaptureImageButton.setText(R.string.recapture_image);
 //                mCaptureImageButton.setOnClickListener(mRecaptureImageButtonClickListener);
 
-
-//                    myPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-//                    tempCanvas.drawBitmap(bitmap, 0, 0, null);
-//                    myPaint.setColor(Color.RED);
-//                    mCameraImage.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));
+                    MyAdapter2.myPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+//                    MyAdapter2.tempCanvas.drawBitmap(bitmap, 0, 0, null);
+                    MyAdapter2.myPaint.setColor(Color.RED);
+ //                   mCameraImage.setImageDrawable(new BitmapDrawable(getResources(), MyAdapter2.tempBitmap));
                 }
             });
         }
@@ -631,29 +622,29 @@ public class CameraFragment extends Fragment
                     audioRecord.startPlayingPictureLabel(i);
                     Log.i("Index i of the label", String.valueOf(i));
 
-                    myPaint.setColor(Color.BLUE);
-                    tempCanvas.save();
-                    tempCanvas.rotate(-90, xfile * 6, yfile * 6);
-                    textPaint.setTextSize(140);
-
-                    textPaint.setColor(Color.WHITE);
-                    textPaint.setAntiAlias(true);
-                    textPaint.setTextAlign(Paint.Align.CENTER);
-
-                    myPaint.setAntiAlias(true);
-                    Rect bounds = new Rect();
-                    textPaint.getTextBounds(String.valueOf(i+1), 0, String.valueOf(i+1).length(), bounds);
-                    if (i+1 < 10 && i+1>1) {
-                        tempCanvas.drawCircle(xfile * 6, yfile * 6 - (bounds.height() / 2), bounds.width() + 70, myPaint);
-                    } else if (i+1==1) {
-                        tempCanvas.drawCircle(xfile * 6, yfile * 6 - (bounds.height() / 2), bounds.width() + 95, myPaint);
-                    }
-                    else {
-                        tempCanvas.drawCircle(xfile * 6, yfile * 6 - (bounds.height() / 2), bounds.width() + 10, myPaint);
-                    };
-
-                    tempCanvas.drawText(String.valueOf(i+1), xfile * 6, yfile * 6, textPaint);
-                    tempCanvas.restore();
+//                    myPaint.setColor(Color.BLUE);
+//                    tempCanvas.save();
+//                    tempCanvas.rotate(-90, xfile * 6, yfile * 6);
+//                    textPaint.setTextSize(140);
+//
+//                    textPaint.setColor(Color.WHITE);
+//                    textPaint.setAntiAlias(true);
+//                    textPaint.setTextAlign(Paint.Align.CENTER);
+//
+//                    myPaint.setAntiAlias(true);
+//                    Rect bounds = new Rect();
+//                    textPaint.getTextBounds(String.valueOf(i+1), 0, String.valueOf(i+1).length(), bounds);
+//                    if (i+1 < 10 && i+1>1) {
+//                        tempCanvas.drawCircle(xfile * 6, yfile * 6 - (bounds.height() / 2), bounds.width() + 70, myPaint);
+//                    } else if (i+1==1) {
+//                        tempCanvas.drawCircle(xfile * 6, yfile * 6 - (bounds.height() / 2), bounds.width() + 95, myPaint);
+//                    }
+//                    else {
+//                        tempCanvas.drawCircle(xfile * 6, yfile * 6 - (bounds.height() / 2), bounds.width() + 10, myPaint);
+//                    };
+//
+//                    tempCanvas.drawText(String.valueOf(i+1), xfile * 6, yfile * 6, textPaint);
+//                    tempCanvas.restore();
                     view.invalidate();
 //                    for (int j = 0; j < xcoordin.size(); j++){
 //                        Log.i("J", "J in for cycle");
@@ -727,29 +718,29 @@ public class CameraFragment extends Fragment
                     }
                     // readFromFile();
                     textPaint=new Paint();
-                    tempCanvas.save();
-                    tempCanvas.rotate(-90, x* 6, y* 6);
+//                    tempCanvas.save();
+//                    tempCanvas.rotate(-90, x* 6, y* 6);
                     textPaint.setTextSize(140);
                     textPaint.setColor(Color.WHITE);
                     textPaint.setAntiAlias(true);
                     textPaint.setTextAlign(Paint.Align.CENTER);
 
-                    myPaint.setAntiAlias(true);
+//                    myPaint.setAntiAlias(true);
                     Rect bounds = new Rect();
                     textPaint.getTextBounds(String.valueOf(clicked), 0, String.valueOf(clicked).length(), bounds);
-
-                    if (clicked < 10 && clicked>1) {
-                        tempCanvas.drawCircle(x * 6, y * 6 - (bounds.height() / 2), bounds.width() + 70, myPaint);
-                    } else if (clicked==1) {
-                        tempCanvas.drawCircle(x * 6, y * 6 - (bounds.height() / 2), bounds.width() + 95, myPaint);
-                    }
-                    else {
-                        tempCanvas.drawCircle(x * 6, y * 6 - (bounds.height() / 2), bounds.width() + 10, myPaint);
-                    };
-
-                    tempCanvas.drawText(String.valueOf(clicked), x * 6, y * 6, textPaint);
-                    clicked++;
-                    tempCanvas.restore();
+//
+//                    if (clicked < 10 && clicked>1) {
+//                        tempCanvas.drawCircle(x * 6, y * 6 - (bounds.height() / 2), bounds.width() + 70, myPaint);
+//                    } else if (clicked==1) {
+//                        tempCanvas.drawCircle(x * 6, y * 6 - (bounds.height() / 2), bounds.width() + 95, myPaint);
+//                    }
+//                    else {
+//                        tempCanvas.drawCircle(x * 6, y * 6 - (bounds.height() / 2), bounds.width() + 10, myPaint);
+//                    };
+//
+//                    tempCanvas.drawText(String.valueOf(clicked), x * 6, y * 6, textPaint);
+//                    clicked++;
+//                    tempCanvas.restore();
                     view.invalidate();
 //                    } else {
 //

@@ -45,9 +45,9 @@ import java.util.Date;
 import java.util.Locale;
 
 
-public class AudioRecord extends AppCompatActivity implements UpdateBitmapPaths{
+public class AudioRecord extends AppCompatActivity {
 
-    ArrayList bitmapppaths;
+    static ArrayList<String> bitmapppaths = new ArrayList();
 
     int firstslide =0;
 
@@ -362,14 +362,12 @@ public class AudioRecord extends AppCompatActivity implements UpdateBitmapPaths{
         mRecorder = null;
     }
 
-    @Override
-    public void updateBitmap(ArrayList bitmappaths) {
-        Log.i("Update bitmap works!", "!!!");
-        this.bitmapppaths=bitmappaths;
+    public static void setArrayBitmap(ArrayList<String> list) {
+        bitmapppaths=list;
     }
-    public void setArrayBitmap(ArrayList bitmappaths){
-        Log.i("Update bitmap works!", "!!!");
-        this.bitmapppaths=bitmappaths;
+
+    public static ArrayList<String> getArratBitmap(){
+        return bitmapppaths;
     }
 
 
@@ -500,12 +498,15 @@ public class AudioRecord extends AppCompatActivity implements UpdateBitmapPaths{
         mFileName += "/audiorecordtest.3gp";
     }
 
+
+
+
     boolean x = true;
 
     private OnClickListener mCaptureImageButtonClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            Log.wtf("TAG", "First listener");
+            Log.wtf("bitmap", "First listener");
 
                 mCaptureImageButton.setOnClickListener(new OnClickListener() {
                     @Override
@@ -517,10 +518,11 @@ public class AudioRecord extends AppCompatActivity implements UpdateBitmapPaths{
                                 // TODO: 5/26/16 Do the calbacks, instead of the calling static fields
                             }
                             mPager.setCurrentItem(mPager.getCurrentItem() + 1);
-
-                            updateCallback.update(bitmapppaths.size());
-                            for (int i =0; i<bitmapppaths.size(); i++ ){
-                                Log.i("BITMAPPATHS", (String) bitmapppaths.get(i));
+                            if (CameraFragment.bitmappaths!=null) {
+                                updateCallback.update(CameraFragment.bitmappaths.size());
+                                for (int i = 0; i < CameraFragment.bitmappaths.size(); i++) {
+                                    Log.i("BITMAPPATHS", (String) CameraFragment.bitmappaths.get(i));
+                                }
                             }
                         }
                         else{
@@ -644,7 +646,6 @@ public class AudioRecord extends AppCompatActivity implements UpdateBitmapPaths{
 
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
-
 
 //        chooseButton.setOnClickListener(chooseButtonListener);
 //        findViewById(R.id.choose_button).setOnClickListener(chooseButtonListener);
@@ -969,7 +970,9 @@ public class AudioRecord extends AppCompatActivity implements UpdateBitmapPaths{
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new CameraFragment();
+                    CameraFragment fragment = new CameraFragment();
+                    fragment.setActivityContext(AudioRecord.this);
+                    return fragment;
 //
                 case 1:
                     RecyclerViewFragment recyclerViewFragment = new RecyclerViewFragment();

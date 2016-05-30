@@ -152,6 +152,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.image4.setImageResource(R.drawable.placeholder);
         holder.image5.setImageResource(R.drawable.placeholder);
 
+
+
 //        holder.image1.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -176,7 +178,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                         loadBitmap(imgs.get(i), holder.image1);
                     }
                     else{
-                        holder.image1.setImageResource(R.drawable.placeholder);
+                        holder.image1.setImageBitmap(null);
+                       // holder.image1.setImageResource(R.drawable.placeholder);
                     }
                     break;
                 case 1:
@@ -184,7 +187,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                         loadBitmap(imgs.get(i), holder.image2);
                     }
                     else{
-                        holder.image2.setImageResource(R.drawable.placeholder);
+                        holder.image2.setImageBitmap(null);
+                       // holder.image2.setImageResource(R.drawable.placeholder);
                     }
                     break;
                 case 2:
@@ -192,7 +196,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                         loadBitmap(imgs.get(i), holder.image3);
                     }
                     else{
-                        holder.image3.setImageResource(R.drawable.placeholder);
+                        holder.image3.setImageBitmap(null);
+                       // holder.image3.setImageResource(R.drawable.placeholder);
                     }
                     break;
                 case 3:
@@ -200,7 +205,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                         loadBitmap(imgs.get(i), holder.image4);
                     }
                     else{
-                        holder.image4.setImageResource(R.drawable.placeholder);
+                        holder.image4.setImageBitmap(null);
+                       // holder.image4.setImageResource(R.drawable.placeholder);
                     }
                     break;
                 case 4:
@@ -208,7 +214,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                         loadBitmap(imgs.get(i), holder.image5);
                     }
                     else{
-                        holder.image5.setImageResource(R.drawable.placeholder);
+                        holder.image5.setImageBitmap(null);
+                       // holder.image5.setImageResource(R.drawable.placeholder);
                     }
                     break;
             }
