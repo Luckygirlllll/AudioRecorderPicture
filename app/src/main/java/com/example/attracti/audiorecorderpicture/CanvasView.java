@@ -1,8 +1,5 @@
 package com.example.attracti.audiorecorderpicture;
 
-/**
- * Created by Iryna on 4/28/16.
- */
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -13,6 +10,8 @@ import android.view.View;
 
 /**
  * Created by Iryna on 4/5/16.
+ *
+ *
  */
 
 public class CanvasView extends View {

@@ -28,7 +28,12 @@ import java.util.Locale;
 
 /**
  * Created by Iryna on 5/25/16.
+ *
+ * This is RecyclerView where each item is a picture from the Camera
+ *
  */
+
+
 public class RecyclerViewFragment extends Fragment implements AudioRecord.UpdateRecyckerView, RecyclerItemClickListener.OnItemClickListener {
 
     public MyAdapter2 mAdapter;

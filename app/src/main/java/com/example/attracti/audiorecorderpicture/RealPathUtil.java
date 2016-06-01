@@ -10,7 +10,12 @@ import android.provider.MediaStore;
 
 /**
  * Created by Iryna on 5/17/16.
+ *
+ * This class is used for the adding pictures from the Gallery to the project
+ *
  */
+
+
 public class RealPathUtil {
     @SuppressLint("NewApi")
     public static String getRealPathFromURI_API19(Context context, Uri uri){

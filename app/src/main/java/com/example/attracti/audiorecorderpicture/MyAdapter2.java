@@ -27,6 +27,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
+/**
+*  This is Adapter of the RecyclerViewFragment
+*/
 
 public class MyAdapter2 extends RecyclerView.Adapter<MyAdapter2.ViewHolder> {
 

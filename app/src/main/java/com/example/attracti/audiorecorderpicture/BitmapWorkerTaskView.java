@@ -3,12 +3,13 @@ package com.example.attracti.audiorecorderpicture;
 /**
  * Created by attracti on 5/23/16.
  *
- * In this class going the process of downloading bitmaps in AsyncTask
+ * In this class going the process of downloading bitmaps in AsyncTask for the viewing of a
+ * certain project pictures
+ *
  */
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
@@ -16,13 +17,12 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 import static com.example.attracti.audiorecorderpicture.MyAdapter.decodeSampledBitmapFromResource;
 
-class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
+class BitmapWorkerTaskView extends AsyncTask<String, Void, Bitmap> {
     private final WeakReference<ImageView> viewHolderWeakReference;
     private String data;
     private static int position;
@@ -30,7 +30,7 @@ class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
      static Bitmap tempBitmapTest;
      Canvas tempCanvas;
 
-    public BitmapWorkerTask(ImageView imageView, int position) {
+    public BitmapWorkerTaskView(ImageView imageView, int position) {
         viewHolderWeakReference = new WeakReference<ImageView>(imageView);
         this.position=position;
     }
@@ -49,46 +49,16 @@ class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
         tempCanvas.drawBitmap(bitmap, 0, 0, null);
         Paint myPaint3 = new Paint();
 
-        myPaint3.setColor(Color.RED);
-        ArrayList<Integer> xcoord = new ArrayList<>();
-        xcoord.add(50);
-        xcoord.add(90);
-        xcoord.add(120);
-        xcoord.add(140);
-
-        ArrayList<Integer> ycoord = new ArrayList<>();
-        ycoord.add(60);
-        ycoord.add(100);
-        ycoord.add(130);
-        ycoord.add(150);
-
-       // MyAdapter2.xcoordList;
-       // MyAdapter2.ycoordList;
-       //   MyAdapter2.positionList;
-
-//        AdapterViewProject.xfile;
-//        AdapterViewProject.yfile;
-//        AdapterViewProject.filePosition;
-
-
         Set<Integer> uniquePositions = new HashSet<>(MyAdapter2.positionList);
 
-//        for(int i=0; i<uniquePositions.size();i++ )
-//        if (position == MyAdapter2.positionList.get(i) && MyAdapter2.xcoordin!=null && MyAdapter2.ycoordin!=null ) {
-//                tempCanvas.drawCircle( (Float)MyAdapter2.xcoordin.get(i)/2,(Float) MyAdapter2.ycoordin.get(i)/2 , 20, myPaint3);
-//                Log.i("Events X in Async: ", xcoord.get(i) + " Y in Async: " + ycoord.get(i));
-//            }
-//                tempCanvas.restore();
-                tempCanvas.drawCircle(50, 50, 20, myPaint3);
-                if (MyAdapter2.x != 0 && MyAdapter2.y != 0) {
-                    tempCanvas.drawCircle(MyAdapter2.x / 2, MyAdapter2.y / 2, 20, myPaint3);
-                }
-//            }
+        for(int i=0; i<AdapterViewProject.filePosition.size();i++ )
+        if (position == Integer.parseInt((String) AdapterViewProject.filePosition.get(i))) {
+                tempCanvas.drawCircle(Float.parseFloat((String) AdapterViewProject.xfile.get(i))/2, Float.parseFloat((String) AdapterViewProject.yfile.get(i))/2, 20, myPaint3);
+                Log.i("Events X in Async: ", AdapterViewProject.xfile.get(i) + " Y in Async: " + MyAdapter2.y);
+            }
             tempCanvas.save();
             return bitmap;
         }
-
-
 
     @Override
         protected void onPostExecute(Bitmap bitmap) {
@@ -97,12 +67,9 @@ class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
             final ImageView imageView= viewHolderWeakReference.get();
             if (imageView != null){
                 imageView.setImageBitmap(bitmap);
-                imageView.setImageDrawable(new BitmapDrawable(BitmapWorkerTask.tempBitmapTest));
+                imageView.setImageDrawable(new BitmapDrawable(BitmapWorkerTaskView.tempBitmapTest));
                 Paint myPaint4 = new Paint();
                 Log.i("Events X in Async: ", MyAdapter2.x + " Y in Async: " + MyAdapter2.y);
-//                if (MyAdapter2.x>0 && MyAdapter2.y<0 ){
-//                    tempCanvas.drawCircle(MyAdapter2.x/2, MyAdapter2.y/2, 20, myPaint4);
-//                }
                 imageView.invalidate();
             }
         }

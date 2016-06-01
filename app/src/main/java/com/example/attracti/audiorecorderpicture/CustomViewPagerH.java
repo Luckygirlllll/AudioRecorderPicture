@@ -2,7 +2,11 @@ package com.example.attracti.audiorecorderpicture;
 
 /**
  * Created by Iryna on 5/25/16.
+ *
+ * This is a ViewPager which switches two fragments: CameraFragment and RecyclerViewFragment
+ *
  */
+
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;

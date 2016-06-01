@@ -15,10 +15,8 @@ import java.util.ArrayList;
 
 /**
  * Created by attracti on 5/23/16.
- */
-
-/*
- adapter for the RecyclerView on the first screen of the project
+ *
+ *  adapter for the RecyclerView on the first screen of the project
  */
 
 

@@ -21,11 +21,11 @@ import java.util.Date;
 
 /**
  * Created by Iryna on 5/17/16.
+ *
+ * First screen of the project with RecyclerView  (shows pictures of the all projects)
+ *
  */
 
-/*
-* First screen of the project with RecyclerView  (shows pictures of the all projects)
-*/
 
 public class FirstscreenActivity extends AppCompatActivity implements RecyclerItemClickListener.OnItemClickListener {
 

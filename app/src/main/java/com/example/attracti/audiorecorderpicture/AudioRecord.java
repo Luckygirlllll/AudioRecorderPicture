@@ -43,6 +43,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * This is the class where going the process of audio recording. This activity has two fragments:
+ * CameraFragment and RecyclerViewFragment
+ */
 
 public class AudioRecord extends AppCompatActivity {
 

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 /**
  * Created by Iryna on 6/1/16.
  *
- * in this class displays pictures from the certain project with labels and here user can listen the audio record
+ * in this class pictures are displayed from a certain project with labels and here user can listen the audio record
  * both from labels and in the order in which it was displayed.
  *
  */
@@ -52,52 +52,6 @@ public class ViewActivity extends AppCompatActivity {
         }
     }
 
-    public void readFromFile() {
-//        Log.i("read ", "in Fragment");
-//        StringBuilder text = new StringBuilder();
-//
-//        try {
-//            BufferedReader br = new BufferedReader(new FileReader(gpxfile));
-//            String line;
-//
-//            while ((line = br.readLine()) != null) {
-//
-//                text.append(line);
-//                text.append('\n');
-//            }
-//            br.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        Log.i("TextInfo", String.valueOf(text));
-//
-//        filetime2 = text.toString().split("\n");
-//        //  Arrays.sort(filetime2);
-//        for (int i = 0; i < filetime2.length; i = i + 3) {
-//            Log.i("Array 2", filetime2[i]);
-//            String n = filetime2[i];
-//            filetime3.add(filetime2[i]);
-//            Log.i("FIletime 3 size", String.valueOf(filetime3.size()));
-//        }
-//        for (int i = 1; i < filetime2.length; i = i + 3) {
-//            Log.i("Coordinates of X: ", filetime2[i]);
-//            String n = filetime2[i];
-//            xcoordin.add(filetime2[i]);
-//        }
-//
-//        for (int i = 2; i < filetime2.length; i = i + 3) {
-//            Log.i("Coordinates of Y: ", filetime2[i]);
-//            String n = filetime2[i];
-//            ycoordin.add(filetime2[i]);
-//        }
-    }
-
-
-
-
-
-
-
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,10 +76,6 @@ public class ViewActivity extends AppCompatActivity {
         for(int i=0; i<array.length; i++){
             Log.wtf("Array elements ", String.valueOf(array[i]));
         }
-
-
-
-
     }
 
 }

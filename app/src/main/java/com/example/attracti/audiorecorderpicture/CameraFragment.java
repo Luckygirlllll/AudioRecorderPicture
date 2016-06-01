@@ -46,6 +46,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * In this Fragment is going the process of making pictures
+ * AudioRecord is the activity of this fragment
+ */
+
+
+
 public class CameraFragment extends Fragment
         implements SurfaceHolder.Callback, AudioRecord.TakePictureListener, AudioRecord.SavePictureListener,
         AudioRecord.ReceivePictureListener {
