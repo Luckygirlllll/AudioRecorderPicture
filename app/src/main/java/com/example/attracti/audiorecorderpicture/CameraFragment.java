@@ -37,7 +37,6 @@ import android.widget.ZoomControls;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -109,6 +108,17 @@ public class CameraFragment extends Fragment
 
     public static ArrayList <String> bitmappaths = new ArrayList<>();
 
+    //structure of the project's folders
+    public static String mDiretoryName = Environment.getExternalStorageDirectory().getAbsolutePath()+"/Audio_Recorder_Picture";
+    public static String mAudioFolder=mDiretoryName+"/Audios";
+    public static String mPictureFolder=mDiretoryName+"/Pictures";
+    public static String mLabelsFolder=mDiretoryName+"/Labels";
+    public static String mPreviewsFolder=mDiretoryName+"/Previews";
+    public static File mPictureDirectory = new File(mPictureFolder+"/"+FirstscreenActivity.mCurrentProject);
+    public static File mAudioDirectory = new File(mAudioFolder);
+    public static File mLabelsDirectory = new File(mLabelsFolder);
+
+    // static long
 
     private OnClickListener mSaveImageButtonClickListener = new OnClickListener() {
         @Override
@@ -178,7 +188,6 @@ public class CameraFragment extends Fragment
         mCameraPreview = (SurfaceView) view.findViewById(R.id.preview_view);
 
         RelativeLayout fragment = (RelativeLayout) view.findViewById(R.id.fragment);
-//        fragment.setOnTouchListener(onTouchListener);
         DoubleTap = new GestureDetectorCompat(getActivity(), new MyGestureListener());
         mCameraImage.setOnTouchListener(onTouchListener);
         mCameraImage.setOnLongClickListener(onLongClickListener);
@@ -187,11 +196,7 @@ public class CameraFragment extends Fragment
         surfaceHolder.addCallback(this);
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
-//        mCaptureImageButton = (Button) view.findViewById(R.id.capture_image_button);
-//        mCaptureImageButton.setOnClickListener(mCaptureImageButtonClickListener);
-//
-//        final Button doneButton = (Button) view.findViewById(R.id.done_button);
-//        doneButton.setOnClickListener(mDoneButtonClickListener);
+
 
 //        zoomControls = (ZoomControls) view.findViewById(R.id.cameraZoom);
 
@@ -216,8 +221,6 @@ public class CameraFragment extends Fragment
         }
       //  zoom();
 
-//        tempBitmap = Bitmap.createBitmap(4000, 3000, Bitmap.Config.RGB_565);
-//        tempCanvas = new Canvas(tempBitmap);
 
         return view;
     }
@@ -323,25 +326,15 @@ public class CameraFragment extends Fragment
     }
 
     private File openFileForImage() {
-        File imageDirectory = null;
-        String storageState = Environment.getExternalStorageState();
-        if (storageState.equals(Environment.MEDIA_MOUNTED)) {
-            SimpleDateFormat dateFormatfolder = new SimpleDateFormat("yyyy_MM_dd",
-                    Locale.getDefault());
-            imageDirectory = new File(
-                    Environment.getExternalStorageDirectory() +
-                            "/Audio_Recorder_Picture/Picture", dateFormatfolder.format(new Date())+"_"+FirstscreenActivity.newpressed);
-            if (!imageDirectory.exists() && !imageDirectory.mkdirs()) {
-                imageDirectory = null;
+            if (!mPictureDirectory.exists() && !mPictureDirectory.mkdirs()) {
+                mPictureDirectory = null;
             } else {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_mm_dd_hh_mm_ss",
                         Locale.getDefault());
-
-                return new File(imageDirectory.getPath() +
+                return new File(mPictureDirectory.getPath() +
                         File.separator + "image_" +
                         dateFormat.format(new Date()) + ".png");
             }
-        }
         return null;
     }
 
@@ -406,42 +399,21 @@ public class CameraFragment extends Fragment
 
     public void captureImage() {
 
-        Log.i("Camera exists", String.valueOf(mCamera!=null));
         if (mCamera != null) {
             mCamera.takePicture(null, null, new PictureCallback() {
 
                 @Override
                 public void onPictureTaken(byte[] data, Camera camera) {
 
-                    Log.i("Data", "Data: " + data + "Length" + data.length);
                     mCameraData = data;
 
-//                    new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            bitmap3 = BitmapFactory.decodeByteArray(mCameraData, 0, mCameraData.length);
-//                            bitmaplist.add(CameraFragment.bitmap3);
-//                            Log.i("BitmapList in the CF", String.valueOf(bitmap3));
-//                            for (int i=0; i<bitmaplist.size(); i++){
-//                                Log.i("BitmapList in the CF 2", String.valueOf(bitmaplist.get(i)));
-//                            }
-//                        }
-//                    }.run();
-                    Log.i("Real saving", "Real saving");
-                    File imageDirectory = null;
-                    //FirstscreenActivity.newpressed
-                    SimpleDateFormat dateFormatfolder = new SimpleDateFormat("yyyy_MM_dd",
-                            Locale.getDefault());
-                    imageDirectory = new File(
-                            Environment.getExternalStorageDirectory() +
-                                    "/Audio_Recorder_Picture/Picture", dateFormatfolder.format(new Date()) + "_" + FirstscreenActivity.newpressed);
-                    if (!imageDirectory.exists() && !imageDirectory.mkdirs()) {
-                        imageDirectory = null;
+                    if (!mPictureDirectory.exists() && !mPictureDirectory.mkdirs()) {
+                       mPictureDirectory = null;
                     } else {
                         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_mm_dd_hh_mm_ss",
                                 Locale.getDefault());
                         File file = new File(
-                                imageDirectory.getPath() +
+                                mPictureDirectory.getPath() +
                                         File.separator + "image_" +
                                         dateFormat.format(new Date()) + ".png");
                         String filepath = file.getPath();
@@ -461,20 +433,8 @@ public class CameraFragment extends Fragment
                         FileOutputStream fos = null;
                         try {
                             fos = new FileOutputStream(file);
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        }
-                        try {
                             fos.write(data);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        try {
                             fos.flush();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        try {
                             fos.close();
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -491,8 +451,6 @@ public class CameraFragment extends Fragment
                     // mCameraImage.setVisibility(View.VISIBLE);
                     //                   mCameraImage.setRotation(90);
 
-//                mCaptureImageButton.setText(R.string.recapture_image);
-//                mCaptureImageButton.setOnClickListener(mRecaptureImageButtonClickListener);
 
                     MyAdapter2.myPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 //                    MyAdapter2.tempCanvas.drawBitmap(bitmap, 0, 0, null);

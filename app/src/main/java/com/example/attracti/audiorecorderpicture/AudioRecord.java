@@ -30,7 +30,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -57,11 +56,12 @@ public class AudioRecord extends AppCompatActivity {
     private PagerAdapter mPagerAdapter;
 
 
-    static long start;
+    static long startTimeAudio;
+
     private ArrayList<String> imagesPathList;
 
     public static long getStart() {
-        return start;
+        return startTimeAudio;
     }
 
     private long after;
@@ -141,7 +141,7 @@ public class AudioRecord extends AppCompatActivity {
     Button chooseButton;
     Toolbar myToolbar;
 
-    ImageView cameraImage;
+    static long timePictureChange;
 
     private void initHeaderFragmet() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -346,7 +346,13 @@ public class AudioRecord extends AppCompatActivity {
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mRecorder.setOutputFile(mFileName);
+        if (!CameraFragment.mAudioDirectory.exists() && !CameraFragment.mAudioDirectory.mkdirs()) {
+            CameraFragment.mAudioDirectory = null;
+        }
+        else {
+            mRecorder.setOutputFile(mFileName);
+        }
+
         mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 
         try {
@@ -421,8 +427,8 @@ public class AudioRecord extends AppCompatActivity {
             public void onClick(View v) {
                 onRecord(mStartRecording);
 
-                start = System.currentTimeMillis();
-                android.util.Log.i("Time Current ", " Time value in millisecinds " + start);
+                startTimeAudio = System.currentTimeMillis();
+                android.util.Log.i("Time Current ", " Time value in millisecinds " + startTimeAudio);
 
                 if (mStartRecording) {
                     setText("Stop recording");
@@ -492,16 +498,13 @@ public class AudioRecord extends AppCompatActivity {
         public void savePicture();
     }
 
-
     public AudioRecord() {
-        mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-        mFileName += "/audiorecordtest.3gp";
+        mFileName =CameraFragment.mAudioFolder+"/"+FirstscreenActivity.mCurrentProject+".3gp";
     }
 
 
+    static int clicked =0;
 
-
-    boolean x = true;
 
     private OnClickListener mCaptureImageButtonClickListener = new OnClickListener() {
         @Override
@@ -515,7 +518,41 @@ public class AudioRecord extends AppCompatActivity {
                             firstslide++;
                             if (fragment!=null) {
                                 fragment.takePicture();
-                                // TODO: 5/26/16 Do the calbacks, instead of the calling static fields
+                                if (clicked==0){
+                                    clicked++;
+                                }
+                                else {
+
+                                   timePictureChange = System.currentTimeMillis();
+                                    long sBody;
+                                    sBody = timePictureChange-startTimeAudio;
+                                    FileWriter writer = null;
+                                    if (!CameraFragment.mLabelsDirectory.exists() && !CameraFragment.mLabelsDirectory.mkdirs()) {
+                                        CameraFragment.mLabelsDirectory = null;
+                                    } else {
+                                        FileWriter writer2 = null;
+                                        try {
+                                            if(MyAdapter2.labelFile==null){
+                                                String labelFileName = FirstscreenActivity.mCurrentProject + ".txt";
+                                                MyAdapter2.labelFile = new File(CameraFragment.mLabelsDirectory, labelFileName);
+                                                writer2 = new FileWriter(MyAdapter2.labelFile, true);
+                                            }
+                                            else {
+                                                writer2 = new FileWriter(MyAdapter2.labelFile, true);
+                                            }
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                        try {
+                                            writer2.append(MyAdapter2.position + 1 + "\n" + sBody + "\n" + 0 + "\n" + 0 + "\n");
+                                            writer2.flush();
+                                            writer2.close();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }
+
                             }
                             mPager.setCurrentItem(mPager.getCurrentItem() + 1);
                             if (CameraFragment.bitmappaths!=null) {
@@ -529,6 +566,7 @@ public class AudioRecord extends AppCompatActivity {
                             mPager.setCurrentItem(mPager.getCurrentItem() - 1);
                             firstslide--;
                         }
+
                     }
                 });
             }
@@ -539,9 +577,9 @@ public class AudioRecord extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             onRecord(mStartRecording);
-            start = System.currentTimeMillis();
+            startTimeAudio = System.currentTimeMillis();
 
-            android.util.Log.i("Time Current ", " Time value in millisecinds " + start);
+            android.util.Log.i("Time Current ", " Time value in milliseconds " + startTimeAudio);
             if (mStartRecording) {
                 recordButtonpause.setBackgroundResource(R.drawable.pause_black);
                 myToolbar.setBackgroundColor(Color.RED);
@@ -667,7 +705,7 @@ public class AudioRecord extends AppCompatActivity {
                 if (mPlayer == null) {
                     after = System.currentTimeMillis();
                     android.util.Log.i("Time after click", " Time value in millisecinds " + after);
-                    int difference = (int) (after - start);
+                    int difference = (int) (after - startTimeAudio);
                     Log.i("difference", String.valueOf(difference));
 
                     int sBody = difference;
@@ -988,15 +1026,10 @@ public class AudioRecord extends AppCompatActivity {
         public int getCount() {
             return NUM_PAGES;
         }
-
-
     }
 
     private UpdateRecyckerView updateCallback;
     public interface UpdateRecyckerView{
         void update(int position);
     }
-
-
-
 }

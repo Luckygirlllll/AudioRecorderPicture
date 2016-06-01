@@ -7,7 +7,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Environment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,6 +22,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -44,7 +44,7 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyAdapter2.ViewHolder> {
     static Bitmap tempBitmap;
     static Paint myPaint;
     public static Paint textPaint;
-    static int clicked = 1;
+
 
     public static ViewHolder vh;
     View view;
@@ -52,6 +52,14 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyAdapter2.ViewHolder> {
     // coordinates of LongPress
     static int x;
     static int y;
+
+    // file with the labels coordinates
+    public static File labelFile;
+    static int position;
+
+    public static ArrayList <Integer> xcoordList =new ArrayList ();
+    public static ArrayList <Integer> ycoordList = new ArrayList();
+    public static ArrayList <Integer> positionList = new ArrayList<>();
 
 
     public long getItemId(int position) {
@@ -63,7 +71,6 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyAdapter2.ViewHolder> {
         Log.wtf("TAG", "Folders size: " + FOLDERS.size());
         return AudioRecord.getArratBitmap().size();
     }
-
 
 
     // optimisation of bitmap
@@ -115,7 +122,7 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyAdapter2.ViewHolder> {
             imageView.setImageBitmap(bitmap);
         } else {
 
-            BitmapWorkerTask task = new BitmapWorkerTask(imageView);
+            BitmapWorkerTask task = new BitmapWorkerTask(imageView, position);
             task.execute(path);
 
             TASKS_MAP.put(position, task);
@@ -132,7 +139,8 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyAdapter2.ViewHolder> {
         }
     }
 
-    MyAdapter2  adapter = null;
+    MyAdapter2 adapter = null;
+
     public MyAdapter2(Activity context, ArrayList<Folder> FOLDERS) {
         this.context = context;
         this.FOLDERS = FOLDERS;
@@ -162,137 +170,177 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyAdapter2.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
         holder.image1.setImageResource(R.drawable.placeholder);
+        this.position=position;
 
-        mDetector = new GestureDetector(new MyGestureDetector());
+        // mDetector = new GestureDetector(new MyGestureDetector());
         holder.image1.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                mDetector.onTouchEvent(event);
-                Log.i("Async Motion Event", String.valueOf(event.getAction()));
-                Log.i("Async Motion Event", String.valueOf(event.getAction() == MotionEvent.ACTION_DOWN));
+                int downX = 0;
+                long downTime = 0;
 
-               if (event.getAction()== MotionEvent.ACTION_DOWN){
-                adapter.notifyItemChanged(position);
-               }
-                return true;
-            }
-        });
-//            Bitmap bitmap2=null;
-//
-//            Log.i("Bitmap is not null", "from the fragment!");
-//            Log.i("Bitmap from CF", String.valueOf(CameraFragment.bitmap));
-//
-//            if(tempCanvas!=null) {
-//                tempCanvas.drawBitmap(bitmap2, 0, 0, null);
-//            }
-//            if(myPaint!=null) {
-//                myPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-//                myPaint.setColor(Color.RED);
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        downX = (int) event.getX();
+                        downTime = Calendar.getInstance().getTimeInMillis();
+                        return true;
 
-        //  holder.image1.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));
-        //       }
+                    case MotionEvent.ACTION_UP:
+                        int upX = (int) event.getX();
+                        long upTime = Calendar.getInstance().getTimeInMillis();
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inPreferredConfig = Bitmap.Config.RGB_565;
-        options.inSampleSize = 2;
+                        float deltaX = downX - upX;
+                        float deltaTime = upTime - downTime;
 
+                        if ((deltaX < 10) && (deltaTime > 1)) {
+                            Log.i("Events ", "onLongPress works");
+                            x = (int) event.getX();
+                            y = (int) event.getY();
 
-        if (position < AudioRecord.getArratBitmap().size()) {
-            for (int i = 0; i < AudioRecord.getArratBitmap().size(); i++) {
-            }
-            loadBitmap(position, AudioRecord.getArratBitmap().get(position), holder.image1);
-        }
+                            xcoordList.add(x);
+                            ycoordList.add(y);
+                            positionList.add(position);
 
-        holder.image1.setImageDrawable(new BitmapDrawable(BitmapWorkerTask.tempBitmapTest));
+                            Log.i("Events X: ", +x + " Events Y: " + y);
+                            adapter.notifyItemChanged(position);
+                            long after = System.currentTimeMillis();
+                            int difference = (int) (after - AudioRecord.startTimeAudio);
+                            int sBody = difference;
 
-        view.setTag(holder);
-    }
+                            if (!CameraFragment.mLabelsDirectory.exists() && !CameraFragment.mLabelsDirectory.mkdirs()) {
+                                CameraFragment.mLabelsDirectory = null;
+                            } else {
 
+                                String labelFileName = FirstscreenActivity.mCurrentProject + ".txt";
+                                if (labelFile==null) {
+                                    labelFile = new File(CameraFragment.mLabelsDirectory, labelFileName);
+                                }
+                                else {
 
-    public Bitmap getBitmapFromMemCache(String key) {
-        return com.example.attracti.audiorecorderpicture.RecyclerViewFragment.mMemoryCache.get(key);
-    }
-
-    private class MyGestureDetector extends GestureDetector.SimpleOnGestureListener {
-
-
-
-        @Override
-        public boolean onDown(MotionEvent e) {
-            Log.d("Events", "onDown works");
-            int xlong = (int) e.getX();
-            int ylong = (int) e.getY();
-            Log.i("xlong onDown !!!: ", String.valueOf(xlong));
-            Log.i("ylong onDown !!!: ", String.valueOf(ylong));
-
-
-            ArrayList xcoordin = CameraFragment.getXcoordin();
-            ArrayList ycoordin = CameraFragment.getYcoordin();
-
-            Log.wtf("Xcoordin cameraFragm", String.valueOf(CameraFragment.getXcoordin()));
-            Log.wtf("Ycoordin cameraFragm", String.valueOf(CameraFragment.getYcoordin()));
-
-            Log.wtf("Xcoordin size", String.valueOf(xcoordin.size()));
-            Log.wtf("Ycoordin size", String.valueOf(ycoordin.size()));
-
-            for (int i = 0; i < xcoordin.size(); i++) {
-                Log.i("Xcoordin", (String) xcoordin.get(i));
-                Log.i("Ycoordin", (String) ycoordin.get(i));
-                int xfile = Integer.parseInt((String) xcoordin.get(i));
-                int yfile = Integer.parseInt((String) ycoordin.get(i));
-
-                if ((xlong < xfile + 50 && xlong > xfile - 50) && (ylong < yfile + 50 && ylong > yfile - 50)) {
-                    //   audioRecord.startPlayingPictureLabel(i);
-                    Log.i("Index i of the label", String.valueOf(i));
-
-                    myPaint.setColor(Color.BLUE);
-                    tempCanvas.save();
-                    tempCanvas.rotate(-90, xfile * 6, yfile * 6);
-                    textPaint.setTextSize(140);
-
-                    textPaint.setColor(Color.WHITE);
-                    textPaint.setAntiAlias(true);
-                    textPaint.setTextAlign(Paint.Align.CENTER);
-
-                    myPaint.setAntiAlias(true);
-                    Rect bounds = new Rect();
-                    textPaint.getTextBounds(String.valueOf(i + 1), 0, String.valueOf(i + 1).length(), bounds);
-                    if (i + 1 < 10 && i + 1 > 1) {
-                        tempCanvas.drawCircle(xfile * 6, yfile * 6 - (bounds.height() / 2), bounds.width() + 70, myPaint);
-                    } else if (i + 1 == 1) {
-                        tempCanvas.drawCircle(xfile * 6, yfile * 6 - (bounds.height() / 2), bounds.width() + 95, myPaint);
-                    } else {
-                        tempCanvas.drawCircle(xfile * 6, yfile * 6 - (bounds.height() / 2), bounds.width() + 10, myPaint);
-                    }
-                    ;
-
-                    tempCanvas.drawText(String.valueOf(i + 1), xfile * 6, yfile * 6, textPaint);
-                    tempCanvas.restore();
-                    view.invalidate();
+                                    FileWriter writer = null;
+                                    try {
+                                        writer = new FileWriter(labelFile, true);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                    Log.i("Time, X, Y", "Time:" + sBody + " X:" + x + "\n" + "Y" + y + "\n");
+                                    try {
+                                        writer.append(position + "\n" + sBody + "\n" + x + "\n" + y + "\n");
+                                        writer.flush();
+                                        writer.close();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        } else
+                            //REPORT SOMETHING ELSE
+                            return true;
+                    default:
+                        return true;
                 }
             }
-            return true;
-        }
+            });
 
-        @Override
-        public void onLongPress(MotionEvent e) {
-            Log.d("Events onLong", ".......");
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inPreferredConfig = Bitmap.Config.RGB_565;
+                options.inSampleSize = 2;
 
-            x = (int) e.getX();
-            y = (int) e.getY();
+                if (position < AudioRecord.getArratBitmap().size()) {
+                    for (int i = 0; i < AudioRecord.getArratBitmap().size(); i++) {
+                    }
+                    loadBitmap(position, AudioRecord.getArratBitmap().get(position), holder.image1);
+                }
 
-         //   adapter.notifyItemChanged(position);
-         //   adapter.notifyDataSetChanged();
+                view.setTag(holder);
+            }
 
-            Log.i("Events X", "case 0 " + x);
-            Log.i("Events Y", "case 0 " + y);
-            switch (e.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    Log.i("X", "case 3 " + x);
-                    Log.i("Y", "case 3 " + y);
-                    Log.i("Events time onLong down", String.valueOf(e.getDownTime()));
-                    Log.i("Events time onLong even", String.valueOf(e.getEventTime()));
+
+
+            public static Bitmap getBitmapFromMemCache(String key) {
+                return com.example.attracti.audiorecorderpicture.RecyclerViewFragment.mMemoryCache.get(key);
+            }
+
+
+            private class MyGestureDetector extends GestureDetector.SimpleOnGestureListener {
+
+
+                @Override
+                public boolean onDown(MotionEvent e) {
+                    Log.d("Events", "onDown works");
+                    int xlong = (int) e.getX();
+                    int ylong = (int) e.getY();
+                    Log.i("xlong onDown !!!: ", String.valueOf(xlong));
+                    Log.i("ylong onDown !!!: ", String.valueOf(ylong));
+
+
+                    ArrayList xcoordin = CameraFragment.getXcoordin();
+                    ArrayList ycoordin = CameraFragment.getYcoordin();
+
+                    Log.wtf("Xcoordin cameraFragm", String.valueOf(CameraFragment.getXcoordin()));
+                    Log.wtf("Ycoordin cameraFragm", String.valueOf(CameraFragment.getYcoordin()));
+
+                    Log.wtf("Xcoordin size", String.valueOf(xcoordin.size()));
+                    Log.wtf("Ycoordin size", String.valueOf(ycoordin.size()));
+
+                    for (int i = 0; i < xcoordin.size(); i++) {
+                        Log.i("Xcoordin", (String) xcoordin.get(i));
+                        Log.i("Ycoordin", (String) ycoordin.get(i));
+                        int xfile = Integer.parseInt((String) xcoordin.get(i));
+                        int yfile = Integer.parseInt((String) ycoordin.get(i));
+
+                        if ((xlong < xfile + 50 && xlong > xfile - 50) && (ylong < yfile + 50 && ylong > yfile - 50)) {
+                            //   audioRecord.startPlayingPictureLabel(i);
+                            Log.i("Index i of the label", String.valueOf(i));
+
+                            myPaint.setColor(Color.BLUE);
+                            tempCanvas.save();
+                            tempCanvas.rotate(-90, xfile * 6, yfile * 6);
+                            textPaint.setTextSize(140);
+
+                            textPaint.setColor(Color.WHITE);
+                            textPaint.setAntiAlias(true);
+                            textPaint.setTextAlign(Paint.Align.CENTER);
+
+                            myPaint.setAntiAlias(true);
+                            Rect bounds = new Rect();
+                            textPaint.getTextBounds(String.valueOf(i + 1), 0, String.valueOf(i + 1).length(), bounds);
+                            if (i + 1 < 10 && i + 1 > 1) {
+                                tempCanvas.drawCircle(xfile * 6, yfile * 6 - (bounds.height() / 2), bounds.width() + 70, myPaint);
+                            } else if (i + 1 == 1) {
+                                tempCanvas.drawCircle(xfile * 6, yfile * 6 - (bounds.height() / 2), bounds.width() + 95, myPaint);
+                            } else {
+                                tempCanvas.drawCircle(xfile * 6, yfile * 6 - (bounds.height() / 2), bounds.width() + 10, myPaint);
+                            }
+                            ;
+
+                            tempCanvas.drawText(String.valueOf(i + 1), xfile * 6, yfile * 6, textPaint);
+                            tempCanvas.restore();
+                            view.invalidate();
+                        }
+                    }
+                    return true;
+                }
+
+                @Override
+                public void onLongPress(MotionEvent e) {
+                    Log.d("Events onLong", ".......");
+
+                    x = (int) e.getX();
+                    y = (int) e.getY();
+
+                    //   adapter.notifyItemChanged(position);
+                    //   adapter.notifyDataSetChanged();
+
+                    Log.i("Events X", "case 0 " + x);
+                    Log.i("Events Y", "case 0 " + y);
+                    switch (e.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            Log.i("X", "case 3 " + x);
+                            Log.i("Y", "case 3 " + y);
+                            Log.i("Events time onLong down", String.valueOf(e.getDownTime()));
+                            Log.i("Events time onLong even", String.valueOf(e.getEventTime()));
 
 
 //                      MediaPlayer mPlayer2 = audioRecord.getmPlayer();
@@ -301,32 +349,32 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyAdapter2.ViewHolder> {
 //                      int difference = (int) (after - audioRecord.getStart());
 //                Log.i("difference", String.valueOf(difference));
 
-                int sBody = 60;
+                            int sBody = 60;
 
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy_mm_dd_hh",
-                            Locale.getDefault());
-                    ;
-                    Date now = new Date();
-                    String fileName = formatter.format(now) + ".txt";//like 2016_01_12.txt
+                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy_mm_dd_hh",
+                                    Locale.getDefault());
+                            ;
+                            Date now = new Date();
+                            String fileName = formatter.format(now) + ".txt";//like 2016_01_12.txt
 
-                try {
-                    File root = new File(Environment.getExternalStorageDirectory(), "Audio_Recorder_Picture");
-                    if (!root.exists()) {
-                        root.mkdirs();
-                    }
+                            try {
+                                File root = new File(Environment.getExternalStorageDirectory(), "Audio_Recorder_Picture");
+                                if (!root.exists()) {
+                                    root.mkdirs();
+                                }
 
-                    File gpxfile = new File(root, fileName);
+                                File gpxfile = new File(root, fileName);
 
-                    FileWriter writer = new FileWriter(gpxfile, true);
-                    Log.i("Time, X, Y", "Time:" + sBody + " X:" + x + "\n" + "Y" + y + "\n");
-                    writer.append(sBody + "\n" + x + "\n" + y + "\n");
-                    writer.flush();
-                    writer.close();
+                                FileWriter writer = new FileWriter(gpxfile, true);
+                                Log.i("Time, X, Y", "Time:" + sBody + " X:" + x + "\n" + "Y" + y + "\n");
+                                writer.append(sBody + "\n" + x + "\n" + y + "\n");
+                                writer.flush();
+                                writer.close();
 
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-                    // readFromFile();
+                            } catch (IOException e1) {
+                                e1.printStackTrace();
+                            }
+                            // readFromFile();
 //                    textPaint = new Paint();
 //                    tempCanvas.save();
 //                    tempCanvas.rotate(-90, x * 6, y * 6);
@@ -351,16 +399,16 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyAdapter2.ViewHolder> {
 //                    tempCanvas.drawText(String.valueOf(clicked), x * 6, y * 6, textPaint);
 //                    clicked++;
 //                    tempCanvas.restore();
-                    view.invalidate();
+                            view.invalidate();
+                    }
+                }
+
+
+                @Override
+                public boolean onDoubleTapEvent(MotionEvent e) {
+                    Log.i("Taghere..", "onDoubleTapEvent");
+                    return true;
+                }
             }
         }
-
-
-        @Override
-        public boolean onDoubleTapEvent(MotionEvent e) {
-            Log.i("Taghere..", "onDoubleTapEvent");
-            return true;
-        }
-    }
-}
 

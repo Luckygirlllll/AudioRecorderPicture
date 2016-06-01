@@ -26,7 +26,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     public final Activity context;
 
-    private final ArrayList<Folder> FOLDERS;
+    public final ArrayList<Folder> FOLDERS;
    // Activity MainActivity = new MainActivity();
 
     View view;
@@ -87,7 +87,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         return BitmapFactory.decodeFile(path, options);
     }
 
-    public void loadBitmap(String path, ImageView imageView) {
+    public void loadBitmap(String path, ImageView imageView, int position) {
         final String imageKey = String.valueOf(path);
 
         final Bitmap bitmap = getBitmapFromMemCache(imageKey);
@@ -95,7 +95,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             imageView.setImageBitmap(bitmap);
         } else {
             // imageView.setImageResource(R.drawable.image_placeholder);
-            BitmapWorkerTask task = new BitmapWorkerTask(imageView);
+            BitmapWorkerTask task = new BitmapWorkerTask(imageView,position);
             task.execute(path);
         }
     }
@@ -175,7 +175,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             switch (i) {
                 case 0:
                     if (imgs.size()>i && imgs.size()!=0) {
-                        loadBitmap(imgs.get(i), holder.image1);
+                        loadBitmap(imgs.get(i), holder.image1, position);
                     }
                     else{
                         holder.image1.setImageBitmap(null);
@@ -184,7 +184,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                     break;
                 case 1:
                     if (imgs.size()>i && imgs.size()!=0 ) {
-                        loadBitmap(imgs.get(i), holder.image2);
+                        loadBitmap(imgs.get(i), holder.image2, position);
                     }
                     else{
                         holder.image2.setImageBitmap(null);
@@ -193,7 +193,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                     break;
                 case 2:
                     if (imgs.size()>i && imgs.size()!=0) {
-                        loadBitmap(imgs.get(i), holder.image3);
+                        loadBitmap(imgs.get(i), holder.image3,position);
                     }
                     else{
                         holder.image3.setImageBitmap(null);
@@ -202,7 +202,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                     break;
                 case 3:
                     if (imgs.size()>i && imgs.size()!=0) {
-                        loadBitmap(imgs.get(i), holder.image4);
+                        loadBitmap(imgs.get(i), holder.image4, position);
                     }
                     else{
                         holder.image4.setImageBitmap(null);
@@ -211,7 +211,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                     break;
                 case 4:
                     if (imgs.size()>i && imgs.size()!=0) {
-                        loadBitmap(imgs.get(i), holder.image5);
+                        loadBitmap(imgs.get(i), holder.image5, position);
                     }
                     else{
                         holder.image5.setImageBitmap(null);
