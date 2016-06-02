@@ -11,7 +11,10 @@ import java.lang.ref.WeakReference;
 import static com.example.attracti.audiorecorderpicture.MyAdapter.decodeSampledBitmapFromResource;
 
 /**
- * Created by attracti on 6/2/16.
+ * Created by Iryna on 6/2/16.
+ *
+ * In this class is going the process of the downloading bitmaps for the BitmapFragment
+ *
  */
 class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
     private final WeakReference<ImageView> viewHolderWeakReference;
