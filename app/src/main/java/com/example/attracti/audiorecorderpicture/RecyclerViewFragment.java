@@ -28,9 +28,8 @@ import java.util.Locale;
 
 /**
  * Created by Iryna on 5/25/16.
- *
+ * <p/>
  * This is RecyclerView where each item is a picture from the Camera
- *
  */
 
 
@@ -54,7 +53,7 @@ public class RecyclerViewFragment extends Fragment implements AudioRecord.Update
     Bitmap tempBitmap;
     Paint myPaint;
     Paint textPaint;
-    static int clicked=1;
+    static int clicked = 1;
     static File gpxfile;
     private GestureDetectorCompat DoubleTap;
 
@@ -91,11 +90,11 @@ public class RecyclerViewFragment extends Fragment implements AudioRecord.Update
                 R.layout.recyclerview, container, false);
 
         list = (RecyclerView) rootView.findViewById(R.id.list);
-      //  list.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), this));
+        //  list.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), this));
         DoubleTap = new GestureDetectorCompat(getActivity(), new MyGestureListener());
-       // list.onInterceptTouchEvent()
+        // list.onInterceptTouchEvent()
 
-    //    list.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), this));
+        //    list.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), this));
 
         /*
         * Check when view has been recycled
@@ -173,7 +172,7 @@ public class RecyclerViewFragment extends Fragment implements AudioRecord.Update
     public void update(final int position) {
         Log.i("Position: ", String.valueOf(position - 1));
         Log.i("GetCount: ", String.valueOf(myAdapter2.getItemCount()));
-       // myAdapter2.notifyDataSetChanged();
+        // myAdapter2.notifyDataSetChanged();
 //        list.post(new Runnable() {
 //            @Override
 //            public void run() {
@@ -253,7 +252,7 @@ public class RecyclerViewFragment extends Fragment implements AudioRecord.Update
         }
     }
 
-   // @Override
+    // @Override
     public void onLongPress(MotionEvent e) {
         Log.d("...", "onLongPress сработал");
         int x = (int) e.getX();
@@ -266,13 +265,13 @@ public class RecyclerViewFragment extends Fragment implements AudioRecord.Update
                 Log.i("X", "case 3 " + x);
                 Log.i("Y", "case 3 " + y);
 
-              //  MediaPlayer mPlayer2 = audioRecord.getmPlayer();
-              //  Log.i("mPlayer2!!!", String.valueOf(mPlayer2));
+                //  MediaPlayer mPlayer2 = audioRecord.getmPlayer();
+                //  Log.i("mPlayer2!!!", String.valueOf(mPlayer2));
 
                 //                   if (mPlayer2 == null) {
                 long after = System.currentTimeMillis();
                 android.util.Log.i("Time after click", " Time value in milliseconds " + after);
-              //  int difference = (int) (after - audioRecord.getStart());
+                //  int difference = (int) (after - audioRecord.getStart());
 //                Log.i("difference", String.valueOf(difference));
 //
 //                int sBody = difference;
@@ -299,32 +298,32 @@ public class RecyclerViewFragment extends Fragment implements AudioRecord.Update
 //                } catch (IOException e1) {
 //                    e1.printStackTrace();
 //                }
-                    // readFromFile();
-                    textPaint = new Paint();
-                    tempCanvas.save();
-                    tempCanvas.rotate(-90, x * 6, y * 6);
-                    textPaint.setTextSize(140);
-                    textPaint.setColor(Color.WHITE);
-                    textPaint.setAntiAlias(true);
-                    textPaint.setTextAlign(Paint.Align.CENTER);
+                // readFromFile();
+                textPaint = new Paint();
+                tempCanvas.save();
+                tempCanvas.rotate(-90, x * 6, y * 6);
+                textPaint.setTextSize(140);
+                textPaint.setColor(Color.WHITE);
+                textPaint.setAntiAlias(true);
+                textPaint.setTextAlign(Paint.Align.CENTER);
 
-                    myPaint.setAntiAlias(true);
-                    Rect bounds = new Rect();
-                    textPaint.getTextBounds(String.valueOf(clicked), 0, String.valueOf(clicked).length(), bounds);
+                myPaint.setAntiAlias(true);
+                Rect bounds = new Rect();
+                textPaint.getTextBounds(String.valueOf(clicked), 0, String.valueOf(clicked).length(), bounds);
 
-                    if (clicked < 10 && clicked > 1) {
-                        tempCanvas.drawCircle(x * 6, y * 6 - (bounds.height() / 2), bounds.width() + 70, myPaint);
-                    } else if (clicked == 1) {
-                        tempCanvas.drawCircle(x * 6, y * 6 - (bounds.height() / 2), bounds.width() + 95, myPaint);
-                    } else {
-                        tempCanvas.drawCircle(x * 6, y * 6 - (bounds.height() / 2), bounds.width() + 10, myPaint);
-                    }
-                    ;
+                if (clicked < 10 && clicked > 1) {
+                    tempCanvas.drawCircle(x * 6, y * 6 - (bounds.height() / 2), bounds.width() + 70, myPaint);
+                } else if (clicked == 1) {
+                    tempCanvas.drawCircle(x * 6, y * 6 - (bounds.height() / 2), bounds.width() + 95, myPaint);
+                } else {
+                    tempCanvas.drawCircle(x * 6, y * 6 - (bounds.height() / 2), bounds.width() + 10, myPaint);
+                }
+                ;
 
-                    tempCanvas.drawText(String.valueOf(clicked), x * 6, y * 6, textPaint);
-                    clicked++;
-                    tempCanvas.restore();
-                    //    view.invalidate();
+                tempCanvas.drawText(String.valueOf(clicked), x * 6, y * 6, textPaint);
+                clicked++;
+                tempCanvas.restore();
+                //    view.invalidate();
         }
     }
 }

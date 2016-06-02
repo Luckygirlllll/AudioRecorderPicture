@@ -35,7 +35,7 @@ public class Folder {
         this.picturelist = picturelist;
     }
 
-    public void addFile(String path){
+    public void addFile(String path) {
         picturelist.add(path);
     }
 }

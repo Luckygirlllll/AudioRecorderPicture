@@ -21,9 +21,8 @@ import java.util.Date;
 
 /**
  * Created by Iryna on 5/17/16.
- *
+ * <p/>
  * First screen of the project with RecyclerView  (shows pictures of the all projects)
- *
  */
 
 
@@ -31,14 +30,14 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
 
     private MyAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
-    public static String mCurrentProject =null;
+    public static String mCurrentProject = null;
 
     RecyclerView list;
 
     static File[] listFile;
     static File[] listFolders;
 
-    static int newpressed =0;
+    static int newpressed = 0;
 
     public static ArrayList<Folder> FOLDERS = new ArrayList<>();
     public static LruCache<String, Bitmap> mMemoryCache;
@@ -143,13 +142,13 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
                 "/Audio_Recorder_Picture/Pictures", listFolders[position].getName());
         if (picturelist2.isDirectory()) {
             listFile2 = picturelist2.listFiles();
-            for(int i=0; i<listFile2.length; i++){
+            for (int i = 0; i < listFile2.length; i++) {
                 Log.i("LIST OF PICTURES: ", String.valueOf(listFile2[i]));
             }
 
         }
         Intent viewScreen = new Intent(getApplicationContext(), ViewActivity.class);
-        viewScreen.putExtra("FILE_TAG",listFile2);
+        viewScreen.putExtra("FILE_TAG", listFile2);
         startActivity(viewScreen);
     }
 

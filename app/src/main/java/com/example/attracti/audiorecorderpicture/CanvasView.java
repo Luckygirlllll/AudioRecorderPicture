@@ -10,8 +10,6 @@ import android.view.View;
 
 /**
  * Created by Iryna on 4/5/16.
- *
- *
  */
 
 public class CanvasView extends View {
@@ -40,7 +38,6 @@ public class CanvasView extends View {
         // time --->x
         // x=time*1000/300 000
         // x= time/300
-
 
 
         // fix error which appears while press the stop button (when audio is finished)
@@ -80,9 +77,9 @@ public class CanvasView extends View {
         canvas.drawLine(0, 400, 1000, 400, mPaint);
         mPaint.setColor(Color.BLUE);
         canvas.drawLine(startX, 200, startX, 400, mPaint);
-        if(times!=null) {
+        if (times != null) {
             Log.i("Number of times 2", String.valueOf(times.length));
-            for(int i=0; i<times.length; i++) {
+            for (int i = 0; i < times.length; i++) {
                 startX = Integer.parseInt(audio.getFiletime()[i]) / 440;
                 canvas.drawLine(startX, 200, startX, 400, mPaint);
                 Log.i("startX!!!!", String.valueOf(startX));

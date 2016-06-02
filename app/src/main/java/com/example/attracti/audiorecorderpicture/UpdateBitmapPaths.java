@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 
 
-public interface UpdateBitmapPaths{
+public interface UpdateBitmapPaths {
     void updateBitmap(
             ArrayList bitmappaths
     );

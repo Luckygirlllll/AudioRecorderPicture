@@ -2,9 +2,8 @@ package com.example.attracti.audiorecorderpicture;
 
 /**
  * Created by attracti on 5/23/16.
- *
+ * <p/>
  * You can delete this class after all code for the ViewActivity will be written
- *
  */
 
 import android.graphics.Bitmap;
@@ -27,12 +26,12 @@ class BitmapWorkerTaskView extends AsyncTask<String, Void, Bitmap> {
     private String data;
     private static int position;
 
-     static Bitmap tempBitmapTest;
-     Canvas tempCanvas;
+    static Bitmap tempBitmapTest;
+    Canvas tempCanvas;
 
     public BitmapWorkerTaskView(ImageView imageView, int position) {
         viewHolderWeakReference = new WeakReference<ImageView>(imageView);
-        this.position=position;
+        this.position = position;
     }
 
     @Override
@@ -52,22 +51,22 @@ class BitmapWorkerTaskView extends AsyncTask<String, Void, Bitmap> {
 
         Set<Integer> uniquePositions = new HashSet<>(MyAdapter2.positionList);
 
-        for(int i=0; i<AdapterViewProject.filePosition.size();i++ )
-        if (position == Integer.parseInt((String) AdapterViewProject.filePosition.get(i))) {
+        for (int i = 0; i < AdapterViewProject.filePosition.size(); i++)
+            if (position == Integer.parseInt((String) AdapterViewProject.filePosition.get(i))) {
                 Log.i("FilePosition: ", String.valueOf(Integer.parseInt((String) AdapterViewProject.filePosition.get(i))));
                 tempCanvas.drawCircle(Float.parseFloat((String) AdapterViewProject.xfile.get(i)) / 2, Float.parseFloat((String) AdapterViewProject.yfile.get(i)) / 2, 20, myPaint3);
                 Log.i("Events X in Async: ", AdapterViewProject.xfile.get(i) + " Y in Async: " + MyAdapter2.y);
             }
-            tempCanvas.save();
-            return bitmap;
-        }
+        tempCanvas.save();
+        return bitmap;
+    }
 
     @Override
-        protected void onPostExecute(Bitmap bitmap) {
+    protected void onPostExecute(Bitmap bitmap) {
         Log.i("onPostExecute", "works!");
         if (viewHolderWeakReference != null && bitmap != null) {
-            final ImageView imageView= viewHolderWeakReference.get();
-            if (imageView != null){
+            final ImageView imageView = viewHolderWeakReference.get();
+            if (imageView != null) {
                 imageView.setImageBitmap(bitmap);
                 imageView.setImageDrawable(new BitmapDrawable(BitmapWorkerTaskView.tempBitmapTest));
                 Paint myPaint4 = new Paint();
@@ -76,12 +75,14 @@ class BitmapWorkerTaskView extends AsyncTask<String, Void, Bitmap> {
             }
         }
     }
-    public  void addBitmapToMemoryCache(String key, Bitmap bitmap) {
+
+    public void addBitmapToMemoryCache(String key, Bitmap bitmap) {
         if (getBitmapFromMemCache(key) == null) {
             FirstscreenActivity.mMemoryCache.put(key, bitmap);
         }
     }
-    public  Bitmap getBitmapFromMemCache(String key) {
+
+    public Bitmap getBitmapFromMemCache(String key) {
         return FirstscreenActivity.mMemoryCache.get(key);
     }
 }

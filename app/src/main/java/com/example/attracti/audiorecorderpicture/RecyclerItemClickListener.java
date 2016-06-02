@@ -9,11 +9,10 @@ import android.view.View;
 
 /**
  * Created by Iryna on 5/27/16.
- *
+ * <p/>
  * Used for listening to RecyclerView item clicks. You can either implement an OnItemClickListener
  * or extend SimpleOnItemClickListener and override its methods.
  */
-
 
 
 public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListener {
@@ -28,7 +27,7 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
     private int childViewPosition;
 
     public RecyclerItemClickListener(Context context, OnItemClickListener listener) {
-       this.gestureDetector = new GestureDetector(context, new GestureListener());
+        this.gestureDetector = new GestureDetector(context, new GestureListener());
         this.listener = listener;
     }
 
@@ -65,8 +64,10 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
 
         /**
          * Called when an item is long pressed.
-         *  @param childView View of the item that was long pressed.
-         * @param position  Position of the item that was long pressed.*/
+         *
+         * @param childView View of the item that was long pressed.
+         * @param position  Position of the item that was long pressed.
+         */
         public void onItemLongPress(View childView, int position);
 
     }
@@ -88,40 +89,42 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
 
         /**
          * Called when an item is long pressed. The default implementation is a no-op.
-         *  @param childView View of the item that was long pressed.
-         * @param position  Position of the item that was long pressed.*/
+         *
+         * @param childView View of the item that was long pressed.
+         * @param position  Position of the item that was long pressed.
+         */
         public void onItemLongPress(View childView, int position) {
             // Do nothing.
         }
 
     }
 
-    public  class GestureListener extends GestureDetector.SimpleOnGestureListener {
+    public class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
 
-            @Override
-            public boolean onSingleTapUp(MotionEvent event) {
-                if (childView != null) {
-                    listener.onItemClick(childView, childViewPosition);
-                }
-
-                return true;
+        @Override
+        public boolean onSingleTapUp(MotionEvent event) {
+            if (childView != null) {
+                listener.onItemClick(childView, childViewPosition);
             }
 
-            @Override
-            public void onLongPress(MotionEvent event) {
-                if (childView != null) {
-                    listener.onItemLongPress(childView, childViewPosition);
-                }
-            }
+            return true;
+        }
 
-            @Override
-            public boolean onDown(MotionEvent event) {
-                // Best practice to always return true here.
-                // http://developer.android.com/training/gestures/detector.html#detect
-                return true;
+        @Override
+        public void onLongPress(MotionEvent event) {
+            if (childView != null) {
+                listener.onItemLongPress(childView, childViewPosition);
             }
         }
+
+        @Override
+        public boolean onDown(MotionEvent event) {
+            // Best practice to always return true here.
+            // http://developer.android.com/training/gestures/detector.html#detect
+            return true;
+        }
+    }
 
 
 }

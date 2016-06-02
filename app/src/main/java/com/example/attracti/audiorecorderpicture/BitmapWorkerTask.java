@@ -2,7 +2,7 @@ package com.example.attracti.audiorecorderpicture;
 
 /**
  * Created by attracti on 5/23/16.
- *
+ * <p/>
  * In this class going the process of downloading bitmaps in AsyncTask
  */
 
@@ -27,12 +27,12 @@ class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
     private String data;
     private static int position;
 
-     static Bitmap tempBitmapTest;
-     Canvas tempCanvas;
+    static Bitmap tempBitmapTest;
+    Canvas tempCanvas;
 
     public BitmapWorkerTask(ImageView imageView, int position) {
         viewHolderWeakReference = new WeakReference<ImageView>(imageView);
-        this.position=position;
+        this.position = position;
     }
 
     @Override
@@ -62,9 +62,9 @@ class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
         ycoord.add(130);
         ycoord.add(150);
 
-       // MyAdapter2.xcoordList;
-       // MyAdapter2.ycoordList;
-       //   MyAdapter2.positionList;
+        // MyAdapter2.xcoordList;
+        // MyAdapter2.ycoordList;
+        //   MyAdapter2.positionList;
 
 //        AdapterViewProject.xfile;
 //        AdapterViewProject.yfile;
@@ -79,23 +79,22 @@ class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
 //                Log.i("Events X in Async: ", xcoord.get(i) + " Y in Async: " + ycoord.get(i));
 //            }
 //                tempCanvas.restore();
-                tempCanvas.drawCircle(50, 50, 20, myPaint3);
-                if (MyAdapter2.x != 0 && MyAdapter2.y != 0) {
-                    tempCanvas.drawCircle(MyAdapter2.x / 2, MyAdapter2.y / 2, 20, myPaint3);
-                }
-//            }
-            tempCanvas.save();
-            return bitmap;
+        tempCanvas.drawCircle(50, 50, 20, myPaint3);
+        if (MyAdapter2.x != 0 && MyAdapter2.y != 0) {
+            tempCanvas.drawCircle(MyAdapter2.x / 2, MyAdapter2.y / 2, 20, myPaint3);
         }
-
+//            }
+        tempCanvas.save();
+        return bitmap;
+    }
 
 
     @Override
-        protected void onPostExecute(Bitmap bitmap) {
+    protected void onPostExecute(Bitmap bitmap) {
         Log.i("onPostExecute", "works!");
         if (viewHolderWeakReference != null && bitmap != null) {
-            final ImageView imageView= viewHolderWeakReference.get();
-            if (imageView != null){
+            final ImageView imageView = viewHolderWeakReference.get();
+            if (imageView != null) {
                 imageView.setImageBitmap(bitmap);
                 imageView.setImageDrawable(new BitmapDrawable(BitmapWorkerTask.tempBitmapTest));
                 Paint myPaint4 = new Paint();
@@ -107,12 +106,14 @@ class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
             }
         }
     }
-    public  void addBitmapToMemoryCache(String key, Bitmap bitmap) {
+
+    public void addBitmapToMemoryCache(String key, Bitmap bitmap) {
         if (getBitmapFromMemCache(key) == null) {
             FirstscreenActivity.mMemoryCache.put(key, bitmap);
         }
     }
-    public  Bitmap getBitmapFromMemCache(String key) {
+
+    public Bitmap getBitmapFromMemCache(String key) {
         return FirstscreenActivity.mMemoryCache.get(key);
     }
 }

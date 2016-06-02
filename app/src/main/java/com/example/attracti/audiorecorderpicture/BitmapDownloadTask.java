@@ -12,13 +12,12 @@ import static com.example.attracti.audiorecorderpicture.MyAdapter.decodeSampledB
 
 /**
  * Created by Iryna on 6/2/16.
- *
+ * <p/>
  * In this class is going the process of the downloading bitmaps for the BitmapFragment
- *
  */
 class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
     private final WeakReference<ImageView> viewHolderWeakReference;
-    private String data=null;
+    private String data = null;
     private static int position;
 
     static Bitmap tempBitmapTest;
@@ -35,7 +34,7 @@ class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
         data = String.valueOf(params[0]);
         Log.wtf("Params: ", params[0]);
         final Bitmap bitmap = decodeSampledBitmapFromResource(data, 100, 100);
- //       addBitmapToMemoryCache(String.valueOf(params[0]), bitmap);
+        //       addBitmapToMemoryCache(String.valueOf(params[0]), bitmap);
         //-----Test
 
 //        tempBitmapTest = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.RGB_565);
@@ -60,13 +59,13 @@ class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
     protected void onPostExecute(Bitmap bitmap) {
         Log.i("onPostExecute", "works!");
         if (viewHolderWeakReference != null && bitmap != null) {
-            final ImageView imageView= viewHolderWeakReference.get();
-            if (imageView != null){
+            final ImageView imageView = viewHolderWeakReference.get();
+            if (imageView != null) {
                 imageView.setImageBitmap(bitmap);
-               // imageView.setImageDrawable(new BitmapDrawable(BitmapWorkerTaskView.tempBitmapTest));
-               // Paint myPaint4 = new Paint();
-               // Log.i("Events X in Async: ", MyAdapter2.x + " Y in Async: " + MyAdapter2.y);
-             //   imageView.invalidate();
+                // imageView.setImageDrawable(new BitmapDrawable(BitmapWorkerTaskView.tempBitmapTest));
+                // Paint myPaint4 = new Paint();
+                // Log.i("Events X in Async: ", MyAdapter2.x + " Y in Async: " + MyAdapter2.y);
+                //   imageView.invalidate();
             }
         }
     }

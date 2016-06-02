@@ -20,10 +20,9 @@ import java.util.HashMap;
 
 /**
  * Created by Iryna on 6/1/16.
- *
+ * <p/>
  * in this class pictures are displayed from a certain project with labels and here user can listen the audio record
  * both from labels and in the order in which it was displayed.
- *
  */
 
 
@@ -36,10 +35,10 @@ public class ViewActivity extends FragmentActivity {
     private PagerAdapter mPagerAdapter;
     ImageView imageView;
 
-    File [] array;
+    File[] array;
     public static HashMap<Integer, BitmapWorkerTaskView> TASKS_MAP = new HashMap<>();
 
-    ArrayList <Drawable> bitmapList =new ArrayList();
+    ArrayList<Drawable> bitmapList = new ArrayList();
 
 
     public void getFromSdcardFolders() {
@@ -101,9 +100,9 @@ public class ViewActivity extends FragmentActivity {
         getFromSdcardFolders();
 
         Intent intent = getIntent();
-        array = (File []) intent.getSerializableExtra("FILE_TAG");
+        array = (File[]) intent.getSerializableExtra("FILE_TAG");
 
-        for(int i=0; i<array.length; i++){
+        for (int i = 0; i < array.length; i++) {
             Log.wtf("Array elements ", String.valueOf(array[i]));
         }
     }
@@ -118,10 +117,8 @@ public class ViewActivity extends FragmentActivity {
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
-        ArrayList<Fragment> fragments =  new ArrayList<>();
+        ArrayList<Fragment> fragments = new ArrayList<>();
         File[] array;
-
-
 
 
         public ScreenSlidePagerAdapter(FragmentManager fm) {
@@ -131,16 +128,16 @@ public class ViewActivity extends FragmentActivity {
         @Override
         public Fragment getItem(int position) {
             Intent intent = getIntent();
-            array = (File []) intent.getSerializableExtra("FILE_TAG");
+            array = (File[]) intent.getSerializableExtra("FILE_TAG");
 
-           return BitmapFragment.create(array[position].getPath());
+            return BitmapFragment.create(array[position].getPath());
         }
 
         @Override
         public int getCount() {
             Intent intent = getIntent();
-            array = (File []) intent.getSerializableExtra("FILE_TAG");
-           return array.length;
+            array = (File[]) intent.getSerializableExtra("FILE_TAG");
+            return array.length;
         }
     }
 }

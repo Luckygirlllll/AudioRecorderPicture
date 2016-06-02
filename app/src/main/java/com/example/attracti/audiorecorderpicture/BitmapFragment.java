@@ -11,9 +11,8 @@ import android.widget.ImageView;
 
 /**
  * Created by Iryna on 6/2/16.
- *
+ * <p/>
  * this Fragment responsible for the showing of the picture of the certain project
- *
  */
 
 

@@ -52,7 +52,7 @@ public class AudioRecord extends AppCompatActivity {
 
     static ArrayList<String> bitmapppaths = new ArrayList();
 
-    int firstslide =0;
+    int firstslide = 0;
 
     private static final int NUM_PAGES = 2;
 
@@ -153,8 +153,8 @@ public class AudioRecord extends AppCompatActivity {
         fragmentTransaction.add(R.id.camera_frame2, cameraActivity);
         fragmentTransaction.commit();
         //takePictureListener = cameraActivity;
-       // savePictureListener = cameraActivity;
-       // receivePictureListener = cameraActivity;
+        // savePictureListener = cameraActivity;
+        // receivePictureListener = cameraActivity;
     }
 
 //------Camera features
@@ -352,8 +352,7 @@ public class AudioRecord extends AppCompatActivity {
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         if (!CameraFragment.mAudioDirectory.exists() && !CameraFragment.mAudioDirectory.mkdirs()) {
             CameraFragment.mAudioDirectory = null;
-        }
-        else {
+        } else {
             mRecorder.setOutputFile(mFileName);
         }
 
@@ -366,6 +365,7 @@ public class AudioRecord extends AppCompatActivity {
         }
         mRecorder.start();
     }
+
     private void stopRecording() {
         mRecorder.stop();
         mRecorder.release();
@@ -373,10 +373,10 @@ public class AudioRecord extends AppCompatActivity {
     }
 
     public static void setArrayBitmap(ArrayList<String> list) {
-        bitmapppaths=list;
+        bitmapppaths = list;
     }
 
-    public static ArrayList<String> getArratBitmap(){
+    public static ArrayList<String> getArratBitmap() {
         return bitmapppaths;
     }
 
@@ -457,7 +457,7 @@ public class AudioRecord extends AppCompatActivity {
         labelButton = new LabelButton(this);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.weight = 1;
-        if (linearLayout!=null) {
+        if (linearLayout != null) {
             linearLayout.addView(recordButton, params);
             linearLayout.addView(playButton, params);
             linearLayout.addView(labelButton, params);
@@ -503,11 +503,11 @@ public class AudioRecord extends AppCompatActivity {
     }
 
     public AudioRecord() {
-        mFileName =CameraFragment.mAudioFolder+"/"+FirstscreenActivity.mCurrentProject+".3gp";
+        mFileName = CameraFragment.mAudioFolder + "/" + FirstscreenActivity.mCurrentProject + ".3gp";
     }
 
 
-    static int clicked =0;
+    static int clicked = 0;
 
 
     private OnClickListener mCaptureImageButtonClickListener = new OnClickListener() {
@@ -515,65 +515,62 @@ public class AudioRecord extends AppCompatActivity {
         public void onClick(View v) {
             Log.wtf("bitmap", "First listener");
 
-                mCaptureImageButton.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (firstslide==0) {
-                            firstslide++;
-                            if (fragment!=null) {
-                                fragment.takePicture();
-                                if (clicked==0){
-                                    clicked++;
-                                }
-                                else {
+            mCaptureImageButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (firstslide == 0) {
+                        firstslide++;
+                        if (fragment != null) {
+                            fragment.takePicture();
+                            if (clicked == 0) {
+                                clicked++;
+                            } else {
 
-                                   timePictureChange = System.currentTimeMillis();
-                                    long sBody;
-                                    sBody = timePictureChange-startTimeAudio;
-                                    FileWriter writer = null;
-                                    if (!CameraFragment.mLabelsDirectory.exists() && !CameraFragment.mLabelsDirectory.mkdirs()) {
-                                        CameraFragment.mLabelsDirectory = null;
-                                    } else {
-                                        FileWriter writer2 = null;
-                                        try {
-                                            if(MyAdapter2.labelFile==null){
-                                                String labelFileName = FirstscreenActivity.mCurrentProject + ".txt";
-                                                MyAdapter2.labelFile = new File(CameraFragment.mLabelsDirectory, labelFileName);
-                                                writer2 = new FileWriter(MyAdapter2.labelFile, true);
-                                            }
-                                            else {
-                                                writer2 = new FileWriter(MyAdapter2.labelFile, true);
-                                            }
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
+                                timePictureChange = System.currentTimeMillis();
+                                long sBody;
+                                sBody = timePictureChange - startTimeAudio;
+                                FileWriter writer = null;
+                                if (!CameraFragment.mLabelsDirectory.exists() && !CameraFragment.mLabelsDirectory.mkdirs()) {
+                                    CameraFragment.mLabelsDirectory = null;
+                                } else {
+                                    FileWriter writer2 = null;
+                                    try {
+                                        if (MyAdapter2.labelFile == null) {
+                                            String labelFileName = FirstscreenActivity.mCurrentProject + ".txt";
+                                            MyAdapter2.labelFile = new File(CameraFragment.mLabelsDirectory, labelFileName);
+                                            writer2 = new FileWriter(MyAdapter2.labelFile, true);
+                                        } else {
+                                            writer2 = new FileWriter(MyAdapter2.labelFile, true);
                                         }
-                                        try {
-                                            writer2.append(MyAdapter2.position + 1 + "\n" + sBody + "\n" + 0 + "\n" + 0 + "\n");
-                                            writer2.flush();
-                                            writer2.close();
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                    try {
+                                        writer2.append(MyAdapter2.position + 1 + "\n" + sBody + "\n" + 0 + "\n" + 0 + "\n");
+                                        writer2.flush();
+                                        writer2.close();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
                                     }
                                 }
-
                             }
-                            mPager.setCurrentItem(mPager.getCurrentItem() + 1);
-                            if (CameraFragment.bitmappaths!=null) {
-                                updateCallback.update(CameraFragment.bitmappaths.size());
-                                for (int i = 0; i < CameraFragment.bitmappaths.size(); i++) {
-                                    Log.i("BITMAPPATHS", (String) CameraFragment.bitmappaths.get(i));
-                                }
+
+                        }
+                        mPager.setCurrentItem(mPager.getCurrentItem() + 1);
+                        if (CameraFragment.bitmappaths != null) {
+                            updateCallback.update(CameraFragment.bitmappaths.size());
+                            for (int i = 0; i < CameraFragment.bitmappaths.size(); i++) {
+                                Log.i("BITMAPPATHS", (String) CameraFragment.bitmappaths.get(i));
                             }
                         }
-                        else{
-                            mPager.setCurrentItem(mPager.getCurrentItem() - 1);
-                            firstslide--;
-                        }
-
+                    } else {
+                        mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+                        firstslide--;
                     }
-                });
-            }
+
+                }
+            });
+        }
     };
 
     boolean mStartRecording = true;
@@ -1033,7 +1030,8 @@ public class AudioRecord extends AppCompatActivity {
     }
 
     private UpdateRecyckerView updateCallback;
-    public interface UpdateRecyckerView{
+
+    public interface UpdateRecyckerView {
         void update(int position);
     }
 }

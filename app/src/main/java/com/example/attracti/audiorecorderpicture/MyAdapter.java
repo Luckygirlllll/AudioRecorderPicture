@@ -15,8 +15,8 @@ import java.util.ArrayList;
 
 /**
  * Created by attracti on 5/23/16.
- *
- *  adapter for the RecyclerView on the first screen of the project
+ * <p/>
+ * adapter for the RecyclerView on the first screen of the project
  */
 
 
@@ -25,7 +25,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public final Activity context;
 
     public final ArrayList<Folder> FOLDERS;
-   // Activity MainActivity = new MainActivity();
+    // Activity MainActivity = new MainActivity();
 
     View view;
 
@@ -93,7 +93,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             imageView.setImageBitmap(bitmap);
         } else {
             // imageView.setImageResource(R.drawable.image_placeholder);
-            BitmapWorkerTask task = new BitmapWorkerTask(imageView,position);
+            BitmapWorkerTask task = new BitmapWorkerTask(imageView, position);
             task.execute(path);
         }
     }
@@ -151,7 +151,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.image5.setImageResource(R.drawable.placeholder);
 
 
-
 //        holder.image1.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -172,48 +171,43 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         for (int i = 0; i < 5; i++) {
             switch (i) {
                 case 0:
-                    if (imgs.size()>i && imgs.size()!=0) {
+                    if (imgs.size() > i && imgs.size() != 0) {
                         loadBitmap(imgs.get(i), holder.image1, position);
-                    }
-                    else{
+                    } else {
                         holder.image1.setImageBitmap(null);
-                       // holder.image1.setImageResource(R.drawable.placeholder);
+                        // holder.image1.setImageResource(R.drawable.placeholder);
                     }
                     break;
                 case 1:
-                    if (imgs.size()>i && imgs.size()!=0 ) {
+                    if (imgs.size() > i && imgs.size() != 0) {
                         loadBitmap(imgs.get(i), holder.image2, position);
-                    }
-                    else{
+                    } else {
                         holder.image2.setImageBitmap(null);
-                       // holder.image2.setImageResource(R.drawable.placeholder);
+                        // holder.image2.setImageResource(R.drawable.placeholder);
                     }
                     break;
                 case 2:
-                    if (imgs.size()>i && imgs.size()!=0) {
-                        loadBitmap(imgs.get(i), holder.image3,position);
-                    }
-                    else{
+                    if (imgs.size() > i && imgs.size() != 0) {
+                        loadBitmap(imgs.get(i), holder.image3, position);
+                    } else {
                         holder.image3.setImageBitmap(null);
-                       // holder.image3.setImageResource(R.drawable.placeholder);
+                        // holder.image3.setImageResource(R.drawable.placeholder);
                     }
                     break;
                 case 3:
-                    if (imgs.size()>i && imgs.size()!=0) {
+                    if (imgs.size() > i && imgs.size() != 0) {
                         loadBitmap(imgs.get(i), holder.image4, position);
-                    }
-                    else{
+                    } else {
                         holder.image4.setImageBitmap(null);
-                       // holder.image4.setImageResource(R.drawable.placeholder);
+                        // holder.image4.setImageResource(R.drawable.placeholder);
                     }
                     break;
                 case 4:
-                    if (imgs.size()>i && imgs.size()!=0) {
+                    if (imgs.size() > i && imgs.size() != 0) {
                         loadBitmap(imgs.get(i), holder.image5, position);
-                    }
-                    else{
+                    } else {
                         holder.image5.setImageBitmap(null);
-                       // holder.image5.setImageResource(R.drawable.placeholder);
+                        // holder.image5.setImageResource(R.drawable.placeholder);
                     }
                     break;
             }
@@ -223,7 +217,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         view.setTag(holder);
     }
 
-    public  Bitmap getBitmapFromMemCache(String key) {
+    public Bitmap getBitmapFromMemCache(String key) {
         return com.example.attracti.audiorecorderpicture.FirstscreenActivity.mMemoryCache.get(key);
 
     }
