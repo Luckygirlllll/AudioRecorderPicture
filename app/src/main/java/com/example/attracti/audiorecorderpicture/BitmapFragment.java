@@ -15,6 +15,8 @@ import android.widget.ImageView;
  * this Fragment responsible for the showing of the picture of the certain project
  *
  */
+
+
 public class BitmapFragment extends Fragment {
 
     public static String BITMAP_TAG = "BITMAP_TAG";
