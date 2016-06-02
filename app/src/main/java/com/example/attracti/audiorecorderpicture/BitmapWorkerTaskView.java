@@ -10,6 +10,7 @@ package com.example.attracti.audiorecorderpicture;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
@@ -48,12 +49,14 @@ class BitmapWorkerTaskView extends AsyncTask<String, Void, Bitmap> {
         tempCanvas = new Canvas(tempBitmapTest);
         tempCanvas.drawBitmap(bitmap, 0, 0, null);
         Paint myPaint3 = new Paint();
+        myPaint3.setColor(Color.RED);
 
         Set<Integer> uniquePositions = new HashSet<>(MyAdapter2.positionList);
 
         for(int i=0; i<AdapterViewProject.filePosition.size();i++ )
         if (position == Integer.parseInt((String) AdapterViewProject.filePosition.get(i))) {
-                tempCanvas.drawCircle(Float.parseFloat((String) AdapterViewProject.xfile.get(i))/2, Float.parseFloat((String) AdapterViewProject.yfile.get(i))/2, 20, myPaint3);
+                Log.i("FilePosition: ", String.valueOf(Integer.parseInt((String) AdapterViewProject.filePosition.get(i))));
+                tempCanvas.drawCircle(Float.parseFloat((String) AdapterViewProject.xfile.get(i)) / 2, Float.parseFloat((String) AdapterViewProject.yfile.get(i)) / 2, 20, myPaint3);
                 Log.i("Events X in Async: ", AdapterViewProject.xfile.get(i) + " Y in Async: " + MyAdapter2.y);
             }
             tempCanvas.save();

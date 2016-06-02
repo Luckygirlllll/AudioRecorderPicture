@@ -225,6 +225,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     public  Bitmap getBitmapFromMemCache(String key) {
         return com.example.attracti.audiorecorderpicture.FirstscreenActivity.mMemoryCache.get(key);
+
     }
 }
 

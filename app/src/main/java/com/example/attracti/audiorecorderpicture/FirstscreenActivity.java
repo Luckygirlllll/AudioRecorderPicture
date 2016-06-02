@@ -48,7 +48,7 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
 
     public void getFromSdcardFolders() {
         File file = new File(Environment.getExternalStorageDirectory() +
-                "/Audio_Recorder_Picture", "Pictures");
+                "/Audio_Recorder_Picture", "Previews");
         if (file.isDirectory()) {
             listFolders = file.listFiles();
             for (int i = 0; i < listFolders.length; i++) {
@@ -58,7 +58,7 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
                 Log.i("List of FOLDERS: ", String.valueOf(listFolders[i].getName()));
 
                 File picturelist = new File(Environment.getExternalStorageDirectory() +
-                        "/Audio_Recorder_Picture/Pictures", listFolders[i].getName());
+                        "/Audio_Recorder_Picture/Previews", listFolders[i].getName());
                 if (picturelist.isDirectory()) {
                     listFile = picturelist.listFiles();
                     for (int j = 0; j < listFile.length; j++) {

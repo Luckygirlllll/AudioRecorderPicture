@@ -14,6 +14,7 @@ import android.graphics.Rect;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
 import android.media.MediaPlayer;
+import android.media.ThumbnailUtils;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
@@ -36,6 +37,7 @@ import android.widget.Toast;
 import android.widget.ZoomControls;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -121,6 +123,7 @@ public class CameraFragment extends Fragment
     public static String mPictureFolder=mDiretoryName+"/Pictures";
     public static String mLabelsFolder=mDiretoryName+"/Labels";
     public static String mPreviewsFolder=mDiretoryName+"/Previews";
+    public static File mPreviewDirectory = new File(mPreviewsFolder+"/"+FirstscreenActivity.mCurrentProject);
     public static File mPictureDirectory = new File(mPictureFolder+"/"+FirstscreenActivity.mCurrentProject);
     public static File mAudioDirectory = new File(mAudioFolder);
     public static File mLabelsDirectory = new File(mLabelsFolder);
@@ -414,11 +417,41 @@ public class CameraFragment extends Fragment
 
                     mCameraData = data;
 
+                    // --- test
+
+                    Bitmap picture = BitmapFactory.decodeByteArray(mCameraData, 0, mCameraData.length);
+                    Bitmap resized = ThumbnailUtils.extractThumbnail(picture, 60, 60);
+
+                    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                    resized.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_mm_dd_hh_mm_ss",
+                            Locale.getDefault());
+
+                    if (!mPreviewDirectory.exists() && !mPreviewDirectory.mkdirs()) {
+                        mPreviewDirectory = null;
+                    } else {
+
+                    }
+                    File previewFile = new File(
+                            mPreviewDirectory.getPath() +
+                                    File.separator + "preview_" +
+                                    dateFormat.format(new Date()) + ".jpg");
+
+                    try {
+                        previewFile.createNewFile();
+                        FileOutputStream fo = new FileOutputStream(previewFile);
+                        fo.write(bytes.toByteArray());
+                        fo.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
                     if (!mPictureDirectory.exists() && !mPictureDirectory.mkdirs()) {
                        mPictureDirectory = null;
                     } else {
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_mm_dd_hh_mm_ss",
-                                Locale.getDefault());
+
                         File file = new File(
                                 mPictureDirectory.getPath() +
                                         File.separator + "image_" +
