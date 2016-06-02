@@ -3,8 +3,7 @@ package com.example.attracti.audiorecorderpicture;
 /**
  * Created by attracti on 5/23/16.
  *
- * In this class going the process of downloading bitmaps in AsyncTask for the viewing of a
- * certain project pictures
+ * You can delete this class after all code for the ViewActivity will be written
  *
  */
 

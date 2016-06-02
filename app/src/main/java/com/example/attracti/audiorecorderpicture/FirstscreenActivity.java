@@ -94,7 +94,7 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
         Log.wtf("TAG", "Folders size!!:" + FOLDERS.size());
         mAdapter = new MyAdapter(this, FOLDERS);
         list.setAdapter(mAdapter);
-       // mAdapter.notifyDataSetChanged();
+        mAdapter.notifyDataSetChanged();
 
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
 

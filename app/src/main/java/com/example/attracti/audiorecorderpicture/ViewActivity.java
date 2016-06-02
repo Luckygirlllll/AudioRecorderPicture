@@ -1,15 +1,22 @@
 package com.example.attracti.audiorecorderpicture;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.widget.ImageView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Iryna on 6/1/16.
@@ -20,10 +27,19 @@ import java.util.ArrayList;
  */
 
 
-public class ViewActivity extends AppCompatActivity {
+public class ViewActivity extends FragmentActivity {
 
-    private LinearLayoutManager mLayoutManager;
+
     public static ArrayList<Folder> FOLDERS = new ArrayList<>();
+
+    private ViewPager mPager;
+    private PagerAdapter mPagerAdapter;
+    ImageView imageView;
+
+    File [] array;
+    public static HashMap<Integer, BitmapWorkerTaskView> TASKS_MAP = new HashMap<>();
+
+    ArrayList <Drawable> bitmapList =new ArrayList();
 
 
     public void getFromSdcardFolders() {
@@ -52,30 +68,81 @@ public class ViewActivity extends AppCompatActivity {
         }
     }
 
+    public void loadBitmap(int position, File path, ImageView imageView) {
+        final String imageKey = String.valueOf(path);
+        Log.wtf("Image Key: ", String.valueOf(imageKey));
+        Log.wtf("Image position: ", String.valueOf(position));
+
+        // final Bitmap bitmap = MyAdapter2.getBitmapFromMemCache(imageKey);
+        final Bitmap bitmap = null;
+        if (bitmap != null) {
+            imageView.setImageBitmap(bitmap);
+        } else {
+
+            BitmapWorkerTaskView task = new BitmapWorkerTaskView(imageView, position);
+            task.execute(imageKey);
+
+            TASKS_MAP.put(position, task);
+        }
+    }
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.view_activity);
+        setContentView(R.layout.activity_screen_slide);
+        mPager = (ViewPager) findViewById(R.id.pager);
+        imageView = (ImageView) findViewById(R.id.imageView);
+        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        mPager.setAdapter(mPagerAdapter);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
         FirstscreenActivity.listFile[0].getAbsolutePath();
 
         getFromSdcardFolders();
+
         Intent intent = getIntent();
-        File [] array = (File []) intent.getSerializableExtra("FILE_TAG");
-
-        AdapterViewProject viewAdapter = new AdapterViewProject(this, array );
-        recyclerView.setAdapter(viewAdapter);
-        recyclerView.setHasFixedSize(true);
-
-        mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(mLayoutManager);
+        array = (File []) intent.getSerializableExtra("FILE_TAG");
 
         for(int i=0; i<array.length; i++){
             Log.wtf("Array elements ", String.valueOf(array[i]));
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mPager.getCurrentItem() == 0) {
+            super.onBackPressed();
+        } else {
+            mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+        }
+    }
+
+    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+        ArrayList<Fragment> fragments =  new ArrayList<>();
+        File[] array;
+
+
+
+
+        public ScreenSlidePagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            Intent intent = getIntent();
+            array = (File []) intent.getSerializableExtra("FILE_TAG");
+
+           return BitmapFragment.create(array[position].getPath());
+        }
+
+        @Override
+        public int getCount() {
+            Intent intent = getIntent();
+            array = (File []) intent.getSerializableExtra("FILE_TAG");
+           return array.length;
+        }
+    }
 }
+
+
