@@ -36,7 +36,7 @@ import java.util.Locale;
 /**
  * Created by Iryna on 5/25/16.
  *
- * This is RecyclerView where each item is a picture from the Camera
+ * This is ViewPager where  each item is a picture from the Camera
  */
 
 
