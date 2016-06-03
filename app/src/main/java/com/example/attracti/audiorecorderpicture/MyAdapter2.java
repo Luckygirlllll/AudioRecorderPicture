@@ -120,16 +120,16 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyAdapter2.ViewHolder> {
     public void loadBitmap(int position, String path, ImageView imageView) {
         final String imageKey = String.valueOf(path);
 
-        final Bitmap bitmap = getBitmapFromMemCache(imageKey);
-        if (bitmap != null) {
-            imageView.setImageBitmap(bitmap);
-        } else {
+       // final Bitmap bitmap = getBitmapFromMemCache(imageKey);
+//        if (bitmap != null) {
+//            imageView.setImageBitmap(bitmap);
+//        } else {
 
             BitmapWorkerTask task = new BitmapWorkerTask(imageView, position);
             task.execute(path);
 
             TASKS_MAP.put(position, task);
-        }
+  //      }
     }
 
 
@@ -259,9 +259,10 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyAdapter2.ViewHolder> {
     }
 
 
-    public static Bitmap getBitmapFromMemCache(String key) {
-        return com.example.attracti.audiorecorderpicture.RecyclerViewFragment.mMemoryCache.get(key);
-    }
+//    public static Bitmap getBitmapFromMemCache(String key) {
+//       // return com.example.attracti.audiorecorderpicture.RecyclerViewFragment.mMemoryCache.get(key);
+//
+//    }
 
 
     private class MyGestureDetector extends GestureDetector.SimpleOnGestureListener {

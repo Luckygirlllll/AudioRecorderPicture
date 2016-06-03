@@ -18,7 +18,6 @@ import static com.example.attracti.audiorecorderpicture.MyAdapter.decodeSampledB
 class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
     private final WeakReference<ImageView> viewHolderWeakReference;
     private String data = null;
-    private static int position;
 
     static Bitmap tempBitmapTest;
     Canvas tempCanvas;
@@ -34,6 +33,9 @@ class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
         data = String.valueOf(params[0]);
         Log.wtf("Params: ", params[0]);
         final Bitmap bitmap = decodeSampledBitmapFromResource(data, 100, 100);
+
+
+
         //       addBitmapToMemoryCache(String.valueOf(params[0]), bitmap);
         //-----Test
 

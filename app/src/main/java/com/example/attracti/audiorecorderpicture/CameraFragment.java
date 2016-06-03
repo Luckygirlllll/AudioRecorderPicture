@@ -34,7 +34,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-import android.widget.ZoomControls;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -74,15 +73,12 @@ public class CameraFragment extends Fragment
     private static byte[] mCameraData;
     private boolean mIsCapturing;
 
-    static int currentZoomLevel;
-    ZoomControls zoomControls;
-
     public static Bitmap mCameraBitmap;
     private ImageView mCameraImageView;
 
-    //    Canvas tempCanvas;
-//    Bitmap tempBitmap;
-//    Paint myPaint;
+    //Canvas tempCanvas;
+    //Bitmap tempBitmap;
+    //Paint myPaint;
     public static Bitmap bitmap;
 
     private View view;
@@ -92,7 +88,6 @@ public class CameraFragment extends Fragment
     static File gpxfile;
 
     static String[] filetime2 = new String[100];
-
     static ArrayList filetime3 = new ArrayList();
 
     static ArrayList xcoordin = new ArrayList();
@@ -117,6 +112,7 @@ public class CameraFragment extends Fragment
 
     public static ArrayList<String> bitmappaths = new ArrayList<>();
 
+
     //structure of the project's folders
     public static String mDiretoryName = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Audio_Recorder_Picture";
     public static String mAudioFolder = mDiretoryName + "/Audios";
@@ -128,7 +124,8 @@ public class CameraFragment extends Fragment
     public static File mAudioDirectory = new File(mAudioFolder);
     public static File mLabelsDirectory = new File(mLabelsFolder);
 
-    // static long
+    // array of the files of the pictures which have been taken in the current project
+    public static ArrayList <File> arrayFilepaths=new ArrayList<>();
 
     private OnClickListener mSaveImageButtonClickListener = new OnClickListener() {
         @Override
@@ -207,8 +204,6 @@ public class CameraFragment extends Fragment
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
 
-//        zoomControls = (ZoomControls) view.findViewById(R.id.cameraZoom);
-
         mIsCapturing = true;
 
         if (mCamera == null) {
@@ -228,8 +223,6 @@ public class CameraFragment extends Fragment
                 Log.i("Unable to open camera", "Unable to open camera");
             }
         }
-        //  zoom();
-
 
         return view;
     }
@@ -416,8 +409,6 @@ public class CameraFragment extends Fragment
 
                     mCameraData = data;
 
-                    // --- test
-
                     Bitmap picture = BitmapFactory.decodeByteArray(mCameraData, 0, mCameraData.length);
                     Bitmap resized = ThumbnailUtils.extractThumbnail(picture, 60, 60);
 
@@ -455,6 +446,17 @@ public class CameraFragment extends Fragment
                                 mPictureDirectory.getPath() +
                                         File.separator + "image_" +
                                         dateFormat.format(new Date()) + ".png");
+
+
+                        arrayFilepaths.add(file);
+
+
+                        Log.i("Array", "size 3: " + String.valueOf(arrayFilepaths.size()));
+
+                        for (int i=0; i<arrayFilepaths.size(); i++){
+                            Log.i("Array filepaths", String.valueOf(arrayFilepaths.get(i)));
+                        }
+
                         String filepath = file.getPath();
 
                         bitmappaths.add(filepath);
@@ -522,43 +524,6 @@ public class CameraFragment extends Fragment
         mCaptureImageButton.setOnClickListener(mRecaptureImageButtonClickListener);
     }
 
-    public void zoom() {
-
-        final Camera.Parameters params = mCamera.getParameters();
-        if (params.isZoomSupported()) {
-            final int maxZoomLevel = params.getMaxZoom();
-            Log.i("max ZOOM ", "is " + maxZoomLevel);
-            zoomControls.setIsZoomInEnabled(true);
-            zoomControls.setIsZoomOutEnabled(true);
-
-
-            zoomControls.setIsZoomInEnabled(true);
-            zoomControls.setIsZoomOutEnabled(true);
-
-            zoomControls.setOnZoomInClickListener(new OnClickListener() {
-                public void onClick(View v) {
-                    currentZoomLevel = params.getZoom();
-                    if (currentZoomLevel < maxZoomLevel) {
-                        currentZoomLevel++;
-                        mCamera.startSmoothZoom(currentZoomLevel);
-                        params.setZoom(currentZoomLevel);
-                        mCamera.setParameters(params);
-                    }
-                }
-            });
-
-            zoomControls.setOnZoomOutClickListener(new OnClickListener() {
-                public void onClick(View v) {
-                    if (currentZoomLevel > 0) {
-                        currentZoomLevel--;
-                        params.setZoom(currentZoomLevel);
-                        mCamera.setParameters(params);
-                    }
-                }
-            });
-        } else
-            zoomControls.setVisibility(View.GONE);
-    }
 
     public void savePicture() {
         File saveFile = openFileForImage();
@@ -571,17 +536,9 @@ public class CameraFragment extends Fragment
         }
     }
 
-    //   boolean x = true;
-    public void takePicture() {
-        //       if (x){
 
+    public void takePicture() {
         captureImage();
-        //         x = !x;
-        //     } else {
-        //         x = !x;
-        //         setupImageCapture();
-//            mCameraImage.setImageBitmap(bitmap);
-        //      }
     }
 
     @Override

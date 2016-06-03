@@ -147,6 +147,13 @@ public class AudioRecord extends AppCompatActivity {
 
     static long timePictureChange;
 
+    ViewFragment viewFragment;
+
+    private static final String TAG = AudioRecord.class.getSimpleName();
+    ;
+
+    public static ArrayList<File> arrayFilepaths = new ArrayList<>();
+
     private void initHeaderFragmet() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         CameraFragment cameraActivity = new CameraFragment();
@@ -507,8 +514,7 @@ public class AudioRecord extends AppCompatActivity {
     }
 
 
-    static int clicked = 0;
-
+    int clicked = 0;
 
     private OnClickListener mCaptureImageButtonClickListener = new OnClickListener() {
         @Override
@@ -522,47 +528,47 @@ public class AudioRecord extends AppCompatActivity {
                         firstslide++;
                         if (fragment != null) {
                             fragment.takePicture();
-                            if (clicked == 0) {
-                                clicked++;
-                            } else {
 
-                                timePictureChange = System.currentTimeMillis();
-                                long sBody;
-                                sBody = timePictureChange - startTimeAudio;
-                                FileWriter writer = null;
-                                if (!CameraFragment.mLabelsDirectory.exists() && !CameraFragment.mLabelsDirectory.mkdirs()) {
-                                    CameraFragment.mLabelsDirectory = null;
-                                } else {
-                                    FileWriter writer2 = null;
-                                    try {
-                                        if (MyAdapter2.labelFile == null) {
-                                            String labelFileName = FirstscreenActivity.mCurrentProject + ".txt";
-                                            MyAdapter2.labelFile = new File(CameraFragment.mLabelsDirectory, labelFileName);
-                                            writer2 = new FileWriter(MyAdapter2.labelFile, true);
-                                        } else {
-                                            writer2 = new FileWriter(MyAdapter2.labelFile, true);
-                                        }
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
+                        } else {
+
+                            timePictureChange = System.currentTimeMillis();
+                            long sBody;
+                            sBody = timePictureChange - startTimeAudio;
+                            FileWriter writer = null;
+                            if (!CameraFragment.mLabelsDirectory.exists() && !CameraFragment.mLabelsDirectory.mkdirs()) {
+                                CameraFragment.mLabelsDirectory = null;
+                            } else {
+                                FileWriter writer2 = null;
+                                try {
+                                    if (MyAdapter2.labelFile == null) {
+                                        String labelFileName = FirstscreenActivity.mCurrentProject + ".txt";
+                                        MyAdapter2.labelFile = new File(CameraFragment.mLabelsDirectory, labelFileName);
+                                        writer2 = new FileWriter(MyAdapter2.labelFile, true);
+                                    } else {
+                                        writer2 = new FileWriter(MyAdapter2.labelFile, true);
                                     }
-                                    try {
-                                        writer2.append(MyAdapter2.position + 1 + "\n" + sBody + "\n" + 0 + "\n" + 0 + "\n");
-                                        writer2.flush();
-                                        writer2.close();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                try {
+                                    writer2.append(MyAdapter2.position + 1 + "\n" + sBody + "\n" + 0 + "\n" + 0 + "\n");
+                                    writer2.flush();
+                                    writer2.close();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
                                 }
                             }
+                        }
 
+
+                        if (viewFragment != null) {
+                            viewFragment.updateViewpager(CameraFragment.arrayFilepaths);
+                            Log.i("Array 1 ", String.valueOf("viewFragment: " + viewFragment == null));
                         }
+                        Log.i("Array 2", String.valueOf("viewFragment: " + viewFragment == null));
+
                         mPager.setCurrentItem(mPager.getCurrentItem() + 1);
-                        if (CameraFragment.bitmappaths != null) {
-                            updateCallback.update(CameraFragment.bitmappaths.size());
-                            for (int i = 0; i < CameraFragment.bitmappaths.size(); i++) {
-                                Log.i("BITMAPPATHS", (String) CameraFragment.bitmappaths.get(i));
-                            }
-                        }
+
                     } else {
                         mPager.setCurrentItem(mPager.getCurrentItem() - 1);
                         firstslide--;
@@ -572,6 +578,7 @@ public class AudioRecord extends AppCompatActivity {
             });
         }
     };
+
 
     boolean mStartRecording = true;
     private OnClickListener recordButtonListener = new OnClickListener() {
@@ -838,6 +845,8 @@ public class AudioRecord extends AppCompatActivity {
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         0));
+
+
     }
 
     @Override
@@ -1014,9 +1023,9 @@ public class AudioRecord extends AppCompatActivity {
                     return fragment;
 //
                 case 1:
-                    RecyclerViewFragment recyclerViewFragment = new RecyclerViewFragment();
-                    updateCallback = recyclerViewFragment;
-                    return recyclerViewFragment;
+                    viewFragment = new ViewFragment();
+                    updateCallback = viewFragment;
+                    return viewFragment;
                 default:
                     break;
             }
