@@ -437,7 +437,6 @@ public class CameraFragment extends Fragment
                         e.printStackTrace();
                     }
 
-
                     if (!mPictureDirectory.exists() && !mPictureDirectory.mkdirs()) {
                         mPictureDirectory = null;
                     } else {
@@ -460,8 +459,13 @@ public class CameraFragment extends Fragment
                         String filepath = file.getPath();
 
                         bitmappaths.add(filepath);
-                        for (int i = 0; i < bitmappaths.size(); i++) {
-                            Log.i("BITMAPTH", "in the fragment" + bitmappaths.get(i));
+                        String []paths = new String[bitmappaths.size()];
+                        bitmappaths.toArray(paths);
+
+
+
+                        for (int j = 0; j < bitmappaths.size(); j++) {
+                            Log.i("BITMAPTH", "in the fragment" + bitmappaths.get(j));
                         }
                         Log.i("BITMAPTH", String.valueOf(bitmappaths.size()));
                         AudioRecord.setArrayBitmap(bitmappaths);
