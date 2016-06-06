@@ -57,6 +57,14 @@ public class CameraFragment extends Fragment
         implements SurfaceHolder.Callback, AudioRecord.TakePictureListener, AudioRecord.SavePictureListener,
         AudioRecord.ReceivePictureListener {
 
+    OnHeadlineSelectedListener mCallback;
+
+    public void setCallback(OnHeadlineSelectedListener callback){
+        mCallback = callback;
+    }
+
+
+
     private String TAG = CameraFragment.class.getSimpleName();
     private Context context;
     private AppCompatActivity activity;
@@ -127,6 +135,8 @@ public class CameraFragment extends Fragment
     // array of the files of the pictures which have been taken in the current project
     public static ArrayList <File> arrayFilepaths=new ArrayList<>();
 
+
+
     private OnClickListener mSaveImageButtonClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -175,6 +185,14 @@ public class CameraFragment extends Fragment
         super.onAttach(context);
         this.context = context;
         this.activity = (AppCompatActivity) context;
+
+        try {
+//            mCallback = (OnHeadlineSelectedListener) activity;
+//            mCallback = (OnHeadlineSelectedListener) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
     }
 
     public void setActivityContext(AudioRecord activity) {
@@ -448,7 +466,7 @@ public class CameraFragment extends Fragment
 
 
                         arrayFilepaths.add(file);
-
+                        mCallback.onArticleSelected(arrayFilepaths);
 
                         Log.i("Array", "size 3: " + String.valueOf(arrayFilepaths.size()));
 

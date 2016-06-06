@@ -62,6 +62,8 @@ public class ViewFragment extends Fragment implements AudioRecord.UpdateRecycker
     private String TAG = CameraFragment.class.getSimpleName();
     public static File [] arrayList;
 
+    ArrayList <File> ArrayFilepaths;
+
 
     //---- Canvas
     Canvas tempCanvas;
@@ -140,7 +142,7 @@ public class ViewFragment extends Fragment implements AudioRecord.UpdateRecycker
     }
 
     public void updateViewpager(ArrayList<File> arrayFileList){
-        mPagerAdapter.update(arrayFileList);
+      //  mPagerAdapter.update(arrayFileList);
 
     }
 
@@ -292,92 +294,35 @@ public class ViewFragment extends Fragment implements AudioRecord.UpdateRecycker
                 tempCanvas.restore();
                 //    view.invalidate();
         }
-
-
-
     }
 
-
-  //  @Override
-    public void onBackPressed() {
-        if (mPager.getCurrentItem() == 0) {
-         //   super.onBackPressed();
-        } else {
-            mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+     public void updateArray(ArrayList <File> ArrayFilepaths){
+         this.ArrayFilepaths=ArrayFilepaths;
+         for(int i=0; i<this.ArrayFilepaths.size(); i++){
+             Log.i("Array new ", String.valueOf(ArrayFilepaths.size()));
+         }
+          if(mPagerAdapter!=null) {
+          mPagerAdapter.notifyDataSetChanged();
         }
-    }
+     }
+
 
 
     private class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
-
-     //   ArrayList <File> arrayList =new ArrayList<>();
-
-        private int mCount = CameraFragment.arrayFilepaths.size();
 
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
 
         }
 
-        public void update(ArrayList<File> arrayFileList){
-           // this.arrayList =arrayFileList;
-           // Log.i("Array", "size of the array "+arrayList);
-            mCount =  CameraFragment.arrayFilepaths.size();
-            notifyDataSetChanged();
-        }
-
-
-
         @Override
         public Fragment getItem(int position) {
-
-                for (int i = 0; i < AudioRecord.arrayFilepaths.size(); i++) {
-                    Log.i("Array: ", "in Adapter 1" + String.valueOf(CameraFragment.arrayFilepaths.get(i)));
-                    Log.i("Array: ", "size 1: " + String.valueOf(CameraFragment.arrayFilepaths.size()));
-                }
-
-
-
-            File file =new File(CameraFragment.mPictureDirectory.getPath());
-            File [] arrayFiles =file.listFiles();
-            if (arrayFiles!=null) {
-                for (int i = 0; i < arrayFiles.length; i++) {
-                    Log.i("Array Files getItem", String.valueOf(arrayFiles[i]));
-                }
-            }
-
-                return BitmapFragment.create(CameraFragment.arrayFilepaths.get(position).getPath());
-
+                    return BitmapFragment.create(ArrayFilepaths.get(position).getPath());
         }
-
-
 
         @Override
         public int getCount() {
-
-            File file =new File(CameraFragment.mPictureDirectory.getPath());
-            File [] arrayFiles =file.listFiles();
-            if (arrayFiles!=null) {
-                for (int i = 0; i < arrayFiles.length; i++) {
-                    Log.i("Array Files getCount 2", String.valueOf(arrayFiles[i]));
-                }
-            }
-
-            return mCount;
-          //  return CameraFragment.arrayFilepaths.size();
-//            if (CameraFragment.arrayFilepaths==null) {
-//                return 1;
-//            }
-//                else {
-//                for(int j=0; j< CameraFragment.arrayFilepaths.size(); j++){
-//                    Log.i("Array","in Adapter 2"+ String.valueOf(CameraFragment.arrayFilepaths.get(j)));
-//                    Log.i("Array","size 2: " + String.valueOf(CameraFragment.arrayFilepaths.size()));
-//                }
-//                return CameraFragment.arrayFilepaths.size();
-//
-//                }
-//            }
-
+            return ArrayFilepaths.size();
 
         }
     }

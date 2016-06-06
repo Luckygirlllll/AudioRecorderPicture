@@ -20,7 +20,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -48,7 +47,7 @@ import java.util.Locale;
  * CameraFragment and RecyclerViewFragment
  */
 
-public class AudioRecord extends AppCompatActivity {
+public class AudioRecord extends AppCompatActivity implements OnHeadlineSelectedListener {
 
     static ArrayList<String> bitmapppaths = new ArrayList();
 
@@ -57,7 +56,7 @@ public class AudioRecord extends AppCompatActivity {
     private static final int NUM_PAGES = 2;
 
     private CustomViewPagerH mPager;
-    private PagerAdapter mPagerAdapter;
+    private ScreenSlidePagerAdapter mPagerAdapter;
 
 
     static long startTimeAudio;
@@ -136,7 +135,7 @@ public class AudioRecord extends AppCompatActivity {
     private Button mCaptureImageButton;
     private Button mSaveImageButton;
 
-    CameraFragment fragment = new CameraFragment();
+    CameraFragment fragment;
     static String[] filetime3;
 
     static ArrayList time = new ArrayList();
@@ -149,10 +148,17 @@ public class AudioRecord extends AppCompatActivity {
 
     ViewFragment viewFragment;
 
+
+
+
     private static final String TAG = AudioRecord.class.getSimpleName();
     ;
 
-    public static ArrayList<File> arrayFilepaths = new ArrayList<>();
+
+    public static ArrayList<File> arrayFilepaths2 = new ArrayList<>();
+
+
+
 
     private void initHeaderFragmet() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -387,6 +393,21 @@ public class AudioRecord extends AppCompatActivity {
         return bitmapppaths;
     }
 
+    @Override
+    public void onArticleSelected(ArrayList<File> arrayFilepaths) {
+        this.arrayFilepaths2=arrayFilepaths;
+//        ViewFragment viewFragment = (ViewFragment)
+//                getSupportFragmentManager().findFragmentById(R.id.pager_fragment);
+        if(this.arrayFilepaths2!=null && viewFragment!=null){
+        viewFragment.updateArray(arrayFilepaths2);
+
+        }
+        if ((ViewFragment)mPagerAdapter.getFragment(1)!=null) {
+            ((ViewFragment) mPagerAdapter.getFragment(1)).updateArray(arrayFilepaths);
+            mPagerAdapter.notifyDataSetChanged();
+        }
+    }
+
 
 //    public void readFromFile() {
 //        StringBuilder text = new StringBuilder();
@@ -552,7 +573,7 @@ public class AudioRecord extends AppCompatActivity {
                 }
 
                 if (viewFragment != null) {
-                    viewFragment.updateViewpager(CameraFragment.arrayFilepaths);
+                    viewFragment.updateViewpager(arrayFilepaths2);
                     Log.i("Array 1 ", String.valueOf("viewFragment: " + viewFragment == null));
                 }
                 Log.i("Array 2", String.valueOf("viewFragment: " + viewFragment == null));
@@ -996,6 +1017,7 @@ public class AudioRecord extends AppCompatActivity {
     }
 
     private class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
+        public  ArrayList<Fragment> fragments = new ArrayList<>();
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -1004,13 +1026,17 @@ public class AudioRecord extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    CameraFragment fragment = new CameraFragment();
+                    fragment = new CameraFragment();
                     fragment.setActivityContext(AudioRecord.this);
+                    fragment.setCallback(AudioRecord.this);
+                    fragments.add(fragment);
                     return fragment;
 //
                 case 1:
                     viewFragment = new ViewFragment();
+                    onArticleSelected(arrayFilepaths2);
                     updateCallback = viewFragment;
+                    fragments.add(viewFragment);
                     return viewFragment;
                 default:
                     break;
@@ -1022,6 +1048,13 @@ public class AudioRecord extends AppCompatActivity {
         public int getCount() {
             return NUM_PAGES;
         }
+
+        public Fragment getFragment(int position){
+            if (position<fragments.size()) {
+                return fragments.get(position);
+            }
+            return null;
+        }
     }
 
     private UpdateRecyckerView updateCallback;
@@ -1029,4 +1062,6 @@ public class AudioRecord extends AppCompatActivity {
     public interface UpdateRecyckerView {
         void update(int position);
     }
+
+
 }
