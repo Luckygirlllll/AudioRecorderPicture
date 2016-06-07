@@ -42,7 +42,6 @@ class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
         final Bitmap bitmap = decodeSampledBitmapFromResource(data, 100, 100);
 
         //addBitmapToMemoryCache(String.valueOf(params[0]), bitmap);
-        //-----Test
 
         tempBitmapTest = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.RGB_565);
         tempCanvas = new Canvas(tempBitmapTest);
@@ -51,10 +50,6 @@ class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
         myPaint3.setAntiAlias(true);
         myPaint3.setColor(Color.RED);
 
-//        if(position==0) {
-//            tempCanvas.drawCircle(100, 100, 50, myPaint3);
-//            tempCanvas.save();
-//        }
 
         for (int i = 0; i < ViewActivity.filePosition.size(); i++) {
             Log.i("filePosition size: ", String.valueOf(ViewActivity.filePosition.size()));
@@ -66,7 +61,7 @@ class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
                 tempCanvas.save();
             }
         }
-        //-----Test
+
 //
 //        Set<Integer> uniquePositions = new HashSet<>(MyAdapter2.positionList);
 //
