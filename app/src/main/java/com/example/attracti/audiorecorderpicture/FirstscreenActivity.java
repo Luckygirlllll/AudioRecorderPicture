@@ -90,7 +90,6 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
 
         list.setLayoutManager(mLayoutManager);
 
-        Log.wtf("TAG", "Folders size!!:" + FOLDERS.size());
         mAdapter = new MyAdapter(this, FOLDERS);
         list.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();

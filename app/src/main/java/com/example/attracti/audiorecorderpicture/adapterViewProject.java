@@ -32,7 +32,6 @@ public class AdapterViewProject extends RecyclerView.Adapter<AdapterViewProject.
 
     public static HashMap<Integer, BitmapWorkerTaskView> TASKS_MAP = new HashMap<>();
 
-
     static ArrayList fileTime = new ArrayList();
     static ArrayList xfile = new ArrayList();
     static ArrayList yfile = new ArrayList();

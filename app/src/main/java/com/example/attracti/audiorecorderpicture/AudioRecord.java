@@ -19,7 +19,6 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -44,7 +43,7 @@ import java.util.Locale;
 
 /**
  * This is the class where going the process of audio recording. This activity has two fragments:
- * CameraFragment and RecyclerViewFragment
+ * CameraFragment and ViewFragment (ViewPager)
  */
 
 public class AudioRecord extends AppCompatActivity implements OnHeadlineSelectedListener {
@@ -57,7 +56,6 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
     private CustomViewPagerH mPager;
     private ScreenSlidePagerAdapter mPagerAdapter;
-
 
     static long startTimeAudio;
 
@@ -87,7 +85,6 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
     private static int labeltime;
 
-    TakePictureListener takePictureListener;
     SavePictureListener savePictureListener;
     ReceivePictureListener receivePictureListener;
 
@@ -149,26 +146,9 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
     ViewFragment viewFragment;
 
 
-
-
     private static final String TAG = AudioRecord.class.getSimpleName();
-    ;
-
-
     public static ArrayList<File> arrayFilepaths2 = new ArrayList<>();
 
-
-
-
-    private void initHeaderFragmet() {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        CameraFragment cameraActivity = new CameraFragment();
-        fragmentTransaction.add(R.id.camera_frame2, cameraActivity);
-        fragmentTransaction.commit();
-        //takePictureListener = cameraActivity;
-        // savePictureListener = cameraActivity;
-        // receivePictureListener = cameraActivity;
-    }
 
 //------Camera features
 
@@ -553,30 +533,27 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
                 } else {
                     FileWriter writer2 = null;
                     try {
-                        if (MyAdapter2.labelFile == null) {
+                        if (ViewFragment.labelFile == null) {
                             String labelFileName = FirstscreenActivity.mCurrentProject + ".txt";
-                            MyAdapter2.labelFile = new File(CameraFragment.mLabelsDirectory, labelFileName);
-                            writer2 = new FileWriter(MyAdapter2.labelFile, true);
+                            ViewFragment.labelFile = new File(CameraFragment.mLabelsDirectory, labelFileName);
+                            writer2 = new FileWriter(ViewFragment.labelFile, true);
                         } else {
-                            writer2 = new FileWriter(MyAdapter2.labelFile, true);
+                            writer2 = new FileWriter(ViewFragment.labelFile, true);
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                     try {
-                        writer2.append(MyAdapter2.position + 1 + "\n" + sBody + "\n" + 0 + "\n" + 0 + "\n");
+                        // TODO: 6/6/16 Find out what to do with the 0 label for the first picture
+                        // rewrite MyAdapter2
+
+                        writer2.append(MyAdapter2.position + 0 + "\n" + sBody + "\n" + 0 + "\n" + 0 + "\n");
                         writer2.flush();
                         writer2.close();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
-
-                if (viewFragment != null) {
-                    viewFragment.updateViewpager(arrayFilepaths2);
-                    Log.i("Array 1 ", String.valueOf("viewFragment: " + viewFragment == null));
-                }
-                Log.i("Array 2", String.valueOf("viewFragment: " + viewFragment == null));
 
                 mPager.setCurrentItem(mPager.getCurrentItem() + 1);
 
@@ -1031,11 +1008,10 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
                     fragment.setCallback(AudioRecord.this);
                     fragments.add(fragment);
                     return fragment;
-//
+
                 case 1:
                     viewFragment = new ViewFragment();
                     onArticleSelected(arrayFilepaths2);
-                    updateCallback = viewFragment;
                     fragments.add(viewFragment);
                     return viewFragment;
                 default:
@@ -1056,12 +1032,4 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
             return null;
         }
     }
-
-    private UpdateRecyckerView updateCallback;
-
-    public interface UpdateRecyckerView {
-        void update(int position);
-    }
-
-
 }

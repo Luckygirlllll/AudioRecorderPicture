@@ -4,9 +4,11 @@ import java.io.File;
 import java.util.ArrayList;
 
 /**
- * Created by I on 6/6/16.
+ * Created by Iryna on 6/6/16
+ *
+ *updating of the arrayList by sending data from CameraFragment to AudioRecordActivity
  */
-public interface OnHeadlineSelectedListener {
-    public void onArticleSelected(ArrayList <File> arrayFilepaths);
 
+public interface OnHeadlineSelectedListener {
+    public void onArticleSelected(ArrayList<File> arrayFilepaths);
 }

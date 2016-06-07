@@ -1,5 +1,6 @@
 package com.example.attracti.audiorecorderpicture;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,25 +12,27 @@ import android.widget.ImageView;
 
 /**
  * Created by Iryna on 6/2/16.
- * <p/>
- * this Fragment responsible for the showing of the picture of the certain project
+ *
+ * this Fragment responsible for the showing of the picture which just have been captured (ViewFrgament)
  */
 
 
-public class BitmapFragment extends Fragment {
+public class ChildFragment extends Fragment {
+
+    public Context context;
 
     public static String BITMAP_TAG = "BITMAP_TAG";
+    private static int positionCurrent;
 
     String file = null;
     ImageView imageView;
-    private  int positionCurrent;
+    private static int xCoord;
+    private static int yCoord;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         file = getArguments().getString(BITMAP_TAG);
-        positionCurrent = getArguments().getInt("INT");
-
     }
 
     @Override
@@ -38,11 +41,11 @@ public class BitmapFragment extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.fragment_screen_slide, container, false);
         imageView = (ImageView) rootView.findViewById(R.id.imageView);
-        loadBitmap(file, imageView, positionCurrent);
+        loadBitmap(file, imageView, positionCurrent, xCoord, yCoord);
         return rootView;
     }
 
-    public void loadBitmap(String path, ImageView imageView, int position) {
+    public static void loadBitmap(String path, ImageView imageView, int position, int x, int y) {
         final String imageKey = String.valueOf(path);
         Log.wtf("Image Key: ", String.valueOf(imageKey));
 
@@ -51,18 +54,20 @@ public class BitmapFragment extends Fragment {
             imageView.setImageBitmap(bitmap);
         } else {
 
-            BitmapDownloadTask task = new BitmapDownloadTask(imageView, position);
+            ChildDownloadTask task = new ChildDownloadTask(imageView, position, x, y);
             task.execute(imageKey);
 
         }
     }
 
 
-    public static BitmapFragment create(String file, int position) {
-        BitmapFragment fragment = new BitmapFragment();
+    public static ChildFragment createfragment(Context context, String file, int position, int x, int y) {
+        xCoord=x;
+        yCoord=y;
+        positionCurrent=position;
+        ChildFragment fragment = new ChildFragment();
         Bundle args = new Bundle();
         args.putString(BITMAP_TAG, file);
-        args.putInt("INT" , position);
         fragment.setArguments(args);
         return fragment;
     }

@@ -32,7 +32,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -62,7 +61,6 @@ public class CameraFragment extends Fragment
     public void setCallback(OnHeadlineSelectedListener callback){
         mCallback = callback;
     }
-
 
 
     private String TAG = CameraFragment.class.getSimpleName();
@@ -104,11 +102,9 @@ public class CameraFragment extends Fragment
     public static ArrayList getXcoordin() {
         return xcoordin;
     }
-
     public static ArrayList getYcoordin() {
         return ycoordin;
     }
-
     public static ArrayList getFiletime3() {
         return filetime3;
     }
@@ -117,9 +113,6 @@ public class CameraFragment extends Fragment
 
     Paint textPaint;
     static int clicked = 1;
-
-    public static ArrayList<String> bitmappaths = new ArrayList<>();
-
 
     //structure of the project's folders
     public static String mDiretoryName = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Audio_Recorder_Picture";
@@ -187,8 +180,6 @@ public class CameraFragment extends Fragment
         this.activity = (AppCompatActivity) context;
 
         try {
-//            mCallback = (OnHeadlineSelectedListener) activity;
-//            mCallback = (OnHeadlineSelectedListener) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnHeadlineSelectedListener");
@@ -208,14 +199,9 @@ public class CameraFragment extends Fragment
                 container, false);
 
         mCameraImage = (ImageView) view.findViewById(R.id.camera_image_view);
-        // mCameraImage.setVisibility(View.INVISIBLE);
-
         mCameraPreview = (SurfaceView) view.findViewById(R.id.preview_view);
 
-        RelativeLayout fragment = (RelativeLayout) view.findViewById(R.id.fragment);
-        DoubleTap = new GestureDetectorCompat(getActivity(), new MyGestureListener());
-        mCameraImage.setOnTouchListener(onTouchListener);
-        mCameraImage.setOnLongClickListener(onLongClickListener);
+       // DoubleTap = new GestureDetectorCompat(getActivity(), new MyGestureListener());
 
         final SurfaceHolder surfaceHolder = mCameraPreview.getHolder();
         surfaceHolder.addCallback(this);
@@ -246,20 +232,7 @@ public class CameraFragment extends Fragment
     }
 
 
-    private View.OnLongClickListener onLongClickListener = new View.OnLongClickListener() {
-        @Override
-        public boolean onLongClick(View v) {
-            Log.i("Long click", "Long click occured");
-            return true;
-        }
-    };
 
-
-    private View.OnTouchListener onTouchListener = new View.OnTouchListener() {
-        public boolean onTouch(View v, MotionEvent event) {
-            return DoubleTap.onTouchEvent(event);
-        }
-    };
 
     public void readFromFile() {
         Log.i("read ", "in Fragment");
@@ -336,8 +309,6 @@ public class CameraFragment extends Fragment
                 if (cameraData != null) {
                     mCameraBitmap = BitmapFactory.decodeByteArray(cameraData, 0, cameraData.length);
                     mCameraImageView.setImageBitmap(mCameraBitmap);
-
-                    //   mSaveImageButton.setEnabled(true);
                 }
             } else {
                 mCameraBitmap = null;
@@ -467,32 +438,10 @@ public class CameraFragment extends Fragment
 
                         arrayFilepaths.add(file);
                         mCallback.onArticleSelected(arrayFilepaths);
-
                         Log.i("Array", "size 3: " + String.valueOf(arrayFilepaths.size()));
-
                         for (int i=0; i<arrayFilepaths.size(); i++){
                             Log.i("Array filepaths", String.valueOf(arrayFilepaths.get(i)));
                         }
-
-                        String filepath = file.getPath();
-
-                        bitmappaths.add(filepath);
-                        String []paths = new String[bitmappaths.size()];
-                        bitmappaths.toArray(paths);
-
-
-
-                        for (int j = 0; j < bitmappaths.size(); j++) {
-                            Log.i("BITMAPTH", "in the fragment" + bitmappaths.get(j));
-                        }
-                        Log.i("BITMAPTH", String.valueOf(bitmappaths.size()));
-                        AudioRecord.setArrayBitmap(bitmappaths);
-//                        Log.wtf("Bitmap Callback null: ", String.valueOf(bitmapCallback == null));
-//                        if (bitmappaths.size() != 0 && bitmapCallback!=null) {
-//                            Log.i("Bitmap callback null2", String.valueOf(bitmapCallback!=null));
-//                            bitmapCallback.updateBitmap(bitmappaths);
-//                            audioRecord.setArrayBitmap(bitmappaths);
-//                        }
                         FileOutputStream fos = null;
                         try {
                             fos = new FileOutputStream(file);
@@ -503,6 +452,7 @@ public class CameraFragment extends Fragment
                             e.printStackTrace();
                         }
                     }
+                    //Закомментировать и удалить
 //                    bitmap = BitmapFactory.decodeByteArray(mCameraData, 0, mCameraData.length);
 //                    Log.i("Bitmap height: ", String.valueOf(bitmap.getHeight()));
 //                    Log.i("Bitmap width: ", String.valueOf(bitmap.getWidth()));
@@ -515,9 +465,9 @@ public class CameraFragment extends Fragment
                     //                   mCameraImage.setRotation(90);
 
 
-                    MyAdapter2.myPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+//                    MyAdapter2.myPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 //                    MyAdapter2.tempCanvas.drawBitmap(bitmap, 0, 0, null);
-                    MyAdapter2.myPaint.setColor(Color.RED);
+//                    MyAdapter2.myPaint.setColor(Color.RED);
                     //                   mCameraImage.setImageDrawable(new BitmapDrawable(getResources(), MyAdapter2.tempBitmap));
                 }
             });
@@ -525,26 +475,14 @@ public class CameraFragment extends Fragment
     }
 
     private void setupImageCapture() {
-        // mCameraImage.setVisibility(View.INVISIBLE);
         if (mCameraPreview != null) {
             mCameraPreview.setVisibility(View.VISIBLE);
             if (mCamera != null) {
                 mCamera.startPreview();
             }
         }
-        //     mCaptureImageButton.setOnClickListener(mCaptureImageButtonClickListener);
     }
 
-    private void setupImageDisplay() {
-        Bitmap bitmap = BitmapFactory.decodeByteArray(mCameraData, 0, mCameraData.length);
-        mCameraImage.setImageBitmap(bitmap);
-        mCamera.stopPreview();
-        mCameraPreview.setVisibility(View.INVISIBLE);
-        mCameraImage.setVisibility(View.VISIBLE);
-        mCameraImage.setRotation(90);
-        mCaptureImageButton.setText(R.string.recapture_image);
-        mCaptureImageButton.setOnClickListener(mRecaptureImageButtonClickListener);
-    }
 
 
     public void savePicture() {
