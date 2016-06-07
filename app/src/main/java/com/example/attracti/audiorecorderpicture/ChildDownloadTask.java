@@ -34,9 +34,9 @@ class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
 
     public ChildDownloadTask(ImageView imageView, int position, int x, int y) {
         viewHolderWeakReference = new WeakReference<ImageView>(imageView);
-        this.position=position;
-        this.x=x;
-        this.y=y;
+        this.position = position;
+        this.x = x;
+        this.y = y;
     }
 
 
@@ -56,25 +56,11 @@ class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
         Paint myPaint3 = new Paint();
         myPaint3.setAntiAlias(true);
         myPaint3.setColor(Color.RED);
-        Log.wtf("X in Child: ",x+"Y in Child: "+y);
-
-            if(position==0) {
-                    tempCanvas.drawCircle(x, y, 100, myPaint3);
-                    tempCanvas.save();
-                }
-
-
-            if(position==1) {
-                myPaint3.setColor(Color.GREEN);
-                tempCanvas.drawCircle(50, 50, 20, myPaint3);
-                tempCanvas.save();
-            }
-            if(position==2) {
-                tempCanvas.drawCircle(20, 20, 20, myPaint3);
-                tempCanvas.save();
-            }
-
-
+//        Log.wtf("X in Child: ", x + "Y in Child: " + y);
+        if(position==position) {
+            tempCanvas.drawCircle(x / 4, y / 4, 20, myPaint3);
+            tempCanvas.save();
+        }
         return bitmap;
     }
 

@@ -175,13 +175,9 @@ public class ViewActivity extends FragmentActivity {
     }
 
 
-
-
-
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         ArrayList<Fragment> fragments = new ArrayList<>();
         File[] array;
-
 
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
