@@ -141,14 +141,14 @@ public class ViewFragment extends Fragment {
         mPagerAdapter = new ScreenSlidePagerAdapter(getFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
-        DoubleTap = new GestureDetectorCompat(getActivity(), new MyGestureListener());
+      //  DoubleTap = new GestureDetectorCompat(getActivity(), new MyGestureListener());
 
-        mPager.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                DoubleTap.onTouchEvent(event);
-                return false;
-            }
-        });
+//        mPager.setOnTouchListener(new View.OnTouchListener() {
+//            public boolean onTouch(View v, MotionEvent event) {
+//                DoubleTap.onTouchEvent(event);
+//                return false;
+//            }
+//        });
 
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
         // Use 1/8th of the available memory for this memory cache.
@@ -184,8 +184,6 @@ public class ViewFragment extends Fragment {
                 Log.wtf("imageView==null ", String.valueOf(imageView == null));
         //    imageView.setImageDrawable(getResources().getDrawable(R.drawable.placeholder));
         //    ChildFragment.loadBitmap(ArrayFilepaths.get(pos).getPath(), imageView, mPager.getCurrentItem(), x, y);
-
-
 
             switch (e.getAction()) {
                 case MotionEvent.ACTION_DOWN:

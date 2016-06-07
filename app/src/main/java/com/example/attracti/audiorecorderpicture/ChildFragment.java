@@ -13,6 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+
 /**
  * Created by Iryna on 6/2/16.
  *
@@ -23,7 +28,7 @@ import android.widget.ImageView;
 public class ChildFragment extends Fragment {
 
     public static String BITMAP_TAG = "BITMAP_TAG";
-    private  int positionCurrent;
+    private int positionCurrent;
 
     String file = null;
     ImageView imageView;
@@ -33,6 +38,12 @@ public class ChildFragment extends Fragment {
     private GestureDetectorCompat DoubleTap;
 
     public Context context;
+
+    public static File labelFile;
+    public static ArrayList<Integer> xcoordList = new ArrayList();
+    public static ArrayList<Integer> ycoordList = new ArrayList();
+    public static ArrayList<Integer> positionList = new ArrayList<>();
+
 
     @Override
     public void onAttach(Context context) {
@@ -57,7 +68,7 @@ public class ChildFragment extends Fragment {
         loadBitmap(file, imageView, positionCurrent, xCoord, yCoord);
 
         DoubleTap = new GestureDetectorCompat(getActivity(), new MyGestureListener());
-     //   DoubleTap = new GestureDetectorCompat(App.context, new MyGestureListener());
+        //   DoubleTap = new GestureDetectorCompat(App.context, new MyGestureListener());
 
         imageView.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
@@ -84,8 +95,8 @@ public class ChildFragment extends Fragment {
 
 
     public static ChildFragment createfragment(Context context, String file, int position, int x, int y) {
-        xCoord=x;
-        yCoord=y;
+        xCoord = x;
+        yCoord = y;
         ChildFragment fragment = new ChildFragment();
         Bundle args = new Bundle();
         args.putString(BITMAP_TAG, file);
@@ -98,7 +109,7 @@ public class ChildFragment extends Fragment {
         @Override
         public void onLongPress(MotionEvent e) {
             Log.wtf("...", "onLongPress works");
-        //    Log.i("Position: ", String.valueOf(mPager.getCurrentItem()));
+            //    Log.i("Position: ", String.valueOf(mPager.getCurrentItem()));
             int x = (int) e.getX();
             int y = (int) e.getY();
 
@@ -108,21 +119,18 @@ public class ChildFragment extends Fragment {
             Log.wtf("imageView==null ", String.valueOf(imageView == null));
             //    imageView.setImageDrawable(getResources().getDrawable(R.drawable.placeholder));
             //    ChildFragment.loadBitmap(ArrayFilepaths.get(pos).getPath(), imageView, mPager.getCurrentItem(), x, y);
-
-
-
             switch (e.getAction()) {
                 case MotionEvent.ACTION_DOWN:
- //                   Log.wtf("X ", "in Long Press" + x);
- //                   Log.wtf("Y ", "in Long Press" + y);
+                    Log.wtf("X ", "in Long Press" + x);
+                    Log.wtf("Y ", "in Long Press" + y);
 
-//                    currentPosition = mPager.getCurrentItem();
-//
-//                    xcoordList.add(x);
-//                    ycoordList.add(y);
-//                    positionList.add(mPager.getCurrentItem());
+                    //   currentPosition = mPager.getCurrentItem();
 
-               //     Log.i("Events X: ", +x + " Events Y: " + y);
+                    xcoordList.add(x);
+                    ycoordList.add(y);
+                    positionList.add(positionCurrent);
+
+                    Log.i("Events X: ", +x + " Events Y: " + y);
                     long after = System.currentTimeMillis();
                     int difference = (int) (after - AudioRecord.startTimeAudio);
                     int sBody = difference;
@@ -132,23 +140,23 @@ public class ChildFragment extends Fragment {
                     } else {
 
                         String labelFileName = FirstscreenActivity.mCurrentProject + ".txt";
-//                        if (labelFile == null) {
-//                            labelFile = new File(CameraFragment.mLabelsDirectory, labelFileName);
-//                        } else {
-//
-//                            FileWriter writer = null;
-//                            try {
-//                                writer = new FileWriter(labelFile, true);
-//                                Log.i("Time, X, Y", "Time:" + sBody + " X:" + x + "\n" + "Y" + y + "\n");
-//                                writer.append(mPager.getCurrentItem() + "\n" + sBody + "\n" + x + "\n" + y + "\n");
-//                                writer.flush();
-//                                writer.close();
-//                            } catch (IOException f) {
-//                                f.printStackTrace();
-//                            }
-//                            readFromFile();
+                        if (labelFile == null) {
+                            labelFile = new File(CameraFragment.mLabelsDirectory, labelFileName);
+                        } else {
+
+                            FileWriter writer = null;
+                            try {
+                                writer = new FileWriter(labelFile, true);
+                                Log.i("Time, X, Y", "Time:" + sBody + " X:" + x + "\n" + "Y" + y + "\n");
+                                writer.append(positionCurrent + "\n" + sBody + "\n" + x + "\n" + y + "\n");
+                                writer.flush();
+                                writer.close();
+                            } catch (IOException f) {
+                                f.printStackTrace();
+                            }
                         }
                     }
             }
         }
+    }
 }
