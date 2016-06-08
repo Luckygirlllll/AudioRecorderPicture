@@ -510,30 +510,30 @@ public class CameraFragment extends Fragment
 
     private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
-        public boolean onDown(MotionEvent e) {
-            Log.d("...", "onDown works");
-            int xlong = (int) e.getX();
-            int ylong = (int) e.getY();
-            Log.wtf("Coordinates of xlong: ", String.valueOf(xlong));
-            Log.wtf("Coordinates of ylong: ", String.valueOf(ylong));
+                public boolean onDown(MotionEvent e) {
+                    Log.d("...", "onDown works");
+                    int xlong = (int) e.getX();
+                    int ylong = (int) e.getY();
+                    Log.wtf("Coordinates of xlong: ", String.valueOf(xlong));
+                    Log.wtf("Coordinates of ylong: ", String.valueOf(ylong));
 
-            ArrayList xcoordin = CameraFragment.getXcoordin();
-            ArrayList ycoordin = CameraFragment.getYcoordin();
+                    ArrayList xcoordin = CameraFragment.getXcoordin();
+                    ArrayList ycoordin = CameraFragment.getYcoordin();
 
-            Log.wtf("Xcoordin cameraFragm", String.valueOf(CameraFragment.getXcoordin()));
-            Log.wtf("Ycoordin cameraFragm", String.valueOf(CameraFragment.getYcoordin()));
+                    Log.wtf("Xcoordin cameraFragm", String.valueOf(CameraFragment.getXcoordin()));
+                    Log.wtf("Ycoordin cameraFragm", String.valueOf(CameraFragment.getYcoordin()));
 
-            Log.wtf("Xcoordin size", String.valueOf(xcoordin.size()));
-            Log.wtf("Ycoordin size", String.valueOf(ycoordin.size()));
+                    Log.wtf("Xcoordin size", String.valueOf(xcoordin.size()));
+                    Log.wtf("Ycoordin size", String.valueOf(ycoordin.size()));
 
-            for (int i = 0; i < xcoordin.size(); i++) {
+                    for (int i = 0; i < xcoordin.size(); i++) {
                 Log.i("Xcoordin", (String) xcoordin.get(i));
                 Log.i("Ycoordin", (String) ycoordin.get(i));
                 int xfile = Integer.parseInt((String) xcoordin.get(i));
                 int yfile = Integer.parseInt((String) ycoordin.get(i));
 
                 if ((xlong < xfile + 50 && xlong > xfile - 50) && (ylong < yfile + 50 && ylong > yfile - 50)) {
-                    audioRecord.startPlayingPictureLabel(i);
+ //                   audioRecord.startPlayingPictureLabel(i);
                     Log.i("Index i of the label", String.valueOf(i));
 
 //                    myPaint.setColor(Color.BLUE);

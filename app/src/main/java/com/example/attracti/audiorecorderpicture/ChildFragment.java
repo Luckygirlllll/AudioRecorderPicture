@@ -45,7 +45,6 @@ public class ChildFragment extends Fragment {
     public static ArrayList<Integer> ycoordList = new ArrayList();
     public static ArrayList<Integer> positionList = new ArrayList<>();
 
-
     @Override
     public void onAttach(Context context) {
         this.context = context;
@@ -69,7 +68,6 @@ public class ChildFragment extends Fragment {
         loadBitmap(file, imageView, positionCurrent, xCoord, yCoord);
 
         DoubleTap = new GestureDetectorCompat(getActivity(), new MyGestureListener());
-        //   DoubleTap = new GestureDetectorCompat(App.context, new MyGestureListener());
 
         imageView.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
@@ -105,6 +103,9 @@ public class ChildFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
+
+
 
 
     private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {

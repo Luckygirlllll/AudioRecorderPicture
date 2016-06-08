@@ -2,7 +2,6 @@ package com.example.attracti.audiorecorderpicture;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
@@ -46,7 +45,7 @@ public class ViewActivity extends FragmentActivity {
     static ArrayList yfile = new ArrayList();
     static ArrayList filePosition = new ArrayList();
 
-    ArrayList<Drawable> bitmapList = new ArrayList();
+    public static String parentName;
 
 
     public void getFromSdcardFolders() {
@@ -128,7 +127,7 @@ public class ViewActivity extends FragmentActivity {
     public void readFromFile() {
         Log.i("reading from File", "in View Activity");
         StringBuilder text = new StringBuilder();
-        String parentName = array[0].getParentFile().getName();
+        parentName = array[0].getParentFile().getName();
 
         try {
             File labelsFile = new File(CameraFragment.mLabelsFolder, parentName + ".txt");

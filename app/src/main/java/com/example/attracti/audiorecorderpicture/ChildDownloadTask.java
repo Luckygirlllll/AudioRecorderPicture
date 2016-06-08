@@ -30,7 +30,7 @@ class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
     int position;
     int x;
     int y;
-    
+
     File f;
 
     Paint textPaint;
@@ -58,12 +58,13 @@ class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
         if (bitmap == null) {
             tempBitmapTest = Bitmap.createBitmap(300, 400, Bitmap.Config.RGB_565);
         } else {
-            tempBitmapTest = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.RGB_565);}
-            tempCanvas = new Canvas(tempBitmapTest);
-            tempCanvas.drawBitmap(bitmap, 0, 0, null);
-            Paint myPaint3 = new Paint();
-            myPaint3.setAntiAlias(true);
-            myPaint3.setColor(Color.RED);
+            tempBitmapTest = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.RGB_565);
+        }
+        tempCanvas = new Canvas(tempBitmapTest);
+        tempCanvas.drawBitmap(bitmap, 0, 0, null);
+        Paint myPaint3 = new Paint();
+        myPaint3.setAntiAlias(true);
+        myPaint3.setColor(Color.RED);
 
         textPaint = new Paint();
         textPaint.setTextSize(15);
@@ -72,13 +73,13 @@ class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
         textPaint.setTextAlign(Paint.Align.CENTER);
         Rect bounds = new Rect();
 
-            if (ChildFragment.positionList != null) {
-                for (int i = 0; i < ChildFragment.positionList.size(); i++) {
-                    Log.i("filePosition size: ", String.valueOf(ChildFragment.positionList.size()));
-                    if (position == (ChildFragment.positionList.get(i))) {
-                        tempCanvas.drawCircle(ChildFragment.xcoordList.get(i) / 4, ChildFragment.ycoordList.get(i) / 4, 10, myPaint3);
+        if (ChildFragment.positionList != null) {
+            for (int i = 0; i < ChildFragment.positionList.size(); i++) {
+                Log.i("filePosition size: ", String.valueOf(ChildFragment.positionList.size()));
+                if (position == (ChildFragment.positionList.get(i))) {
+                    tempCanvas.drawCircle(ChildFragment.xcoordList.get(i) / 4, ChildFragment.ycoordList.get(i) / 4, 10, myPaint3);
 
-                       textPaint.getTextBounds(String.valueOf(i), 0, String.valueOf(i).length(), bounds);
+                    textPaint.getTextBounds(String.valueOf(i), 0, String.valueOf(i).length(), bounds);
 //                    if (i < 10 && i>1) {
 //                        tempCanvas.drawCircle(ChildFragment.xcoordList.get(i)/4, ChildFragment.ycoordList.get(i)/4 - (bounds.height() / 2), bounds.width() + 70, myPaint3);
 //                    } else if (i==1) {
@@ -87,15 +88,14 @@ class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
 //                    else {
 //                        tempCanvas.drawCircle(ChildFragment.xcoordList.get(i) * 6, ChildFragment.ycoordList.get(i) * 6 - (bounds.height() / 2), bounds.width() + 10, myPaint3);
 //                    };
-                    tempCanvas.drawText(String.valueOf(i+1), ChildFragment.xcoordList.get(i)/4, ChildFragment.ycoordList.get(i)/4, textPaint);
+                    tempCanvas.drawText(String.valueOf(i + 1), ChildFragment.xcoordList.get(i) / 4, ChildFragment.ycoordList.get(i) / 4, textPaint);
 //                        tempCanvas.save();
-                    }
                 }
             }
-
-
-            return bitmap;
         }
+
+        return bitmap;
+    }
 
 
     @Override

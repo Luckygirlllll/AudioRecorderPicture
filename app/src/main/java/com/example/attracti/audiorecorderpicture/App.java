@@ -5,6 +5,8 @@ import android.content.Context;
 
 /**
  * Created by Iryna on 6/7/16.
+ *
+ * Use context in every place of application using App.context
  */
 public class App extends Application {
     public static Context context;

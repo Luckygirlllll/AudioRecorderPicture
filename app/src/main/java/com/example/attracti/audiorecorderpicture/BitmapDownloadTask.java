@@ -63,10 +63,10 @@ class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
         for (int i = 0; i < ViewActivity.filePosition.size(); i++) {
             Log.i("filePosition size: ", String.valueOf(ViewActivity.filePosition.size()));
             if (position == (Integer.parseInt((String) ViewActivity.filePosition.get(i)))) {
-                tempCanvas.drawCircle(Integer.parseInt((String) ViewActivity.xfile.get(i))/4, Integer.parseInt((String) ViewActivity.yfile.get(i))/4, 20, myPaint3);
+                tempCanvas.drawCircle(Integer.parseInt((String) ViewActivity.xfile.get(i))/4, Integer.parseInt((String) ViewActivity.yfile.get(i))/4, 10, myPaint3);
 
                 textPaint.getTextBounds(String.valueOf(i), 0, String.valueOf(i).length(), bounds);
-                tempCanvas.drawText(String.valueOf(i + 1), Integer.parseInt((String)ViewActivity.xfile.get(i)) / 4, Integer.parseInt((String)ViewActivity.yfile.get(i)) / 4, textPaint);
+                tempCanvas.drawText(String.valueOf(i), Integer.parseInt((String)ViewActivity.xfile.get(i)) / 4, Integer.parseInt((String)ViewActivity.yfile.get(i)) / 4, textPaint);
                 tempCanvas.save();
             }
         }
