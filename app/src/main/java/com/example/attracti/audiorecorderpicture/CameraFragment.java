@@ -539,7 +539,7 @@ public class CameraFragment extends Fragment
 //                    myPaint.setColor(Color.BLUE);
 //                    tempCanvas.save();
 //                    tempCanvas.rotate(-90, xfile * 6, yfile * 6);
-//                    textPaint.setTextSize(140);
+//                    textPaint.setTextSize(140);t
 //
 //                    textPaint.setColor(Color.WHITE);
 //                    textPaint.setAntiAlias(true);

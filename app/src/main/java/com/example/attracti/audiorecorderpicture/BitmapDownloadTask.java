@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -25,6 +26,7 @@ class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
 
     static Bitmap tempBitmapTest;
     Canvas tempCanvas;
+    Paint textPaint;
 
     int position;
 
@@ -50,14 +52,21 @@ class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
         myPaint3.setAntiAlias(true);
         myPaint3.setColor(Color.RED);
 
+        textPaint = new Paint();
+        textPaint.setTextSize(15);
+        textPaint.setColor(Color.WHITE);
+        textPaint.setAntiAlias(true);
+        textPaint.setTextAlign(Paint.Align.CENTER);
+        Rect bounds = new Rect();
+
 
         for (int i = 0; i < ViewActivity.filePosition.size(); i++) {
             Log.i("filePosition size: ", String.valueOf(ViewActivity.filePosition.size()));
             if (position == (Integer.parseInt((String) ViewActivity.filePosition.get(i)))) {
                 tempCanvas.drawCircle(Integer.parseInt((String) ViewActivity.xfile.get(i))/4, Integer.parseInt((String) ViewActivity.yfile.get(i))/4, 20, myPaint3);
-                Log.wtf("Position DownloadTask: ", (String) ViewActivity.filePosition.get(i));
-                Log.wtf("Xfile DownloadTask: ", (String) ViewActivity.xfile.get(i));
-                Log.wtf("Yfile DownloadTask: ", (String) ViewActivity.yfile.get(i));
+
+                textPaint.getTextBounds(String.valueOf(i), 0, String.valueOf(i).length(), bounds);
+                tempCanvas.drawText(String.valueOf(i + 1), Integer.parseInt((String)ViewActivity.xfile.get(i)) / 4, Integer.parseInt((String)ViewActivity.yfile.get(i)) / 4, textPaint);
                 tempCanvas.save();
             }
         }

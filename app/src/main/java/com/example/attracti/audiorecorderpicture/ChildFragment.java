@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by Iryna on 6/2/16.
@@ -105,54 +106,102 @@ public class ChildFragment extends Fragment {
         return fragment;
     }
 
+
     private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
+
+//        @Override
+//        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+//            Log.wtf("Swipe works", "!!!");
+//            boolean result = false;
+//            try {
+//                float diffY = e2.getY() - e1.getY();
+//                float diffX = e2.getX() - e1.getX();
+//                if (Math.abs(diffX) > Math.abs(diffY)) {
+//                    if (Math.abs(diffX) > 100 && Math.abs(velocityX) > 100) {
+//                        if (diffX > 0) {
+//                            Log.wtf("Swipe right", "!!!");
+//                        } else {
+//                            Log.wtf("Swipe left","!!!");
+//                        }
+//                    }
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            return true;
+//        }
+
+
         @Override
         public void onLongPress(MotionEvent e) {
-            Log.wtf("...", "onLongPress works");
+  //          Log.wtf("...", "onLongPress works");
             //    Log.i("Position: ", String.valueOf(mPager.getCurrentItem()));
-            int x = (int) e.getX();
-            int y = (int) e.getY();
+//            int x = (int) e.getX();
+//            int y = (int) e.getY();
 
-            loadBitmap(file, imageView, positionCurrent, x, y);
-
-//            int pos = mPager.getCurrentItem();
-            Log.wtf("imageView==null ", String.valueOf(imageView == null));
+           // Log.wtf("imageView==null ", String.valueOf(imageView == null));
             //    imageView.setImageDrawable(getResources().getDrawable(R.drawable.placeholder));
             //    ChildFragment.loadBitmap(ArrayFilepaths.get(pos).getPath(), imageView, mPager.getCurrentItem(), x, y);
+
+
+            int downX = 0;
+            long downTime = 0;
+
             switch (e.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    Log.wtf("X ", "in Long Press" + x);
-                    Log.wtf("Y ", "in Long Press" + y);
+                    downX = (int) e.getX();
+                    downTime = Calendar.getInstance().getTimeInMillis();
 
-                    //   currentPosition = mPager.getCurrentItem();
+                case MotionEvent.ACTION_UP:
+                    int upX = (int) e.getX();
+                    long upTime = Calendar.getInstance().getTimeInMillis();
 
-                    xcoordList.add(x);
-                    ycoordList.add(y);
-                    positionList.add(positionCurrent);
+                    float deltaX = downX - upX;
+                    float deltaTime = upTime - downTime;
+                    Log.wtf("Delta Time", String.valueOf(deltaTime));
 
-                    Log.i("Events X: ", +x + " Events Y: " + y);
-                    long after = System.currentTimeMillis();
-                    int difference = (int) (after - AudioRecord.startTimeAudio);
-                    int sBody = difference;
+                    if ((deltaX == 0) && (deltaTime < 10)) {
+                        Log.wtf("Events ", "onLongPress works");
+                      int x = (int) e.getX();
+                      int y = (int) e.getY();
 
-                    if (!CameraFragment.mLabelsDirectory.exists() && !CameraFragment.mLabelsDirectory.mkdirs()) {
-                        CameraFragment.mLabelsDirectory = null;
-                    } else {
+//                        switch (e.getAction()) {
+//                case MotionEvent.ACTION_DOWN:
+//                    Log.wtf("X ", "in Long Press" + x);
+//                    Log.wtf("Y ", "in Long Press" + y);
 
-                        String labelFileName = FirstscreenActivity.mCurrentProject + ".txt";
-                        if (labelFile == null) {
-                            labelFile = new File(CameraFragment.mLabelsDirectory, labelFileName);
+                        //   currentPosition = mPager.getCurrentItem();
+
+                        xcoordList.add(x);
+                        ycoordList.add(y);
+                        positionList.add(positionCurrent);
+
+                        loadBitmap(file, imageView, positionCurrent, x, y);
+
+                        Log.i("Events X: ", +x + " Events Y: " + y);
+                        long after = System.currentTimeMillis();
+                        int difference = (int) (after - AudioRecord.startTimeAudio);
+                        int sBody = difference;
+
+                        if (!CameraFragment.mLabelsDirectory.exists() && !CameraFragment.mLabelsDirectory.mkdirs()) {
+                            CameraFragment.mLabelsDirectory = null;
                         } else {
 
-                            FileWriter writer = null;
-                            try {
-                                writer = new FileWriter(labelFile, true);
-                                Log.i("Time, X, Y", "Time:" + sBody + " X:" + x + "\n" + "Y" + y + "\n");
-                                writer.append(positionCurrent + "\n" + sBody + "\n" + x + "\n" + y + "\n");
-                                writer.flush();
-                                writer.close();
-                            } catch (IOException f) {
-                                f.printStackTrace();
+                            String labelFileName = FirstscreenActivity.mCurrentProject + ".txt";
+                            if (labelFile == null) {
+                                labelFile = new File(CameraFragment.mLabelsDirectory, labelFileName);
+                            } else {
+
+                                FileWriter writer = null;
+                                try {
+                                    writer = new FileWriter(labelFile, true);
+                                    Log.i("Time, X, Y", "Time:" + sBody + " X:" + x + "\n" + "Y" + y + "\n");
+                                    writer.append(positionCurrent + "\n" + sBody + "\n" + x + "\n" + y + "\n");
+                                    writer.flush();
+                                    writer.close();
+                                } catch (IOException f) {
+                                    f.printStackTrace();
+                                }
                             }
                         }
                     }
