@@ -216,6 +216,9 @@ public class CameraFragment extends Fragment
                 mCamera = Camera.open();
                 Log.i("Camera created: ", String.valueOf(mCamera != null));
                 Log.i("Camera open2", "Camera open2");
+                Camera.Parameters parameters = mCamera.getParameters();
+                parameters.set("orientation", "portrait");
+                mCamera.setParameters(parameters);
                 mCamera.setPreviewDisplay(mCameraPreview.getHolder());
                 mCamera.setDisplayOrientation(90);
                 if (mIsCapturing) {
@@ -284,14 +287,14 @@ public class CameraFragment extends Fragment
 
 //    @Override
 //    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-//        super.onRestoreInstanceState(savedInstanceState);
+//      //  super.onRestoreInstanceState(savedInstanceState);
 //
 //        mIsCapturing = savedInstanceState.getBoolean(KEY_IS_CAPTURING, mCameraData == null);
-//        if (mCameraData != null) {
-//            setupImageDisplay();
-//        } else {
-//            setupImageCapture();
-//        }
+//     //   if (mCameraData != null) {
+//     //       setupImageDisplay();
+//     //   } else {
+//     //       setupImageCapture();
+//     //   }
 //    }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -435,13 +438,6 @@ public class CameraFragment extends Fragment
                                         File.separator + "image_" +
                                         dateFormat.format(new Date()) + ".png");
 
-
-                        arrayFilepaths.add(file);
-                        mCallback.onArticleSelected(arrayFilepaths);
-                        Log.i("Array", "size 3: " + String.valueOf(arrayFilepaths.size()));
-                        for (int i=0; i<arrayFilepaths.size(); i++){
-                            Log.i("Array filepaths", String.valueOf(arrayFilepaths.get(i)));
-                        }
                         FileOutputStream fos = null;
                         try {
                             fos = new FileOutputStream(file);
@@ -450,6 +446,12 @@ public class CameraFragment extends Fragment
                             fos.close();
                         } catch (IOException e) {
                             e.printStackTrace();
+                        }
+                        arrayFilepaths.add(file);
+                        mCallback.onArticleSelected(arrayFilepaths);
+                        Log.i("Array", "size 3: " + String.valueOf(arrayFilepaths.size()));
+                        for (int i=0; i<arrayFilepaths.size(); i++){
+                            Log.i("Array filepaths", String.valueOf(arrayFilepaths.get(i)));
                         }
                     }
                     //Закомментировать и удалить

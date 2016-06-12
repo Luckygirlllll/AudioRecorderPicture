@@ -14,7 +14,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -36,10 +35,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
 /**
  * This is the class where going the process of audio recording. This activity has two fragments:
@@ -418,17 +414,19 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         }
     }
 
+    //you can delete these code later
+
     public void test() {
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.lin_one);
-        recordButton = new RecordButton(this);
-        playButton = new PlayButton(this);
-        labelButton = new LabelButton(this);
+       // recordButton = new RecordButton(this);
+       // playButton = new PlayButton(this);
+       // labelButton = new LabelButton(this);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.weight = 1;
         if (linearLayout != null) {
-            linearLayout.addView(recordButton, params);
-            linearLayout.addView(playButton, params);
-            linearLayout.addView(labelButton, params);
+          //  linearLayout.addView(recordButton, params);
+          //  linearLayout.addView(playButton, params);
+          //  linearLayout.addView(labelButton, params);
         }
     }
 
@@ -608,10 +606,11 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         super.onCreate(icicle);
         setContentView(R.layout.activity_main);
 
+        //These buttons were responsible for the playing next, previous and first label, you can delete them soon
         LinearLayout ll = (LinearLayout) findViewById(R.id.lin_three);
-        mNextButton = (Button) findViewById(R.id.test4);
-        mPreviousButton = (Button) findViewById(R.id.test5);
-        mLabelPlayButton = (Button) findViewById(R.id.test6);
+//        mNextButton = (Button) findViewById(R.id.test4);
+//        mPreviousButton = (Button) findViewById(R.id.test5);
+//        mLabelPlayButton = (Button) findViewById(R.id.test6);
 
         myToolbar = (Toolbar) findViewById(R.id.toolbar);
         Log.wtf("TAG", String.valueOf("TOOLBAR: " + myToolbar == null));
@@ -648,96 +647,97 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.weight = 1;
-
-        test();
-        labelButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (mPlayer == null) {
-                    after = System.currentTimeMillis();
-                    android.util.Log.i("Time after click", " Time value in millisecinds " + after);
-                    int difference = (int) (after - startTimeAudio);
-                    Log.i("difference", String.valueOf(difference));
-
-                    int sBody = difference;
-
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy_mm_dd_hh_mm_ss",
-                            Locale.getDefault());
-                    ;
-                    Date now = new Date();
-                    String fileName = formatter.format(now) + ".txt";//like 2016_01_12.txt
-                    Log.i("Current", String.valueOf(labeltime));
-
-                    try {
-                        File root = new File(Environment.getExternalStorageDirectory(), "Audio_Recorder");
-                        if (!root.exists()) {
-                            root.mkdirs();
-                        }
-                        xfile = new File(root, fileName);
-
-                        FileWriter writer = new FileWriter(xfile, true);
-                        writer.append(sBody + "\n");
-                        writer.flush();
-                        writer.close();
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    //readFromFile();
-
-
-                } else {
-
-                    info2 = String.valueOf(mPlayer.getCurrentPosition());
-                    labeltime = mPlayer.getCurrentPosition();
-                    String sBody = info2;
-
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy_mm_dd_hh_mm",
-                            Locale.getDefault());
-                    ;
-                    Date now = new Date();
-                    String fileName = formatter.format(now) + ".txt";//like 2016_01_12.txt
-                    Log.i("Current", String.valueOf(labeltime));
-
-                    try {
-                        File root = new File(Environment.getExternalStorageDirectory(), "Audio_Recorder");
-                        if (!root.exists()) {
-                            root.mkdirs();
-                        }
-                        xfile = new File(root, fileName);
-
-                        FileWriter writer = new FileWriter(xfile, true);
-                        writer.append(sBody + "\n");
-                        writer.flush();
-                        writer.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    // readFromFile();
-
-                }
-            }
-        });
+    }
+     //   test();
+//        labelButton.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                if (mPlayer == null) {
+//                    after = System.currentTimeMillis();
+//                    android.util.Log.i("Time after click", " Time value in millisecinds " + after);
+//                    int difference = (int) (after - startTimeAudio);
+//                    Log.i("difference", String.valueOf(difference));
+//
+//                    int sBody = difference;
+//
+//                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy_mm_dd_hh_mm_ss",
+//                            Locale.getDefault());
+//                    ;
+//                    Date now = new Date();
+//                    String fileName = formatter.format(now) + ".txt";//like 2016_01_12.txt
+//                    Log.i("Current", String.valueOf(labeltime));
+//
+//                    try {
+//                        File root = new File(Environment.getExternalStorageDirectory(), "Audio_Recorder");
+//                        if (!root.exists()) {
+//                            root.mkdirs();
+//                        }
+//                        xfile = new File(root, fileName);
+//
+//                        FileWriter writer = new FileWriter(xfile, true);
+//                        writer.append(sBody + "\n");
+//                        writer.flush();
+//                        writer.close();
+//
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                    //readFromFile();
+//
+//
+//                } else {
+//
+//                    info2 = String.valueOf(mPlayer.getCurrentPosition());
+//                    labeltime = mPlayer.getCurrentPosition();
+//                    String sBody = info2;
+//
+//                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy_mm_dd_hh_mm",
+//                            Locale.getDefault());
+//                    ;
+//                    Date now = new Date();
+//                    String fileName = formatter.format(now) + ".txt";//like 2016_01_12.txt
+//                    Log.i("Current", String.valueOf(labeltime));
+//
+//                    try {
+//                        File root = new File(Environment.getExternalStorageDirectory(), "Audio_Recorder");
+//                        if (!root.exists()) {
+//                            root.mkdirs();
+//                        }
+//                        xfile = new File(root, fileName);
+//
+//                        FileWriter writer = new FileWriter(xfile, true);
+//                        writer.append(sBody + "\n");
+//                        writer.flush();
+//                        writer.close();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                    // readFromFile();
+//
+//                }
+//            }
+//        });
+//    }
 
         //play first label
-        mLabelPlayButton.setOnClickListener(new OnClickListener() {
+//        mLabelPlayButton.setOnClickListener(new OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                fragment.readFromFile();
+//                time = fragment.getFiletime3();
+//                boolean mStartPlaying = true;
+//                onPlayLabel(mStartPlaying);
+//            }
+//        });
 
-            @Override
-            public void onClick(View v) {
-                fragment.readFromFile();
-                time = fragment.getFiletime3();
-                boolean mStartPlaying = true;
-                onPlayLabel(mStartPlaying);
-            }
-        });
 
-
-        mNextButton.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                boolean mStartPlaying = true;
+//        mNextButton.setOnClickListener(new OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                boolean mStartPlaying = true;
 //                StringBuilder text = new StringBuilder();
 //
 //                try {
@@ -757,43 +757,43 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
                 // String[] filetime = text.toString().split("\n");
 
-                time = fragment.getFiletime3();
-                Log.i("Time size", String.valueOf(time.size()));
-                if (current - 1 < time.size() - 1) {
-                    current++;
-                }
-                Log.i("Time size", String.valueOf(time.size()));
-                Log.i("Iinfo!!!!", String.valueOf(current));
+//                time = fragment.getFiletime3();
+//                Log.i("Time size", String.valueOf(time.size()));
+//                if (current - 1 < time.size() - 1) {
+//                    current++;
+//                }
+//                Log.i("Time size", String.valueOf(time.size()));
+//                Log.i("Iinfo!!!!", String.valueOf(current));
+//
+//
+//                onPlayNext(mStartPlaying);
+//            }
+//        });
 
 
-                onPlayNext(mStartPlaying);
-            }
-        });
+//        mPreviousButton.setOnClickListener(new OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                boolean mStartPlaying = true;
+//                onPlayPrevious(mStartPlaying);
+//            }
+//        });
+//    }
 
-
-        mPreviousButton.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                boolean mStartPlaying = true;
-                onPlayPrevious(mStartPlaying);
-            }
-        });
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (mRecorder != null) {
-            mRecorder.release();
-            mRecorder = null;
-        }
-
-        if (mPlayer != null) {
-            mPlayer.release();
-            mPlayer = null;
-        }
-    }
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        if (mRecorder != null) {
+//            mRecorder.release();
+//            mRecorder = null;
+//        }
+//
+//        if (mPlayer != null) {
+//            mPlayer.release();
+//            mPlayer = null;
+//        }
+//    }
 
     private void extractPickedImages(int requestCode, int resultCode, Intent data) {
         String realPath;
@@ -916,11 +916,13 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         return super.onPrepareOptionsMenu(menu);
     }
 
+public static int done = 0;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.doneItem:
+                done++;
                 Intent firstScreen = new Intent(getApplicationContext(), FirstscreenActivity.class);
                 startActivity(firstScreen);
                 return true;

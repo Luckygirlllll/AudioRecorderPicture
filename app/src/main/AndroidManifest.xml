@@ -18,7 +18,9 @@
 
         <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
-        <activity android:name=".AudioRecord">
+        <activity android:name=".AudioRecord"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden">
         </activity>
         <activity android:name=".FirstscreenActivity">
             <intent-filter>

@@ -174,8 +174,8 @@ public class BitmapFragment extends Fragment {
          if ((xlong < xfile + 130 && xlong > xfile - 130) && (ylong < yfile + 130 && ylong > yfile - 130)) {
              Log.wtf("Xlong: ", String.valueOf(xlong));
              Log.wtf("Ylong: ", String.valueOf(ylong));
-             Log.wtf("xfile: ", String.valueOf(xfile));
-             Log.wtf("yfile: ", String.valueOf(yfile));
+             Log.wtf("xfile: ", String.valueOf(xfile/4));
+             Log.wtf("yfile: ", String.valueOf(yfile/4));
              startPlayingPictureLabel(i);
              Log.i("Index i of the label", String.valueOf(i));
              Log.wtf("The label is identified", "!!!");

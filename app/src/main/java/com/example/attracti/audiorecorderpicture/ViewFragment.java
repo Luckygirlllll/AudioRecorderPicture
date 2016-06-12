@@ -45,7 +45,7 @@ public class ViewFragment extends Fragment {
     ArrayList<Folder> FOLDERS = new ArrayList<>();
     public static LruCache<String, Bitmap> mMemoryCache;
 
-    private ViewPager mPager;
+    public static ViewPager mPager;
     private ScreenSlidePagerAdapter mPagerAdapter;
     public static ImageView imageView;
 
@@ -77,8 +77,12 @@ public class ViewFragment extends Fragment {
     static ArrayList yfile = new ArrayList();
     static ArrayList filePosition = new ArrayList();
 
+    public static boolean pageChanged = false;
 
+    ArrayList items= new ArrayList();
+    static int mCurrentFragmentPosition;
 
+    public static int longpress=0;
 
     @Override
     public void onAttach(Context context) {
@@ -103,7 +107,6 @@ public class ViewFragment extends Fragment {
     }
 
 
-    private GestureDetectorCompat DoubleTap;
 
 
     public void getFromSdcardFolders() {
@@ -136,19 +139,13 @@ public class ViewFragment extends Fragment {
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.view_pager, container, false);
+
+
         mPager = (ViewPager) rootView.findViewById(R.id.pager_fragment);
         imageView = (ImageView) rootView.findViewById(R.id.imageView);
         mPagerAdapter = new ScreenSlidePagerAdapter(getFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
-      //  DoubleTap = new GestureDetectorCompat(getActivity(), new MyGestureListener());
-
-//        mPager.setOnTouchListener(new View.OnTouchListener() {
-//            public boolean onTouch(View v, MotionEvent event) {
-//                DoubleTap.onTouchEvent(event);
-//                return false;
-//            }
-//        });
 
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
         // Use 1/8th of the available memory for this memory cache.
@@ -168,13 +165,80 @@ public class ViewFragment extends Fragment {
         tempBitmap = Bitmap.createBitmap(4000, 3000, Bitmap.Config.RGB_565);
         tempCanvas = new
                 Canvas(tempBitmap);
+
+       final GestureDetectorCompat  DoubleTap = new GestureDetectorCompat(getActivity(), new MyGestureListener());
+
+        rootView.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                DoubleTap.onTouchEvent(event);
+                return false;
+            }
+        });
+
+
+        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                mCurrentFragmentPosition = position;
+            }
+
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                boolean isGoingToRightPage = position == mCurrentFragmentPosition;
+                if(isGoingToRightPage)
+                {
+                    Log.wtf("User going to the", "right");
+                    // user is going to the right page
+                }
+                else
+                {
+                    Log.wtf("User going to the", "left");
+                    // user is going to the left page
+                }
+            }
+
+
+
+
+            int i=0;
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
+                int current =mPager.getCurrentItem();
+                Log.wtf("Item current", String.valueOf(current));
+                items.add(current);
+//                Log.wtf("Items size", String.valueOf(items.size()));
+//                for(int j=0; j<items.size(); j++){
+//                    Log.wtf("Items in array", String.valueOf(items.get(j)));
+//                }
+
+                if(items.size()>=2){
+                    Log.wtf("Item previous", String.valueOf(items.get(items.size()-2)));}
+
+                Log.wtf("On page scroll ", "state changed");
+                Log.wtf("Value of i: ", String.valueOf(i));
+                if(i==0 || i==1){
+                    pageChanged=true;
+                    i++;
+                }
+                else {
+                    pageChanged = false;
+                    i=i-2;
+                }
+            }
+        });
+
         return rootView;
     }
 
 
     private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
+
+
+
         @Override
         public void onLongPress(MotionEvent e) {
+            longpress=1;
             Log.d("...", "onLongPress works");
             Log.i("Position: ", String.valueOf(mPager.getCurrentItem()));
              x = (int) e.getX();
@@ -187,8 +251,17 @@ public class ViewFragment extends Fragment {
 
             switch (e.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    Log.wtf("X ", "in Long Press" + x);
-                    Log.wtf("Y ", "in Long Press" + y);
+                    int  xDown = (int) e.getX();
+                    int  yDown = (int) e.getY();
+                    Log.wtf("X ", "in Long Press" + xDown);
+                    Log.wtf("Y ", "in Long Press" + yDown);
+
+                    case MotionEvent.ACTION_UP:
+                        int  xUp = (int) e.getX();
+                      int  yUp = (int) e.getY();
+                        y = (int) e.getY();
+                        Log.wtf("X ", "in " + xUp);
+                        Log.wtf("Y ", "in Long Press" + yUp);
 
                     currentPosition = mPager.getCurrentItem();
 
@@ -346,9 +419,12 @@ public class ViewFragment extends Fragment {
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
         }
+        public ArrayList positionArr =new ArrayList();
+
 
         @Override
-        public Fragment getItem(int position) {
+        public  Fragment getItem(int position) {
+             positionArr.add(position);
             return ChildFragment.createfragment(context ,ArrayFilepaths.get(position).getPath(), position, x, y);
         }
 

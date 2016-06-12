@@ -110,32 +110,13 @@ public class ChildFragment extends Fragment {
 
     private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
 
-//        @Override
-//        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-//            Log.wtf("Swipe works", "!!!");
-//            boolean result = false;
-//            try {
-//                float diffY = e2.getY() - e1.getY();
-//                float diffX = e2.getX() - e1.getX();
-//                if (Math.abs(diffX) > Math.abs(diffY)) {
-//                    if (Math.abs(diffX) > 100 && Math.abs(velocityX) > 100) {
-//                        if (diffX > 0) {
-//                            Log.wtf("Swipe right", "!!!");
-//                        } else {
-//                            Log.wtf("Swipe left","!!!");
-//                        }
-//                    }
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            return true;
-//        }
+
+
 
 
         @Override
         public void onLongPress(MotionEvent e) {
-  //          Log.wtf("...", "onLongPress works");
+           Log.wtf("Pre Long press", " works!!!");
             //    Log.i("Position: ", String.valueOf(mPager.getCurrentItem()));
 //            int x = (int) e.getX();
 //            int y = (int) e.getY();
@@ -145,23 +126,34 @@ public class ChildFragment extends Fragment {
             //    ChildFragment.loadBitmap(ArrayFilepaths.get(pos).getPath(), imageView, mPager.getCurrentItem(), x, y);
 
 
-            int downX = 0;
+            int downX=0;
+            int downY=0;
             long downTime = 0;
+
 
             switch (e.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     downX = (int) e.getX();
+                    downY=(int) e.getY();
+                    Log.wtf("DownX", String.valueOf(downX));
+                    Log.wtf("DownY", String.valueOf(downY));
+
                     downTime = Calendar.getInstance().getTimeInMillis();
 
                 case MotionEvent.ACTION_UP:
                     int upX = (int) e.getX();
+                    int upY =(int) e.getY();
                     long upTime = Calendar.getInstance().getTimeInMillis();
+                    Log.wtf("UpX", String.valueOf(upX));
+                    Log.wtf("UpY", String.valueOf(upY));
 
                     float deltaX = downX - upX;
                     float deltaTime = upTime - downTime;
-                    Log.wtf("Delta Time", String.valueOf(deltaTime));
+                 //   Log.wtf("Delta Time", String.valueOf(deltaTime));
 
-                    if ((deltaX == 0) && (deltaTime < 10)) {
+                  //  if ((deltaX == 0) && (deltaTime < 10) && ViewFragment.pageChanged==false) {
+                    Log.wtf("pageChanged==false 1", String.valueOf(ViewFragment.pageChanged ==false));
+                    if (ViewFragment.longpress==1) {
                         Log.wtf("Events ", "onLongPress works");
                       int x = (int) e.getX();
                       int y = (int) e.getY();
@@ -206,7 +198,12 @@ public class ChildFragment extends Fragment {
                             }
                         }
                     }
+                    else {
+                        ViewFragment.longpress=0;
+                    }
             }
         }
+
+
     }
 }

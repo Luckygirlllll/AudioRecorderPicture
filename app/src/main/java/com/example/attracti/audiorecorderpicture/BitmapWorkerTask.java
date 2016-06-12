@@ -20,6 +20,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * This class responsible for the dowmloading pictures for the first screen
+ */
+
+
 import static com.example.attracti.audiorecorderpicture.MyAdapter.decodeSampledBitmapFromResource;
 
 class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
@@ -79,10 +84,8 @@ class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
 //                Log.i("Events X in Async: ", xcoord.get(i) + " Y in Async: " + ycoord.get(i));
 //            }
 //                tempCanvas.restore();
-        tempCanvas.drawCircle(50, 50, 20, myPaint3);
-        if (MyAdapter2.x != 0 && MyAdapter2.y != 0) {
-            tempCanvas.drawCircle(MyAdapter2.x / 2, MyAdapter2.y / 2, 20, myPaint3);
-        }
+      //  tempCanvas.drawCircle(50, 50, 20, myPaint3);
+
 //            }
         tempCanvas.save();
         return bitmap;

@@ -88,13 +88,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public void loadBitmap(String path, ImageView imageView, int position) {
         final String imageKey = String.valueOf(path);
 
-        final Bitmap bitmap = getBitmapFromMemCache(imageKey);
+        Bitmap bitmap = getBitmapFromMemCache(imageKey);
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
         } else {
-            // imageView.setImageResource(R.drawable.image_placeholder);
-            BitmapWorkerTask task = new BitmapWorkerTask(imageView, position);
-            task.execute(path);
+
+            bitmap = decodeSampledBitmapFromResource(path, 100, 100);
+            imageView.setImageBitmap(bitmap);
+
+           // BitmapWorkerTask task = new BitmapWorkerTask(imageView, position);
+           // task.execute(path);
         }
     }
 
