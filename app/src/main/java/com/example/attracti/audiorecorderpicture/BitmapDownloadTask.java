@@ -91,6 +91,7 @@ class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
         Log.i("onPostExecute", "works!");
         if (viewHolderWeakReference != null && bitmap != null) {
             final ImageView imageView = viewHolderWeakReference.get();
+
             if (imageView != null) {
                 imageView.setImageBitmap(bitmap);
 

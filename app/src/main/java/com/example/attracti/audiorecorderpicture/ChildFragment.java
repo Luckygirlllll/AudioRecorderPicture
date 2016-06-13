@@ -110,13 +110,11 @@ public class ChildFragment extends Fragment {
 
     private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
 
-
-
-
-
         @Override
         public void onLongPress(MotionEvent e) {
            Log.wtf("Pre Long press", " works!!!");
+
+
             //    Log.i("Position: ", String.valueOf(mPager.getCurrentItem()));
 //            int x = (int) e.getX();
 //            int y = (int) e.getY();

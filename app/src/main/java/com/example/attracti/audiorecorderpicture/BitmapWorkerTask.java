@@ -1,7 +1,7 @@
 package com.example.attracti.audiorecorderpicture;
 
 /**
- * Created by attracti on 5/23/16.
+ * Created by Iryna on 5/23/16.
  * <p/>
  * In this class going the process of downloading bitmaps in AsyncTask
  */
@@ -21,7 +21,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * This class responsible for the dowmloading pictures for the first screen
+ * This class responsible for the dowloading pictures for the first screen
  */
 
 
@@ -97,7 +97,9 @@ class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
         Log.i("onPostExecute", "works!");
         if (viewHolderWeakReference != null && bitmap != null) {
             final ImageView imageView = viewHolderWeakReference.get();
+
             if (imageView != null) {
+
                 imageView.setImageBitmap(bitmap);
                 imageView.setImageDrawable(new BitmapDrawable(BitmapWorkerTask.tempBitmapTest));
                 Paint myPaint4 = new Paint();

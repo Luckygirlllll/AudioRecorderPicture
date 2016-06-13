@@ -36,8 +36,7 @@ import java.util.ArrayList;
  */
 
 
-public class ViewFragment extends Fragment {
-
+public class ViewFragment extends Fragment implements OnSwipePictureListener {
 
     File[] listFile;
     File[] listFolders;
@@ -45,7 +44,7 @@ public class ViewFragment extends Fragment {
     ArrayList<Folder> FOLDERS = new ArrayList<>();
     public static LruCache<String, Bitmap> mMemoryCache;
 
-    public static ViewPager mPager;
+    public static CustomViewPagerH mPager;
     private ScreenSlidePagerAdapter mPagerAdapter;
     public static ImageView imageView;
 
@@ -83,6 +82,8 @@ public class ViewFragment extends Fragment {
     static int mCurrentFragmentPosition;
 
     public static int longpress=0;
+
+
 
     @Override
     public void onAttach(Context context) {
@@ -141,7 +142,8 @@ public class ViewFragment extends Fragment {
                 R.layout.view_pager, container, false);
 
 
-        mPager = (ViewPager) rootView.findViewById(R.id.pager_fragment);
+        mPager = (CustomViewPagerH) rootView.findViewById(R.id.pager_fragment);
+        mPager.setPagingEnabled(false);
         imageView = (ImageView) rootView.findViewById(R.id.imageView);
         mPagerAdapter = new ScreenSlidePagerAdapter(getFragmentManager());
         mPager.setAdapter(mPagerAdapter);
@@ -199,8 +201,6 @@ public class ViewFragment extends Fragment {
             }
 
 
-
-
             int i=0;
             @Override
             public void onPageScrollStateChanged(int arg0) {
@@ -231,9 +231,19 @@ public class ViewFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void next() {
+         mPager.setCurrentItem(mPager.getCurrentItem()+1, true);
+         Log.wtf("CurrentItem ", "in next " + currentPosition+1 );
+    }
+
+    @Override
+    public void previous() {
+        mPager.setCurrentItem(mPager.getCurrentItem()-1, true);
+    }
+
 
     private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
-
 
 
         @Override

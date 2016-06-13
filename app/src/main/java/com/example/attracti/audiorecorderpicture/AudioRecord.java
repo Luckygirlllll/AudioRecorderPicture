@@ -44,6 +44,8 @@ import java.util.ArrayList;
 
 public class AudioRecord extends AppCompatActivity implements OnHeadlineSelectedListener {
 
+    OnSwipePictureListener onSwipePictureListener;
+
     static ArrayList<String> bitmapppaths = new ArrayList();
 
     int firstslide = 0;
@@ -134,6 +136,9 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
     Button recordButtonpause;
     Button chooseButton;
     Toolbar myToolbar;
+
+    Button leftButton;
+    Button rightButton;
 
     static long timePictureChange;
 
@@ -229,9 +234,6 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
             e.printStackTrace();
         }
     }
-
-
-
 
     private void startNextPlaying() {
         mPlayer = new MediaPlayer();
@@ -343,6 +345,8 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
             mPagerAdapter.notifyDataSetChanged();
         }
     }
+
+
 
 
 //    public void readFromFile() {
@@ -559,6 +563,25 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         }
     };
 
+    private OnClickListener leftButtonListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Log.wtf("Left button", "works!");
+            onSwipePictureListener.previous();
+
+        }
+    };
+
+    private OnClickListener rightButtonListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            onSwipePictureListener.next();
+            Log.wtf("Rigth button", "works!");
+
+        }
+    };
+
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_PICTURE) {
@@ -624,11 +647,17 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
         recordButtonpause = (Button) findViewById(R.id.record_button);
         recordButtonpause.setOnClickListener(recordButtonListener);
-        findViewById(R.id.record_button).setOnClickListener(recordButtonListener);
+      //  findViewById(R.id.record_button).setOnClickListener(recordButtonListener);
 
         chooseButton = (Button) findViewById(R.id.choose_button);
         chooseButton.setOnClickListener(chooseButtonListener);
-        findViewById(R.id.choose_button).setOnClickListener(chooseButtonListener);
+      //  findViewById(R.id.choose_button).setOnClickListener(chooseButtonListener);
+
+        leftButton = (Button) findViewById(R.id.left_button);
+        leftButton.setOnClickListener(leftButtonListener);
+
+        rightButton = (Button) findViewById(R.id.right_button);
+        rightButton.setOnClickListener(rightButtonListener);
 
         mPager = (CustomViewPagerH) findViewById(R.id.pager);
         mPager.setPagingEnabled(false);
@@ -963,6 +992,7 @@ public static int done = 0;
                     viewFragment = new ViewFragment();
                     onArticleSelected(arrayFilepaths2);
                     fragments.add(viewFragment);
+                    onSwipePictureListener=viewFragment;
                     return viewFragment;
                 default:
                     break;

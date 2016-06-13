@@ -128,6 +128,13 @@
             >
 
             <Button
+                android:id="@+id/left_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/left_black_24dp"/>
+
+
+            <Button
                 android:id="@+id/record_button"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
@@ -144,6 +151,13 @@
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:background="@drawable/photo_black"/>
+
+            <Button
+                android:id="@+id/right_button"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:background="@drawable/right_black_24dp"/>
+
 
             <!--android:text="@string/start_image_capture"-->
 

@@ -1,7 +1,6 @@
 package com.example.attracti.audiorecorderpicture;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -52,11 +51,8 @@ class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
         f = new File(data);
         Log.wtf("Params: ", params[0]);
 
-        BitmapFactory.Options bounds = new BitmapFactory.Options();
-        bounds.inJustDecodeBounds = true;
 
-        final Bitmap bitmap = decodeSampledBitmapFromResource(data, 100, 100);
-
+         final Bitmap bitmap = decodeSampledBitmapFromResource(data, 100, 100);
         //addBitmapToMemoryCache(String.valueOf(params[0]), bitmap);
 
         return bitmap;
@@ -80,6 +76,8 @@ class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
         textPaint.setTextAlign(Paint.Align.CENTER);
         Rect bounds = new Rect();
 
+
+
         if (ChildFragment.positionList != null) {
             for (int i = 0; i < ChildFragment.positionList.size(); i++) {
                 Log.i("filePosition size: ", String.valueOf(ChildFragment.positionList.size()));
@@ -98,6 +96,7 @@ class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
 //                    };
                     tempCanvas.drawText(String.valueOf(i + 1), ChildFragment.xcoordList.get(i) / 4, ChildFragment.ycoordList.get(i) / 4, textPaint);
                     tempCanvas.save();
+
                 }
             }
         }
@@ -105,8 +104,8 @@ class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
             imageView = viewHolderWeakReference.get();
             if (imageView != null) {
                 imageView.setImageBitmap(bitmap);
-
                 imageView.setImageDrawable(new BitmapDrawable(ChildDownloadTask.tempBitmapTest));
+
                 imageView.invalidate();
             }
         }

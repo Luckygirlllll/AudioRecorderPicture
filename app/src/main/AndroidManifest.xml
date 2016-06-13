@@ -14,7 +14,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-        android:name="com.example.attracti.audiorecorderpicture.App">
+        android:name="com.example.attracti.audiorecorderpicture.App"
+        >
 
         <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
