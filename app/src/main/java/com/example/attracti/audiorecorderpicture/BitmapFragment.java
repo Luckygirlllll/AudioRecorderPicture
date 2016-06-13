@@ -89,12 +89,10 @@ public class BitmapFragment extends Fragment {
     }
 
     public void startPlayingPictureLabel(int i) {
-         Log.wtf("StartPlaying", "works!");
 
-        MediaPlayer mPlayer = new MediaPlayer();
+         mPlayer = new MediaPlayer();
         try {
             String mFileName = CameraFragment.mAudioFolder + "/" + ViewActivity.parentName + ".3gp";
-            Log.wtf("mFile: ", mFileName);
             mPlayer.setDataSource(mFileName);
             mPlayer.prepare();
             mPlayer.seekTo(Integer.parseInt((String) ViewActivity.fileTime.get(i)));
@@ -102,9 +100,11 @@ public class BitmapFragment extends Fragment {
 
             Log.wtf("FileTime: ", String.valueOf(ViewActivity.fileTime.size()));
             Log.wtf("value of i: ", String.valueOf(i));
+            Log.wtf("Start playing time: ", (String) ViewActivity.fileTime.get(i));
+
 
             if (i < ViewActivity.fileTime.size() - 1) {
-
+                Log.wtf("Stop playing time: ", (String) ViewActivity.fileTime.get(i+1));
                 new CountDownTimer(Integer.parseInt((String) ViewActivity.fileTime.get(i + 1)) - Integer.parseInt((String) ViewActivity.fileTime.get(i)), 1000) {
                     public void onTick(long millisUntilFinished) {
                     }
@@ -114,6 +114,7 @@ public class BitmapFragment extends Fragment {
                     }
                 }.start();
             } else {
+                Log.wtf("Stop playing time in else: ", (String) ViewActivity.fileTime.get(i)+10000);
                 new CountDownTimer(10000, 1000) {
                     public void onTick(long millisUntilFinished) {
                     }

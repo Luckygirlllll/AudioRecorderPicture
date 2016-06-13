@@ -8,6 +8,7 @@ import android.content.Context;
  *
  * Use context in every place of the application using App.context
  */
+
 public class App extends Application {
     public static Context context;
 

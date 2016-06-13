@@ -42,7 +42,6 @@ public class AdapterViewProject extends RecyclerView.Adapter<AdapterViewProject.
         Log.wtf("Image Key: ", String.valueOf(imageKey));
         Log.wtf("Image position: ", String.valueOf(position));
 
-        // final Bitmap bitmap = MyAdapter2.getBitmapFromMemCache(imageKey);
         final Bitmap bitmap = null;
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
@@ -90,7 +89,6 @@ public class AdapterViewProject extends RecyclerView.Adapter<AdapterViewProject.
 
         public ViewHolder(View v) {
             super(v);
-            //   image1 = (ImageView) v.findViewById(R.id.recycler_item_image);
         }
     }
 
@@ -142,6 +140,4 @@ public class AdapterViewProject extends RecyclerView.Adapter<AdapterViewProject.
             yfile.add(filetime2[i]);
         }
     }
-
-
 }
