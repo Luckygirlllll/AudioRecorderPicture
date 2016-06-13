@@ -3,7 +3,7 @@ package com.example.attracti.audiorecorderpicture;
 /**
  * Created by Iryna on 5/25/16.
  * <p/>
- * This is a ViewPager which switches two fragments: CameraFragment and RecyclerViewFragment
+ * This is a CustomViewPager, it uses in AudioRecord activity and in ViewFragment (it disables swipes in ViewPager)
  */
 
 import android.content.Context;

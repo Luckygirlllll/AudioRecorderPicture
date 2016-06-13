@@ -17,11 +17,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 /**
  * Created by Iryna on 6/2/16.
- *
+ * <p/>
  * this Fragment responsible for the showing of the picture which just have been captured (ViewFrgament)
  */
 
@@ -105,103 +104,57 @@ public class ChildFragment extends Fragment {
     }
 
 
-
-
-
     private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
 
         @Override
         public void onLongPress(MotionEvent e) {
-           Log.wtf("Pre Long press", " works!!!");
-
-
-            //    Log.i("Position: ", String.valueOf(mPager.getCurrentItem()));
-//            int x = (int) e.getX();
-//            int y = (int) e.getY();
-
-           // Log.wtf("imageView==null ", String.valueOf(imageView == null));
-            //    imageView.setImageDrawable(getResources().getDrawable(R.drawable.placeholder));
-            //    ChildFragment.loadBitmap(ArrayFilepaths.get(pos).getPath(), imageView, mPager.getCurrentItem(), x, y);
-
-
-            int downX=0;
-            int downY=0;
-            long downTime = 0;
-
+            Log.wtf("Long press", " works!!!");
 
             switch (e.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    downX = (int) e.getX();
-                    downY=(int) e.getY();
-                    Log.wtf("DownX", String.valueOf(downX));
-                    Log.wtf("DownY", String.valueOf(downY));
+                    int x = (int) e.getX();
+                    int y = (int) e.getY();
 
-                    downTime = Calendar.getInstance().getTimeInMillis();
+                    xcoordList.add(x);
+                    ycoordList.add(y);
+                    positionList.add(positionCurrent);
 
-                case MotionEvent.ACTION_UP:
-                    int upX = (int) e.getX();
-                    int upY =(int) e.getY();
-                    long upTime = Calendar.getInstance().getTimeInMillis();
-                    Log.wtf("UpX", String.valueOf(upX));
-                    Log.wtf("UpY", String.valueOf(upY));
+                    loadBitmap(file, imageView, positionCurrent, x, y);
 
-                    float deltaX = downX - upX;
-                    float deltaTime = upTime - downTime;
-                 //   Log.wtf("Delta Time", String.valueOf(deltaTime));
+                    Log.i("Events X: ", +x + " Events Y: " + y);
+                    long after = System.currentTimeMillis();
+                    int difference = (int) (after - AudioRecord.startTimeAudio);
+                    int sBody = difference;
+                    String labelFileName = FirstscreenActivity.mCurrentProject + ".txt";
+                    if (!CameraFragment.mLabelsDirectory.exists() && !CameraFragment.mLabelsDirectory.mkdirs()) {
+                        Log.wtf("first if works", "!!!");
+                        CameraFragment.mLabelsDirectory = null;
 
-                  //  if ((deltaX == 0) && (deltaTime < 10) && ViewFragment.pageChanged==false) {
-                    Log.wtf("pageChanged==false 1", String.valueOf(ViewFragment.pageChanged ==false));
-                    if (ViewFragment.longpress==1) {
-                        Log.wtf("Events ", "onLongPress works");
-                      int x = (int) e.getX();
-                      int y = (int) e.getY();
+                    } else {
+                          Log.wtf("first else works", "!!!");
 
-//                        switch (e.getAction()) {
-//                case MotionEvent.ACTION_DOWN:
-//                    Log.wtf("X ", "in Long Press" + x);
-//                    Log.wtf("Y ", "in Long Press" + y);
+//                        if (labelFile == null) {
+//                            Log.wtf("Second if works", "!!!");
+//                            labelFile = new File(CameraFragment.mLabelsDirectory, labelFileName);
+//                        } else {
+                        labelFile = new File(CameraFragment.mLabelsDirectory, labelFileName);
+                          //  Log.wtf("Second else works", "!!!");
+                            FileWriter writer = null;
+                            try {
+                                writer = new FileWriter(labelFile, true);
+                                Log.wtf("Time", "Time:" + sBody + " X:" + x + "\n" + "Y" + y + "\n");
+                                writer.append(positionCurrent + "\n" + sBody + "\n" + x + "\n" + y + "\n");
+                                writer.flush();
+                                writer.close();
 
-                        //   currentPosition = mPager.getCurrentItem();
-
-                        xcoordList.add(x);
-                        ycoordList.add(y);
-                        positionList.add(positionCurrent);
-
-                        loadBitmap(file, imageView, positionCurrent, x, y);
-
-                        Log.i("Events X: ", +x + " Events Y: " + y);
-                        long after = System.currentTimeMillis();
-                        int difference = (int) (after - AudioRecord.startTimeAudio);
-                        int sBody = difference;
-
-                        if (!CameraFragment.mLabelsDirectory.exists() && !CameraFragment.mLabelsDirectory.mkdirs()) {
-                            CameraFragment.mLabelsDirectory = null;
-                        } else {
-
-                            String labelFileName = FirstscreenActivity.mCurrentProject + ".txt";
-                            if (labelFile == null) {
-                                labelFile = new File(CameraFragment.mLabelsDirectory, labelFileName);
-                            } else {
-
-                                FileWriter writer = null;
-                                try {
-                                    writer = new FileWriter(labelFile, true);
-                                    Log.i("Time, X, Y", "Time:" + sBody + " X:" + x + "\n" + "Y" + y + "\n");
-                                    writer.append(positionCurrent + "\n" + sBody + "\n" + x + "\n" + y + "\n");
-                                    writer.flush();
-                                    writer.close();
-                                } catch (IOException f) {
-                                    f.printStackTrace();
-                                }
+                            } catch (IOException f) {
+                                f.printStackTrace();
                             }
                         }
                     }
-                    else {
-                        ViewFragment.longpress=0;
-                    }
+
             }
         }
-
-
     }
-}
+
+

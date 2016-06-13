@@ -59,30 +59,18 @@ class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
         textPaint.setTextAlign(Paint.Align.CENTER);
         Rect bounds = new Rect();
 
-
         for (int i = 0; i < ViewActivity.filePosition.size(); i++) {
-            Log.i("filePosition size: ", String.valueOf(ViewActivity.filePosition.size()));
+            Log.wtf("filePosition size: ", String.valueOf(ViewActivity.filePosition.size()));
+            Log.wtf("file Position items: ", String.valueOf(ViewActivity.filePosition.get(i)));
             if (position == (Integer.parseInt((String) ViewActivity.filePosition.get(i)))) {
                 tempCanvas.drawCircle(Integer.parseInt((String) ViewActivity.xfile.get(i))/4, Integer.parseInt((String) ViewActivity.yfile.get(i))/4, 10, myPaint3);
 
                 textPaint.getTextBounds(String.valueOf(i), 0, String.valueOf(i).length(), bounds);
-                tempCanvas.drawText(String.valueOf(i), Integer.parseInt((String)ViewActivity.xfile.get(i)) / 4, Integer.parseInt((String)ViewActivity.yfile.get(i)) / 4, textPaint);
+                tempCanvas.drawText(String.valueOf(i+1), Integer.parseInt((String)ViewActivity.xfile.get(i)) / 4, Integer.parseInt((String)ViewActivity.yfile.get(i)) / 4, textPaint);
                 tempCanvas.save();
             }
         }
 
-//
-//        Set<Integer> uniquePositions = new HashSet<>(MyAdapter2.positionList);
-//
-//        for(int i=0; i<AdapterViewProject.filePosition.size();i++ )
-        //     if (position == Integer.parseInt((String) ViewFragment.filePosition.get(i))) {
-        //               Log.i("FilePosition: ", String.valueOf(Integer.parseInt((String) AdapterViewProject.filePosition.get(i))));
-//                if(ViewFragment.xcoordList!=null && ViewFragment.ycoordList!=null) {
-//                    tempCanvas.drawCircle(ViewFragment.xcoordList.get(0), ViewFragment.xcoordList.get(0), 20, myPaint3);
-//                }
-//                Log.i("Events X in Async: ", AdapterViewProject.xfile.get(i) + " Y in Async: " + MyAdapter2.y);
-//            }
-//        tempCanvas.save();
         return bitmap;
     }
 

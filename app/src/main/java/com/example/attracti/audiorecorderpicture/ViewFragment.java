@@ -2,22 +2,13 @@ package com.example.attracti.audiorecorderpicture;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.GestureDetectorCompat;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.util.LruCache;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -25,7 +16,6 @@ import android.widget.ImageView;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -38,10 +28,7 @@ import java.util.ArrayList;
 
 public class ViewFragment extends Fragment implements OnSwipePictureListener {
 
-    File[] listFile;
-    File[] listFolders;
 
-    ArrayList<Folder> FOLDERS = new ArrayList<>();
     public static LruCache<String, Bitmap> mMemoryCache;
 
     public static CustomViewPagerH mPager;
@@ -52,36 +39,22 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
 
     static ArrayList<File> ArrayFilepaths;
 
-    public static File labelFile;
-    public static ArrayList<Integer> xcoordList = new ArrayList();
-    public static ArrayList<Integer> ycoordList = new ArrayList();
-    public static ArrayList<Integer> positionList = new ArrayList<>();
-
-    static int x=0;
-    static int y=0;
-    int currentPosition;
-
-    //---- Canvas
-    Canvas tempCanvas;
-    Bitmap tempBitmap;
-    Paint myPaint;
-    Paint textPaint;
-    static int clicked = 1;
-    static File gpxfile;
-
     public Context context;
 
+    public static File labelFile;
+
+    // -- you can delete it soon
+    static int x=0;
+    static int y=0;
     static ArrayList fileTime = new ArrayList();
     static ArrayList xfile = new ArrayList();
     static ArrayList yfile = new ArrayList();
     static ArrayList filePosition = new ArrayList();
+    // -------
 
     public static boolean pageChanged = false;
 
     ArrayList items= new ArrayList();
-    static int mCurrentFragmentPosition;
-
-    public static int longpress=0;
 
 
 
@@ -104,33 +77,6 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
         if (savedInstanceState != null) {
             // Restore last state for checked position.
             ArrayFilepaths = (ArrayList<File>) savedInstanceState.getSerializable("arraylist");
-        }
-    }
-
-
-
-
-    public void getFromSdcardFolders() {
-        File file = new File(Environment.getExternalStorageDirectory() +
-                "/Audio_Recorder_Picture", "Picture");
-        if (file.isDirectory()) {
-            listFolders = file.listFiles();
-            for (int i = 0; i < listFolders.length; i++) {
-
-                Folder folderobject = new Folder();
-                folderobject.setName(listFolders[i].getName());
-
-                File picturelist = new File(Environment.getExternalStorageDirectory() +
-                        "/Audio_Recorder_Picture/Picture", listFolders[i].getName());
-                if (picturelist.isDirectory()) {
-                    listFile = picturelist.listFiles();
-                    for (int j = 0; j < listFile.length; j++) {
-                        folderobject.addFile(listFile[j].getAbsolutePath());
-                    }
-                }
-                FOLDERS.add(folderobject);
-                //   Log.wtf("TAG", "Folders size inside the getFRom:" + FOLDERS.size());
-            }
         }
     }
 
@@ -164,201 +110,18 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
             }
         };
 
-        tempBitmap = Bitmap.createBitmap(4000, 3000, Bitmap.Config.RGB_565);
-        tempCanvas = new
-                Canvas(tempBitmap);
-
-       final GestureDetectorCompat  DoubleTap = new GestureDetectorCompat(getActivity(), new MyGestureListener());
-
-        rootView.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                DoubleTap.onTouchEvent(event);
-                return false;
-            }
-        });
-
-
-        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                mCurrentFragmentPosition = position;
-            }
-
-
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                boolean isGoingToRightPage = position == mCurrentFragmentPosition;
-                if(isGoingToRightPage)
-                {
-                    Log.wtf("User going to the", "right");
-                    // user is going to the right page
-                }
-                else
-                {
-                    Log.wtf("User going to the", "left");
-                    // user is going to the left page
-                }
-            }
-
-
-            int i=0;
-            @Override
-            public void onPageScrollStateChanged(int arg0) {
-                int current =mPager.getCurrentItem();
-                Log.wtf("Item current", String.valueOf(current));
-                items.add(current);
-//                Log.wtf("Items size", String.valueOf(items.size()));
-//                for(int j=0; j<items.size(); j++){
-//                    Log.wtf("Items in array", String.valueOf(items.get(j)));
-//                }
-
-                if(items.size()>=2){
-                    Log.wtf("Item previous", String.valueOf(items.get(items.size()-2)));}
-
-                Log.wtf("On page scroll ", "state changed");
-                Log.wtf("Value of i: ", String.valueOf(i));
-                if(i==0 || i==1){
-                    pageChanged=true;
-                    i++;
-                }
-                else {
-                    pageChanged = false;
-                    i=i-2;
-                }
-            }
-        });
 
         return rootView;
     }
 
     @Override
     public void next() {
-         mPager.setCurrentItem(mPager.getCurrentItem()+1, true);
-         Log.wtf("CurrentItem ", "in next " + currentPosition+1 );
+         mPager.setCurrentItem(mPager.getCurrentItem() + 1, true);
     }
 
     @Override
     public void previous() {
         mPager.setCurrentItem(mPager.getCurrentItem()-1, true);
-    }
-
-
-    private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
-
-
-        @Override
-        public void onLongPress(MotionEvent e) {
-            longpress=1;
-            Log.d("...", "onLongPress works");
-            Log.i("Position: ", String.valueOf(mPager.getCurrentItem()));
-             x = (int) e.getX();
-             y = (int) e.getY();
-
-            int pos = mPager.getCurrentItem();
-                Log.wtf("imageView==null ", String.valueOf(imageView == null));
-        //    imageView.setImageDrawable(getResources().getDrawable(R.drawable.placeholder));
-        //    ChildFragment.loadBitmap(ArrayFilepaths.get(pos).getPath(), imageView, mPager.getCurrentItem(), x, y);
-
-            switch (e.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    int  xDown = (int) e.getX();
-                    int  yDown = (int) e.getY();
-                    Log.wtf("X ", "in Long Press" + xDown);
-                    Log.wtf("Y ", "in Long Press" + yDown);
-
-                    case MotionEvent.ACTION_UP:
-                        int  xUp = (int) e.getX();
-                      int  yUp = (int) e.getY();
-                        y = (int) e.getY();
-                        Log.wtf("X ", "in " + xUp);
-                        Log.wtf("Y ", "in Long Press" + yUp);
-
-                    currentPosition = mPager.getCurrentItem();
-
-                    xcoordList.add(x);
-                    ycoordList.add(y);
-                    positionList.add(mPager.getCurrentItem());
-
-                    Log.i("Events X: ", +x + " Events Y: " + y);
-                    long after = System.currentTimeMillis();
-                    int difference = (int) (after - AudioRecord.startTimeAudio);
-                    int sBody = difference;
-
-                    if (!CameraFragment.mLabelsDirectory.exists() && !CameraFragment.mLabelsDirectory.mkdirs()) {
-                        CameraFragment.mLabelsDirectory = null;
-                    } else {
-
-                        String labelFileName = FirstscreenActivity.mCurrentProject + ".txt";
-                        if (labelFile == null) {
-                            labelFile = new File(CameraFragment.mLabelsDirectory, labelFileName);
-                        } else {
-
-                            FileWriter writer = null;
-                            try {
-                                writer = new FileWriter(labelFile, true);
-                                Log.i("Time, X, Y", "Time:" + sBody + " X:" + x + "\n" + "Y" + y + "\n");
-                                writer.append(mPager.getCurrentItem() + "\n" + sBody + "\n" + x + "\n" + y + "\n");
-                                writer.flush();
-                                writer.close();
-                            } catch (IOException f) {
-                                f.printStackTrace();
-                            }
-                            readFromFile();
-                        }
-                    }
-            }
-        }
-
-
-        @Override
-        public boolean onDown(MotionEvent e) {
-            Log.d("...", "onDown works");
-            int xlong = (int) e.getX();
-            int ylong = (int) e.getY();
-//            Log.wtf("Coordinates of xlong: ", String.valueOf(xlong));
-//            Log.wtf("Coordinates of ylong: ", String.valueOf(ylong));
-
-            ArrayList xcoordin = CameraFragment.getXcoordin();
-            ArrayList ycoordin = CameraFragment.getYcoordin();
-
-
-            for (int i = 0; i < xcoordin.size(); i++) {
-//
-                int xfile = Integer.parseInt((String) xcoordin.get(i));
-                int yfile = Integer.parseInt((String) ycoordin.get(i));
-
-                if ((xlong < xfile + 50 && xlong > xfile - 50) && (ylong < yfile + 50 && ylong > yfile - 50)) {
-                    //   audioRecord.startPlayingPictureLabel(i);
-                    Log.i("Index i of the label", String.valueOf(i));
-
-                    myPaint.setColor(Color.BLUE);
-                    tempCanvas.save();
-                    tempCanvas.rotate(-90, xfile * 6, yfile * 6);
-                    textPaint.setTextSize(140);
-
-                    textPaint.setColor(Color.WHITE);
-                    textPaint.setAntiAlias(true);
-                    textPaint.setTextAlign(Paint.Align.CENTER);
-
-                    myPaint.setAntiAlias(true);
-                    Rect bounds = new Rect();
-                    textPaint.getTextBounds(String.valueOf(i + 1), 0, String.valueOf(i + 1).length(), bounds);
-                    if (i + 1 < 10 && i + 1 > 1) {
-                        tempCanvas.drawCircle(xfile * 6, yfile * 6 - (bounds.height() / 2), bounds.width() + 70, myPaint);
-                    } else if (i + 1 == 1) {
-                        tempCanvas.drawCircle(xfile * 6, yfile * 6 - (bounds.height() / 2), bounds.width() + 95, myPaint);
-                    } else {
-                        tempCanvas.drawCircle(xfile * 6, yfile * 6 - (bounds.height() / 2), bounds.width() + 10, myPaint);
-                    }
-                    ;
-
-                    tempCanvas.drawText(String.valueOf(i + 1), xfile * 6, yfile * 6, textPaint);
-                    tempCanvas.restore();
-                    //list.invalidate();
-                }
-            }
-            return true;
-        }
     }
 
 
@@ -420,7 +183,6 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
             yfile.add(filetime2[i]);
         }
     }
-
 
 
 
