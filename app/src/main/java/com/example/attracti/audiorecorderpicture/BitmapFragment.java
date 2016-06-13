@@ -164,17 +164,12 @@ public class BitmapFragment extends Fragment {
          int yfile = Integer.parseInt((String) ViewActivity.yfile.get(i));
 
          if ((xlong < xfile*0.68 + 30 && xlong > xfile*0.68 - 30) && (ylong < yfile+200 + 30 && ylong > yfile+200 - 30)) {
-             Log.wtf("Xlong: ", String.valueOf(xlong));
-             Log.wtf("Ylong: ", String.valueOf(ylong));
-
-             Log.wtf("Xlong 3/4: ", String.valueOf(xlong*(3/4)));
-             Log.wtf("Ylong 3/4: ", String.valueOf(ylong*(3/4)));
 
              Log.wtf("xfile: ", String.valueOf(xfile));
              Log.wtf("yfile: ", String.valueOf(yfile));
              startPlayingPictureLabel(i);
              Log.i("Index i of the label", String.valueOf(i));
-             Log.wtf("The label is identified", "!!!");
+
          }
      }
  }

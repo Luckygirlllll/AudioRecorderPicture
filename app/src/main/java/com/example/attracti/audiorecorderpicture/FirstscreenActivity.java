@@ -111,6 +111,13 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        list.getAdapter().notifyDataSetChanged();
+
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.menu, menu);

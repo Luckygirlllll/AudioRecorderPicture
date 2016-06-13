@@ -23,12 +23,8 @@ import java.util.ArrayList;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     public final Activity context;
-
     public final ArrayList<Folder> FOLDERS;
-    // Activity MainActivity = new MainActivity();
-
     View view;
-
 
     public long getItemId(int position) {
         return position;
@@ -38,10 +34,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public int getItemCount() {
         Log.wtf("TAG", "Folders size: " + FOLDERS.size());
         return FOLDERS.size();
-    }
-
-    public int getPosition(int position) {
-        return position;
     }
 
     // optimisation of bitmap
@@ -95,7 +87,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
             bitmap = decodeSampledBitmapFromResource(path, 100, 100);
             imageView.setImageBitmap(bitmap);
-
            // BitmapWorkerTask task = new BitmapWorkerTask(imageView, position);
            // task.execute(path);
         }
@@ -152,15 +143,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.image3.setImageResource(R.drawable.placeholder);
         holder.image4.setImageResource(R.drawable.placeholder);
         holder.image5.setImageResource(R.drawable.placeholder);
-
-
-//        holder.image1.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                context.startActivity(new Intent(context, AudioRecord.class).putExtra(""));
-//            }
-
-//        });
 
         ArrayList<String> imgs = folder.getPicturelist();
 

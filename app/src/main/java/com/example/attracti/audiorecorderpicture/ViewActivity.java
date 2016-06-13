@@ -24,7 +24,7 @@ import java.util.HashMap;
  * Created by Iryna on 6/1/16.
  * <p/>
  * in this class pictures are displayed from a certain project with labels and here user can listen the audio record
- * both from labels and in the order in which it was displayed.
+ * both from labels and in the order in which it was recorded.
  */
 
 
@@ -100,8 +100,7 @@ public class ViewActivity extends FragmentActivity {
         imageView = (ImageView) findViewById(R.id.imageView);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
-
-
+        
         FirstscreenActivity.listFile[0].getAbsolutePath();
 
         getFromSdcardFolders();
@@ -112,7 +111,9 @@ public class ViewActivity extends FragmentActivity {
         for (int i = 0; i < array.length; i++) {
             Log.wtf("Array elements ", String.valueOf(array[i]));
         }
-        readFromFile();
+        if(savedInstanceState==null) {
+            readFromFile();
+        }
     }
 
     @Override
