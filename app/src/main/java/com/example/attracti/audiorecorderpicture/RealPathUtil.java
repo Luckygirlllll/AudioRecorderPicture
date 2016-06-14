@@ -10,7 +10,7 @@ import android.provider.MediaStore;
 
 /**
  * Created by Iryna on 5/17/16.
- * <p/>
+ * <p>
  * This class is used for the adding pictures from the Gallery to the project
  */
 

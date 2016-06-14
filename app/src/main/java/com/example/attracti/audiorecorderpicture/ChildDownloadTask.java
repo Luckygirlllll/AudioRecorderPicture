@@ -13,11 +13,11 @@ import android.widget.ImageView;
 import java.io.File;
 import java.lang.ref.WeakReference;
 
-import static com.example.attracti.audiorecorderpicture.MyAdapter.decodeSampledBitmapFromResource;
+import static com.example.attracti.audiorecorderpicture.RecyclerViewAdapter.decodeSampledBitmapFromResource;
 
 /**
  * Created by Iryna on 6/2/16.
- * <p/>
+ * <p>
  * In this class is going the process of the downloading bitmaps for the ViewFragment
  */
 
@@ -52,7 +52,7 @@ class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
         Log.wtf("Params: ", params[0]);
 
 
-         final Bitmap bitmap = decodeSampledBitmapFromResource(data, 100, 100);
+        final Bitmap bitmap = decodeSampledBitmapFromResource(data, 100, 100);
         //addBitmapToMemoryCache(String.valueOf(params[0]), bitmap);
 
         return bitmap;
@@ -75,7 +75,6 @@ class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
         textPaint.setAntiAlias(true);
         textPaint.setTextAlign(Paint.Align.CENTER);
         Rect bounds = new Rect();
-
 
 
         if (ChildFragment.positionList != null) {

@@ -19,7 +19,7 @@ import java.util.HashMap;
 
 /**
  * Created by Iryna on 6/1/16.
- * <p/>
+ * <p>
  * You can delete this class when all code for View Activity will be written
  */
 

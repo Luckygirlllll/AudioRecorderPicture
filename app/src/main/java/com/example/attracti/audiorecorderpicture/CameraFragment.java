@@ -60,7 +60,7 @@ public class CameraFragment extends Fragment
 
     OnHeadlineSelectedListener mCallback;
 
-    public void setCallback(OnHeadlineSelectedListener callback){
+    public void setCallback(OnHeadlineSelectedListener callback) {
         mCallback = callback;
     }
 
@@ -104,9 +104,11 @@ public class CameraFragment extends Fragment
     public static ArrayList getXcoordin() {
         return xcoordin;
     }
+
     public static ArrayList getYcoordin() {
         return ycoordin;
     }
+
     public static ArrayList getFiletime3() {
         return filetime3;
     }
@@ -128,8 +130,7 @@ public class CameraFragment extends Fragment
     public static File mLabelsDirectory = new File(mLabelsFolder);
 
     // array of the files of the pictures which have been taken in the current project
-    public static ArrayList <File> arrayFilepaths=new ArrayList<>();
-
+    public static ArrayList<File> arrayFilepaths = new ArrayList<>();
 
 
     private OnClickListener mSaveImageButtonClickListener = new OnClickListener() {
@@ -203,7 +204,7 @@ public class CameraFragment extends Fragment
         mCameraImage = (ImageView) view.findViewById(R.id.camera_image_view);
         mCameraPreview = (SurfaceView) view.findViewById(R.id.preview_view);
 
-       // DoubleTap = new GestureDetectorCompat(getActivity(), new MyGestureListener());
+        // DoubleTap = new GestureDetectorCompat(getActivity(), new MyGestureListener());
 
         final SurfaceHolder surfaceHolder = mCameraPreview.getHolder();
         surfaceHolder.addCallback(this);
@@ -238,16 +239,24 @@ public class CameraFragment extends Fragment
     }
 
     public static void setCameraDisplayOrientation(Activity activity,
-                                                  int cameraId, android.hardware.Camera camera) {
+                                                   int cameraId, android.hardware.Camera camera) {
         android.hardware.Camera.CameraInfo info = new android.hardware.Camera.CameraInfo();
         android.hardware.Camera.getCameraInfo(cameraId, info);
         int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
         int degrees = 0;
         switch (rotation) {
-            case Surface.ROTATION_0: degrees = 0; break;
-            case Surface.ROTATION_90: degrees = 90; break;
-            case Surface.ROTATION_180: degrees = 180; break;
-            case Surface.ROTATION_270: degrees = 270; break;
+            case Surface.ROTATION_0:
+                degrees = 0;
+                break;
+            case Surface.ROTATION_90:
+                degrees = 90;
+                break;
+            case Surface.ROTATION_180:
+                degrees = 180;
+                break;
+            case Surface.ROTATION_270:
+                degrees = 270;
+                break;
         }
 
         int result;
@@ -259,7 +268,6 @@ public class CameraFragment extends Fragment
         }
         camera.setDisplayOrientation(result);
     }
-
 
 
     public void readFromFile() {
@@ -475,7 +483,7 @@ public class CameraFragment extends Fragment
                         arrayFilepaths.add(file);
                         mCallback.onArticleSelected(arrayFilepaths);
                         Log.i("Array", "size 3: " + String.valueOf(arrayFilepaths.size()));
-                        for (int i=0; i<arrayFilepaths.size(); i++){
+                        for (int i = 0; i < arrayFilepaths.size(); i++) {
                             Log.i("Array filepaths", String.valueOf(arrayFilepaths.get(i)));
                         }
                     }
@@ -492,10 +500,10 @@ public class CameraFragment extends Fragment
                     //                   mCameraImage.setRotation(90);
 
 
-//                    MyAdapter2.myPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-//                    MyAdapter2.tempCanvas.drawBitmap(bitmap, 0, 0, null);
-//                    MyAdapter2.myPaint.setColor(Color.RED);
-                    //                   mCameraImage.setImageDrawable(new BitmapDrawable(getResources(), MyAdapter2.tempBitmap));
+//                    OldRecyclerViewAdapter.myPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+//                    OldRecyclerViewAdapter.tempCanvas.drawBitmap(bitmap, 0, 0, null);
+//                    OldRecyclerViewAdapter.myPaint.setColor(Color.RED);
+                    //                   mCameraImage.setImageDrawable(new BitmapDrawable(getResources(), OldRecyclerViewAdapter.tempBitmap));
                 }
             });
         }
@@ -509,7 +517,6 @@ public class CameraFragment extends Fragment
             }
         }
     }
-
 
 
     public void savePicture() {
@@ -537,30 +544,30 @@ public class CameraFragment extends Fragment
 
     private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
-                public boolean onDown(MotionEvent e) {
-                    Log.d("...", "onDown works");
-                    int xlong = (int) e.getX();
-                    int ylong = (int) e.getY();
-                    Log.wtf("Coordinates of xlong: ", String.valueOf(xlong));
-                    Log.wtf("Coordinates of ylong: ", String.valueOf(ylong));
+        public boolean onDown(MotionEvent e) {
+            Log.d("...", "onDown works");
+            int xlong = (int) e.getX();
+            int ylong = (int) e.getY();
+            Log.wtf("Coordinates of xlong: ", String.valueOf(xlong));
+            Log.wtf("Coordinates of ylong: ", String.valueOf(ylong));
 
-                    ArrayList xcoordin = CameraFragment.getXcoordin();
-                    ArrayList ycoordin = CameraFragment.getYcoordin();
+            ArrayList xcoordin = CameraFragment.getXcoordin();
+            ArrayList ycoordin = CameraFragment.getYcoordin();
 
-                    Log.wtf("Xcoordin cameraFragm", String.valueOf(CameraFragment.getXcoordin()));
-                    Log.wtf("Ycoordin cameraFragm", String.valueOf(CameraFragment.getYcoordin()));
+            Log.wtf("Xcoordin cameraFragm", String.valueOf(CameraFragment.getXcoordin()));
+            Log.wtf("Ycoordin cameraFragm", String.valueOf(CameraFragment.getYcoordin()));
 
-                    Log.wtf("Xcoordin size", String.valueOf(xcoordin.size()));
-                    Log.wtf("Ycoordin size", String.valueOf(ycoordin.size()));
+            Log.wtf("Xcoordin size", String.valueOf(xcoordin.size()));
+            Log.wtf("Ycoordin size", String.valueOf(ycoordin.size()));
 
-                    for (int i = 0; i < xcoordin.size(); i++) {
+            for (int i = 0; i < xcoordin.size(); i++) {
                 Log.i("Xcoordin", (String) xcoordin.get(i));
                 Log.i("Ycoordin", (String) ycoordin.get(i));
                 int xfile = Integer.parseInt((String) xcoordin.get(i));
                 int yfile = Integer.parseInt((String) ycoordin.get(i));
 
                 if ((xlong < xfile + 50 && xlong > xfile - 50) && (ylong < yfile + 50 && ylong > yfile - 50)) {
- //                   audioRecord.startPlayingPictureLabel(i);
+                    //                   audioRecord.startPlayingPictureLabel(i);
                     Log.i("Index i of the label", String.valueOf(i));
 
 //                    myPaint.setColor(Color.BLUE);

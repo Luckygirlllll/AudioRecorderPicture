@@ -1,8 +1,8 @@
 package com.example.attracti.audiorecorderpicture;
 
 /**
- * Created by attracti on 5/23/16.
- * <p/>
+ * Created by Iryna on 5/23/16.
+ * <p>
  * You can delete this class after all code for the ViewActivity will be written
  */
 
@@ -19,7 +19,7 @@ import java.lang.ref.WeakReference;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.example.attracti.audiorecorderpicture.MyAdapter.decodeSampledBitmapFromResource;
+import static com.example.attracti.audiorecorderpicture.RecyclerViewAdapter.decodeSampledBitmapFromResource;
 
 class BitmapWorkerTaskView extends AsyncTask<String, Void, Bitmap> {
     private final WeakReference<ImageView> viewHolderWeakReference;
@@ -49,13 +49,13 @@ class BitmapWorkerTaskView extends AsyncTask<String, Void, Bitmap> {
         Paint myPaint3 = new Paint();
         myPaint3.setColor(Color.RED);
 
-        Set<Integer> uniquePositions = new HashSet<>(MyAdapter2.positionList);
+        Set<Integer> uniquePositions = new HashSet<>(OldRecyclerViewAdapter.positionList);
 
         for (int i = 0; i < AdapterViewProject.filePosition.size(); i++)
             if (position == Integer.parseInt((String) AdapterViewProject.filePosition.get(i))) {
                 Log.i("FilePosition: ", String.valueOf(Integer.parseInt((String) AdapterViewProject.filePosition.get(i))));
                 tempCanvas.drawCircle(Float.parseFloat((String) AdapterViewProject.xfile.get(i)) / 2, Float.parseFloat((String) AdapterViewProject.yfile.get(i)) / 2, 20, myPaint3);
-                Log.i("Events X in Async: ", AdapterViewProject.xfile.get(i) + " Y in Async: " + MyAdapter2.y);
+                Log.i("Events X in Async: ", AdapterViewProject.xfile.get(i) + " Y in Async: " + OldRecyclerViewAdapter.y);
             }
         tempCanvas.save();
         return bitmap;
@@ -70,7 +70,7 @@ class BitmapWorkerTaskView extends AsyncTask<String, Void, Bitmap> {
                 imageView.setImageBitmap(bitmap);
                 imageView.setImageDrawable(new BitmapDrawable(BitmapWorkerTaskView.tempBitmapTest));
                 Paint myPaint4 = new Paint();
-                Log.i("Events X in Async: ", MyAdapter2.x + " Y in Async: " + MyAdapter2.y);
+                Log.i("Events X in Async: ", OldRecyclerViewAdapter.x + " Y in Async: " + OldRecyclerViewAdapter.y);
                 imageView.invalidate();
             }
         }

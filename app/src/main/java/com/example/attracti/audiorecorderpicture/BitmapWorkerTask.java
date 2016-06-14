@@ -2,7 +2,7 @@ package com.example.attracti.audiorecorderpicture;
 
 /**
  * Created by Iryna on 5/23/16.
- * <p/>
+ * <p>
  * In this class going the process of downloading bitmaps in AsyncTask
  */
 
@@ -25,7 +25,7 @@ import java.util.Set;
  */
 
 
-import static com.example.attracti.audiorecorderpicture.MyAdapter.decodeSampledBitmapFromResource;
+import static com.example.attracti.audiorecorderpicture.RecyclerViewAdapter.decodeSampledBitmapFromResource;
 
 class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
     private final WeakReference<ImageView> viewHolderWeakReference;
@@ -67,24 +67,24 @@ class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
         ycoord.add(130);
         ycoord.add(150);
 
-        // MyAdapter2.xcoordList;
-        // MyAdapter2.ycoordList;
-        //   MyAdapter2.positionList;
+        // OldRecyclerViewAdapter.xcoordList;
+        // OldRecyclerViewAdapter.ycoordList;
+        // OldRecyclerViewAdapter.positionList;
 
 //        AdapterViewProject.xfile;
 //        AdapterViewProject.yfile;
 //        AdapterViewProject.filePosition;
 
 
-        Set<Integer> uniquePositions = new HashSet<>(MyAdapter2.positionList);
+        Set<Integer> uniquePositions = new HashSet<>(OldRecyclerViewAdapter.positionList);
 
 //        for(int i=0; i<uniquePositions.size();i++ )
-//        if (position == MyAdapter2.positionList.get(i) && MyAdapter2.xcoordin!=null && MyAdapter2.ycoordin!=null ) {
-//                tempCanvas.drawCircle( (Float)MyAdapter2.xcoordin.get(i)/2,(Float) MyAdapter2.ycoordin.get(i)/2 , 20, myPaint3);
+//        if (position == OldRecyclerViewAdapter.positionList.get(i) && OldRecyclerViewAdapter.xcoordin!=null && OldRecyclerViewAdapter.ycoordin!=null ) {
+//                tempCanvas.drawCircle( (Float)OldRecyclerViewAdapter.xcoordin.get(i)/2,(Float) OldRecyclerViewAdapter.ycoordin.get(i)/2 , 20, myPaint3);
 //                Log.i("Events X in Async: ", xcoord.get(i) + " Y in Async: " + ycoord.get(i));
 //            }
 //                tempCanvas.restore();
-      //  tempCanvas.drawCircle(50, 50, 20, myPaint3);
+        //  tempCanvas.drawCircle(50, 50, 20, myPaint3);
 
 //            }
         tempCanvas.save();
@@ -103,9 +103,9 @@ class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
                 imageView.setImageBitmap(bitmap);
                 imageView.setImageDrawable(new BitmapDrawable(BitmapWorkerTask.tempBitmapTest));
                 Paint myPaint4 = new Paint();
-                Log.i("Events X in Async: ", MyAdapter2.x + " Y in Async: " + MyAdapter2.y);
-//                if (MyAdapter2.x>0 && MyAdapter2.y<0 ){
-//                    tempCanvas.drawCircle(MyAdapter2.x/2, MyAdapter2.y/2, 20, myPaint4);
+                Log.i("Events X in Async: ", OldRecyclerViewAdapter.x + " Y in Async: " + OldRecyclerViewAdapter.y);
+//                if (OldRecyclerViewAdapter.x>0 && OldRecyclerViewAdapter.y<0 ){
+//                    tempCanvas.drawCircle(OldRecyclerViewAdapter.x/2, OldRecyclerViewAdapter.y/2, 20, myPaint4);
 //                }
                 imageView.invalidate();
             }

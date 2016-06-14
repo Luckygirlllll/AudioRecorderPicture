@@ -14,13 +14,13 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Created by attracti on 5/23/16.
- * <p/>
- * adapter for the RecyclerView on the first screen of the project
+ * Created by Iryna on 5/23/16.
+ * <p>
+ * adapter for the RecyclerView on the first screen of the project (FirstScreenActivity)
  */
 
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     public final Activity context;
     public final ArrayList<Folder> FOLDERS;
@@ -87,8 +87,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
             bitmap = decodeSampledBitmapFromResource(path, 100, 100);
             imageView.setImageBitmap(bitmap);
-           // BitmapWorkerTask task = new BitmapWorkerTask(imageView, position);
-           // task.execute(path);
+            // BitmapWorkerTask task = new BitmapWorkerTask(imageView, position);
+            // task.execute(path);
         }
     }
 
@@ -116,14 +116,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         }
     }
 
-    public MyAdapter(Activity context, ArrayList<Folder> FOLDERS) {
+    public RecyclerViewAdapter(Activity context, ArrayList<Folder> FOLDERS) {
         this.context = context;
         this.FOLDERS = FOLDERS;
         getItemCount();
     }
 
     @Override
-    public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+    public RecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                    int viewType) {
 
         Log.wtf("TAG", "OnCreateViewHolder works!!!");

@@ -333,20 +333,18 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
     @Override
     public void onArticleSelected(ArrayList<File> arrayFilepaths) {
-        this.arrayFilepaths2=arrayFilepaths;
+        this.arrayFilepaths2 = arrayFilepaths;
 //        ViewFragment viewFragment = (ViewFragment)
 //                getSupportFragmentManager().findFragmentById(R.id.pager_fragment);
-        if(this.arrayFilepaths2!=null && viewFragment!=null){
-        viewFragment.updateArray(arrayFilepaths2);
+        if (this.arrayFilepaths2 != null && viewFragment != null) {
+            viewFragment.updateArray(arrayFilepaths2);
 
         }
-        if ((ViewFragment)mPagerAdapter.getFragment(1)!=null) {
+        if ((ViewFragment) mPagerAdapter.getFragment(1) != null) {
             ((ViewFragment) mPagerAdapter.getFragment(1)).updateArray(arrayFilepaths);
             mPagerAdapter.notifyDataSetChanged();
         }
     }
-
-
 
 
 //    public void readFromFile() {
@@ -422,15 +420,15 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
     public void test() {
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.lin_one);
-       // recordButton = new RecordButton(this);
-       // playButton = new PlayButton(this);
-       // labelButton = new LabelButton(this);
+        // recordButton = new RecordButton(this);
+        // playButton = new PlayButton(this);
+        // labelButton = new LabelButton(this);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.weight = 1;
         if (linearLayout != null) {
-          //  linearLayout.addView(recordButton, params);
-          //  linearLayout.addView(playButton, params);
-          //  linearLayout.addView(labelButton, params);
+            //  linearLayout.addView(recordButton, params);
+            //  linearLayout.addView(playButton, params);
+            //  linearLayout.addView(labelButton, params);
         }
     }
 
@@ -476,6 +474,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         mFileName = CameraFragment.mAudioFolder + "/" + FirstscreenActivity.mCurrentProject + ".3gp";
     }
 
+    static int firstclick = 0;
 
     private OnClickListener mCaptureImageButtonClickListener = new OnClickListener() {
         @Override
@@ -508,8 +507,13 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
                     try {
                         // TODO: 6/6/16 Find out what to do with the 0 label for the first picture
 
+                        if (firstclick == 0) {
+                            writer2.append(ViewFragment.ArrayFilepaths.size() + "\n" + 0 + "\n" + 0 + "\n" + 0 + "\n");
+                            firstclick++;
+                        } else {
+                            writer2.append(ViewFragment.ArrayFilepaths.size() + "\n" + sBody + "\n" + 0 + "\n" + 0 + "\n");
+                        }
 
-                        writer2.append(ViewFragment.ArrayFilepaths.size() + "\n" + sBody + "\n" + 0 + "\n" + 0 + "\n");
                         writer2.flush();
                         writer2.close();
                     } catch (IOException e) {
@@ -648,11 +652,11 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
         recordButtonpause = (Button) findViewById(R.id.record_button);
         recordButtonpause.setOnClickListener(recordButtonListener);
-      //  findViewById(R.id.record_button).setOnClickListener(recordButtonListener);
+        //  findViewById(R.id.record_button).setOnClickListener(recordButtonListener);
 
         chooseButton = (Button) findViewById(R.id.choose_button);
         chooseButton.setOnClickListener(chooseButtonListener);
-      //  findViewById(R.id.choose_button).setOnClickListener(chooseButtonListener);
+        //  findViewById(R.id.choose_button).setOnClickListener(chooseButtonListener);
 
         leftButton = (Button) findViewById(R.id.left_button);
         leftButton.setOnClickListener(leftButtonListener);
@@ -678,7 +682,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.weight = 1;
     }
-     //   test();
+    //   test();
 //        labelButton.setOnClickListener(new OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -750,7 +754,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 //        });
 //    }
 
-        //play first label
+    //play first label
 //        mLabelPlayButton.setOnClickListener(new OnClickListener() {
 //
 //            @Override
@@ -785,7 +789,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 //                }
 //                Log.i("TextInfo", String.valueOf(text));
 
-                // String[] filetime = text.toString().split("\n");
+    // String[] filetime = text.toString().split("\n");
 
 //                time = fragment.getFiletime3();
 //                Log.i("Time size", String.valueOf(time.size()));
@@ -946,7 +950,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         return super.onPrepareOptionsMenu(menu);
     }
 
-public static int done = 0;
+    public static int done = 0;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -974,7 +978,8 @@ public static int done = 0;
     }
 
     private class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
-        public  ArrayList<Fragment> fragments = new ArrayList<>();
+        public ArrayList<Fragment> fragments = new ArrayList<>();
+
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -993,7 +998,7 @@ public static int done = 0;
                     viewFragment = new ViewFragment();
                     onArticleSelected(arrayFilepaths2);
                     fragments.add(viewFragment);
-                    onSwipePictureListener=viewFragment;
+                    onSwipePictureListener = viewFragment;
                     return viewFragment;
                 default:
                     break;
@@ -1006,8 +1011,8 @@ public static int done = 0;
             return NUM_PAGES;
         }
 
-        public Fragment getFragment(int position){
-            if (position<fragments.size()) {
+        public Fragment getFragment(int position) {
+            if (position < fragments.size()) {
                 return fragments.get(position);
             }
             return null;

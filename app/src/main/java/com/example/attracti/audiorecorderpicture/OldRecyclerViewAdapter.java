@@ -28,15 +28,16 @@ import java.util.HashMap;
 import java.util.Locale;
 
 /**
- * This is Adapter of the RecyclerViewFragment
+ * This is Adapter of the RecyclerViewFragment, you can delete soon this Adapter
  */
 
-public class MyAdapter2 extends RecyclerView.Adapter<MyAdapter2.ViewHolder> {
+public class OldRecyclerViewAdapter extends RecyclerView.Adapter<OldRecyclerViewAdapter.ViewHolder> {
 
     private final Activity context;
     public static HashMap<Integer, BitmapWorkerTask> TASKS_MAP = new HashMap<>();
     private final ArrayList<Folder> FOLDERS;
     private ArrayList<File> FILES;
+
     // TODO: 5/25/16 Create List of all files in the exact folder
 
     //---------------Canvas
@@ -120,16 +121,16 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyAdapter2.ViewHolder> {
     public void loadBitmap(int position, String path, ImageView imageView) {
         final String imageKey = String.valueOf(path);
 
-       // final Bitmap bitmap = getBitmapFromMemCache(imageKey);
+        // final Bitmap bitmap = getBitmapFromMemCache(imageKey);
 //        if (bitmap != null) {
 //            imageView.setImageBitmap(bitmap);
 //        } else {
 
-            BitmapWorkerTask task = new BitmapWorkerTask(imageView, position);
-            task.execute(path);
+        BitmapWorkerTask task = new BitmapWorkerTask(imageView, position);
+        task.execute(path);
 
-            TASKS_MAP.put(position, task);
-  //      }
+        TASKS_MAP.put(position, task);
+        //      }
     }
 
 
@@ -142,9 +143,9 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyAdapter2.ViewHolder> {
         }
     }
 
-    MyAdapter2 adapter = null;
+    OldRecyclerViewAdapter adapter = null;
 
-    public MyAdapter2(Activity context, ArrayList<Folder> FOLDERS) {
+    public OldRecyclerViewAdapter(Activity context, ArrayList<Folder> FOLDERS) {
         this.context = context;
         this.FOLDERS = FOLDERS;
         getItemCount();
@@ -152,7 +153,7 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyAdapter2.ViewHolder> {
     }
 
     @Override
-    public MyAdapter2.ViewHolder onCreateViewHolder(ViewGroup parent,
+    public OldRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                     int viewType) {
 
         Log.wtf("TAG", "OnCreateViewHolder works!!!");

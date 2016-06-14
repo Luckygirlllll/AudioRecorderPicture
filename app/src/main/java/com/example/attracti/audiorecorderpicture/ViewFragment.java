@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Iryna on 5/25/16.
- * <p/>
+ * <p>
  * This is ViewPager where  each item is a picture from the Camera
  */
 
@@ -44,8 +44,8 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
     public static File labelFile;
 
     // -- you can delete it soon
-    static int x=0;
-    static int y=0;
+    static int x = 0;
+    static int y = 0;
     static ArrayList fileTime = new ArrayList();
     static ArrayList xfile = new ArrayList();
     static ArrayList yfile = new ArrayList();
@@ -54,8 +54,7 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
 
     public static boolean pageChanged = false;
 
-    ArrayList items= new ArrayList();
-
+    ArrayList items = new ArrayList();
 
 
     @Override
@@ -80,8 +79,8 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
         }
     }
 
-    public void scrolToLast(){
-     //   mPager.setCurrentItem(mPagerAdapter.getCount()+1);
+    public void scrolToLast() {
+        //   mPager.setCurrentItem(mPagerAdapter.getCount()+1);
 //        mPagerAdapter.notifyDataSetChanged();
 //        mPager.post(new Runnable() {
 //            @Override
@@ -127,12 +126,12 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
 
     @Override
     public void next() {
-         mPager.setCurrentItem(mPager.getCurrentItem() + 1, true);
+        mPager.setCurrentItem(mPager.getCurrentItem() + 1, true);
     }
 
     @Override
     public void previous() {
-        mPager.setCurrentItem(mPager.getCurrentItem()-1, true);
+        mPager.setCurrentItem(mPager.getCurrentItem() - 1, true);
     }
 
 
@@ -196,19 +195,19 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
     }
 
 
-
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
 
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
         }
-        public ArrayList positionArr =new ArrayList();
+
+        public ArrayList positionArr = new ArrayList();
 
 
         @Override
-        public  Fragment getItem(int position) {
-             positionArr.add(position);
-            return ChildFragment.createfragment(context ,ArrayFilepaths.get(position).getPath(), position, x, y);
+        public Fragment getItem(int position) {
+            positionArr.add(position);
+            return ChildFragment.createfragment(context, ArrayFilepaths.get(position).getPath(), position, x, y);
         }
 
         @Override

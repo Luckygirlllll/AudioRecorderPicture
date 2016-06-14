@@ -2,7 +2,7 @@ package com.example.attracti.audiorecorderpicture;
 
 /**
  * Created by Iryna on 5/25/16.
- * <p/>
+ * <p>
  * This is a CustomViewPager, it uses in AudioRecord activity and in ViewFragment (it disables swipes in ViewPager)
  */
 

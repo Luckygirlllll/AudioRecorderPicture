@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 /**
  * Created by Iryna on 6/6/16
- *
- *updating of the arrayList by sending data from CameraFragment to AudioRecordActivity
+ * <p>
+ * updating of the arrayList by sending data from CameraFragment to AudioRecordActivity
  */
 
 public interface OnHeadlineSelectedListener {

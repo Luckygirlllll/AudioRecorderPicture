@@ -26,7 +26,7 @@ import java.util.HashMap;
 
 /**
  * Created by Iryna on 6/1/16.
- * <p/>
+ * <p>
  * in this class pictures are displayed from a certain project with labels and here user can listen the audio record
  * both from labels and in the order in which it was recorded.
  */
@@ -93,7 +93,7 @@ public class ViewActivity extends FragmentActivity {
         Log.wtf("Image Key: ", String.valueOf(imageKey));
         Log.wtf("Image position: ", String.valueOf(position));
 
-        // final Bitmap bitmap = MyAdapter2.getBitmapFromMemCache(imageKey);
+        // final Bitmap bitmap = OldRecyclerViewAdapter.getBitmapFromMemCache(imageKey);
         final Bitmap bitmap = null;
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
@@ -130,7 +130,7 @@ public class ViewActivity extends FragmentActivity {
         }
         if (savedInstanceState == null) {
             readFromFile();
-            for (int i=0; i<zeroLabelPosition.size(); i++){
+            for (int i = 0; i < zeroLabelPosition.size(); i++) {
                 Log.wtf("ZERO", "label position: " + zeroLabelPosition.get(i));
                 Log.wtf("ZERO", "zero Time: " + zeroTime.get(i));
                 Log.wtf("ZERO", "xzero: " + xzero.get(i));
@@ -171,7 +171,7 @@ public class ViewActivity extends FragmentActivity {
 
             // TODO: 6/14/16 Rewrite countDownTimer according to the zero labels of the slides.
 
-            for (int i=0; i<zeroLabelPosition.size()-1; i++) {
+            for (int i = 0; i < zeroLabelPosition.size() - 1; i++) {
 
                 final int finalI = i;
                 new CountDownTimer(Integer.parseInt(String.valueOf(Integer.parseInt((String) zeroTime.get(finalI + 1)) - Integer.parseInt((String) zeroTime.get(finalI)))), 1000) {
@@ -264,7 +264,7 @@ public class ViewActivity extends FragmentActivity {
         for (int i = 3; i < filetime2.length; i = i + 4) {
             Log.i("FILE", "Coordinates of Y: " + filetime2[i]);
             String n = filetime2[i];
-            if (Integer.parseInt(String.valueOf(filetime2[i-1])) != 0 && Integer.parseInt(String.valueOf(filetime2[i])) != 0) {
+            if (Integer.parseInt(String.valueOf(filetime2[i - 1])) != 0 && Integer.parseInt(String.valueOf(filetime2[i])) != 0) {
                 yfile.add(filetime2[i]);
             } else {
                 yzero.add(filetime2[i]);

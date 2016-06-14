@@ -12,11 +12,11 @@ import android.widget.ImageView;
 
 import java.lang.ref.WeakReference;
 
-import static com.example.attracti.audiorecorderpicture.MyAdapter.decodeSampledBitmapFromResource;
+import static com.example.attracti.audiorecorderpicture.RecyclerViewAdapter.decodeSampledBitmapFromResource;
 
 /**
  * Created by Iryna on 6/2/16.
- * <p/>
+ * <p>
  * In this class is going the process of the downloading bitmaps for the BitmapFragment
  */
 
@@ -63,10 +63,10 @@ class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
             Log.wtf("filePosition size: ", String.valueOf(ViewActivity.filePosition.size()));
             Log.wtf("file Position items: ", String.valueOf(ViewActivity.filePosition.get(i)));
             if (position == (Integer.parseInt((String) ViewActivity.filePosition.get(i)))) {
-                tempCanvas.drawCircle(Integer.parseInt((String) ViewActivity.xfile.get(i))/4, Integer.parseInt((String) ViewActivity.yfile.get(i))/4, 10, myPaint3);
+                tempCanvas.drawCircle(Integer.parseInt((String) ViewActivity.xfile.get(i)) / 4, Integer.parseInt((String) ViewActivity.yfile.get(i)) / 4, 10, myPaint3);
 
                 textPaint.getTextBounds(String.valueOf(i), 0, String.valueOf(i).length(), bounds);
-                tempCanvas.drawText(String.valueOf(i+1), Integer.parseInt((String)ViewActivity.xfile.get(i)) / 4, Integer.parseInt((String)ViewActivity.yfile.get(i)) / 4, textPaint);
+                tempCanvas.drawText(String.valueOf(i + 1), Integer.parseInt((String) ViewActivity.xfile.get(i)) / 4, Integer.parseInt((String) ViewActivity.yfile.get(i)) / 4, textPaint);
                 tempCanvas.save();
             }
         }

@@ -21,14 +21,14 @@ import java.util.Date;
 
 /**
  * Created by Iryna on 5/17/16.
- * <p/>
+ * <p>
  * First screen of the project with RecyclerView  (shows pictures of the all projects)
  */
 
 
 public class FirstscreenActivity extends AppCompatActivity implements RecyclerItemClickListener.OnItemClickListener {
 
-    private MyAdapter mAdapter;
+    private RecyclerViewAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
     public static String mCurrentProject = null;
 
@@ -87,12 +87,12 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
         list.addOnItemTouchListener(new RecyclerItemClickListener(this, this));
 
 
-            getFromSdcardFolders();
+        getFromSdcardFolders();
 
 
         list.setLayoutManager(mLayoutManager);
 
-        mAdapter = new MyAdapter(this, FOLDERS);
+        mAdapter = new RecyclerViewAdapter(this, FOLDERS);
         list.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
 

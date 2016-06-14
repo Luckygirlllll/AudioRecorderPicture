@@ -18,7 +18,7 @@ import java.io.IOException;
 
 /**
  * Created by Iryna on 6/2/16.
- * <p/>
+ * <p>
  * this Fragment responsible for the showing of the picture of the certain project
  * this class is responsible for the playing of the audio, when label is pressed
  */
@@ -30,7 +30,7 @@ public class BitmapFragment extends Fragment {
 
     String file = null;
     ImageView imageView;
-    private  int positionCurrent;
+    private int positionCurrent;
 
     private GestureDetectorCompat DoubleTap;
 
@@ -83,14 +83,14 @@ public class BitmapFragment extends Fragment {
         BitmapFragment fragment = new BitmapFragment();
         Bundle args = new Bundle();
         args.putString(BITMAP_TAG, file);
-        args.putInt("INT" , position);
+        args.putInt("INT", position);
         fragment.setArguments(args);
         return fragment;
     }
 
     public void startPlayingPictureLabel(int i) {
 
-         mPlayer = new MediaPlayer();
+        mPlayer = new MediaPlayer();
         try {
             String mFileName = CameraFragment.mAudioFolder + "/" + ViewActivity.parentName + ".3gp";
             mPlayer.setDataSource(mFileName);
@@ -104,7 +104,7 @@ public class BitmapFragment extends Fragment {
 
 
             if (i < ViewActivity.fileTime.size() - 1) {
-                Log.wtf("Stop playing time: ", (String) ViewActivity.fileTime.get(i+1));
+                Log.wtf("Stop playing time: ", (String) ViewActivity.fileTime.get(i + 1));
                 new CountDownTimer(Integer.parseInt((String) ViewActivity.fileTime.get(i + 1)) - Integer.parseInt((String) ViewActivity.fileTime.get(i)), 1000) {
                     public void onTick(long millisUntilFinished) {
                     }
@@ -114,7 +114,7 @@ public class BitmapFragment extends Fragment {
                     }
                 }.start();
             } else {
-                Log.wtf("Stop playing time in else: ", (String) ViewActivity.fileTime.get(i)+10000);
+                Log.wtf("Stop playing time in else: ", (String) ViewActivity.fileTime.get(i) + 10000);
                 new CountDownTimer(10000, 1000) {
                     public void onTick(long millisUntilFinished) {
                     }
@@ -157,22 +157,22 @@ public class BitmapFragment extends Fragment {
                     Log.wtf("ylong: ", String.valueOf(ylong));
 
             }
- for (int i = 0; i < ViewActivity.filePosition.size(); i++) {
-     if (positionCurrent == (Integer.parseInt((String) ViewActivity.filePosition.get(i)))) {
+            for (int i = 0; i < ViewActivity.filePosition.size(); i++) {
+                if (positionCurrent == (Integer.parseInt((String) ViewActivity.filePosition.get(i)))) {
 
-         int xfile = Integer.parseInt((String) ViewActivity.xfile.get(i));
-         int yfile = Integer.parseInt((String) ViewActivity.yfile.get(i));
+                    int xfile = Integer.parseInt((String) ViewActivity.xfile.get(i));
+                    int yfile = Integer.parseInt((String) ViewActivity.yfile.get(i));
 
-         if ((xlong < xfile*0.68 + 30 && xlong > xfile*0.68 - 30) && (ylong < yfile+200 + 30 && ylong > yfile+200 - 30)) {
+                    if ((xlong < xfile * 0.68 + 30 && xlong > xfile * 0.68 - 30) && (ylong < yfile + 200 + 30 && ylong > yfile + 200 - 30)) {
 
-             Log.wtf("xfile: ", String.valueOf(xfile));
-             Log.wtf("yfile: ", String.valueOf(yfile));
-             startPlayingPictureLabel(i);
-             Log.i("Index i of the label", String.valueOf(i));
+                        Log.wtf("xfile: ", String.valueOf(xfile));
+                        Log.wtf("yfile: ", String.valueOf(yfile));
+                        startPlayingPictureLabel(i);
+                        Log.i("Index i of the label", String.valueOf(i));
 
-         }
-     }
- }
+                    }
+                }
+            }
 
             return true;
         }

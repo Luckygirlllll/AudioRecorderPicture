@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Iryna on 6/2/16.
- * <p/>
+ * <p>
  * this Fragment responsible for the showing of the picture which just have been captured (ViewFrgament)
  */
 
@@ -131,30 +131,30 @@ public class ChildFragment extends Fragment {
                         CameraFragment.mLabelsDirectory = null;
 
                     } else {
-                          Log.wtf("first else works", "!!!");
+                        Log.wtf("first else works", "!!!");
 
 //                        if (labelFile == null) {
 //                            Log.wtf("Second if works", "!!!");
 //                            labelFile = new File(CameraFragment.mLabelsDirectory, labelFileName);
 //                        } else {
                         labelFile = new File(CameraFragment.mLabelsDirectory, labelFileName);
-                          //  Log.wtf("Second else works", "!!!");
-                            FileWriter writer = null;
-                            try {
-                                writer = new FileWriter(labelFile, true);
-                                Log.wtf("Time", "Time:" + sBody + " X:" + x + "\n" + "Y" + y + "\n");
-                                writer.append(positionCurrent + "\n" + sBody + "\n" + x + "\n" + y + "\n");
-                                writer.flush();
-                                writer.close();
+                        //  Log.wtf("Second else works", "!!!");
+                        FileWriter writer = null;
+                        try {
+                            writer = new FileWriter(labelFile, true);
+                            Log.wtf("Time", "Time:" + sBody + " X:" + x + "\n" + "Y" + y + "\n");
+                            writer.append(positionCurrent + "\n" + sBody + "\n" + x + "\n" + y + "\n");
+                            writer.flush();
+                            writer.close();
 
-                            } catch (IOException f) {
-                                f.printStackTrace();
-                            }
+                        } catch (IOException f) {
+                            f.printStackTrace();
                         }
                     }
-
             }
+
         }
     }
+}
 
 
