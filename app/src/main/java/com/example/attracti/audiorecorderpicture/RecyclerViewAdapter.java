@@ -124,7 +124,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public RecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                   int viewType) {
+                                                             int viewType) {
 
         Log.wtf("TAG", "OnCreateViewHolder works!!!");
         view = LayoutInflater.from(parent.getContext())
@@ -132,7 +132,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         ViewHolder vh = new ViewHolder(view);
         return vh;
     }
-
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {

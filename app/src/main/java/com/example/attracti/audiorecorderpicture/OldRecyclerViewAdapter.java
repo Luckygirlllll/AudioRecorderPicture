@@ -154,7 +154,7 @@ public class OldRecyclerViewAdapter extends RecyclerView.Adapter<OldRecyclerView
 
     @Override
     public OldRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                    int viewType) {
+                                                                int viewType) {
 
         Log.wtf("TAG", "OnCreateViewHolder works!!!");
         view = LayoutInflater.from(parent.getContext())
