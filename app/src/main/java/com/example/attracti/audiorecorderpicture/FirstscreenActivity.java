@@ -86,7 +86,9 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         list.addOnItemTouchListener(new RecyclerItemClickListener(this, this));
 
-        getFromSdcardFolders();
+
+            getFromSdcardFolders();
+
 
         list.setLayoutManager(mLayoutManager);
 

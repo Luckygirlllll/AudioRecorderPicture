@@ -509,7 +509,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
                         // TODO: 6/6/16 Find out what to do with the 0 label for the first picture
 
 
-                      //  writer2.append(MyAdapter2.position + 0 + "\n" + sBody + "\n" + 0 + "\n" + 0 + "\n");
+                        writer2.append(ViewFragment.ArrayFilepaths.size() + "\n" + sBody + "\n" + 0 + "\n" + 0 + "\n");
                         writer2.flush();
                         writer2.close();
                     } catch (IOException e) {
@@ -518,6 +518,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
                 }
 
                 mPager.setCurrentItem(mPager.getCurrentItem() + 1);
+                viewFragment.scrolToLast();
 
             } else {
                 mPager.setCurrentItem(mPager.getCurrentItem() - 1);

@@ -17,9 +17,6 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
 
-
-
-
     <!--android:theme="@style/ThemeOverlay.AppCompat.ActionBar"-->
 
     <LinearLayout
@@ -107,14 +104,6 @@
                 android:layout_height="match_parent" />
 
 
-            <!--<ImageView-->
-                <!--android:id="@+id/camera_image_view"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--android:background="@drawable/dots"-->
-                <!--/>-->
-
         </FrameLayout>
 
         <LinearLayout
@@ -159,13 +148,6 @@
                 android:background="@drawable/right_black_24dp"/>
 
 
-            <!--android:text="@string/start_image_capture"-->
-
-            <!--<Button-->
-                <!--android:id="@+id/save_image_button"-->
-                <!--android:layout_width="150dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="@string/save_image" />-->
         </LinearLayout>
     </RelativeLayout>
 

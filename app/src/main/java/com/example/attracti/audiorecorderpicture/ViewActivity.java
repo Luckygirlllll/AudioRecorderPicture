@@ -2,7 +2,9 @@ package com.example.attracti.audiorecorderpicture;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -11,6 +13,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import java.io.BufferedReader;
@@ -45,7 +49,17 @@ public class ViewActivity extends FragmentActivity {
     static ArrayList yfile = new ArrayList();
     static ArrayList filePosition = new ArrayList();
 
+    static ArrayList zeroLabelPosition = new ArrayList();
+    static ArrayList xzero = new ArrayList();
+    static ArrayList yzero = new ArrayList();
+    static ArrayList zeroTime = new ArrayList();
+
+
     public static String parentName;
+
+    MediaPlayer mPlayer;
+
+    Button playButton;
 
 
     public void getFromSdcardFolders() {
@@ -100,7 +114,10 @@ public class ViewActivity extends FragmentActivity {
         imageView = (ImageView) findViewById(R.id.imageView);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
-        
+
+        playButton = (Button) findViewById(R.id.play_button);
+        playButton.setOnClickListener(playButtonListener);
+
         FirstscreenActivity.listFile[0].getAbsolutePath();
 
         getFromSdcardFolders();
@@ -111,10 +128,75 @@ public class ViewActivity extends FragmentActivity {
         for (int i = 0; i < array.length; i++) {
             Log.wtf("Array elements ", String.valueOf(array[i]));
         }
-        if(savedInstanceState==null) {
+        if (savedInstanceState == null) {
             readFromFile();
+            for (int i=0; i<zeroLabelPosition.size(); i++){
+                Log.wtf("ZERO", "label position: " + zeroLabelPosition.get(i));
+                Log.wtf("ZERO", "zero Time: " + zeroTime.get(i));
+                Log.wtf("ZERO", "xzero: " + xzero.get(i));
+                Log.wtf("ZERO", "yzero: " + yzero.get(i));
+
+            }
         }
     }
+
+
+    boolean mStartPlaying = true;
+    private View.OnClickListener playButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (mStartPlaying) {
+                playButton.setBackgroundResource(R.drawable.pause_black);
+                Log.wtf("Play button ", "works!");
+                startPlayingLabels();
+
+            } else {
+                playButton.setBackgroundResource(R.drawable.play_circle);
+                stopPlaying();
+            }
+            mStartPlaying = !mStartPlaying;
+        }
+
+    };
+
+    public void startPlayingLabels() {
+
+        mPlayer = new MediaPlayer();
+
+        try {
+            String mFileName = CameraFragment.mAudioFolder + "/" + ViewActivity.parentName + ".3gp";
+            mPlayer.setDataSource(mFileName);
+            mPlayer.prepare();
+            mPlayer.start();
+
+            // TODO: 6/14/16 Rewrite countDownTimer according to the zero labels of the slides.
+
+            for (int i=0; i<zeroLabelPosition.size()-1; i++) {
+
+                final int finalI = i;
+                new CountDownTimer(Integer.parseInt(String.valueOf(Integer.parseInt((String) zeroTime.get(finalI + 1)) - Integer.parseInt((String) zeroTime.get(finalI)))), 1000) {
+                    public void onTick(long millisUntilFinished) {
+                    }
+
+                    public void onFinish() {
+                        mPager.setCurrentItem(Integer.parseInt(String.valueOf(ViewActivity.zeroLabelPosition.get(finalI))));
+                    }
+                }.start();
+            }
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    private void stopPlaying() {
+        if (mPlayer != null) {
+            mPlayer.release();
+            mPlayer = null;
+        } else {
+            Log.i("mPlayer is null", "Nothing to stop");
+        }
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -150,27 +232,43 @@ public class ViewActivity extends FragmentActivity {
 
         for (int i = 0; i < filetime2.length; i = i + 4) {
             Log.i("FILE", "Position: " + filetime2[i]);
-            String n = filetime2[i];
-            filePosition.add(filetime2[i]);
+
+            if (Integer.parseInt(String.valueOf(filetime2[i + 2])) != 0 && Integer.parseInt(String.valueOf(filetime2[i + 3])) != 0) {
+                filePosition.add(filetime2[i]);
+            } else {
+                zeroLabelPosition.add(filetime2[i]);
+            }
             Log.i("FILE", "filePosition size: " + String.valueOf(fileTime.size()));
         }
 
         for (int i = 1; i < filetime2.length; i = i + 4) {
             Log.i("FileTime elements: ", filetime2[i]);
             String n = filetime2[i];
-            fileTime.add(filetime2[i]);
+            if (Integer.parseInt(String.valueOf(filetime2[i + 1])) != 0 && Integer.parseInt(String.valueOf(filetime2[i + 2])) != 0) {
+                fileTime.add(filetime2[i]);
+            } else {
+                zeroTime.add(filetime2[i]);
+            }
             Log.i("FILE", "FileTime size: " + String.valueOf(fileTime.size()));
         }
         for (int i = 2; i < filetime2.length; i = i + 4) {
             Log.i("FILE", "Coordinates of X: " + filetime2[i]);
             String n = filetime2[i];
-            xfile.add(filetime2[i]);
+            if (Integer.parseInt(String.valueOf(filetime2[i])) != 0 && Integer.parseInt(String.valueOf(filetime2[i + 1])) != 0) {
+                xfile.add(filetime2[i]);
+            } else {
+                xzero.add(filetime2[i]);
+            }
         }
 
         for (int i = 3; i < filetime2.length; i = i + 4) {
             Log.i("FILE", "Coordinates of Y: " + filetime2[i]);
             String n = filetime2[i];
-            yfile.add(filetime2[i]);
+            if (Integer.parseInt(String.valueOf(filetime2[i-1])) != 0 && Integer.parseInt(String.valueOf(filetime2[i])) != 0) {
+                yfile.add(filetime2[i]);
+            } else {
+                yzero.add(filetime2[i]);
+            }
         }
     }
 

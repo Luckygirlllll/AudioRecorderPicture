@@ -80,6 +80,17 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
         }
     }
 
+    public void scrolToLast(){
+     //   mPager.setCurrentItem(mPagerAdapter.getCount()+1);
+//        mPagerAdapter.notifyDataSetChanged();
+//        mPager.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                mPager.setCurrentItem(mPagerAdapter.getCount()-1);
+//
+//            }
+//        });
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
