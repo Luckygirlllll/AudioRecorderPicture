@@ -229,7 +229,6 @@ public class ViewActivity extends FragmentActivity {
         }
     }
 
-
     @Override
     public void onBackPressed() {
         if (mPager.getCurrentItem() == 0) {
@@ -290,7 +289,7 @@ public class ViewActivity extends FragmentActivity {
             }
             Log.i("FILE", "FileTime size: " + String.valueOf(fileTime.size()));
         }
-        
+
         for (int i = 2; i < filetime2.length; i = i + 4) {
             Log.i("FILE", "Coordinates of X: " + filetime2[i]);
             String n = filetime2[i];

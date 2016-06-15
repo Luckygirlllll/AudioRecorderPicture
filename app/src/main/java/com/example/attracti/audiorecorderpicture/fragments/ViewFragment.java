@@ -145,6 +145,7 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
         this.ArrayFilepaths = ArrayFilepaths;
         for (int i = 0; i < this.ArrayFilepaths.size(); i++) {
             Log.i("Array new ", String.valueOf(ArrayFilepaths.size()));
+            Log.wtf("Array item: ", String.valueOf(ArrayFilepaths.get(i)));
         }
         if (mPagerAdapter != null) {
             mPagerAdapter.notifyDataSetChanged();

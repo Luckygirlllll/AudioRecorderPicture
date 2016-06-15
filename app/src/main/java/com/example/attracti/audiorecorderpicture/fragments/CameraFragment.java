@@ -20,7 +20,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -36,10 +35,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.attracti.audiorecorderpicture.activities.FirstscreenActivity;
-import com.example.attracti.audiorecorderpicture.interfaces.OnHeadlineSelectedListener;
 import com.example.attracti.audiorecorderpicture.R;
 import com.example.attracti.audiorecorderpicture.activities.AudioRecord;
+import com.example.attracti.audiorecorderpicture.activities.FirstscreenActivity;
+import com.example.attracti.audiorecorderpicture.interfaces.OnHeadlineSelectedListener;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -89,15 +88,8 @@ public class CameraFragment extends Fragment
     public static Bitmap mCameraBitmap;
     private ImageView mCameraImageView;
 
-    //Canvas tempCanvas;
-    //Bitmap tempBitmap;
-    //Paint myPaint;
     public static Bitmap bitmap;
-
     private View view;
-
-    private GestureDetectorCompat DoubleTap;
-
     static File gpxfile;
 
     static String[] filetime2 = new String[100];
@@ -109,11 +101,9 @@ public class CameraFragment extends Fragment
     public static ArrayList getXcoordin() {
         return xcoordin;
     }
-
     public static ArrayList getYcoordin() {
         return ycoordin;
     }
-
     public static ArrayList getFiletime3() {
         return filetime3;
     }
@@ -496,23 +486,6 @@ public class CameraFragment extends Fragment
                             Log.i("Array filepaths", String.valueOf(arrayFilepaths.get(i)));
                         }
                     }
-                    //Закомментировать и удалить
-//                    bitmap = BitmapFactory.decodeByteArray(mCameraData, 0, mCameraData.length);
-//                    Log.i("Bitmap height: ", String.valueOf(bitmap.getHeight()));
-//                    Log.i("Bitmap width: ", String.valueOf(bitmap.getWidth()));
-                    //mCameraImage.setImageBitmap(bitmap);
-
-                    //mCamera.stopPreview();
-
-//                    mCameraPreview.setVisibility(View.INVISIBLE);
-                    // mCameraImage.setVisibility(View.VISIBLE);
-                    //                   mCameraImage.setRotation(90);
-
-
-//                    OldRecyclerViewAdapter.myPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-//                    OldRecyclerViewAdapter.tempCanvas.drawBitmap(bitmap, 0, 0, null);
-//                    OldRecyclerViewAdapter.myPaint.setColor(Color.RED);
-                    //                   mCameraImage.setImageDrawable(new BitmapDrawable(getResources(), OldRecyclerViewAdapter.tempBitmap));
                 }
             });
         }
