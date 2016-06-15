@@ -132,16 +132,9 @@ public class ChildFragment extends Fragment {
                     int sBody = difference;
                     String labelFileName = FirstscreenActivity.mCurrentProject + ".txt";
                     if (!CameraFragment.mLabelsDirectory.exists() && !CameraFragment.mLabelsDirectory.mkdirs()) {
-                        Log.wtf("first if works", "!!!");
                         CameraFragment.mLabelsDirectory = null;
 
                     } else {
-                        Log.wtf("first else works", "!!!");
-
-//                        if (labelFile == null) {
-//                            Log.wtf("Second if works", "!!!");
-//                            labelFile = new File(CameraFragment.mLabelsDirectory, labelFileName);
-//                        } else {
                         labelFile = new File(CameraFragment.mLabelsDirectory, labelFileName);
                         //  Log.wtf("Second else works", "!!!");
                         FileWriter writer = null;

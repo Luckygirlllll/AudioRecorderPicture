@@ -448,6 +448,8 @@ public class CameraFragment extends Fragment
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_mm_dd_hh_mm_ss",
                             Locale.getDefault());
 
+                    File mPreviewDirectory = new File(mPreviewsFolder + "/" + FirstscreenActivity.mCurrentProject);
+
                     if (!mPreviewDirectory.exists() && !mPreviewDirectory.mkdirs()) {
                         mPreviewDirectory = null;
                     } else {
@@ -466,6 +468,8 @@ public class CameraFragment extends Fragment
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
+                    File mPictureDirectory = new File(mPictureFolder + "/" + FirstscreenActivity.mCurrentProject);
 
                     if (!mPictureDirectory.exists() && !mPictureDirectory.mkdirs()) {
                         mPictureDirectory = null;

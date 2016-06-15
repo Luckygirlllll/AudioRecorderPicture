@@ -11,20 +11,19 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.example.attracti.audiorecorderpicture.activities.FirstscreenActivity;
-import com.example.attracti.audiorecorderpicture.adapters.OldRecyclerViewAdapter;
 import com.example.attracti.audiorecorderpicture.activities.ViewActivity;
 import com.example.attracti.audiorecorderpicture.adapters.AdapterViewProject;
+import com.example.attracti.audiorecorderpicture.adapters.OldRecyclerViewAdapter;
 
 import java.lang.ref.WeakReference;
-import java.util.HashSet;
-import java.util.Set;
 
 import static com.example.attracti.audiorecorderpicture.adapters.RecyclerViewAdapter.decodeSampledBitmapFromResource;
 
 /**
  * Created by Iryna on 6/2/16.
  * <p>
- * In this class is going the process of the downloading bitmaps for the BitmapFragment
+ * In this class is going the process of the downloading bitmaps for the BitmapFragment,
+ * (which is responsible for the showing of the picture of the certain project)
  */
 
 public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
@@ -132,13 +131,12 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
             Paint myPaint3 = new Paint();
             myPaint3.setColor(Color.RED);
 
-            Set<Integer> uniquePositions = new HashSet<>(OldRecyclerViewAdapter.positionList);
 
             for (int i = 0; i < AdapterViewProject.filePosition.size(); i++)
                 if (position == Integer.parseInt((String) AdapterViewProject.filePosition.get(i))) {
                     Log.i("FilePosition: ", String.valueOf(Integer.parseInt((String) AdapterViewProject.filePosition.get(i))));
                     tempCanvas.drawCircle(Float.parseFloat((String) AdapterViewProject.xfile.get(i)) / 2, Float.parseFloat((String) AdapterViewProject.yfile.get(i)) / 2, 20, myPaint3);
-                    Log.i("Events X in Async: ", AdapterViewProject.xfile.get(i) + " Y in Async: " + OldRecyclerViewAdapter.y);
+
                 }
             tempCanvas.save();
             return bitmap;

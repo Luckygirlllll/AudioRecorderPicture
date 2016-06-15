@@ -14,8 +14,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.attracti.audiorecorderpicture.R;
-import com.example.attracti.audiorecorderpicture.fragments.CameraFragment;
-import com.example.attracti.audiorecorderpicture.fragments.ChildFragment;
 import com.example.attracti.audiorecorderpicture.interfaces.OnSwipePictureListener;
 import com.example.attracti.audiorecorderpicture.model.CustomViewPagerH;
 
@@ -85,6 +83,8 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
         }
     }
 
+    //// TODO: 6/15/16 add programmatically swipe to the last picture
+    
     public void scrolToLast() {
         //   mPager.setCurrentItem(mPagerAdapter.getCount()+1);
 //        mPagerAdapter.notifyDataSetChanged();

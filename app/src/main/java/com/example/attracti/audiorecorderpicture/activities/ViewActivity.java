@@ -50,10 +50,10 @@ public class ViewActivity extends FragmentActivity {
     File[] array;
     public static HashMap<Integer, BitmapDownloadTask.BitmapWorkerTaskView> TASKS_MAP = new HashMap<>();
 
-    public static ArrayList fileTime = new ArrayList();
-    public static ArrayList xfile = new ArrayList();
-    public static ArrayList yfile = new ArrayList();
-    public static ArrayList filePosition = new ArrayList();
+    public static ArrayList fileTime = null;
+    public static ArrayList xfile = null;
+    public static ArrayList yfile = null;
+    public static ArrayList filePosition = null;
 
     static ArrayList zeroLabelPosition = new ArrayList();
     static ArrayList xzero = new ArrayList();
@@ -66,7 +66,6 @@ public class ViewActivity extends FragmentActivity {
     MediaPlayer mPlayer;
 
     Button playButton;
-
 
     public void getFromSdcardFolders() {
         File file = new File(Environment.getExternalStorageDirectory() +
@@ -145,9 +144,6 @@ public class ViewActivity extends FragmentActivity {
             }
         }
     }
-
-
-
 
     boolean mStartPlaying = true;
     private View.OnClickListener playButtonListener = new View.OnClickListener() {
@@ -244,6 +240,13 @@ public class ViewActivity extends FragmentActivity {
     }
 
     public void readFromFile() {
+
+        fileTime = new ArrayList();
+        xfile = new ArrayList();
+        yfile = new ArrayList();
+        filePosition = new ArrayList();
+
+
         Log.i("reading from File", "in View Activity");
         StringBuilder text = new StringBuilder();
         parentName = array[0].getParentFile().getName();
@@ -287,6 +290,7 @@ public class ViewActivity extends FragmentActivity {
             }
             Log.i("FILE", "FileTime size: " + String.valueOf(fileTime.size()));
         }
+        
         for (int i = 2; i < filetime2.length; i = i + 4) {
             Log.i("FILE", "Coordinates of X: " + filetime2[i]);
             String n = filetime2[i];

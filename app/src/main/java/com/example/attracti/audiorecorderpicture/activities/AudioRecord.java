@@ -504,6 +504,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
                     try {
                         if (ViewFragment.labelFile == null) {
                             String labelFileName = FirstscreenActivity.mCurrentProject + ".txt";
+                            Log.wtf("LabelFileName: ", labelFileName);
                             ViewFragment.labelFile = new File(CameraFragment.mLabelsDirectory, labelFileName);
                             writer2 = new FileWriter(ViewFragment.labelFile, true);
                         } else {
