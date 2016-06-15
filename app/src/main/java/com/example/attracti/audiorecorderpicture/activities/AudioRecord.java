@@ -513,8 +513,6 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
                         e.printStackTrace();
                     }
                     try {
-                        // TODO: 6/6/16 Find out what to do with the 0 label for the first picture
-
                         if (firstclick == 0) {
                             writer2.append(ViewFragment.ArrayFilepaths.size() + "\n" + 0 + "\n" + 0 + "\n" + 0 + "\n");
                             firstclick++;
@@ -965,9 +963,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
             case R.id.doneItem:
                 done++;
                 Intent firstScreen = new Intent(getApplicationContext(), FirstscreenActivity.class);
-                firstScreen.putExtra("SWAP", true);
                 startActivity(firstScreen);
-                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

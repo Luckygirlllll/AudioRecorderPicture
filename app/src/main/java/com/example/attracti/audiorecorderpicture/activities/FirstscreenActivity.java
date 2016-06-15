@@ -44,13 +44,14 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
 
     static int newpressed = 0;
 
-    public static ArrayList<Folder> FOLDERS = new ArrayList<>();
+    public static ArrayList<Folder> FOLDERS = null;
     public static LruCache<String, Bitmap> mMemoryCache;
 
     public static File[] listFile2;
 
 
     public void getFromSdcardFolders() {
+        FOLDERS = new ArrayList<>();
         File file = new File(Environment.getExternalStorageDirectory() +
                 "/Audio_Recorder_Picture", "Previews");
         if (file.isDirectory()) {
@@ -117,24 +118,18 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
                 return bitmap.getByteCount() / 1024;
             }
         };
-
-        boolean b = getIntent().getBooleanExtra("SWAP" , false);
-        if (b){
-//            RecyclerViewAdapter adapter = (RecyclerViewAdapter)list.getAdapter();
-//            adapter.swap(FOLDERS);
-//            adapter.notifyDataSetChanged();
-        }
     }
+
+    static int k=0;
 
     @Override
     protected void onResume() {
         super.onResume();
         RecyclerViewAdapter adapter = (RecyclerViewAdapter)list.getAdapter();
-        Log.wtf("on Resume works ", "in FirstscreenActivity");
-      //  adapter.swap(FOLDERS);
-      //  adapter.notifyDataSetChanged();
-        list.getAdapter().notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -151,7 +146,7 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss");
                 Date now = new Date();
                 mCurrentProject = String.valueOf(formatter.format(now));
-                Log.d("newpressed: ", String.valueOf(newpressed));
+                Log.d("mCurrentProject ", "in FirstScreenActivity " + mCurrentProject);
                 Intent nextScreen = new Intent(getApplicationContext(), AudioRecord.class);
                 startActivity(nextScreen);
                 return true;
@@ -170,11 +165,11 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
             for (int i = 0; i < listFile2.length; i++) {
                 Log.i("LIST OF PICTURES: ", String.valueOf(listFile2[i]));
             }
-
         }
         Intent viewScreen = new Intent(getApplicationContext(), ViewActivity.class);
         viewScreen.putExtra("FILE_TAG", listFile2);
         startActivity(viewScreen);
+
     }
 
     @Override

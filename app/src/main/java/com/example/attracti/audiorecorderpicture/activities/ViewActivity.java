@@ -147,6 +147,8 @@ public class ViewActivity extends FragmentActivity {
     }
 
 
+
+
     boolean mStartPlaying = true;
     private View.OnClickListener playButtonListener = new View.OnClickListener() {
         @Override
