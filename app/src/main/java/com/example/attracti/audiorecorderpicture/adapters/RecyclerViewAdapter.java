@@ -3,7 +3,6 @@ package com.example.attracti.audiorecorderpicture.adapters;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,12 +26,9 @@ import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    public final Activity context;
-    public final ArrayList<Folder> FOLDERS;
-    View view;
-
-    static Bitmap tempBitmapTest;
-    Canvas tempCanvas;
+    private final Activity context;
+    private final ArrayList<Folder> FOLDERS;
+    private View view;
 
     public long getItemId(int position) {
         return position;

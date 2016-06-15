@@ -33,33 +33,28 @@ import java.util.ArrayList;
 public class ViewFragment extends Fragment implements OnSwipePictureListener {
 
 
-    public static LruCache<String, Bitmap> mMemoryCache;
+    private static LruCache<String, Bitmap> mMemoryCache;
 
-    public static CustomViewPagerH mPager;
+    private static CustomViewPagerH mPager;
     private ScreenSlidePagerAdapter mPagerAdapter;
-    public static ImageView imageView;
+    private static ImageView imageView;
 
     private String TAG = CameraFragment.class.getSimpleName();
 
     public static ArrayList<File> ArrayFilepaths;
 
-    public Context context;
+    private Context context;
 
     public static File labelFile;
 
     // -- you can delete it soon
-    static int x = 0;
-    static int y = 0;
-    static ArrayList fileTime = new ArrayList();
-    static ArrayList xfile = new ArrayList();
-    static ArrayList yfile = new ArrayList();
-    static ArrayList filePosition = new ArrayList();
+    private static int x = 0;
+    private static int y = 0;
+    private static ArrayList fileTime = new ArrayList();
+    private static ArrayList xfile = new ArrayList();
+    private static ArrayList yfile = new ArrayList();
+    private static ArrayList filePosition = new ArrayList();
     // -------
-
-    public static boolean pageChanged = false;
-
-    ArrayList items = new ArrayList();
-
 
     @Override
     public void onAttach(Context context) {

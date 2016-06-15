@@ -41,31 +41,31 @@ import java.util.HashMap;
 public class ViewActivity extends FragmentActivity {
 
 
-    public static ArrayList<Folder> FOLDERS = new ArrayList<>();
+    private static ArrayList<Folder> FOLDERS = new ArrayList<>();
 
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
-    ImageView imageView;
+    private ImageView imageView;
 
-    File[] array;
-    public static HashMap<Integer, BitmapDownloadTask.BitmapWorkerTaskView> TASKS_MAP = new HashMap<>();
+    private File[] array;
+    private static HashMap<Integer, BitmapDownloadTask.BitmapWorkerTaskView> TASKS_MAP = new HashMap<>();
 
     public static ArrayList fileTime = null;
     public static ArrayList xfile = null;
     public static ArrayList yfile = null;
     public static ArrayList filePosition = null;
 
-    static ArrayList zeroLabelPosition = new ArrayList();
-    static ArrayList xzero = new ArrayList();
-    static ArrayList yzero = new ArrayList();
-    static ArrayList zeroTime = new ArrayList();
+    private static ArrayList zeroLabelPosition = new ArrayList();
+    private static ArrayList xzero = new ArrayList();
+    private static ArrayList yzero = new ArrayList();
+    private static ArrayList zeroTime = new ArrayList();
 
 
     public static String parentName;
 
-    MediaPlayer mPlayer;
+    private MediaPlayer mPlayer;
 
-    Button playButton;
+    private Button playButton;
 
     public void getFromSdcardFolders() {
         File file = new File(Environment.getExternalStorageDirectory() +
@@ -98,7 +98,6 @@ public class ViewActivity extends FragmentActivity {
         Log.wtf("Image Key: ", String.valueOf(imageKey));
         Log.wtf("Image position: ", String.valueOf(position));
 
-        // final Bitmap bitmap = OldRecyclerViewAdapter.getBitmapFromMemCache(imageKey);
         final Bitmap bitmap = null;
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
@@ -145,7 +144,7 @@ public class ViewActivity extends FragmentActivity {
         }
     }
 
-    boolean mStartPlaying = true;
+    private boolean mStartPlaying = true;
     private View.OnClickListener playButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -164,10 +163,9 @@ public class ViewActivity extends FragmentActivity {
     };
 
 
-    CountDownTimer timer;
-     static int timeStampIterator=1;
-    int[] timeStamp = new int[5]; // your own time stamps when view must be switched
-    static int length;
+    private CountDownTimer timer;
+    private static int timeStampIterator=1;
+    private static int length;
 
     public void startPlayingLabels() {
 

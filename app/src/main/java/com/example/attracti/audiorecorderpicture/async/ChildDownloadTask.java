@@ -27,16 +27,16 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
     private final WeakReference<ImageView> viewHolderWeakReference;
     private String data = null;
 
-    static Bitmap tempBitmapTest;
-    Canvas tempCanvas;
-    int position;
-    int x;
-    int y;
+    private static Bitmap tempBitmapTest;
+    private Canvas tempCanvas;
+    private int position;
+    private int x;
+    private int y;
 
-    File f;
+    private File f;
 
-    Paint textPaint;
-    ImageView imageView;
+    private Paint textPaint;
+    private ImageView imageView;
 
     public ChildDownloadTask(ImageView imageView, int position, int x, int y) {
         viewHolderWeakReference = new WeakReference<ImageView>(imageView);

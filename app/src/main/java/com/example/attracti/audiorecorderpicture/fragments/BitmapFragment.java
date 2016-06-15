@@ -30,15 +30,15 @@ import java.io.IOException;
 
 public class BitmapFragment extends Fragment {
 
-    public static String BITMAP_TAG = "BITMAP_TAG";
+    private static String BITMAP_TAG = "BITMAP_TAG";
 
-    String file = null;
-    ImageView imageView;
+    private String file = null;
+    private ImageView imageView;
     private int positionCurrent;
 
     private GestureDetectorCompat DoubleTap;
 
-    MediaPlayer mPlayer;
+    private MediaPlayer mPlayer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

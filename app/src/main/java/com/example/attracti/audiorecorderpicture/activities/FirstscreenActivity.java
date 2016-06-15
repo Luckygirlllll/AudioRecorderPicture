@@ -38,17 +38,15 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
     private LinearLayoutManager mLayoutManager;
     public static String mCurrentProject = null;
 
-    RecyclerView list;
+    private RecyclerView list;
 
     static File[] listFile;
     static File[] listFolders;
 
-    static int newpressed = 0;
-
-    public static ArrayList<Folder> FOLDERS = null;
+    private static ArrayList<Folder> FOLDERS = null;
     public static LruCache<String, Bitmap> mMemoryCache;
 
-    public static File[] listFile2;
+    private static File[] listFile2;
 
 
     public void getFromSdcardFolders() {
@@ -96,7 +94,6 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         list.addOnItemTouchListener(new RecyclerItemClickListener(this, this));
 
-
         getFromSdcardFolders();
 
         list.setLayoutManager(mLayoutManager);
@@ -121,15 +118,12 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
         };
     }
 
-    static int k=0;
-
     @Override
     protected void onResume() {
         super.onResume();
         RecyclerViewAdapter adapter = (RecyclerViewAdapter)list.getAdapter();
         adapter.notifyDataSetChanged();
     }
-
 
 
     @Override

@@ -32,12 +32,12 @@ import java.util.HashMap;
 public class AdapterViewProject extends RecyclerView.Adapter<AdapterViewProject.ViewHolder> {
 
     private Activity context = null;
-    public static File[] pictureList;
-    String parentName;
+    private static File[] pictureList;
+    private String parentName;
 
-    public static HashMap<Integer, BitmapDownloadTask.BitmapWorkerTaskView> TASKS_MAP = new HashMap<>();
+    private static HashMap<Integer, BitmapDownloadTask.BitmapWorkerTaskView> TASKS_MAP = new HashMap<>();
 
-    static ArrayList fileTime = new ArrayList();
+    private static ArrayList fileTime = new ArrayList();
     public static ArrayList xfile = new ArrayList();
     public static ArrayList yfile = new ArrayList();
     public static ArrayList filePosition = new ArrayList();

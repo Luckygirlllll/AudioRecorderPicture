@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import com.example.attracti.audiorecorderpicture.activities.FirstscreenActivity;
 import com.example.attracti.audiorecorderpicture.activities.ViewActivity;
 import com.example.attracti.audiorecorderpicture.adapters.AdapterViewProject;
-import com.example.attracti.audiorecorderpicture.adapters.OldRecyclerViewAdapter;
 
 import java.lang.ref.WeakReference;
 
@@ -30,11 +29,11 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
     private final WeakReference<ImageView> viewHolderWeakReference;
     private String data = null;
 
-    static Bitmap tempBitmapTest;
-    Canvas tempCanvas;
-    Paint textPaint;
+    private static Bitmap tempBitmapTest;
+    private Canvas tempCanvas;
+    private Paint textPaint;
 
-    int position;
+    private int position;
 
     public BitmapDownloadTask(ImageView imageView, int position) {
         viewHolderWeakReference = new WeakReference<ImageView>(imageView);
@@ -150,8 +149,6 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
                 if (imageView != null) {
                     imageView.setImageBitmap(bitmap);
                     imageView.setImageDrawable(new BitmapDrawable(BitmapWorkerTaskView.tempBitmapTest));
-                    Paint myPaint4 = new Paint();
-                    Log.i("Events X in Async: ", OldRecyclerViewAdapter.x + " Y in Async: " + OldRecyclerViewAdapter.y);
                     imageView.invalidate();
                 }
             }

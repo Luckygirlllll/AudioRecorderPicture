@@ -78,15 +78,6 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
 
     static String[] filetime = new String[100];
-
-    public String[] getFiletime() {
-        return filetime;
-    }
-
-    public void setFiletime(String[] filetime) {
-        this.filetime = filetime;
-    }
-
     private static int labeltime;
 
     SavePictureListener savePictureListener;
@@ -141,17 +132,15 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
     static ArrayList time = new ArrayList();
 
-    Button recordButtonpause;
-    Button chooseButton;
-    Toolbar myToolbar;
+    private Button recordButtonpause;
+    private Button chooseButton;
+    private Toolbar myToolbar;
 
-    Button leftButton;
-    Button rightButton;
+    private Button leftButton;
+    private Button rightButton;
+    private static long timePictureChange;
 
-    static long timePictureChange;
-
-    ViewFragment viewFragment;
-
+    private ViewFragment viewFragment;
 
     private static final String TAG = AudioRecord.class.getSimpleName();
     public static ArrayList<File> arrayFilepaths2 = new ArrayList<>();
@@ -482,7 +471,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         mFileName = CameraFragment.mAudioFolder + "/" + FirstscreenActivity.mCurrentProject + ".3gp";
     }
 
-    static int firstclick = 0;
+    private static int firstclick = 0;
 
     private OnClickListener mCaptureImageButtonClickListener = new OnClickListener() {
         @Override
@@ -539,7 +528,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
     };
 
 
-    boolean mStartRecording = true;
+    private boolean mStartRecording = true;
     private OnClickListener recordButtonListener = new OnClickListener() {
         @Override
         public void onClick(View v) {

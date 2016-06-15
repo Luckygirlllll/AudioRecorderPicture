@@ -85,18 +85,18 @@ public class CameraFragment extends Fragment
     private static byte[] mCameraData;
     private boolean mIsCapturing;
 
-    public static Bitmap mCameraBitmap;
+    private static Bitmap mCameraBitmap;
     private ImageView mCameraImageView;
 
-    public static Bitmap bitmap;
+    private static Bitmap bitmap;
     private View view;
-    static File gpxfile;
+    private static File gpxfile;
 
-    static String[] filetime2 = new String[100];
-    static ArrayList filetime3 = new ArrayList();
+    private static String[] filetime2 = new String[100];
+    private static ArrayList filetime3 = new ArrayList();
 
-    static ArrayList xcoordin = new ArrayList();
-    static ArrayList ycoordin = new ArrayList();
+    private static ArrayList xcoordin = new ArrayList();
+    private static ArrayList ycoordin = new ArrayList();
 
     public static ArrayList getXcoordin() {
         return xcoordin;
@@ -108,10 +108,10 @@ public class CameraFragment extends Fragment
         return filetime3;
     }
 
-    AudioRecord audioRecord;
+    private AudioRecord audioRecord;
 
-    Paint textPaint;
-    static int clicked = 1;
+    private Paint textPaint;
+    private static int clicked = 1;
 
     //structure of the project's folders
     public static String mDiretoryName = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Audio_Recorder_Picture";
@@ -125,7 +125,7 @@ public class CameraFragment extends Fragment
     public static File mLabelsDirectory = new File(mLabelsFolder);
 
     // array of the files of the pictures which have been taken in the current project
-    public static ArrayList<File> arrayFilepaths = new ArrayList<>();
+    private static ArrayList<File> arrayFilepaths = new ArrayList<>();
 
 
     private OnClickListener mSaveImageButtonClickListener = new OnClickListener() {

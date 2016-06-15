@@ -32,19 +32,19 @@ import java.util.ArrayList;
 
 public class ChildFragment extends Fragment {
 
-    public static String BITMAP_TAG = "BITMAP_TAG";
+    private static String BITMAP_TAG = "BITMAP_TAG";
     private int positionCurrent;
 
-    String file = null;
-    ImageView imageView;
+    private String file = null;
+    private ImageView imageView;
     private static int xCoord;
     private static int yCoord;
 
     private GestureDetectorCompat DoubleTap;
 
-    public Context context;
+    private Context context;
 
-    public static File labelFile;
+    private static File labelFile;
     public static ArrayList<Integer> xcoordList = new ArrayList();
     public static ArrayList<Integer> ycoordList = new ArrayList();
     public static ArrayList<Integer> positionList = new ArrayList<>();

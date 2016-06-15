@@ -23,7 +23,6 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
 
     @Nullable
     private View childView;
-
     private int childViewPosition;
 
     public RecyclerItemClickListener(Context context, OnItemClickListener listener) {

@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 public class Folder {
 
-    String name;
-    ArrayList<String> picturelist;
+    public String name;
+    public ArrayList<String> picturelist;
 
     public Folder() {
         picturelist = new ArrayList<>();

@@ -10,7 +10,6 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.example.attracti.audiorecorderpicture.activities.FirstscreenActivity;
-import com.example.attracti.audiorecorderpicture.adapters.OldRecyclerViewAdapter;
 
 import java.lang.ref.WeakReference;
 
@@ -67,10 +66,6 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
                 imageView.setImageBitmap(bitmap);
                 imageView.setImageDrawable(new BitmapDrawable(BitmapWorkerTask.tempBitmapTest));
 
-                Log.i("Events X in Async: ", OldRecyclerViewAdapter.x + " Y in Async: " + OldRecyclerViewAdapter.y);
-//                if (OldRecyclerViewAdapter.x>0 && OldRecyclerViewAdapter.y<0 ){
-//                    tempCanvas.drawCircle(OldRecyclerViewAdapter.x/2, OldRecyclerViewAdapter.y/2, 20, myPaint4);
-//                }
                 imageView.invalidate();
             }
         }
