@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.attracti.audiorecorderpicture.activities.AudioRecord;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;

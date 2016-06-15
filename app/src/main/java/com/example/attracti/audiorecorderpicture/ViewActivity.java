@@ -152,41 +152,69 @@ public class ViewActivity extends FragmentActivity {
 
             } else {
                 playButton.setBackgroundResource(R.drawable.play_circle);
-                stopPlaying();
+                pause();
             }
             mStartPlaying = !mStartPlaying;
         }
 
     };
 
+
+    CountDownTimer timer;
+     static int timeStampIterator=1;
+    int[] timeStamp = new int[5]; // your own time stamps when view must be switched
+    static int length;
+
     public void startPlayingLabels() {
 
         mPlayer = new MediaPlayer();
-
-        try {
             String mFileName = CameraFragment.mAudioFolder + "/" + ViewActivity.parentName + ".3gp";
+        try {
             mPlayer.setDataSource(mFileName);
             mPlayer.prepare();
+
+            if(length==0){
             mPlayer.start();
-
-            // TODO: 6/14/16 Rewrite countDownTimer according to the zero labels of the slides.
-
-            for (int i = 0; i < zeroLabelPosition.size() - 1; i++) {
-
-                final int finalI = i;
-                new CountDownTimer(Integer.parseInt(String.valueOf(Integer.parseInt((String) zeroTime.get(finalI + 1)) - Integer.parseInt((String) zeroTime.get(finalI)))), 1000) {
-                    public void onTick(long millisUntilFinished) {
-                    }
-
-                    public void onFinish() {
-                        mPager.setCurrentItem(Integer.parseInt(String.valueOf(ViewActivity.zeroLabelPosition.get(finalI))));
-                    }
-                }.start();
             }
-        } catch (IOException e1) {
-            e1.printStackTrace();
+            else {
+                mPlayer.seekTo(length);
+                mPlayer.start();
+            }
+
+            timer = new CountDownTimer(mPlayer.getDuration() - mPlayer.getCurrentPosition(), 100) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                 //   int timeSpends = mPlayer.getDuration() - mPlayer.getCurrentPosition();
+                    int timeSpends = mPlayer.getCurrentPosition();
+                    Log.wtf("timeSpends: ", String.valueOf(timeSpends));
+                    if (timeSpends>=Integer.parseInt(String.valueOf(zeroTime.get(timeStampIterator)))-100 &&timeSpends<=Integer.parseInt(String.valueOf(zeroTime.get(timeStampIterator)))+100) {
+                       Log.wtf("if works", "!!!");
+                        mPager.setCurrentItem(Integer.parseInt(String.valueOf(zeroLabelPosition.get(timeStampIterator))));
+                        if(timeStampIterator<zeroTime.size()-1) {
+                            timeStampIterator++;
+                        }
+                    }
+                }
+                @Override
+                public void onFinish() {
+
+                }
+            }.start();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
+
+    void pause() {
+        if (mPlayer.isPlaying()){
+            Log.wtf("Pause of the MediaPlayer", "pause");
+            mPlayer.pause();
+            length=mPlayer.getCurrentPosition();
+            timer.cancel();
+            timer = null;
+        }
+    }
+
 
     private void stopPlaying() {
         if (mPlayer != null) {

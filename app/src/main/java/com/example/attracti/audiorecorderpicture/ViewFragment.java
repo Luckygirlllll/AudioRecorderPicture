@@ -37,7 +37,7 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
 
     private String TAG = CameraFragment.class.getSimpleName();
 
-    static ArrayList<File> ArrayFilepaths;
+    public static ArrayList<File> ArrayFilepaths;
 
     public Context context;
 

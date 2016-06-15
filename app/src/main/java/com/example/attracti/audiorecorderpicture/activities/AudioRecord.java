@@ -1,4 +1,4 @@
-package com.example.attracti.audiorecorderpicture;
+package com.example.attracti.audiorecorderpicture.activities;
 
 import android.app.Activity;
 import android.content.ClipData;
@@ -30,6 +30,15 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.attracti.audiorecorderpicture.CameraFragment;
+import com.example.attracti.audiorecorderpicture.CustomViewPagerH;
+import com.example.attracti.audiorecorderpicture.FirstscreenActivity;
+import com.example.attracti.audiorecorderpicture.OnHeadlineSelectedListener;
+import com.example.attracti.audiorecorderpicture.OnSwipePictureListener;
+import com.example.attracti.audiorecorderpicture.R;
+import com.example.attracti.audiorecorderpicture.RealPathUtil;
+import com.example.attracti.audiorecorderpicture.ViewFragment;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -55,7 +64,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
     private CustomViewPagerH mPager;
     private ScreenSlidePagerAdapter mPagerAdapter;
 
-    static long startTimeAudio;
+    public static long startTimeAudio;
 
     private ArrayList<String> imagesPathList;
 
@@ -461,12 +470,12 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         }
     }
 
-    interface TakePictureListener {
+    public interface TakePictureListener {
         public void takePicture();
     }
 
 
-    interface SavePictureListener {
+    public interface SavePictureListener {
         public void savePicture();
     }
 
@@ -603,7 +612,6 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
     public String getPath(Uri uri) {
         // just some safety built in
         if (uri == null) {
-            // TODO perform some logging or show user feedback
             return null;
         }
         // try to retrieve the image from the media store first
@@ -939,7 +947,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 //        Log.d("HMKCODE", "Real Path: " + realPath);
     }
 
-    interface ReceivePictureListener {
+    public interface ReceivePictureListener {
         public void recievePicture(Bitmap bitmap);
     }
 
