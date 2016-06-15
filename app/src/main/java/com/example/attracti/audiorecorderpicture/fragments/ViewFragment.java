@@ -1,4 +1,4 @@
-package com.example.attracti.audiorecorderpicture;
+package com.example.attracti.audiorecorderpicture.fragments;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,6 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.example.attracti.audiorecorderpicture.R;
+import com.example.attracti.audiorecorderpicture.fragments.CameraFragment;
+import com.example.attracti.audiorecorderpicture.fragments.ChildFragment;
+import com.example.attracti.audiorecorderpicture.interfaces.OnSwipePictureListener;
+import com.example.attracti.audiorecorderpicture.model.CustomViewPagerH;
 
 import java.io.BufferedReader;
 import java.io.File;

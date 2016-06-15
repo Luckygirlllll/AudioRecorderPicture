@@ -1,4 +1,4 @@
-package com.example.attracti.audiorecorderpicture;
+package com.example.attracti.audiorecorderpicture.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,6 +16,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+
+import com.example.attracti.audiorecorderpicture.R;
+import com.example.attracti.audiorecorderpicture.async.BitmapDownloadTask;
+import com.example.attracti.audiorecorderpicture.fragments.BitmapFragment;
+import com.example.attracti.audiorecorderpicture.fragments.CameraFragment;
+import com.example.attracti.audiorecorderpicture.model.Folder;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -42,12 +48,12 @@ public class ViewActivity extends FragmentActivity {
     ImageView imageView;
 
     File[] array;
-    public static HashMap<Integer, BitmapWorkerTaskView> TASKS_MAP = new HashMap<>();
+    public static HashMap<Integer, BitmapDownloadTask.BitmapWorkerTaskView> TASKS_MAP = new HashMap<>();
 
-    static ArrayList fileTime = new ArrayList();
-    static ArrayList xfile = new ArrayList();
-    static ArrayList yfile = new ArrayList();
-    static ArrayList filePosition = new ArrayList();
+    public static ArrayList fileTime = new ArrayList();
+    public static ArrayList xfile = new ArrayList();
+    public static ArrayList yfile = new ArrayList();
+    public static ArrayList filePosition = new ArrayList();
 
     static ArrayList zeroLabelPosition = new ArrayList();
     static ArrayList xzero = new ArrayList();
@@ -99,7 +105,7 @@ public class ViewActivity extends FragmentActivity {
             imageView.setImageBitmap(bitmap);
         } else {
 
-            BitmapWorkerTaskView task = new BitmapWorkerTaskView(imageView, position);
+            BitmapDownloadTask.BitmapWorkerTaskView task = new BitmapDownloadTask.BitmapWorkerTaskView(imageView, position);
             task.execute(imageKey);
 
             TASKS_MAP.put(position, task);

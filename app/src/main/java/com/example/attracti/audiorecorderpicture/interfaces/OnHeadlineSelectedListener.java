@@ -1,4 +1,4 @@
-package com.example.attracti.audiorecorderpicture;
+package com.example.attracti.audiorecorderpicture.interfaces;
 
 import java.io.File;
 import java.util.ArrayList;

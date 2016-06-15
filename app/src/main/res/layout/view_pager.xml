@@ -1,6 +1,6 @@
 
 
-    <com.example.attracti.audiorecorderpicture.CustomViewPagerH xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.example.attracti.audiorecorderpicture.model.CustomViewPagerH xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/pager_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

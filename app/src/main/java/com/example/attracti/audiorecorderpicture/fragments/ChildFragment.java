@@ -1,4 +1,4 @@
-package com.example.attracti.audiorecorderpicture;
+package com.example.attracti.audiorecorderpicture.fragments;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -13,7 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.attracti.audiorecorderpicture.activities.FirstscreenActivity;
+import com.example.attracti.audiorecorderpicture.R;
 import com.example.attracti.audiorecorderpicture.activities.AudioRecord;
+import com.example.attracti.audiorecorderpicture.async.ChildDownloadTask;
 
 import java.io.File;
 import java.io.FileWriter;

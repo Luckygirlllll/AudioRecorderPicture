@@ -1,4 +1,4 @@
-package com.example.attracti.audiorecorderpicture;
+package com.example.attracti.audiorecorderpicture.async;
 
 /**
  * Created by Iryna on 5/23/16.
@@ -15,6 +15,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.example.attracti.audiorecorderpicture.activities.FirstscreenActivity;
+import com.example.attracti.audiorecorderpicture.adapters.OldRecyclerViewAdapter;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -25,9 +28,9 @@ import java.util.Set;
  */
 
 
-import static com.example.attracti.audiorecorderpicture.RecyclerViewAdapter.decodeSampledBitmapFromResource;
+import static com.example.attracti.audiorecorderpicture.adapters.RecyclerViewAdapter.decodeSampledBitmapFromResource;
 
-class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
+public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
     private final WeakReference<ImageView> viewHolderWeakReference;
     private String data;
     private static int position;

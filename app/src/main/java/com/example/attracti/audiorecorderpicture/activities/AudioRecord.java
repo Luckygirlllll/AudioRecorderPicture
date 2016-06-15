@@ -30,14 +30,13 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.example.attracti.audiorecorderpicture.CameraFragment;
-import com.example.attracti.audiorecorderpicture.CustomViewPagerH;
-import com.example.attracti.audiorecorderpicture.FirstscreenActivity;
-import com.example.attracti.audiorecorderpicture.OnHeadlineSelectedListener;
-import com.example.attracti.audiorecorderpicture.OnSwipePictureListener;
+import com.example.attracti.audiorecorderpicture.fragments.CameraFragment;
+import com.example.attracti.audiorecorderpicture.model.CustomViewPagerH;
+import com.example.attracti.audiorecorderpicture.interfaces.OnHeadlineSelectedListener;
+import com.example.attracti.audiorecorderpicture.interfaces.OnSwipePictureListener;
 import com.example.attracti.audiorecorderpicture.R;
-import com.example.attracti.audiorecorderpicture.RealPathUtil;
-import com.example.attracti.audiorecorderpicture.ViewFragment;
+import com.example.attracti.audiorecorderpicture.model.RealPathUtil;
+import com.example.attracti.audiorecorderpicture.fragments.ViewFragment;
 
 import java.io.BufferedReader;
 import java.io.File;

@@ -1,4 +1,4 @@
-package com.example.attracti.audiorecorderpicture;
+package com.example.attracti.audiorecorderpicture.model;
 
 import android.content.Context;
 import android.support.annotation.Nullable;

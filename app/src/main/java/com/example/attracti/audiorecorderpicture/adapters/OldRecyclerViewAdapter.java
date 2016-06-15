@@ -1,4 +1,4 @@
-package com.example.attracti.audiorecorderpicture;
+package com.example.attracti.audiorecorderpicture.adapters;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -17,7 +17,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.attracti.audiorecorderpicture.R;
 import com.example.attracti.audiorecorderpicture.activities.AudioRecord;
+import com.example.attracti.audiorecorderpicture.activities.FirstscreenActivity;
+import com.example.attracti.audiorecorderpicture.async.BitmapWorkerTask;
+import com.example.attracti.audiorecorderpicture.fragments.CameraFragment;
+import com.example.attracti.audiorecorderpicture.model.Folder;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -56,8 +61,8 @@ public class OldRecyclerViewAdapter extends RecyclerView.Adapter<OldRecyclerView
     View view;
 
     // coordinates of LongPress
-    static int x;
-    static int y;
+    public static int x;
+    public static int y;
 
     // file with the labels coordinates
     public static File labelFile;

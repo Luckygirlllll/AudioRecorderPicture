@@ -1,4 +1,4 @@
-package com.example.attracti.audiorecorderpicture;
+package com.example.attracti.audiorecorderpicture.adapters;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -8,6 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.example.attracti.audiorecorderpicture.fragments.CameraFragment;
+import com.example.attracti.audiorecorderpicture.R;
+import com.example.attracti.audiorecorderpicture.activities.ViewActivity;
+import com.example.attracti.audiorecorderpicture.async.BitmapDownloadTask;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -30,12 +35,12 @@ public class AdapterViewProject extends RecyclerView.Adapter<AdapterViewProject.
     public static File[] pictureList;
     String parentName;
 
-    public static HashMap<Integer, BitmapWorkerTaskView> TASKS_MAP = new HashMap<>();
+    public static HashMap<Integer, BitmapDownloadTask.BitmapWorkerTaskView> TASKS_MAP = new HashMap<>();
 
     static ArrayList fileTime = new ArrayList();
-    static ArrayList xfile = new ArrayList();
-    static ArrayList yfile = new ArrayList();
-    static ArrayList filePosition = new ArrayList();
+    public static ArrayList xfile = new ArrayList();
+    public static ArrayList yfile = new ArrayList();
+    public static ArrayList filePosition = new ArrayList();
 
     public void loadBitmap(int position, File path, ImageView imageView) {
         final String imageKey = String.valueOf(path);
@@ -47,7 +52,7 @@ public class AdapterViewProject extends RecyclerView.Adapter<AdapterViewProject.
             imageView.setImageBitmap(bitmap);
         } else {
 
-            BitmapWorkerTaskView task = new BitmapWorkerTaskView(imageView, position);
+            BitmapDownloadTask.BitmapWorkerTaskView task = new BitmapDownloadTask.BitmapWorkerTaskView(imageView, position);
             task.execute(imageKey);
 
             TASKS_MAP.put(position, task);

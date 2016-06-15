@@ -1,4 +1,4 @@
-package com.example.attracti.audiorecorderpicture;
+package com.example.attracti.audiorecorderpicture.fragments;
 
 /**
  * Created by Iryna on 4/28/16.
@@ -36,6 +36,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.attracti.audiorecorderpicture.activities.FirstscreenActivity;
+import com.example.attracti.audiorecorderpicture.interfaces.OnHeadlineSelectedListener;
+import com.example.attracti.audiorecorderpicture.R;
 import com.example.attracti.audiorecorderpicture.activities.AudioRecord;
 
 import java.io.BufferedReader;

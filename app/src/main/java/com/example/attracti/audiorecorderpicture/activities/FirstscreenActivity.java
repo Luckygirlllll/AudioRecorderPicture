@@ -1,4 +1,4 @@
-package com.example.attracti.audiorecorderpicture;
+package com.example.attracti.audiorecorderpicture.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -14,7 +14,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.attracti.audiorecorderpicture.activities.AudioRecord;
+import com.example.attracti.audiorecorderpicture.R;
+import com.example.attracti.audiorecorderpicture.model.RecyclerItemClickListener;
+import com.example.attracti.audiorecorderpicture.adapters.RecyclerViewAdapter;
+import com.example.attracti.audiorecorderpicture.model.Folder;
 
 import java.io.File;
 import java.text.SimpleDateFormat;

@@ -1,4 +1,4 @@
-package com.example.attracti.audiorecorderpicture;
+package com.example.attracti.audiorecorderpicture.interfaces;
 
 /**
  * Created by attracti on 6/13/16.

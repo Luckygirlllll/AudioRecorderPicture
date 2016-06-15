@@ -1,4 +1,4 @@
-package com.example.attracti.audiorecorderpicture;
+package com.example.attracti.audiorecorderpicture.model;
 
 import android.app.Application;
 import android.content.Context;

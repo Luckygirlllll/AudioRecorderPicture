@@ -1,4 +1,4 @@
-package com.example.attracti.audiorecorderpicture;
+package com.example.attracti.audiorecorderpicture.async;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -10,10 +10,12 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.example.attracti.audiorecorderpicture.fragments.ChildFragment;
+
 import java.io.File;
 import java.lang.ref.WeakReference;
 
-import static com.example.attracti.audiorecorderpicture.RecyclerViewAdapter.decodeSampledBitmapFromResource;
+import static com.example.attracti.audiorecorderpicture.adapters.RecyclerViewAdapter.decodeSampledBitmapFromResource;
 
 /**
  * Created by Iryna on 6/2/16.
@@ -21,7 +23,7 @@ import static com.example.attracti.audiorecorderpicture.RecyclerViewAdapter.deco
  * In this class is going the process of the downloading bitmaps for the ViewFragment
  */
 
-class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
+public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
     private final WeakReference<ImageView> viewHolderWeakReference;
     private String data = null;
 

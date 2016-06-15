@@ -1,4 +1,4 @@
-package com.example.attracti.audiorecorderpicture;
+package com.example.attracti.audiorecorderpicture.adapters;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -10,6 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.attracti.audiorecorderpicture.R;
+import com.example.attracti.audiorecorderpicture.activities.FirstscreenActivity;
+import com.example.attracti.audiorecorderpicture.model.Folder;
 
 import java.util.ArrayList;
 
@@ -202,7 +206,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public Bitmap getBitmapFromMemCache(String key) {
-        return com.example.attracti.audiorecorderpicture.FirstscreenActivity.mMemoryCache.get(key);
+        return FirstscreenActivity.mMemoryCache.get(key);
 
     }
 }
