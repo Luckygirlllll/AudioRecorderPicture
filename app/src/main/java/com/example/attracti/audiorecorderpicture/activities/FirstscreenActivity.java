@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.attracti.audiorecorderpicture.R;
+import com.example.attracti.audiorecorderpicture.fragments.ChildFragment;
 import com.example.attracti.audiorecorderpicture.model.RecyclerItemClickListener;
 import com.example.attracti.audiorecorderpicture.adapters.RecyclerViewAdapter;
 import com.example.attracti.audiorecorderpicture.model.Folder;
@@ -143,6 +144,12 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.addItem:
+
+                AudioRecord.arrayFilepaths2.clear();
+                ChildFragment.xcoordList.clear();
+                ChildFragment.ycoordList.clear();
+                ChildFragment.positionList.clear();
+
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss");
                 Date now = new Date();
                 mCurrentProject = String.valueOf(formatter.format(now));
