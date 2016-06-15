@@ -965,7 +965,9 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
             case R.id.doneItem:
                 done++;
                 Intent firstScreen = new Intent(getApplicationContext(), FirstscreenActivity.class);
+                firstScreen.putExtra("SWAP", true);
                 startActivity(firstScreen);
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -79,6 +79,9 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.front);
+
+        Log.wtf("on Create works ", "in FirstscreenActivity");
+
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("");
@@ -93,7 +96,6 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
 
 
         getFromSdcardFolders();
-
 
         list.setLayoutManager(mLayoutManager);
 
@@ -115,13 +117,23 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
                 return bitmap.getByteCount() / 1024;
             }
         };
+
+        boolean b = getIntent().getBooleanExtra("SWAP" , false);
+        if (b){
+//            RecyclerViewAdapter adapter = (RecyclerViewAdapter)list.getAdapter();
+//            adapter.swap(FOLDERS);
+//            adapter.notifyDataSetChanged();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        RecyclerViewAdapter adapter = (RecyclerViewAdapter)list.getAdapter();
+        Log.wtf("on Resume works ", "in FirstscreenActivity");
+      //  adapter.swap(FOLDERS);
+      //  adapter.notifyDataSetChanged();
         list.getAdapter().notifyDataSetChanged();
-
     }
 
     @Override

@@ -3,6 +3,9 @@ package com.example.attracti.audiorecorderpicture.adapters;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,6 +33,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public final ArrayList<Folder> FOLDERS;
     View view;
 
+    static Bitmap tempBitmapTest;
+    Canvas tempCanvas;
+
     public long getItemId(int position) {
         return position;
     }
@@ -39,6 +45,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Log.wtf("TAG", "Folders size: " + FOLDERS.size());
         return FOLDERS.size();
     }
+
+
 
     // optimisation of bitmap
 
@@ -65,6 +73,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return inSampleSize;
     }
 
+    public  void swap(ArrayList<Folder> list){
+        FOLDERS.clear();
+        FOLDERS.addAll(list);
+        notifyDataSetChanged();
+    }
+
+
+
     public static Bitmap decodeSampledBitmapFromResource(String path,
                                                          int reqWidth, int reqHeight) {
 
@@ -86,10 +102,28 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         Bitmap bitmap = getBitmapFromMemCache(imageKey);
         if (bitmap != null) {
+
+            tempBitmapTest = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.RGB_565);
+            tempCanvas = new Canvas(tempBitmapTest);
+            tempCanvas.drawBitmap(bitmap, 0, 0, null);
+            Paint myPaint3 = new Paint();
+            myPaint3.setAntiAlias(true);
+            myPaint3.setColor(Color.RED);
+            tempCanvas.drawCircle(500, 500, 1000, myPaint3);
+
             imageView.setImageBitmap(bitmap);
         } else {
 
             bitmap = decodeSampledBitmapFromResource(path, 100, 100);
+
+            tempBitmapTest = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.RGB_565);
+            tempCanvas = new Canvas(tempBitmapTest);
+            tempCanvas.drawBitmap(bitmap, 0, 0, null);
+            Paint myPaint3 = new Paint();
+            myPaint3.setAntiAlias(true);
+            myPaint3.setColor(Color.RED);
+            tempCanvas.drawCircle(500, 500, 1000, myPaint3);
+
             imageView.setImageBitmap(bitmap);
             // BitmapWorkerTask task = new BitmapWorkerTask(imageView, position);
             // task.execute(path);
@@ -207,7 +241,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public Bitmap getBitmapFromMemCache(String key) {
         return FirstscreenActivity.mMemoryCache.get(key);
-
     }
+
+
+
+
+
 }
 

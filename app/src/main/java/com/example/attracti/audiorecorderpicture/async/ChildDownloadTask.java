@@ -53,7 +53,6 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
         f = new File(data);
         Log.wtf("Params: ", params[0]);
 
-
         final Bitmap bitmap = decodeSampledBitmapFromResource(data, 100, 100);
         //addBitmapToMemoryCache(String.valueOf(params[0]), bitmap);
 

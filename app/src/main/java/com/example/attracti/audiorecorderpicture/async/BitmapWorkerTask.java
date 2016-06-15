@@ -1,11 +1,5 @@
 package com.example.attracti.audiorecorderpicture.async;
 
-/**
- * Created by Iryna on 5/23/16.
- * <p>
- * In this class going the process of downloading bitmaps in AsyncTask
- */
-
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -19,16 +13,16 @@ import com.example.attracti.audiorecorderpicture.activities.FirstscreenActivity;
 import com.example.attracti.audiorecorderpicture.adapters.OldRecyclerViewAdapter;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-
-/**
- * This class responsible for the dowloading pictures for the first screen
- */
-
 
 import static com.example.attracti.audiorecorderpicture.adapters.RecyclerViewAdapter.decodeSampledBitmapFromResource;
+
+/**
+ * Created by Iryna on 5/23/16.
+ * <p>
+ * In this class going the process of downloading bitmaps in AsyncTask
+ * This class responsible for the dowloading pictures for the first screen
+ * doesn't use it any more, this class can be deleted soon
+ */
 
 public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
     private final WeakReference<ImageView> viewHolderWeakReference;
@@ -50,46 +44,6 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
         Log.wtf("Params: ", params[0]);
         final Bitmap bitmap = decodeSampledBitmapFromResource(data, 100, 100);
         addBitmapToMemoryCache(String.valueOf(params[0]), bitmap);
-        //-----Test
-
-        tempBitmapTest = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.RGB_565);
-        tempCanvas = new Canvas(tempBitmapTest);
-        tempCanvas.drawBitmap(bitmap, 0, 0, null);
-        Paint myPaint3 = new Paint();
-
-        myPaint3.setColor(Color.RED);
-        ArrayList<Integer> xcoord = new ArrayList<>();
-        xcoord.add(50);
-        xcoord.add(90);
-        xcoord.add(120);
-        xcoord.add(140);
-
-        ArrayList<Integer> ycoord = new ArrayList<>();
-        ycoord.add(60);
-        ycoord.add(100);
-        ycoord.add(130);
-        ycoord.add(150);
-
-        // OldRecyclerViewAdapter.xcoordList;
-        // OldRecyclerViewAdapter.ycoordList;
-        // OldRecyclerViewAdapter.positionList;
-
-//        AdapterViewProject.xfile;
-//        AdapterViewProject.yfile;
-//        AdapterViewProject.filePosition;
-
-
-        Set<Integer> uniquePositions = new HashSet<>(OldRecyclerViewAdapter.positionList);
-
-//        for(int i=0; i<uniquePositions.size();i++ )
-//        if (position == OldRecyclerViewAdapter.positionList.get(i) && OldRecyclerViewAdapter.xcoordin!=null && OldRecyclerViewAdapter.ycoordin!=null ) {
-//                tempCanvas.drawCircle( (Float)OldRecyclerViewAdapter.xcoordin.get(i)/2,(Float) OldRecyclerViewAdapter.ycoordin.get(i)/2 , 20, myPaint3);
-//                Log.i("Events X in Async: ", xcoord.get(i) + " Y in Async: " + ycoord.get(i));
-//            }
-//                tempCanvas.restore();
-        //  tempCanvas.drawCircle(50, 50, 20, myPaint3);
-
-//            }
         tempCanvas.save();
         return bitmap;
     }
@@ -101,11 +55,18 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
         if (viewHolderWeakReference != null && bitmap != null) {
             final ImageView imageView = viewHolderWeakReference.get();
 
-            if (imageView != null) {
+            tempBitmapTest = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.RGB_565);
+            tempCanvas = new Canvas(tempBitmapTest);
+            tempCanvas.drawBitmap(bitmap, 0, 0, null);
+            Paint myPaint3 = new Paint();
+            myPaint3.setAntiAlias(true);
+            myPaint3.setColor(Color.RED);
+            tempCanvas.drawCircle(200, 200, 200, myPaint3);
 
+            if (imageView != null) {
                 imageView.setImageBitmap(bitmap);
                 imageView.setImageDrawable(new BitmapDrawable(BitmapWorkerTask.tempBitmapTest));
-                Paint myPaint4 = new Paint();
+
                 Log.i("Events X in Async: ", OldRecyclerViewAdapter.x + " Y in Async: " + OldRecyclerViewAdapter.y);
 //                if (OldRecyclerViewAdapter.x>0 && OldRecyclerViewAdapter.y<0 ){
 //                    tempCanvas.drawCircle(OldRecyclerViewAdapter.x/2, OldRecyclerViewAdapter.y/2, 20, myPaint4);
