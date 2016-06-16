@@ -13,9 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.example.attracti.audiorecorderpicture.activities.FirstscreenActivity;
 import com.example.attracti.audiorecorderpicture.R;
 import com.example.attracti.audiorecorderpicture.activities.AudioRecord;
+import com.example.attracti.audiorecorderpicture.activities.FirstscreenActivity;
 import com.example.attracti.audiorecorderpicture.async.ChildDownloadTask;
 
 import java.io.File;
@@ -26,13 +26,14 @@ import java.util.ArrayList;
 /**
  * Created by Iryna on 6/2/16.
  * <p>
- * this Fragment responsible for the showing of the picture which just have been captured (ViewFrgament)
+ * this Fragment responsible for the showing of the picture which just have been captured
  */
 
 
 public class ChildFragment extends Fragment {
 
     private static String BITMAP_TAG = "BITMAP_TAG";
+    private static String TAG = ChildFragment.class.getSimpleName();
     private int positionCurrent;
 
     private String mFile = null;
@@ -49,11 +50,12 @@ public class ChildFragment extends Fragment {
     public static ArrayList<Integer> ycoordList = new ArrayList();
     public static ArrayList<Integer> positionList = new ArrayList<>();
 
+
+
     @Override
     public void onAttach(Context context) {
         this.context = context;
         super.onAttach(context);
-
     }
 
     @Override

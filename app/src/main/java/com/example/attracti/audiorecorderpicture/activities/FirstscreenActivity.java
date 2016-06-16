@@ -48,7 +48,6 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
 
     private static File[] listFile2;
 
-
     public void getFromSdcardFolders() {
         FOLDERS = new ArrayList<>();
         File file = new File(Environment.getExternalStorageDirectory() +

@@ -1,5 +1,6 @@
 package com.example.attracti.audiorecorderpicture.fragments;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import com.example.attracti.audiorecorderpicture.R;
 import com.example.attracti.audiorecorderpicture.activities.ViewActivity;
 import com.example.attracti.audiorecorderpicture.async.BitmapDownloadTask;
+import com.example.attracti.audiorecorderpicture.interfaces.OnCreateCanvasListener;
 
 import java.io.IOException;
 
@@ -39,6 +41,21 @@ public class BitmapFragment extends Fragment {
     private GestureDetectorCompat DoubleTap;
 
     private MediaPlayer mPlayer;
+    OnCreateCanvasListener canvasListener = null;
+
+//    private static OnCreateCanvasListener canvasListener = new OnCreateCanvasListener() {
+//        @Override
+//        public void saveCanvas(Canvas canvas) {
+//            Log.wtf("Lalala" , " SaveCanvas");
+//        }
+//    };
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        canvasListener = (OnCreateCanvasListener) context;
+
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,7 +94,7 @@ public class BitmapFragment extends Fragment {
             imageView.setImageBitmap(bitmap);
         } else {
 
-            BitmapDownloadTask task = new BitmapDownloadTask(imageView, position);
+            BitmapDownloadTask task = new BitmapDownloadTask(canvasListener,imageView, position);
             task.execute(imageKey);
 
         }

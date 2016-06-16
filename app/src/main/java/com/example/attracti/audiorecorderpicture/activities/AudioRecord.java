@@ -93,8 +93,6 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
     private Button mNextButton = null;
     private Button mPreviousButton = null;
 
-    private static int timeFile = 1;
-
     private Button mCaptureImageButton;
     private Button mSaveImageButton;
 
@@ -108,17 +106,12 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
     private Button leftButton;
     private Button rightButton;
-    private static long timePictureChange;
+    private long timePictureChange;
 
     private ViewFragment viewFragment;
 
     private static final String TAG = AudioRecord.class.getSimpleName();
     public static ArrayList<File> arrayFilepaths2 = new ArrayList<>();
-
-    public int getTimefile() {
-        return timeFile;
-    }
-
 
     private void onRecord(boolean start) {
         if (start) {

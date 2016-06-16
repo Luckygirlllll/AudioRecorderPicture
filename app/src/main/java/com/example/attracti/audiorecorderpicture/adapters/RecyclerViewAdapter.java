@@ -41,7 +41,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
 
-
     // optimisation of bitmap
 
     public static int calculateInSampleSize(
@@ -67,12 +66,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return inSampleSize;
     }
 
-    public  void swap(ArrayList<Folder> list){
+    public void swap(ArrayList<Folder> list) {
         FOLDERS.clear();
         FOLDERS.addAll(list);
         notifyDataSetChanged();
     }
-
 
 
     public static Bitmap decodeSampledBitmapFromResource(String path,
@@ -236,9 +234,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public Bitmap getBitmapFromMemCache(String key) {
         return FirstscreenActivity.mMemoryCache.get(key);
     }
-
-
-
 
 
 }

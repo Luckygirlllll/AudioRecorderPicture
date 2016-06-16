@@ -1,7 +1,7 @@
 package com.example.attracti.audiorecorderpicture.activities;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -21,6 +21,7 @@ import com.example.attracti.audiorecorderpicture.R;
 import com.example.attracti.audiorecorderpicture.async.BitmapDownloadTask;
 import com.example.attracti.audiorecorderpicture.fragments.BitmapFragment;
 import com.example.attracti.audiorecorderpicture.fragments.CameraFragment;
+import com.example.attracti.audiorecorderpicture.interfaces.OnCreateCanvasListener;
 import com.example.attracti.audiorecorderpicture.model.Folder;
 
 import java.io.BufferedReader;
@@ -38,33 +39,35 @@ import java.util.HashMap;
  */
 
 
-public class ViewActivity extends FragmentActivity {
+public class ViewActivity extends FragmentActivity implements OnCreateCanvasListener {
+
+    private String TAG = ViewActivity.class.getSimpleName();
 
     private static ArrayList<Folder> FOLDERS = new ArrayList<>();
-
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
+
     private ImageView imageView;
-
     private File[] mArray;
-    private static HashMap<Integer, BitmapDownloadTask.BitmapWorkerTaskView> TASKS_MAP = new HashMap<>();
 
+    private static HashMap<Integer, BitmapDownloadTask> TASKS_MAP = new HashMap<>();
     public static ArrayList fileTime = null;
     public static ArrayList xFile = null;
     public static ArrayList yFile = null;
-    public static ArrayList filePosition = null;
 
+    public static ArrayList filePosition = null;
     private static ArrayList zeroLabelPosition = new ArrayList();
     private static ArrayList xZero = new ArrayList();
     private static ArrayList yZero = new ArrayList();
+
     private static ArrayList zeroTime = new ArrayList();
 
-
     public static String parentName;
-
     private MediaPlayer mPlayer;
 
     private Button playButton;
+    private ArrayList canvasList = new ArrayList();
+
 
     public void getFromSdcardFolders() {
         File file = new File(Environment.getExternalStorageDirectory() +
@@ -92,22 +95,6 @@ public class ViewActivity extends FragmentActivity {
         }
     }
 
-    public void loadBitmap(int position, File path, ImageView imageView) {
-        final String imageKey = String.valueOf(path);
-        Log.wtf("Image Key: ", String.valueOf(imageKey));
-        Log.wtf("Image position: ", String.valueOf(position));
-
-        final Bitmap bitmap = null;
-        if (bitmap != null) {
-            imageView.setImageBitmap(bitmap);
-        } else {
-
-            BitmapDownloadTask.BitmapWorkerTaskView task = new BitmapDownloadTask.BitmapWorkerTaskView(imageView, position);
-            task.execute(imageKey);
-
-            TASKS_MAP.put(position, task);
-        }
-    }
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,9 +174,8 @@ public class ViewActivity extends FragmentActivity {
                 public void onTick(long millisUntilFinished) {
                  //   int timeSpends = mPlayer.getDuration() - mPlayer.getCurrentPosition();
                     int timeSpends = mPlayer.getCurrentPosition();
-                    Log.wtf("timeSpends: ", String.valueOf(timeSpends));
+
                     if (timeSpends>=Integer.parseInt(String.valueOf(zeroTime.get(timeStampIterator)))-100 &&timeSpends<=Integer.parseInt(String.valueOf(zeroTime.get(timeStampIterator)))+100) {
-                       Log.wtf("if works", "!!!");
                         mPager.setCurrentItem(Integer.parseInt(String.valueOf(zeroLabelPosition.get(timeStampIterator))));
                         if(timeStampIterator<zeroTime.size()-1) {
                             timeStampIterator++;
@@ -306,6 +292,12 @@ public class ViewActivity extends FragmentActivity {
                 yZero.add(filetime2[i]);
             }
         }
+    }
+
+    @Override
+    public void saveCanvas(Canvas canvas) {
+        Log.wtf(TAG, "OnCreateCanvasListener callback");
+        canvasList.add(canvas);
     }
 
 

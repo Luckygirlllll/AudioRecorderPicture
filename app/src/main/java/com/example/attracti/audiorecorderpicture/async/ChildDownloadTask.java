@@ -11,6 +11,7 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.example.attracti.audiorecorderpicture.fragments.ChildFragment;
+import com.example.attracti.audiorecorderpicture.interfaces.OnCreateCanvasListener;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -38,8 +39,10 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
     private Paint textPaint;
     private ImageView imageView;
 
-    public ChildDownloadTask(ImageView imageView, int position, int x, int y) {
+
+    public ChildDownloadTask( ImageView imageView, int position, int x, int y) {
         viewHolderWeakReference = new WeakReference<ImageView>(imageView);
+
         this.position = position;
         this.x = x;
         this.y = y;
@@ -109,6 +112,8 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
                 imageView.invalidate();
             }
         }
+
+
     }
 //    public  void addBitmapToMemoryCache(String key, Bitmap bitmap) {
 //        if (getBitmapFromMemCache(key) == null) {
