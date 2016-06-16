@@ -30,15 +30,14 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.attracti.audiorecorderpicture.R;
 import com.example.attracti.audiorecorderpicture.fragments.CameraFragment;
-import com.example.attracti.audiorecorderpicture.model.CustomViewPagerH;
+import com.example.attracti.audiorecorderpicture.fragments.ViewFragment;
 import com.example.attracti.audiorecorderpicture.interfaces.OnHeadlineSelectedListener;
 import com.example.attracti.audiorecorderpicture.interfaces.OnSwipePictureListener;
-import com.example.attracti.audiorecorderpicture.R;
+import com.example.attracti.audiorecorderpicture.model.CustomViewPagerH;
 import com.example.attracti.audiorecorderpicture.model.RealPathUtil;
-import com.example.attracti.audiorecorderpicture.fragments.ViewFragment;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -54,9 +53,9 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
     OnSwipePictureListener onSwipePictureListener;
 
-    static ArrayList<String> bitmapppaths = new ArrayList();
+    private static ArrayList<String> bitmapPaths = new ArrayList();
 
-    int firstslide = 0;
+    private int firstSlide = 0;
 
     private static final int NUM_PAGES = 2;
 
@@ -71,39 +70,16 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         return startTimeAudio;
     }
 
-    private long after;
-
-    int current = 1;
-    int currlabel = 1;
-
-
-    static String[] filetime = new String[100];
-    private static int labeltime;
+    private int currlabel = 1;
 
     SavePictureListener savePictureListener;
     ReceivePictureListener receivePictureListener;
 
-    BufferedReader br = null;
-    File xfile;
-
-    static String info2;
-
-    public String getInfo2() {
-        return info2;
-    }
-
-    public static void setInfo2(String info2) {
-        AudioRecord.info2 = info2;
-    }
-
     private static final String LOG_TAG = "AudioRecord";
-    public static String mFileName = null;
-
+    private static String mFileName = null;
 
     private RecordButton recordButton = null;
     private MediaRecorder mRecorder = null;
-
-    private PlayButton playButton = null;
 
     private static MediaPlayer mPlayer = null;
 
@@ -111,26 +87,20 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         return mPlayer;
     }
 
+    private PlayButton playButton = null;
     private LabelButton labelButton = null;
     private Button mLabelPlayButton = null;
-
-    // go to the next label
     private Button mNextButton = null;
     private Button mPreviousButton = null;
 
-    public static int timefile = 1;
-
-    private static final int TAKE_PICTURE_REQUEST_B = 100;
-
-    //------Camera features
+    private static int timeFile = 1;
 
     private Button mCaptureImageButton;
     private Button mSaveImageButton;
 
     CameraFragment fragment;
-    static String[] filetime3;
 
-    static ArrayList time = new ArrayList();
+    private static ArrayList mTime = new ArrayList();
 
     private Button recordButtonpause;
     private Button chooseButton;
@@ -145,12 +115,10 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
     private static final String TAG = AudioRecord.class.getSimpleName();
     public static ArrayList<File> arrayFilepaths2 = new ArrayList<>();
 
-
-//------Camera features
-
     public int getTimefile() {
-        return timefile;
+        return timeFile;
     }
+
 
     private void onRecord(boolean start) {
         if (start) {
@@ -206,19 +174,19 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
     private void startPlayingmodified() {
 
-        time = fragment.getFiletime3();
-        Log.i("Time 0", (String) time.get(0));
-        Log.i("Time 1", (String) time.get(1));
+        mTime = fragment.getFileTime3();
+        Log.i("Time 0", (String) mTime.get(0));
+        Log.i("Time 1", (String) mTime.get(1));
 
         mPlayer = new MediaPlayer();
         try {
             mPlayer.setDataSource(mFileName);
             mPlayer.prepare();
-            mPlayer.seekTo(Integer.parseInt((String) time.get(0)));
+            mPlayer.seekTo(Integer.parseInt((String) mTime.get(0)));
             mPlayer.start();
 
             //playing the next label
-            new CountDownTimer(Integer.parseInt((String) time.get(1)) - Integer.parseInt((String) time.get(0)), 1000) {
+            new CountDownTimer(Integer.parseInt((String) mTime.get(1)) - Integer.parseInt((String) mTime.get(0)), 1000) {
                 public void onTick(long millisUntilFinished) {
                 }
 
@@ -234,19 +202,19 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
     private void startNextPlaying() {
         mPlayer = new MediaPlayer();
-        time = fragment.getFiletime3();
+        mTime = fragment.getFileTime3();
         try {
-            if (currlabel < time.size() - 1) {
+            if (currlabel < mTime.size() - 1) {
                 currlabel++;
             }
             mPlayer.setDataSource(mFileName);
             mPlayer.prepare();
-            mPlayer.seekTo(Integer.parseInt((String) time.get(currlabel - 1)));
+            mPlayer.seekTo(Integer.parseInt((String) mTime.get(currlabel - 1)));
             mPlayer.start();
 
             Log.i("CurrentLabel", String.valueOf(currlabel));
 
-            new CountDownTimer(Integer.parseInt((String) time.get(currlabel)) - Integer.parseInt((String) time.get(currlabel - 1)), 1000) {
+            new CountDownTimer(Integer.parseInt((String) mTime.get(currlabel)) - Integer.parseInt((String) mTime.get(currlabel - 1)), 1000) {
                 public void onTick(long millisUntilFinished) {
                 }
 
@@ -261,7 +229,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
     private void startPreviousPlaying() {
         mPlayer = new MediaPlayer();
-        time = fragment.getFiletime3();
+        mTime = fragment.getFileTime3();
         try {
 
             if (currlabel > 1) {
@@ -269,10 +237,10 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
             }
             mPlayer.setDataSource(mFileName);
             mPlayer.prepare();
-            mPlayer.seekTo(Integer.parseInt((String) time.get(currlabel - 1)));
+            mPlayer.seekTo(Integer.parseInt((String) mTime.get(currlabel - 1)));
             mPlayer.start();
             Log.i("CurrentLabelPrevious", String.valueOf(currlabel));
-            new CountDownTimer(Integer.parseInt((String) time.get(currlabel)) - Integer.parseInt((String) time.get(currlabel - 1)), 1000) {
+            new CountDownTimer(Integer.parseInt((String) mTime.get(currlabel)) - Integer.parseInt((String) mTime.get(currlabel - 1)), 1000) {
                 public void onTick(long millisUntilFinished) {
                 }
 
@@ -321,11 +289,11 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
     }
 
     public static void setArrayBitmap(ArrayList<String> list) {
-        bitmapppaths = list;
+        bitmapPaths = list;
     }
 
     public static ArrayList<String> getArratBitmap() {
-        return bitmapppaths;
+        return bitmapPaths;
     }
 
     @Override
@@ -471,14 +439,14 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         mFileName = CameraFragment.mAudioFolder + "/" + FirstscreenActivity.mCurrentProject + ".3gp";
     }
 
-    private static int firstclick = 0;
+    private static int firstClick = 0;
 
     private OnClickListener mCaptureImageButtonClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
 
-            if (firstslide == 0) {
-                firstslide++;
+            if (firstSlide == 0) {
+                firstSlide++;
 
                 fragment.takePicture();
 
@@ -503,11 +471,11 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
                         e.printStackTrace();
                     }
                     try {
-                        if (firstclick == 0) {
-                            writer2.append(ViewFragment.ArrayFilepaths.size() + "\n" + 0 + "\n" + 0 + "\n" + 0 + "\n");
-                            firstclick++;
+                        if (firstClick == 0) {
+                            writer2.append(ViewFragment.arrayFilepaths.size() + "\n" + 0 + "\n" + 0 + "\n" + 0 + "\n");
+                            firstClick++;
                         } else {
-                            writer2.append(ViewFragment.ArrayFilepaths.size() + "\n" + sBody + "\n" + 0 + "\n" + 0 + "\n");
+                            writer2.append(ViewFragment.arrayFilepaths.size() + "\n" + sBody + "\n" + 0 + "\n" + 0 + "\n");
                         }
 
                         writer2.flush();
@@ -522,7 +490,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
             } else {
                 mPager.setCurrentItem(mPager.getCurrentItem() - 1);
-                firstslide--;
+                firstSlide--;
             }
         }
     };
@@ -677,77 +645,6 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.weight = 1;
     }
-    //   test();
-//        labelButton.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                if (mPlayer == null) {
-//                    after = System.currentTimeMillis();
-//                    android.util.Log.i("Time after click", " Time value in millisecinds " + after);
-//                    int difference = (int) (after - startTimeAudio);
-//                    Log.i("difference", String.valueOf(difference));
-//
-//                    int sBody = difference;
-//
-//                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy_mm_dd_hh_mm_ss",
-//                            Locale.getDefault());
-//                    ;
-//                    Date now = new Date();
-//                    String fileName = formatter.format(now) + ".txt";//like 2016_01_12.txt
-//                    Log.i("Current", String.valueOf(labeltime));
-//
-//                    try {
-//                        File root = new File(Environment.getExternalStorageDirectory(), "Audio_Recorder");
-//                        if (!root.exists()) {
-//                            root.mkdirs();
-//                        }
-//                        xfile = new File(root, fileName);
-//
-//                        FileWriter writer = new FileWriter(xfile, true);
-//                        writer.append(sBody + "\n");
-//                        writer.flush();
-//                        writer.close();
-//
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                    //readFromFile();
-//
-//
-//                } else {
-//
-//                    info2 = String.valueOf(mPlayer.getCurrentPosition());
-//                    labeltime = mPlayer.getCurrentPosition();
-//                    String sBody = info2;
-//
-//                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy_mm_dd_hh_mm",
-//                            Locale.getDefault());
-//                    ;
-//                    Date now = new Date();
-//                    String fileName = formatter.format(now) + ".txt";//like 2016_01_12.txt
-//                    Log.i("Current", String.valueOf(labeltime));
-//
-//                    try {
-//                        File root = new File(Environment.getExternalStorageDirectory(), "Audio_Recorder");
-//                        if (!root.exists()) {
-//                            root.mkdirs();
-//                        }
-//                        xfile = new File(root, fileName);
-//
-//                        FileWriter writer = new FileWriter(xfile, true);
-//                        writer.append(sBody + "\n");
-//                        writer.flush();
-//                        writer.close();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                    // readFromFile();
-//
-//                }
-//            }
-//        });
-//    }
 
     //play first label
 //        mLabelPlayButton.setOnClickListener(new OnClickListener() {
@@ -755,7 +652,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 //            @Override
 //            public void onClick(View v) {
 //                fragment.readFromFile();
-//                time = fragment.getFiletime3();
+//                mTime = fragment.getFileTime3();
 //                boolean mStartPlaying = true;
 //                onPlayLabel(mStartPlaying);
 //            }
@@ -786,7 +683,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
     // String[] filetime = text.toString().split("\n");
 
-//                time = fragment.getFiletime3();
+//                time = fragment.getFileTime3();
 //                Log.i("Time size", String.valueOf(time.size()));
 //                if (current - 1 < time.size() - 1) {
 //                    current++;

@@ -10,30 +10,30 @@ import java.util.ArrayList;
 
 public class Folder {
 
-    public String name;
-    public ArrayList<String> picturelist;
+    public String mName;
+    public ArrayList<String> pictureList;
 
     public Folder() {
-        picturelist = new ArrayList<>();
+        pictureList = new ArrayList<>();
     }
 
     public String getName() {
-        return name;
+        return mName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.mName = name;
     }
 
-    public ArrayList<String> getPicturelist() {
-        return picturelist;
+    public ArrayList<String> getPictureList() {
+        return pictureList;
     }
 
-    public void setPicturelist(ArrayList<String> picturelist) {
-        this.picturelist = picturelist;
+    public void setPictureList(ArrayList<String> pictureList) {
+        this.pictureList = pictureList;
     }
 
     public void addFile(String path) {
-        picturelist.add(path);
+        pictureList.add(path);
     }
 }

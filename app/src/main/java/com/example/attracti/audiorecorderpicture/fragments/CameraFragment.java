@@ -90,22 +90,22 @@ public class CameraFragment extends Fragment
 
     private static Bitmap bitmap;
     private View view;
-    private static File gpxfile;
+    private static File gpxFile;
 
-    private static String[] filetime2 = new String[100];
-    private static ArrayList filetime3 = new ArrayList();
+    private static String[] fileTime2 = new String[100];
+    private static ArrayList fileTime3 = new ArrayList();
 
-    private static ArrayList xcoordin = new ArrayList();
-    private static ArrayList ycoordin = new ArrayList();
+    private static ArrayList xCoordin = new ArrayList();
+    private static ArrayList yCoordin = new ArrayList();
 
-    public static ArrayList getXcoordin() {
-        return xcoordin;
+    public static ArrayList getxCoordin() {
+        return xCoordin;
     }
-    public static ArrayList getYcoordin() {
-        return ycoordin;
+    public static ArrayList getyCoordin() {
+        return yCoordin;
     }
-    public static ArrayList getFiletime3() {
-        return filetime3;
+    public static ArrayList getFileTime3() {
+        return fileTime3;
     }
 
     private AudioRecord audioRecord;
@@ -270,7 +270,7 @@ public class CameraFragment extends Fragment
         StringBuilder text = new StringBuilder();
 
         try {
-            BufferedReader br = new BufferedReader(new FileReader(gpxfile));
+            BufferedReader br = new BufferedReader(new FileReader(gpxFile));
             String line;
 
             while ((line = br.readLine()) != null) {
@@ -284,24 +284,24 @@ public class CameraFragment extends Fragment
         }
         Log.i("TextInfo", String.valueOf(text));
 
-        filetime2 = text.toString().split("\n");
-        //  Arrays.sort(filetime2);
-        for (int i = 0; i < filetime2.length; i = i + 3) {
-            Log.i("Array 2", filetime2[i]);
-            String n = filetime2[i];
-            filetime3.add(filetime2[i]);
-            Log.i("FIletime 3 size", String.valueOf(filetime3.size()));
+        fileTime2 = text.toString().split("\n");
+        //  Arrays.sort(fileTime2);
+        for (int i = 0; i < fileTime2.length; i = i + 3) {
+            Log.i("Array 2", fileTime2[i]);
+            String n = fileTime2[i];
+            fileTime3.add(fileTime2[i]);
+            Log.i("FIletime 3 size", String.valueOf(fileTime3.size()));
         }
-        for (int i = 1; i < filetime2.length; i = i + 3) {
-            Log.i("Coordinates of X: ", filetime2[i]);
-            String n = filetime2[i];
-            xcoordin.add(filetime2[i]);
+        for (int i = 1; i < fileTime2.length; i = i + 3) {
+            Log.i("Coordinates of X: ", fileTime2[i]);
+            String n = fileTime2[i];
+            xCoordin.add(fileTime2[i]);
         }
 
-        for (int i = 2; i < filetime2.length; i = i + 3) {
-            Log.i("Coordinates of Y: ", filetime2[i]);
-            String n = filetime2[i];
-            ycoordin.add(filetime2[i]);
+        for (int i = 2; i < fileTime2.length; i = i + 3) {
+            Log.i("Coordinates of Y: ", fileTime2[i]);
+            String n = fileTime2[i];
+            yCoordin.add(fileTime2[i]);
         }
     }
 
@@ -533,11 +533,11 @@ public class CameraFragment extends Fragment
             Log.wtf("Coordinates of xlong: ", String.valueOf(xlong));
             Log.wtf("Coordinates of ylong: ", String.valueOf(ylong));
 
-            ArrayList xcoordin = CameraFragment.getXcoordin();
-            ArrayList ycoordin = CameraFragment.getYcoordin();
+            ArrayList xcoordin = CameraFragment.getxCoordin();
+            ArrayList ycoordin = CameraFragment.getyCoordin();
 
-            Log.wtf("Xcoordin cameraFragm", String.valueOf(CameraFragment.getXcoordin()));
-            Log.wtf("Ycoordin cameraFragm", String.valueOf(CameraFragment.getYcoordin()));
+            Log.wtf("Xcoordin cameraFragm", String.valueOf(CameraFragment.getxCoordin()));
+            Log.wtf("Ycoordin cameraFragm", String.valueOf(CameraFragment.getyCoordin()));
 
             Log.wtf("Xcoordin size", String.valueOf(xcoordin.size()));
             Log.wtf("Ycoordin size", String.valueOf(ycoordin.size()));
@@ -549,44 +549,8 @@ public class CameraFragment extends Fragment
                 int yfile = Integer.parseInt((String) ycoordin.get(i));
 
                 if ((xlong < xfile + 50 && xlong > xfile - 50) && (ylong < yfile + 50 && ylong > yfile - 50)) {
-                    //                   audioRecord.startPlayingPictureLabel(i);
-                    Log.i("Index i of the label", String.valueOf(i));
 
-//                    myPaint.setColor(Color.BLUE);
-//                    tempCanvas.save();
-//                    tempCanvas.rotate(-90, xfile * 6, yfile * 6);
-//                    textPaint.setTextSize(140);t
-//
-//                    textPaint.setColor(Color.WHITE);
-//                    textPaint.setAntiAlias(true);
-//                    textPaint.setTextAlign(Paint.Align.CENTER);
-//
-//                    myPaint.setAntiAlias(true);
-//                    Rect bounds = new Rect();
-//                    textPaint.getTextBounds(String.valueOf(i+1), 0, String.valueOf(i+1).length(), bounds);
-//                    if (i+1 < 10 && i+1>1) {
-//                        tempCanvas.drawCircle(xfile * 6, yfile * 6 - (bounds.height() / 2), bounds.width() + 70, myPaint);
-//                    } else if (i+1==1) {
-//                        tempCanvas.drawCircle(xfile * 6, yfile * 6 - (bounds.height() / 2), bounds.width() + 95, myPaint);
-//                    }
-//                    else {
-//                        tempCanvas.drawCircle(xfile * 6, yfile * 6 - (bounds.height() / 2), bounds.width() + 10, myPaint);
-//                    };
-//
-//                    tempCanvas.drawText(String.valueOf(i+1), xfile * 6, yfile * 6, textPaint);
-//                    tempCanvas.restore();
                     view.invalidate();
-//                    for (int j = 0; j < xcoordin.size(); j++){
-//                        Log.i("J", "J in for cycle");
-//                        if (j!=i) {
-//                            Log.i("J", "J after the for cycle");
-//                            int xfilej = Integer.parseInt((String) xcoordin.get(j));
-//                            int yfilej = Integer.parseInt((String) ycoordin.get(j));
-//                            tempCanvas.drawCircle(xfilej * 6, yfilej * 6, 150, myPaint);
-//                            myPaint.setColor(Color.WHITE);
-//                            view.invalidate();
-//                        }
-//                    }
                 }
             }
             return true;
@@ -635,9 +599,9 @@ public class CameraFragment extends Fragment
                         if (!root.exists()) {
                             root.mkdirs();
                         }
-                        gpxfile = new File(root, fileName);
+                        gpxFile = new File(root, fileName);
 
-                        FileWriter writer = new FileWriter(gpxfile, true);
+                        FileWriter writer = new FileWriter(gpxFile, true);
                         Log.i("Time, X, Y", "Time:" + sBody + " X:" + x + "\n" + "Y" + y + "\n");
                         writer.append(sBody + "\n" + x + "\n" + y + "\n");
                         writer.flush();
@@ -689,7 +653,7 @@ public class CameraFragment extends Fragment
 //                            if (!root.exists()) {
 //                                root.mkdirs();
 //                            }
-//                             File gpxfile = new File(root, fileName);
+//                             File gpxFile = new File(root, fileName);
 //
 //                            FileWriter writer = new FileWriter(gpxfile, true);
 //                            writer.append(sBody + "\n");

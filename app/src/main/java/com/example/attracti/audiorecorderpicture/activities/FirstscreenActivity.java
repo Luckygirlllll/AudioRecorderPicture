@@ -38,7 +38,7 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
     private LinearLayoutManager mLayoutManager;
     public static String mCurrentProject = null;
 
-    private RecyclerView list;
+    private RecyclerView mList;
 
     static File[] listFile;
     static File[] listFolders;
@@ -86,20 +86,20 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("");
 
-        list = (RecyclerView) findViewById(R.id.list);
+        mList = (RecyclerView) findViewById(R.id.list);
 
-        list.setHasFixedSize(true);
+        mList.setHasFixedSize(true);
 
         mLayoutManager = new LinearLayoutManager(getApplicationContext());
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        list.addOnItemTouchListener(new RecyclerItemClickListener(this, this));
+        mList.addOnItemTouchListener(new RecyclerItemClickListener(this, this));
 
         getFromSdcardFolders();
 
-        list.setLayoutManager(mLayoutManager);
+        mList.setLayoutManager(mLayoutManager);
 
         mAdapter = new RecyclerViewAdapter(this, FOLDERS);
-        list.setAdapter(mAdapter);
+        mList.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
 
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
@@ -121,7 +121,7 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
     @Override
     protected void onResume() {
         super.onResume();
-        RecyclerViewAdapter adapter = (RecyclerViewAdapter)list.getAdapter();
+        RecyclerViewAdapter adapter = (RecyclerViewAdapter) mList.getAdapter();
         adapter.notifyDataSetChanged();
     }
 

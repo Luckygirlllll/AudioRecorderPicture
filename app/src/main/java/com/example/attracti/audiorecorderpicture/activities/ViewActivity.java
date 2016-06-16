@@ -40,24 +40,23 @@ import java.util.HashMap;
 
 public class ViewActivity extends FragmentActivity {
 
-
     private static ArrayList<Folder> FOLDERS = new ArrayList<>();
 
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
     private ImageView imageView;
 
-    private File[] array;
+    private File[] mArray;
     private static HashMap<Integer, BitmapDownloadTask.BitmapWorkerTaskView> TASKS_MAP = new HashMap<>();
 
     public static ArrayList fileTime = null;
-    public static ArrayList xfile = null;
-    public static ArrayList yfile = null;
+    public static ArrayList xFile = null;
+    public static ArrayList yFile = null;
     public static ArrayList filePosition = null;
 
     private static ArrayList zeroLabelPosition = new ArrayList();
-    private static ArrayList xzero = new ArrayList();
-    private static ArrayList yzero = new ArrayList();
+    private static ArrayList xZero = new ArrayList();
+    private static ArrayList yZero = new ArrayList();
     private static ArrayList zeroTime = new ArrayList();
 
 
@@ -127,18 +126,18 @@ public class ViewActivity extends FragmentActivity {
         getFromSdcardFolders();
 
         Intent intent = getIntent();
-        array = (File[]) intent.getSerializableExtra("FILE_TAG");
+        mArray = (File[]) intent.getSerializableExtra("FILE_TAG");
 
-        for (int i = 0; i < array.length; i++) {
-            Log.wtf("Array elements ", String.valueOf(array[i]));
+        for (int i = 0; i < mArray.length; i++) {
+            Log.wtf("Array elements ", String.valueOf(mArray[i]));
         }
         if (savedInstanceState == null) {
             readFromFile();
             for (int i = 0; i < zeroLabelPosition.size(); i++) {
                 Log.wtf("ZERO", "label position: " + zeroLabelPosition.get(i));
                 Log.wtf("ZERO", "zero Time: " + zeroTime.get(i));
-                Log.wtf("ZERO", "xzero: " + xzero.get(i));
-                Log.wtf("ZERO", "yzero: " + yzero.get(i));
+                Log.wtf("ZERO", "xZero: " + xZero.get(i));
+                Log.wtf("ZERO", "yZero: " + yZero.get(i));
 
             }
         }
@@ -239,14 +238,14 @@ public class ViewActivity extends FragmentActivity {
     public void readFromFile() {
 
         fileTime = new ArrayList();
-        xfile = new ArrayList();
-        yfile = new ArrayList();
+        xFile = new ArrayList();
+        yFile = new ArrayList();
         filePosition = new ArrayList();
 
 
         Log.i("reading from File", "in View Activity");
         StringBuilder text = new StringBuilder();
-        parentName = array[0].getParentFile().getName();
+        parentName = mArray[0].getParentFile().getName();
 
         try {
             File labelsFile = new File(CameraFragment.mLabelsFolder, parentName + ".txt");
@@ -292,9 +291,9 @@ public class ViewActivity extends FragmentActivity {
             Log.i("FILE", "Coordinates of X: " + filetime2[i]);
             String n = filetime2[i];
             if (Integer.parseInt(String.valueOf(filetime2[i])) != 0 && Integer.parseInt(String.valueOf(filetime2[i + 1])) != 0) {
-                xfile.add(filetime2[i]);
+                xFile.add(filetime2[i]);
             } else {
-                xzero.add(filetime2[i]);
+                xZero.add(filetime2[i]);
             }
         }
 
@@ -302,9 +301,9 @@ public class ViewActivity extends FragmentActivity {
             Log.i("FILE", "Coordinates of Y: " + filetime2[i]);
             String n = filetime2[i];
             if (Integer.parseInt(String.valueOf(filetime2[i - 1])) != 0 && Integer.parseInt(String.valueOf(filetime2[i])) != 0) {
-                yfile.add(filetime2[i]);
+                yFile.add(filetime2[i]);
             } else {
-                yzero.add(filetime2[i]);
+                yZero.add(filetime2[i]);
             }
         }
     }

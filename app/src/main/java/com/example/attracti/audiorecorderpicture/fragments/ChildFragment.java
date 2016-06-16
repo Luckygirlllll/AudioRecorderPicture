@@ -35,7 +35,7 @@ public class ChildFragment extends Fragment {
     private static String BITMAP_TAG = "BITMAP_TAG";
     private int positionCurrent;
 
-    private String file = null;
+    private String mFile = null;
     private ImageView imageView;
     private static int xCoord;
     private static int yCoord;
@@ -59,7 +59,7 @@ public class ChildFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        file = getArguments().getString(BITMAP_TAG);
+        mFile = getArguments().getString(BITMAP_TAG);
         positionCurrent = getArguments().getInt("INT");
     }
 
@@ -69,7 +69,7 @@ public class ChildFragment extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.fragment_screen_slide, container, false);
         imageView = (ImageView) rootView.findViewById(R.id.imageView);
-        loadBitmap(file, imageView, positionCurrent, xCoord, yCoord);
+        loadBitmap(mFile, imageView, positionCurrent, xCoord, yCoord);
 
         DoubleTap = new GestureDetectorCompat(getActivity(), new MyGestureListener());
 
@@ -124,7 +124,7 @@ public class ChildFragment extends Fragment {
                     ycoordList.add(y);
                     positionList.add(positionCurrent);
 
-                    loadBitmap(file, imageView, positionCurrent, x, y);
+                    loadBitmap(mFile, imageView, positionCurrent, x, y);
 
                     Log.i("Events X: ", +x + " Events Y: " + y);
                     long after = System.currentTimeMillis();

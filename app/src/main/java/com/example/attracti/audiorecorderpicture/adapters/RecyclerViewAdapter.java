@@ -28,7 +28,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private final Activity context;
     private final ArrayList<Folder> FOLDERS;
-    private View view;
+    private View mView;
 
     public long getItemId(int position) {
         return position;
@@ -159,9 +159,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                                                              int viewType) {
 
         Log.wtf("TAG", "OnCreateViewHolder works!!!");
-        view = LayoutInflater.from(parent.getContext())
+        mView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.mylist, parent, false);
-        ViewHolder vh = new ViewHolder(view);
+        ViewHolder vh = new ViewHolder(mView);
         return vh;
     }
 
@@ -175,7 +175,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.image4.setImageResource(R.drawable.placeholder);
         holder.image5.setImageResource(R.drawable.placeholder);
 
-        ArrayList<String> imgs = folder.getPicturelist();
+        ArrayList<String> imgs = folder.getPictureList();
 
         holder.title.setText(folder.getName());
 
@@ -230,7 +230,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
 
         holder.slides.setText("Количество слайдов: " + imgs.size());
-        view.setTag(holder);
+        mView.setTag(holder);
     }
 
     public Bitmap getBitmapFromMemCache(String key) {

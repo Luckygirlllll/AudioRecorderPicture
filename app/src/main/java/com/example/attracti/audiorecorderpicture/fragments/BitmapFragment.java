@@ -32,7 +32,7 @@ public class BitmapFragment extends Fragment {
 
     private static String BITMAP_TAG = "BITMAP_TAG";
 
-    private String file = null;
+    private String mFile = null;
     private ImageView imageView;
     private int positionCurrent;
 
@@ -43,7 +43,7 @@ public class BitmapFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        file = getArguments().getString(BITMAP_TAG);
+        mFile = getArguments().getString(BITMAP_TAG);
         positionCurrent = getArguments().getInt("INT");
 
     }
@@ -54,7 +54,7 @@ public class BitmapFragment extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.fragment_screen_slide, container, false);
         imageView = (ImageView) rootView.findViewById(R.id.imageView);
-        loadBitmap(file, imageView, positionCurrent);
+        loadBitmap(mFile, imageView, positionCurrent);
 
         DoubleTap = new GestureDetectorCompat(getActivity(), new MyGestureListener());
 
@@ -164,13 +164,13 @@ public class BitmapFragment extends Fragment {
             for (int i = 0; i < ViewActivity.filePosition.size(); i++) {
                 if (positionCurrent == (Integer.parseInt((String) ViewActivity.filePosition.get(i)))) {
 
-                    int xfile = Integer.parseInt((String) ViewActivity.xfile.get(i));
-                    int yfile = Integer.parseInt((String) ViewActivity.yfile.get(i));
+                    int xfile = Integer.parseInt((String) ViewActivity.xFile.get(i));
+                    int yfile = Integer.parseInt((String) ViewActivity.yFile.get(i));
 
                     if ((xlong < xfile * 0.68 + 30 && xlong > xfile * 0.68 - 30) && (ylong < yfile + 200 + 30 && ylong > yfile + 200 - 30)) {
 
-                        Log.wtf("xfile: ", String.valueOf(xfile));
-                        Log.wtf("yfile: ", String.valueOf(yfile));
+                        Log.wtf("xFile: ", String.valueOf(xfile));
+                        Log.wtf("yFile: ", String.valueOf(yfile));
                         startPlayingPictureLabel(i);
                         Log.i("Index i of the label", String.valueOf(i));
 

@@ -41,7 +41,7 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
 
     private String TAG = CameraFragment.class.getSimpleName();
 
-    public static ArrayList<File> ArrayFilepaths;
+    public static ArrayList<File> arrayFilepaths;
 
     private Context context;
 
@@ -51,8 +51,8 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
     private static int x = 0;
     private static int y = 0;
     private static ArrayList fileTime = new ArrayList();
-    private static ArrayList xfile = new ArrayList();
-    private static ArrayList yfile = new ArrayList();
+    private static ArrayList xFile = new ArrayList();
+    private static ArrayList yFile = new ArrayList();
     private static ArrayList filePosition = new ArrayList();
     // -------
 
@@ -65,7 +65,7 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putSerializable("arraylist", ArrayFilepaths);
+        outState.putSerializable("arraylist", arrayFilepaths);
         Log.d("works", "onSaveInstanceState");
     }
 
@@ -74,7 +74,7 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
             // Restore last state for checked position.
-            ArrayFilepaths = (ArrayList<File>) savedInstanceState.getSerializable("arraylist");
+            arrayFilepaths = (ArrayList<File>) savedInstanceState.getSerializable("arraylist");
         }
     }
 
@@ -137,8 +137,8 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
 
 
     public void updateArray(ArrayList<File> ArrayFilepaths) {
-        this.ArrayFilepaths = ArrayFilepaths;
-        for (int i = 0; i < this.ArrayFilepaths.size(); i++) {
+        this.arrayFilepaths = ArrayFilepaths;
+        for (int i = 0; i < this.arrayFilepaths.size(); i++) {
             Log.i("Array new ", String.valueOf(ArrayFilepaths.size()));
             Log.wtf("Array item: ", String.valueOf(ArrayFilepaths.get(i)));
         }
@@ -150,7 +150,7 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
     public void readFromFile() {
         Log.i("reading from File", "in View Activity");
         StringBuilder text = new StringBuilder();
-        String parentName = ArrayFilepaths.get(0).getParentFile().getName();
+        String parentName = arrayFilepaths.get(0).getParentFile().getName();
 
         try {
             File labelsFile = new File(CameraFragment.mLabelsFolder, parentName + ".txt");
@@ -186,13 +186,13 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
         for (int i = 2; i < filetime2.length; i = i + 4) {
             Log.i("FILE", "Coordinates of X: " + filetime2[i]);
             String n = filetime2[i];
-            xfile.add(filetime2[i]);
+            xFile.add(filetime2[i]);
         }
 
         for (int i = 3; i < filetime2.length; i = i + 4) {
             Log.i("FILE", "Coordinates of Y: " + filetime2[i]);
             String n = filetime2[i];
-            yfile.add(filetime2[i]);
+            yFile.add(filetime2[i]);
         }
     }
 
@@ -209,12 +209,12 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
         @Override
         public Fragment getItem(int position) {
             positionArr.add(position);
-            return ChildFragment.createfragment(context, ArrayFilepaths.get(position).getPath(), position, x, y);
+            return ChildFragment.createfragment(context, arrayFilepaths.get(position).getPath(), position, x, y);
         }
 
         @Override
         public int getCount() {
-            return ArrayFilepaths.size();
+            return arrayFilepaths.size();
         }
     }
 }
