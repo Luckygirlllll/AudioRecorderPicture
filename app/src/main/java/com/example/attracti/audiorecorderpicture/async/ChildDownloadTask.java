@@ -11,7 +11,6 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.example.attracti.audiorecorderpicture.fragments.ChildFragment;
-import com.example.attracti.audiorecorderpicture.interfaces.OnCreateCanvasListener;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -22,6 +21,7 @@ import static com.example.attracti.audiorecorderpicture.adapters.RecyclerViewAda
  * Created by Iryna on 6/2/16.
  * <p>
  * In this class is going the process of the downloading bitmaps for the ViewFragment
+ * download pictures which just have been captured
  */
 
 public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
