@@ -175,6 +175,8 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
 
         mPlayer = new MediaPlayer();
         String mFileName = Statics.mAudioFolder + "/" + parentName + ".3gp";
+        Log.wtf("mFileName: ", mFileName);
+
         try {
             mPlayer.setDataSource(mFileName);
             mPlayer.prepare();

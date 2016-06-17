@@ -270,6 +270,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         if (!mAudioDirectory.exists() && !mAudioDirectory.mkdirs()) {
             mAudioDirectory = null;
         } else {
+            mFileName = Statics.mAudioFolder + "/" + mCurrentProject + ".3gp";
             mRecorder.setOutputFile(mFileName);
         }
 
@@ -370,9 +371,9 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         public void savePicture();
     }
 
-    public AudioRecord() {
-        mFileName = Statics.mAudioFolder + "/" + mCurrentProject + ".3gp";
-    }
+//    public AudioRecord() {
+//        mFileName = Statics.mAudioFolder + "/" + mCurrentProject + ".3gp";
+//    }
 
     private static int firstClick = 0;
 
@@ -780,6 +781,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         switch (item.getItemId()) {
             case R.id.doneItem:
                 done++;
+                arrayFilepaths2.clear();
                 Intent firstScreen = new Intent(getApplicationContext(), FirstscreenActivity.class);
                 startActivity(firstScreen);
                 return true;
