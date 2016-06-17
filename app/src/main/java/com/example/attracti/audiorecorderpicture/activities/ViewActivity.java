@@ -6,6 +6,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 
 import com.example.attracti.audiorecorderpicture.R;
 import com.example.attracti.audiorecorderpicture.Statics;
@@ -61,6 +63,14 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
 
     private MediaPlayer mPlayer;
     private Button playButton;
+    private SeekBar seekbar;
+    private Handler durationHandler = new Handler();
+
+    private double timeElapsed = 0;
+    private double finalTime = 0;
+
+
+
     private ArrayList canvasList = new ArrayList();
     private ArrayList positionList = new ArrayList();
 
@@ -125,6 +135,12 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         playButton = (Button) findViewById(R.id.play_button);
         playButton.setOnClickListener(playButtonListener);
 
+        seekbar = (SeekBar) findViewById(R.id.seekBar);
+
+
+        seekbar.setClickable(false);
+
+
         getFromSdcardFolders();
 
         Intent intent = getIntent();
@@ -182,10 +198,23 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
             mPlayer.prepare();
 
             if (length == 0) {
+                finalTime = mPlayer.getDuration();
+                seekbar.setMax((int) finalTime);
                 mPlayer.start();
+                timeElapsed = mPlayer.getCurrentPosition();
+                seekbar.setProgress((int) timeElapsed);
+                durationHandler.postDelayed(updateSeekBarTime, 100);
+
+
             } else {
                 mPlayer.seekTo(length);
+                finalTime = mPlayer.getDuration();
+                seekbar.setMax((int) finalTime);
                 mPlayer.start();
+                timeElapsed = mPlayer.getCurrentPosition();
+                seekbar.setProgress((int) timeElapsed);
+                durationHandler.postDelayed(updateSeekBarTime, 100);
+
             }
 
             timer = new CountDownTimer(mPlayer.getDuration() - mPlayer.getCurrentPosition(), 100) {
@@ -193,6 +222,10 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
                 public void onTick(long millisUntilFinished) {
                     //   int timeSpends = mPlayer.getDuration() - mPlayer.getCurrentPosition();
                     int timeSpends = mPlayer.getCurrentPosition();
+
+//                    timeElapsed = mPlayer.getCurrentPosition();
+//                    seekbar.setProgress((int) timeElapsed);
+//                    durationHandler.postDelayed(updateSeekBarTime, 10000);
 
                     //todo Change Radius of the label which is currently playing
 
@@ -204,7 +237,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
 //                        Circle.setAntiAlias(true);
 //                        canvas.drawCircle(100, 100, 15, Circle);
 //                    }
-
 
                     Log.wtf("timeSpends: ", String.valueOf(timeSpends));
                     if (timeSpends >= Integer.parseInt(String.valueOf(zeroTime.get(timeStampIterator))) - 100 && timeSpends <= Integer.parseInt(String.valueOf(zeroTime.get(timeStampIterator))) + 100) {
@@ -244,6 +276,23 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
             Log.i("mPlayer is null", "Nothing to stop");
         }
     }
+
+    //handler to change seekBarTime
+    private Runnable updateSeekBarTime = new Runnable() {
+        public void run() {
+            //get current position
+            timeElapsed = mPlayer.getCurrentPosition();
+            //set seekbar progress
+            seekbar.setProgress((int) timeElapsed);
+            //set time remaing
+            double timeRemaining = finalTime - timeElapsed;
+           // duration.setText(String.format("%d min, %d sec", TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining), TimeUnit.MILLISECONDS.toSeconds((long) timeRemaining) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining))));
+            //repeat yourself that again in 100 miliseconds
+            durationHandler.postDelayed(this, 100);
+        }
+    };
+
+
 
     @Override
     public void onBackPressed() {
