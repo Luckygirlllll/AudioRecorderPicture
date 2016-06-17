@@ -101,6 +101,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
     public File getmPreviewDirectory() {
         return mPreviewDirectory;
     }
+
     public File getmPictureDirectory() {
         return mPictureDirectory;
     }
@@ -108,9 +109,11 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
     public long getStartTimeAudio() {
         return startTimeAudio;
     }
+
     public String getmCurrentProject() {
         return mCurrentProject;
     }
+
     public File getmAudioDirectory() {
         return mAudioDirectory;
     }
@@ -565,7 +568,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
         int rotation = this.getWindowManager().getDefaultDisplay()
                 .getRotation();
-        Log.wtf("Camera orientation: ", String.valueOf(getResources().getConfiguration().orientation ));
+        Log.wtf("Camera orientation: ", String.valueOf(getResources().getConfiguration().orientation));
 
         mCurrentProject = getIntent().getStringExtra("currentProject");
 

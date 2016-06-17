@@ -43,9 +43,9 @@ public class ChildFragment extends Fragment {
 
     private File labelFile;
 
-    private  ArrayList<Integer> xcoordList = new ArrayList();
-    private  ArrayList<Integer> ycoordList = new ArrayList();
-    private  ArrayList<Integer> positionList = new ArrayList<>();
+    private ArrayList<Integer> xcoordList = new ArrayList();
+    private ArrayList<Integer> ycoordList = new ArrayList();
+    private ArrayList<Integer> positionList = new ArrayList<>();
 
     private AudioRecord activity;
 
@@ -53,7 +53,7 @@ public class ChildFragment extends Fragment {
     public void onAttach(Context context) {
         this.context = context;
         super.onAttach(context);
-        this.activity=(AudioRecord) context;
+        this.activity = (AudioRecord) context;
     }
 
     @Override
@@ -130,7 +130,7 @@ public class ChildFragment extends Fragment {
                     int sBody = difference;
                     String labelFileName = activity.getmCurrentProject() + ".txt";
                     if (!activity.getmLabelsDirectory().exists() && !activity.getmLabelsDirectory().mkdirs()) {
-                     //   activity.getmLabelsDirectory() = null;
+                        //   activity.getmLabelsDirectory() = null;
 
                     } else {
                         labelFile = new File(activity.getmLabelsDirectory(), labelFileName);

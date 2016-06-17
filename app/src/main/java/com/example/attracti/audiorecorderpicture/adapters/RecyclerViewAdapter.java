@@ -147,6 +147,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     FirstscreenActivity activity;
+
     public RecyclerViewAdapter(FirstscreenActivity context, ArrayList<Folder> FOLDERS) {
         this.activity = context;
         this.context = context;

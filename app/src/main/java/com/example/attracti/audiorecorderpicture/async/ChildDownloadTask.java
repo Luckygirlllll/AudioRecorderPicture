@@ -38,16 +38,16 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
     private Paint textPaint;
     private ImageView imageView;
 
-    private ArrayList <Integer> xCoordList;
-    private ArrayList <Integer> yCoordList;
-    private ArrayList <Integer> positionList;
+    private ArrayList<Integer> xCoordList;
+    private ArrayList<Integer> yCoordList;
+    private ArrayList<Integer> positionList;
 
-    public ChildDownloadTask( ImageView imageView, int position, ArrayList xCoordList, ArrayList yCoordList, ArrayList positionList) {
+    public ChildDownloadTask(ImageView imageView, int position, ArrayList xCoordList, ArrayList yCoordList, ArrayList positionList) {
         viewHolderWeakReference = new WeakReference<ImageView>(imageView);
         this.position = position;
-        this.xCoordList=xCoordList;
-        this.yCoordList=yCoordList;
-        this.positionList=positionList;
+        this.xCoordList = xCoordList;
+        this.yCoordList = yCoordList;
+        this.positionList = positionList;
     }
 
 

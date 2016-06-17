@@ -43,7 +43,7 @@ public class BitmapFragment extends Fragment {
 
     private GestureDetectorCompat DoubleTap;
     private MediaPlayer mPlayer;
-    private  ViewActivity viewActivity;
+    private ViewActivity viewActivity;
 
 
 //    private static OnCreateCanvasListener canvasListener = new OnCreateCanvasListener() {
@@ -54,12 +54,11 @@ public class BitmapFragment extends Fragment {
 //    };
 
 
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         canvasListener = (OnCreateCanvasListener) context;
-        this.viewActivity=(ViewActivity) context;
+        this.viewActivity = (ViewActivity) context;
 
     }
 
@@ -100,7 +99,7 @@ public class BitmapFragment extends Fragment {
             imageView.setImageBitmap(bitmap);
         } else {
 
-            BitmapDownloadTask task = new BitmapDownloadTask(viewActivity, canvasListener,imageView, position);
+            BitmapDownloadTask task = new BitmapDownloadTask(viewActivity, canvasListener, imageView, position);
             task.execute(imageKey);
 
         }
@@ -141,7 +140,7 @@ public class BitmapFragment extends Fragment {
                     }
                 }.start();
             } else {
-                Log.wtf("Stop playing time in else: ", (String)  viewActivity.getFileTime().get(i) + 10000);
+                Log.wtf("Stop playing time in else: ", (String) viewActivity.getFileTime().get(i) + 10000);
                 new CountDownTimer(10000, 1000) {
                     public void onTick(long millisUntilFinished) {
                     }

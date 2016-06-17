@@ -37,14 +37,13 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
 
     private String TAG = CameraFragment.class.getSimpleName();
 
-    private  ArrayList<File> arrayFilepaths;
+    private ArrayList<File> arrayFilepaths;
 
     private Context context;
 
     public ArrayList<File> getArrayFilepaths() {
         return arrayFilepaths;
     }
-
 
 
     @Override
@@ -70,7 +69,7 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
     }
 
     //// TODO: 6/15/16 add programmatically swipe to the last picture
-    
+
     public void scrolToLast() {
         //   mPager.setCurrentItem(mPagerAdapter.getCount()+1);
 //        mPagerAdapter.notifyDataSetChanged();
@@ -137,7 +136,6 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
             mPagerAdapter.notifyDataSetChanged();
         }
     }
-
 
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {

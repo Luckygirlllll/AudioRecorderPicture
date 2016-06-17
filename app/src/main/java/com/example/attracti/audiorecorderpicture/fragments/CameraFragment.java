@@ -56,6 +56,7 @@ public class CameraFragment extends Fragment
     public void setCallback(OnHeadlineSelectedListener callback) {
         mCallback = callback;
     }
+
     public final String EXTRA_CAMERA_DATA = "camera_data";
 
     private String TAG = CameraFragment.class.getSimpleName();
@@ -65,7 +66,7 @@ public class CameraFragment extends Fragment
     private final String KEY_IS_CAPTURING = "is_capturing";
     private final int TAKE_PICTURE_REQUEST_B = 100;
 
-    private  Camera mCamera = null;
+    private Camera mCamera = null;
     private ImageView mCameraImage;
     private SurfaceView mCameraPreview;
     private Button mCaptureImageButton;
@@ -85,7 +86,6 @@ public class CameraFragment extends Fragment
     private ArrayList<File> arrayFilepaths = new ArrayList<>();
 
 
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -98,7 +98,6 @@ public class CameraFragment extends Fragment
                     + " must implement OnHeadlineSelectedListener");
         }
     }
-
 
 
     @Nullable
@@ -157,8 +156,8 @@ public class CameraFragment extends Fragment
     }
 
     public static void setCameraDisplayOrientation(Activity activity,
-                                                    android.hardware.Camera camera) {
-        Log.wtf("setCameraDisplayOrientation", "works!" );
+                                                   android.hardware.Camera camera) {
+        Log.wtf("setCameraDisplayOrientation", "works!");
 
         android.hardware.Camera.CameraInfo info =
                 new android.hardware.Camera.CameraInfo();
@@ -171,10 +170,18 @@ public class CameraFragment extends Fragment
 
         int degrees = 0;
         switch (rotation) {
-            case Surface.ROTATION_0: degrees = 0; break;
-            case Surface.ROTATION_90: degrees = 90; break;
-            case Surface.ROTATION_180: degrees = 180; break;
-            case Surface.ROTATION_270: degrees = 270; break;
+            case Surface.ROTATION_0:
+                degrees = 0;
+                break;
+            case Surface.ROTATION_90:
+                degrees = 90;
+                break;
+            case Surface.ROTATION_180:
+                degrees = 180;
+                break;
+            case Surface.ROTATION_270:
+                degrees = 270;
+                break;
         }
 
         int result;
@@ -226,7 +233,7 @@ public class CameraFragment extends Fragment
 
     private File openFileForImage() {
         if (!activity.getmPictureDirectory().exists() && !activity.getmPictureDirectory().mkdirs()) {
-          //  activity.getmPictureDirectory() = null;
+            //  activity.getmPictureDirectory() = null;
         } else {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_mm_dd_hh_mm_ss",
                     Locale.getDefault());

@@ -48,11 +48,11 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
     private ImageView imageView;
     private File[] mArray;
 
-    private  ArrayList fileTime = null;
-    private  ArrayList xFile = null;
-    private  ArrayList yFile = null;
+    private ArrayList fileTime = null;
+    private ArrayList xFile = null;
+    private ArrayList yFile = null;
 
-    public  ArrayList filePosition = null;
+    public ArrayList filePosition = null;
     private ArrayList zeroLabelPosition = new ArrayList();
     private ArrayList xZero = new ArrayList();
     private ArrayList yZero = new ArrayList();
@@ -69,22 +69,22 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
     public ArrayList getFileTime() {
         return fileTime;
     }
-    public  ArrayList getxFile() {
+
+    public ArrayList getxFile() {
         return xFile;
     }
+
     public ArrayList getyFile() {
         return yFile;
     }
 
-    public  ArrayList getFilePosition() {
+    public ArrayList getFilePosition() {
         return filePosition;
     }
 
     public String getParentName() {
         return parentName;
     }
-
-
 
 
     public void getFromSdcardFolders() {
@@ -114,7 +114,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
     }
 
 
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screen_slide);
@@ -130,7 +129,7 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
 
         Intent intent = getIntent();
         mArray = (File[]) intent.getSerializableExtra("FILE_TAG");
-        listFile =(File[]) intent.getSerializableExtra("listFile");
+        listFile = (File[]) intent.getSerializableExtra("listFile");
 
         listFile[0].getAbsolutePath();
 
@@ -169,21 +168,20 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
 
 
     private CountDownTimer timer;
-    private static int timeStampIterator=1;
+    private static int timeStampIterator = 1;
     private static int length;
 
     public void startPlayingLabels() {
 
         mPlayer = new MediaPlayer();
-            String mFileName = Statics.mAudioFolder + "/" + parentName + ".3gp";
+        String mFileName = Statics.mAudioFolder + "/" + parentName + ".3gp";
         try {
             mPlayer.setDataSource(mFileName);
             mPlayer.prepare();
 
-            if(length==0){
-            mPlayer.start();
-            }
-            else {
+            if (length == 0) {
+                mPlayer.start();
+            } else {
                 mPlayer.seekTo(length);
                 mPlayer.start();
             }
@@ -191,7 +189,7 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
             timer = new CountDownTimer(mPlayer.getDuration() - mPlayer.getCurrentPosition(), 100) {
                 @Override
                 public void onTick(long millisUntilFinished) {
-                 //   int timeSpends = mPlayer.getDuration() - mPlayer.getCurrentPosition();
+                    //   int timeSpends = mPlayer.getDuration() - mPlayer.getCurrentPosition();
                     int timeSpends = mPlayer.getCurrentPosition();
 
                     //todo Change Radius of the label which is currently playing
@@ -207,13 +205,14 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
 
 
                     Log.wtf("timeSpends: ", String.valueOf(timeSpends));
-                    if (timeSpends>=Integer.parseInt(String.valueOf(zeroTime.get(timeStampIterator)))-100 &&timeSpends<=Integer.parseInt(String.valueOf(zeroTime.get(timeStampIterator)))+100) {
+                    if (timeSpends >= Integer.parseInt(String.valueOf(zeroTime.get(timeStampIterator))) - 100 && timeSpends <= Integer.parseInt(String.valueOf(zeroTime.get(timeStampIterator))) + 100) {
                         mPager.setCurrentItem(Integer.parseInt(String.valueOf(zeroLabelPosition.get(timeStampIterator))));
-                        if(timeStampIterator<zeroTime.size()-1) {
+                        if (timeStampIterator < zeroTime.size() - 1) {
                             timeStampIterator++;
                         }
                     }
                 }
+
                 @Override
                 public void onFinish() {
 
@@ -225,10 +224,10 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
     }
 
     void pause() {
-        if (mPlayer.isPlaying()){
+        if (mPlayer.isPlaying()) {
             Log.wtf("Pause of the MediaPlayer", "pause");
             mPlayer.pause();
-            length=mPlayer.getCurrentPosition();
+            length = mPlayer.getCurrentPosition();
             timer.cancel();
             timer = null;
         }
