@@ -10,10 +10,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 
-import com.example.attracti.audiorecorderpicture.fragments.ChildFragment;
-
 import java.io.File;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 
 import static com.example.attracti.audiorecorderpicture.adapters.RecyclerViewAdapter.decodeSampledBitmapFromResource;
 
@@ -21,14 +20,14 @@ import static com.example.attracti.audiorecorderpicture.adapters.RecyclerViewAda
  * Created by Iryna on 6/2/16.
  * <p>
  * In this class is going the process of the downloading bitmaps for the ViewFragment
- * download pictures which just have been captured
+ * download pictures which just have been captured!!!
  */
 
 public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
     private final WeakReference<ImageView> viewHolderWeakReference;
     private String data = null;
 
-    private static Bitmap tempBitmapTest;
+    private Bitmap tempBitmapTest;
     private Canvas tempCanvas;
     private int position;
     private int x;
@@ -39,13 +38,16 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
     private Paint textPaint;
     private ImageView imageView;
 
+    private ArrayList <Integer> xCoordList;
+    private ArrayList <Integer> yCoordList;
+    private ArrayList <Integer> positionList;
 
-    public ChildDownloadTask( ImageView imageView, int position, int x, int y) {
+    public ChildDownloadTask( ImageView imageView, int position, ArrayList xCoordList, ArrayList yCoordList, ArrayList positionList) {
         viewHolderWeakReference = new WeakReference<ImageView>(imageView);
-
         this.position = position;
-        this.x = x;
-        this.y = y;
+        this.xCoordList=xCoordList;
+        this.yCoordList=yCoordList;
+        this.positionList=positionList;
     }
 
 
@@ -81,11 +83,11 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
         Rect bounds = new Rect();
 
 
-        if (ChildFragment.positionList != null) {
-            for (int i = 0; i < ChildFragment.positionList.size(); i++) {
-                Log.i("filePosition size: ", String.valueOf(ChildFragment.positionList.size()));
-                if (position == (ChildFragment.positionList.get(i))) {
-                    tempCanvas.drawCircle(ChildFragment.xcoordList.get(i) / 4, ChildFragment.ycoordList.get(i) / 4, 10, myPaint3);
+        if (positionList != null) {
+            for (int i = 0; i < positionList.size(); i++) {
+                Log.i("filePosition size: ", String.valueOf(positionList.size()));
+                if (position == (positionList.get(i))) {
+                    tempCanvas.drawCircle(xCoordList.get(i) / 4, yCoordList.get(i) / 4, 10, myPaint3);
 
                     //  tempCanvas.drawCircle(ChildFragment.xcoordList.get(i)/4, ChildFragment.ycoordList.get(i)/4 - (bounds.height() / 2), bounds.width() + 10, myPaint3);
                     textPaint.getTextBounds(String.valueOf(i), 0, String.valueOf(i).length(), bounds);
@@ -97,7 +99,7 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
 //                    else {
 //                        tempCanvas.drawCircle(ChildFragment.xcoordList.get(i)/4, ChildFragment.ycoordList.get(i)/4 - (bounds.height() / 2), bounds.width() + 3, myPaint3);
 //                    };
-                    tempCanvas.drawText(String.valueOf(i + 1), ChildFragment.xcoordList.get(i) / 4, ChildFragment.ycoordList.get(i) / 4, textPaint);
+                    tempCanvas.drawText(String.valueOf(i + 1), xCoordList.get(i) / 4, yCoordList.get(i) / 4, textPaint);
                     tempCanvas.save();
 
                 }
@@ -107,7 +109,7 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
             imageView = viewHolderWeakReference.get();
             if (imageView != null) {
                 imageView.setImageBitmap(bitmap);
-                imageView.setImageDrawable(new BitmapDrawable(ChildDownloadTask.tempBitmapTest));
+                imageView.setImageDrawable(new BitmapDrawable(tempBitmapTest));
 
                 imageView.invalidate();
             }

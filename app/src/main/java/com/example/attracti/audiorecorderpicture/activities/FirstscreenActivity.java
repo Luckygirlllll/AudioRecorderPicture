@@ -15,10 +15,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.attracti.audiorecorderpicture.R;
-import com.example.attracti.audiorecorderpicture.fragments.ChildFragment;
-import com.example.attracti.audiorecorderpicture.model.RecyclerItemClickListener;
 import com.example.attracti.audiorecorderpicture.adapters.RecyclerViewAdapter;
 import com.example.attracti.audiorecorderpicture.model.Folder;
+import com.example.attracti.audiorecorderpicture.model.RecyclerItemClickListener;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -34,19 +33,23 @@ import java.util.Date;
 
 public class FirstscreenActivity extends AppCompatActivity implements RecyclerItemClickListener.OnItemClickListener {
 
+    private  LruCache<String, Bitmap> mMemoryCache;
+
     private RecyclerViewAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
-    public static String mCurrentProject = null;
 
+    private String mCurrentProject = null;
     private RecyclerView mList;
 
-    static File[] listFile;
-    static File[] listFolders;
+    private File[] listFile;
+    private File[] listFolders;
 
-    private static ArrayList<Folder> FOLDERS = null;
-    public static LruCache<String, Bitmap> mMemoryCache;
+    private ArrayList<Folder> FOLDERS = null;
+    private File[] listFile2;
 
-    private static File[] listFile2;
+    public LruCache<String, Bitmap> getmMemoryCache() {
+        return mMemoryCache;
+    }
 
     public void getFromSdcardFolders() {
         FOLDERS = new ArrayList<>();
@@ -97,7 +100,7 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
 
         mList.setLayoutManager(mLayoutManager);
 
-        mAdapter = new RecyclerViewAdapter(this, FOLDERS);
+        mAdapter = new RecyclerViewAdapter(FirstscreenActivity.this, FOLDERS);
         mList.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
 
@@ -138,16 +141,18 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
         switch (item.getItemId()) {
             case R.id.addItem:
 
-                AudioRecord.arrayFilepaths2.clear();
-                ChildFragment.xcoordList.clear();
-                ChildFragment.ycoordList.clear();
-                ChildFragment.positionList.clear();
+// ----  you can delete it soon
+//                AudioRecord.arrayFilepaths2.clear();
+//                ChildFragment.xcoordList.clear();
+//                ChildFragment.ycoordList.clear();
+//                ChildFragment.positionList.clear();
 
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss");
                 Date now = new Date();
                 mCurrentProject = String.valueOf(formatter.format(now));
                 Log.d("mCurrentProject ", "in FirstScreenActivity " + mCurrentProject);
                 Intent nextScreen = new Intent(getApplicationContext(), AudioRecord.class);
+                nextScreen.putExtra("currentProject", mCurrentProject);
                 startActivity(nextScreen);
                 return true;
             default:
@@ -168,6 +173,7 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
         }
         Intent viewScreen = new Intent(getApplicationContext(), ViewActivity.class);
         viewScreen.putExtra("FILE_TAG", listFile2);
+        viewScreen.putExtra("listFile", listFile );
         startActivity(viewScreen);
 
     }

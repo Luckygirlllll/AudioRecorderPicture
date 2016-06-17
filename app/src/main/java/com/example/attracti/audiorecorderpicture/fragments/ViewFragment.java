@@ -29,25 +29,23 @@ import java.util.ArrayList;
 
 public class ViewFragment extends Fragment implements OnSwipePictureListener {
 
+    private LruCache<String, Bitmap> mMemoryCache;
 
-    private static LruCache<String, Bitmap> mMemoryCache;
-
-    private static CustomViewPagerH mPager;
+    private CustomViewPagerH mPager;
     private ScreenSlidePagerAdapter mPagerAdapter;
-    private static ImageView imageView;
+    private ImageView imageView;
 
     private String TAG = CameraFragment.class.getSimpleName();
 
-    public static ArrayList<File> arrayFilepaths;
+    private  ArrayList<File> arrayFilepaths;
 
     private Context context;
 
-    public static File labelFile;
+    public ArrayList<File> getArrayFilepaths() {
+        return arrayFilepaths;
+    }
 
-    // -- you can delete it soon
-    private static int x = 0;
-    private static int y = 0;
-    // -------
+
 
     @Override
     public void onAttach(Context context) {
@@ -154,7 +152,7 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
         @Override
         public Fragment getItem(int position) {
             positionArr.add(position);
-            return ChildFragment.createfragment(context, arrayFilepaths.get(position).getPath(), position, x, y);
+            return ChildFragment.createfragment(context, arrayFilepaths.get(position).getPath(), position);
         }
 
         @Override

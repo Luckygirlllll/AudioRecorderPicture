@@ -124,14 +124,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView mTextView;
-        public TextView title;
-        public ImageView image1;
-        ImageView image2;
-        ImageView image3;
-        ImageView image4;
-        ImageView image5;
-        TextView slides;
+        private TextView mTextView;
+        private TextView title;
+        private ImageView image1;
+        private ImageView image2;
+        private ImageView image3;
+        private ImageView image4;
+        private ImageView image5;
+        private TextView slides;
 
         public ViewHolder(View v) {
             super(v);
@@ -146,7 +146,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
 
-    public RecyclerViewAdapter(Activity context, ArrayList<Folder> FOLDERS) {
+    FirstscreenActivity activity;
+    public RecyclerViewAdapter(FirstscreenActivity context, ArrayList<Folder> FOLDERS) {
+        this.activity = context;
         this.context = context;
         this.FOLDERS = FOLDERS;
         getItemCount();
@@ -232,7 +234,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public Bitmap getBitmapFromMemCache(String key) {
-        return FirstscreenActivity.mMemoryCache.get(key);
+        return activity.getmMemoryCache().get(key);
     }
 
 

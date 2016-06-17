@@ -9,43 +9,32 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
-import android.media.MediaPlayer;
 import android.media.ThumbnailUtils;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.attracti.audiorecorderpicture.R;
+import com.example.attracti.audiorecorderpicture.Statics;
 import com.example.attracti.audiorecorderpicture.activities.AudioRecord;
-import com.example.attracti.audiorecorderpicture.activities.FirstscreenActivity;
 import com.example.attracti.audiorecorderpicture.interfaces.OnHeadlineSelectedListener;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -67,115 +56,41 @@ public class CameraFragment extends Fragment
     public void setCallback(OnHeadlineSelectedListener callback) {
         mCallback = callback;
     }
-
+    public final String EXTRA_CAMERA_DATA = "camera_data";
 
     private String TAG = CameraFragment.class.getSimpleName();
     private Context context;
-    private AppCompatActivity activity;
+    private AudioRecord activity;
 
-    public static final String EXTRA_CAMERA_DATA = "camera_data";
+    private final String KEY_IS_CAPTURING = "is_capturing";
+    private final int TAKE_PICTURE_REQUEST_B = 100;
 
-    private static final String KEY_IS_CAPTURING = "is_capturing";
-    private static final int TAKE_PICTURE_REQUEST_B = 100;
-
-    private static Camera mCamera = null;
+    private  Camera mCamera = null;
     private ImageView mCameraImage;
     private SurfaceView mCameraPreview;
     private Button mCaptureImageButton;
-    private static byte[] mCameraData;
+    private byte[] mCameraData;
     private boolean mIsCapturing;
 
-    private static Bitmap mCameraBitmap;
+    private Bitmap mCameraBitmap;
     private ImageView mCameraImageView;
 
-    private static Bitmap bitmap;
     private View view;
-    private static File gpxFile;
-
-    private static String[] fileTime2 = new String[100];
-    private static ArrayList fileTime3 = new ArrayList();
-
-    private static ArrayList xCoordin = new ArrayList();
-    private static ArrayList yCoordin = new ArrayList();
-
-    public static ArrayList getxCoordin() {
-        return xCoordin;
-    }
-    public static ArrayList getyCoordin() {
-        return yCoordin;
-    }
-    public static ArrayList getFileTime3() {
-        return fileTime3;
-    }
-
-    private AudioRecord audioRecord;
-
-    private Paint textPaint;
-    private static int clicked = 1;
 
     //structure of the project's folders
-    public static String mDiretoryName = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Audio_Recorder_Picture";
-    public static String mAudioFolder = mDiretoryName + "/Audios";
-    public static String mPictureFolder = mDiretoryName + "/Pictures";
-    public static String mLabelsFolder = mDiretoryName + "/Labels";
-    public static String mPreviewsFolder = mDiretoryName + "/Previews";
-    public static File mPreviewDirectory = new File(mPreviewsFolder + "/" + FirstscreenActivity.mCurrentProject);
-    public static File mPictureDirectory = new File(mPictureFolder + "/" + FirstscreenActivity.mCurrentProject);
-    public static File mAudioDirectory = new File(mAudioFolder);
-    public static File mLabelsDirectory = new File(mLabelsFolder);
+    private File mAudioDirectory = new File(Statics.mAudioFolder);
+    private File mLabelsDirectory = new File(Statics.mLabelsFolder);
 
     // array of the files of the pictures which have been taken in the current project
-    private static ArrayList<File> arrayFilepaths = new ArrayList<>();
+    private ArrayList<File> arrayFilepaths = new ArrayList<>();
 
 
-    private OnClickListener mSaveImageButtonClickListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            File saveFile = openFileForImage();
-            if (saveFile != null) {
-                saveImageToFile(saveFile);
-            } else {
-                Toast.makeText(context, "Unable to open file for saving image.",
-                        Toast.LENGTH_LONG).show();
-            }
-        }
-    };
-
-
-    private OnClickListener mRecaptureImageButtonClickListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            setupImageCapture();
-            // mCameraImage.setImageBitmap(bitmap);
-        }
-    };
-
-    private OnClickListener mDoneButtonClickListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (mCameraData != null) {
-                Intent intent = new Intent();
-                intent.putExtra(EXTRA_CAMERA_DATA, mCameraData);
-                activity.setResult(activity.RESULT_OK, intent);
-            } else {
-                activity.setResult(activity.RESULT_CANCELED);
-            }
-            activity.finish();
-        }
-    };
-
-    OnClickListener mCaptureImageButtonClickListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            captureImage();
-        }
-    };
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
-        this.activity = (AppCompatActivity) context;
+        this.activity = (AudioRecord) context;
 
         try {
         } catch (ClassCastException e) {
@@ -184,9 +99,7 @@ public class CameraFragment extends Fragment
         }
     }
 
-    public void setActivityContext(AudioRecord activity) {
-        audioRecord = activity;
-    }
+
 
     @Nullable
     @Override
@@ -199,12 +112,10 @@ public class CameraFragment extends Fragment
         mCameraImage = (ImageView) view.findViewById(R.id.camera_image_view);
         mCameraPreview = (SurfaceView) view.findViewById(R.id.preview_view);
 
-        // DoubleTap = new GestureDetectorCompat(getActivity(), new MyGestureListener());
 
         final SurfaceHolder surfaceHolder = mCameraPreview.getHolder();
         surfaceHolder.addCallback(this);
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-
 
         mIsCapturing = true;
 
@@ -220,6 +131,12 @@ public class CameraFragment extends Fragment
 
                 mCamera.setPreviewDisplay(mCameraPreview.getHolder());
                 mCamera.setDisplayOrientation(90);
+
+                int rotation = activity.getWindowManager().getDefaultDisplay()
+                        .getRotation();
+                Log.wtf("Rotation : ", String.valueOf(rotation));
+
+                //setCameraDisplayOrientation(getActivity(), mCamera);
                 if (mIsCapturing) {
                     mCamera.startPreview();
                 }
@@ -230,81 +147,41 @@ public class CameraFragment extends Fragment
             }
         }
 
+        int rotation = activity.getWindowManager().getDefaultDisplay()
+                .getRotation();
+        Log.wtf("Rotation 2 : ", String.valueOf(rotation));
+
+        int x = getActivity().getResources().getConfiguration().orientation;
+
         return view;
     }
 
     public static void setCameraDisplayOrientation(Activity activity,
-                                                   int cameraId, android.hardware.Camera camera) {
-        android.hardware.Camera.CameraInfo info = new android.hardware.Camera.CameraInfo();
-        android.hardware.Camera.getCameraInfo(cameraId, info);
-        int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
+                                                    android.hardware.Camera camera) {
+        Log.wtf("setCameraDisplayOrientation", "works!" );
+
+        android.hardware.Camera.CameraInfo info =
+                new android.hardware.Camera.CameraInfo();
+        //android.hardware.Camera.getCameraInfo( info);
+        int rotation = activity.getWindowManager().getDefaultDisplay()
+                .getRotation();
+
+
+        Log.wtf("Camera rotation: ", String.valueOf(rotation));
+
         int degrees = 0;
         switch (rotation) {
-            case Surface.ROTATION_0:
-                degrees = 0;
-                break;
-            case Surface.ROTATION_90:
-                degrees = 90;
-                break;
-            case Surface.ROTATION_180:
-                degrees = 180;
-                break;
-            case Surface.ROTATION_270:
-                degrees = 270;
-                break;
+            case Surface.ROTATION_0: degrees = 0; break;
+            case Surface.ROTATION_90: degrees = 90; break;
+            case Surface.ROTATION_180: degrees = 180; break;
+            case Surface.ROTATION_270: degrees = 270; break;
         }
 
         int result;
-        if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-            result = (info.orientation + degrees) % 360;
-            result = (360 - result) % 360;  // compensate the mirror
-        } else {  // back-facing
-            result = (info.orientation - degrees + 360) % 360;
-        }
+
+        result = (info.orientation - degrees + 360) % 360;
         camera.setDisplayOrientation(result);
     }
-
-
-    public void readFromFile() {
-        Log.i("read ", "in Fragment");
-        StringBuilder text = new StringBuilder();
-
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(gpxFile));
-            String line;
-
-            while ((line = br.readLine()) != null) {
-
-                text.append(line);
-                text.append('\n');
-            }
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Log.i("TextInfo", String.valueOf(text));
-
-        fileTime2 = text.toString().split("\n");
-        //  Arrays.sort(fileTime2);
-        for (int i = 0; i < fileTime2.length; i = i + 3) {
-            Log.i("Array 2", fileTime2[i]);
-            String n = fileTime2[i];
-            fileTime3.add(fileTime2[i]);
-            Log.i("FIletime 3 size", String.valueOf(fileTime3.size()));
-        }
-        for (int i = 1; i < fileTime2.length; i = i + 3) {
-            Log.i("Coordinates of X: ", fileTime2[i]);
-            String n = fileTime2[i];
-            xCoordin.add(fileTime2[i]);
-        }
-
-        for (int i = 2; i < fileTime2.length; i = i + 3) {
-            Log.i("Coordinates of Y: ", fileTime2[i]);
-            String n = fileTime2[i];
-            yCoordin.add(fileTime2[i]);
-        }
-    }
-
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -336,7 +213,7 @@ public class CameraFragment extends Fragment
                     mCameraBitmap = null;
                 }
                 Bundle extras = data.getExtras();
-                byte[] cameraData = extras.getByteArray(CameraFragment.EXTRA_CAMERA_DATA);
+                byte[] cameraData = extras.getByteArray(EXTRA_CAMERA_DATA);
                 if (cameraData != null) {
                     mCameraBitmap = BitmapFactory.decodeByteArray(cameraData, 0, cameraData.length);
                     mCameraImageView.setImageBitmap(mCameraBitmap);
@@ -348,12 +225,12 @@ public class CameraFragment extends Fragment
     }
 
     private File openFileForImage() {
-        if (!mPictureDirectory.exists() && !mPictureDirectory.mkdirs()) {
-            mPictureDirectory = null;
+        if (!activity.getmPictureDirectory().exists() && !activity.getmPictureDirectory().mkdirs()) {
+          //  activity.getmPictureDirectory() = null;
         } else {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_mm_dd_hh_mm_ss",
                     Locale.getDefault());
-            return new File(mPictureDirectory.getPath() +
+            return new File(activity.getmPictureDirectory().getPath() +
                     File.separator + "image_" +
                     dateFormat.format(new Date()) + ".png");
         }
@@ -438,7 +315,7 @@ public class CameraFragment extends Fragment
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_mm_dd_hh_mm_ss",
                             Locale.getDefault());
 
-                    File mPreviewDirectory = new File(mPreviewsFolder + "/" + FirstscreenActivity.mCurrentProject);
+                    File mPreviewDirectory = new File(Statics.mPreviewsFolder + "/" + activity.getmCurrentProject());
 
                     if (!mPreviewDirectory.exists() && !mPreviewDirectory.mkdirs()) {
                         mPreviewDirectory = null;
@@ -459,7 +336,7 @@ public class CameraFragment extends Fragment
                         e.printStackTrace();
                     }
 
-                    File mPictureDirectory = new File(mPictureFolder + "/" + FirstscreenActivity.mCurrentProject);
+                    File mPictureDirectory = new File(Statics.mPictureFolder + "/" + activity.getmCurrentProject());
 
                     if (!mPictureDirectory.exists() && !mPictureDirectory.mkdirs()) {
                         mPictureDirectory = null;
@@ -469,6 +346,31 @@ public class CameraFragment extends Fragment
                                 mPictureDirectory.getPath() +
                                         File.separator + "image_" +
                                         dateFormat.format(new Date()) + ".png");
+
+                        // todo: save pictures in the right rotation (orientation)
+                        //----- Test---------
+
+//                        Bitmap bMap = BitmapFactory.decodeByteArray(data, 100, 100);
+//                        int orientation;
+//
+//                        if(bMap.getHeight() < bMap.getWidth()){
+//                            orientation = 90;
+//                        } else {
+//                            orientation = 0;
+//                        }
+//
+//                        Bitmap bMapRotate;
+//                        if (orientation != 0) {
+//                            Matrix matrix = new Matrix();
+//                            matrix.postRotate(orientation);
+//                            bMapRotate = Bitmap.createBitmap(bMap, 0, 0, bMap.getWidth(),
+//                                    bMap.getHeight(), matrix, true);
+//                        } else
+//                            bMapRotate = Bitmap.createScaledBitmap(bMap, bMap.getWidth(),
+//                                    bMap.getHeight(), true);
+
+
+                        //-------------------
 
                         FileOutputStream fos = null;
                         try {
@@ -488,15 +390,6 @@ public class CameraFragment extends Fragment
                     }
                 }
             });
-        }
-    }
-
-    private void setupImageCapture() {
-        if (mCameraPreview != null) {
-            mCameraPreview.setVisibility(View.VISIBLE);
-            if (mCamera != null) {
-                mCamera.startPreview();
-            }
         }
     }
 
@@ -522,190 +415,6 @@ public class CameraFragment extends Fragment
         mCameraImage.setImageBitmap(bitmap);
         mCameraImage.setRotation(0);
     }
-
-
-    private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
-        @Override
-        public boolean onDown(MotionEvent e) {
-            Log.d("...", "onDown works");
-            int xlong = (int) e.getX();
-            int ylong = (int) e.getY();
-            Log.wtf("Coordinates of xlong: ", String.valueOf(xlong));
-            Log.wtf("Coordinates of ylong: ", String.valueOf(ylong));
-
-            ArrayList xcoordin = CameraFragment.getxCoordin();
-            ArrayList ycoordin = CameraFragment.getyCoordin();
-
-            Log.wtf("Xcoordin cameraFragm", String.valueOf(CameraFragment.getxCoordin()));
-            Log.wtf("Ycoordin cameraFragm", String.valueOf(CameraFragment.getyCoordin()));
-
-            Log.wtf("Xcoordin size", String.valueOf(xcoordin.size()));
-            Log.wtf("Ycoordin size", String.valueOf(ycoordin.size()));
-
-            for (int i = 0; i < xcoordin.size(); i++) {
-                Log.i("Xcoordin", (String) xcoordin.get(i));
-                Log.i("Ycoordin", (String) ycoordin.get(i));
-                int xfile = Integer.parseInt((String) xcoordin.get(i));
-                int yfile = Integer.parseInt((String) ycoordin.get(i));
-
-                if ((xlong < xfile + 50 && xlong > xfile - 50) && (ylong < yfile + 50 && ylong > yfile - 50)) {
-
-                    view.invalidate();
-                }
-            }
-            return true;
-        }
-
-        @Override
-        public void onLongPress(MotionEvent e) {
-            Log.d("...", "onLongPress сработал");
-            int x = (int) e.getX();
-            int y = (int) e.getY();
-
-            Log.i("X", "case 0 " + x);
-            Log.i("Y", "case 0 " + y);
-            switch (e.getAction()) {
-//                case MotionEvent.ACTION_DOWN:
-//                    Log.i("X", "case 1 " + x);
-//                    Log.i("Y", "case 1 " + y);
-//                    break;
-//                case MotionEvent.ACTION_MOVE:
-//                    Log.i("X", "case 2 " + x);
-//                    Log.i("Y", "case 2 " + y);
-//                    break;
-                case MotionEvent.ACTION_DOWN:
-                    Log.i("X", "case 3 " + x);
-                    Log.i("Y", "case 3 " + y);
-
-                    MediaPlayer mPlayer2 = audioRecord.getmPlayer();
-                    Log.i("mPlayer2!!!", String.valueOf(mPlayer2));
-
-                    //                   if (mPlayer2 == null) {
-                    long after = System.currentTimeMillis();
-                    android.util.Log.i("Time after click", " Time value in milliseconds " + after);
-                    int difference = (int) (after - audioRecord.getStart());
-                    Log.i("difference", String.valueOf(difference));
-
-                    int sBody = difference;
-
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy_mm_dd_hh",
-                            Locale.getDefault());
-                    ;
-                    Date now = new Date();
-                    String fileName = formatter.format(now) + ".txt";//like 2016_01_12.txt
-
-                    try {
-                        File root = new File(Environment.getExternalStorageDirectory(), "Audio_Recorder_Picture");
-                        if (!root.exists()) {
-                            root.mkdirs();
-                        }
-                        gpxFile = new File(root, fileName);
-
-                        FileWriter writer = new FileWriter(gpxFile, true);
-                        Log.i("Time, X, Y", "Time:" + sBody + " X:" + x + "\n" + "Y" + y + "\n");
-                        writer.append(sBody + "\n" + x + "\n" + y + "\n");
-                        writer.flush();
-                        writer.close();
-
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                    // readFromFile();
-                    textPaint = new Paint();
-//                    tempCanvas.save();
-//                    tempCanvas.rotate(-90, x* 6, y* 6);
-                    textPaint.setTextSize(140);
-                    textPaint.setColor(Color.WHITE);
-                    textPaint.setAntiAlias(true);
-                    textPaint.setTextAlign(Paint.Align.CENTER);
-
-//                    myPaint.setAntiAlias(true);
-                    Rect bounds = new Rect();
-                    textPaint.getTextBounds(String.valueOf(clicked), 0, String.valueOf(clicked).length(), bounds);
-//
-//                    if (clicked < 10 && clicked>1) {
-//                        tempCanvas.drawCircle(x * 6, y * 6 - (bounds.height() / 2), bounds.width() + 70, myPaint);
-//                    } else if (clicked==1) {
-//                        tempCanvas.drawCircle(x * 6, y * 6 - (bounds.height() / 2), bounds.width() + 95, myPaint);
-//                    }
-//                    else {
-//                        tempCanvas.drawCircle(x * 6, y * 6 - (bounds.height() / 2), bounds.width() + 10, myPaint);
-//                    };
-//
-//                    tempCanvas.drawText(String.valueOf(clicked), x * 6, y * 6, textPaint);
-//                    clicked++;
-//                    tempCanvas.restore();
-                    view.invalidate();
-//                    } else {
-//
-//                        String info2 = String.valueOf(mPlayer2.getCurrentPosition());
-//                        long labeltime = mPlayer2.getCurrentPosition();
-//                        String sBody = info2;
-//
-//                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy_mm_dd_hh",
-//                                Locale.getDefault());;
-//                        Date now = new Date();
-//                        String fileName = formatter.format(now) + ".txt";//like 2016_01_12.txt
-//                        Log.i("Current", String.valueOf(labeltime));
-//
-//                        try {
-//                            File root = new File(Environment.getExternalStorageDirectory(), "Audio_Recorder_Picture");
-//                            if (!root.exists()) {
-//                                root.mkdirs();
-//                            }
-//                             File gpxFile = new File(root, fileName);
-//
-//                            FileWriter writer = new FileWriter(gpxfile, true);
-//                            writer.append(sBody + "\n");
-//                            writer.flush();
-//                            writer.close();
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                  //    readFromFile();
-//                        tempCanvas.drawCircle(x*6, y*6, 200,myPaint);
-//                        view.invalidate();
-//                    }
-
-
-                    //----Saving process
-//                    int sBody = x;
-//
-//                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy_mm_dd_hh_mm",
-//                            Locale.getDefault());;
-//                    Date now = new Date();
-//                    String fileName = formatter.format(now) + ".txt";
-
-//                    try {
-//                        File root = new File(Environment.getExternalStorageDirectory(), "Audio_Recorder_Picture");
-//                        if (!root.exists()) {
-//                            root.mkdirs();
-//                        }
-//                        File file = new File(root, fileName);
-//
-//                        FileWriter writer = new FileWriter(file, true);
-//                        writer.append(x+"\n"+y+"\n");
-//                        writer.flush();
-//                        writer.close();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-                    //                   }
-
-//                                       break;
-                    //       onLongPress(e)
-            }
-            //   return true;
-//            return DoubleTap.onTouchEvent(e);
-            //     return true;
-        }
-    }
-
-    public boolean onDoubleTap(MotionEvent e) {
-        Log.d("...", "DoubleTap сработал");
-        return false;
-    }
-
-
 }
 
 

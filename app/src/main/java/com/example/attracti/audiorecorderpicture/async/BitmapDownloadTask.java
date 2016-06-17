@@ -25,18 +25,21 @@ import static com.example.attracti.audiorecorderpicture.adapters.RecyclerViewAda
  */
 
 public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
+
     private final WeakReference<ImageView> viewHolderWeakReference;
     private String mData = null;
 
-    private static Bitmap tempBitmapTest;
+    private Bitmap tempBitmapTest;
     private Canvas tempCanvas;
     private Paint textPaint;
 
     private int position;
 
     OnCreateCanvasListener canvasListener;
+    ViewActivity activity;
 
-    public BitmapDownloadTask(OnCreateCanvasListener canvasListener, ImageView imageView, int position) {
+    public BitmapDownloadTask(ViewActivity activity, OnCreateCanvasListener canvasListener, ImageView imageView, int position) {
+        this.activity = activity;
         this.canvasListener = canvasListener;
         viewHolderWeakReference = new WeakReference<ImageView>(imageView);
         this.position = position;
@@ -66,14 +69,14 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
         textPaint.setTextAlign(Paint.Align.CENTER);
         Rect bounds = new Rect();
 
-        for (int i = 0; i < ViewActivity.filePosition.size(); i++) {
-            Log.wtf("filePosition size: ", String.valueOf(ViewActivity.filePosition.size()));
-            Log.wtf("file Position items: ", String.valueOf(ViewActivity.filePosition.get(i)));
-            if (position == (Integer.parseInt((String) ViewActivity.filePosition.get(i)))) {
-                tempCanvas.drawCircle(Integer.parseInt((String) ViewActivity.xFile.get(i)) / 4, Integer.parseInt((String) ViewActivity.yFile.get(i)) / 4, 10, myPaint3);
+        for (int i = 0; i < activity.getFilePosition().size(); i++) {
+            Log.wtf("filePosition size: ", String.valueOf(activity.getFilePosition().size()));
+            Log.wtf("file Position items: ", String.valueOf(activity.getFilePosition().get(i)));
+            if (position == (Integer.parseInt((String) activity.getFilePosition().get(i)))) {
+                tempCanvas.drawCircle(Integer.parseInt((String) activity.getxFile().get(i)) / 4, Integer.parseInt((String) activity.getyFile().get(i)) / 4, 10, myPaint3);
 
                 textPaint.getTextBounds(String.valueOf(i), 0, String.valueOf(i).length(), bounds);
-                tempCanvas.drawText(String.valueOf(i + 1), Integer.parseInt((String) ViewActivity.xFile.get(i)) / 4, Integer.parseInt((String) ViewActivity.yFile.get(i)) / 4, textPaint);
+                tempCanvas.drawText(String.valueOf(i + 1), Integer.parseInt((String) activity.getxFile().get(i)) / 4, Integer.parseInt((String) activity.getyFile().get(i)) / 4, textPaint);
                 tempCanvas.save();
             }
         }
@@ -90,11 +93,11 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
             if (imageView != null) {
                 imageView.setImageBitmap(bitmap);
 
-                imageView.setImageDrawable(new BitmapDrawable(BitmapDownloadTask.tempBitmapTest));
+                imageView.setImageDrawable(new BitmapDrawable(tempBitmapTest));
                 imageView.invalidate();
             }
         }
-        canvasListener.saveCanvas(tempCanvas);
+        canvasListener.saveCanvas(tempCanvas, position);
 
     }
 //    public  void addBitmapToMemoryCache(String key, Bitmap bitmap) {

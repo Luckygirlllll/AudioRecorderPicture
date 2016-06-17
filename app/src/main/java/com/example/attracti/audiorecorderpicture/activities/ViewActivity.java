@@ -18,9 +18,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.attracti.audiorecorderpicture.R;
-import com.example.attracti.audiorecorderpicture.async.BitmapDownloadTask;
+import com.example.attracti.audiorecorderpicture.Statics;
 import com.example.attracti.audiorecorderpicture.fragments.BitmapFragment;
-import com.example.attracti.audiorecorderpicture.fragments.CameraFragment;
 import com.example.attracti.audiorecorderpicture.interfaces.OnCreateCanvasListener;
 import com.example.attracti.audiorecorderpicture.model.Folder;
 
@@ -29,7 +28,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by Iryna on 6/1/16.
@@ -43,30 +41,50 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
 
     private String TAG = ViewActivity.class.getSimpleName();
 
-    private static ArrayList<Folder> FOLDERS = new ArrayList<>();
+    private ArrayList<Folder> FOLDERS = new ArrayList<>();
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
 
     private ImageView imageView;
     private File[] mArray;
 
-    private static HashMap<Integer, BitmapDownloadTask> TASKS_MAP = new HashMap<>();
-    public static ArrayList fileTime = null;
-    public static ArrayList xFile = null;
-    public static ArrayList yFile = null;
+    private  ArrayList fileTime = null;
+    private  ArrayList xFile = null;
+    private  ArrayList yFile = null;
 
-    public static ArrayList filePosition = null;
-    private static ArrayList zeroLabelPosition = new ArrayList();
-    private static ArrayList xZero = new ArrayList();
-    private static ArrayList yZero = new ArrayList();
+    public  ArrayList filePosition = null;
+    private ArrayList zeroLabelPosition = new ArrayList();
+    private ArrayList xZero = new ArrayList();
+    private ArrayList yZero = new ArrayList();
+    private ArrayList zeroTime = new ArrayList();
+    private String parentName;
 
-    private static ArrayList zeroTime = new ArrayList();
-
-    public static String parentName;
     private MediaPlayer mPlayer;
-
     private Button playButton;
     private ArrayList canvasList = new ArrayList();
+    private ArrayList positionList = new ArrayList();
+
+    private File[] listFile;
+
+    public ArrayList getFileTime() {
+        return fileTime;
+    }
+    public  ArrayList getxFile() {
+        return xFile;
+    }
+    public ArrayList getyFile() {
+        return yFile;
+    }
+
+    public  ArrayList getFilePosition() {
+        return filePosition;
+    }
+
+    public String getParentName() {
+        return parentName;
+    }
+
+
 
 
     public void getFromSdcardFolders() {
@@ -108,12 +126,13 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         playButton = (Button) findViewById(R.id.play_button);
         playButton.setOnClickListener(playButtonListener);
 
-        FirstscreenActivity.listFile[0].getAbsolutePath();
-
         getFromSdcardFolders();
 
         Intent intent = getIntent();
         mArray = (File[]) intent.getSerializableExtra("FILE_TAG");
+        listFile =(File[]) intent.getSerializableExtra("listFile");
+
+        listFile[0].getAbsolutePath();
 
         for (int i = 0; i < mArray.length; i++) {
             Log.wtf("Array elements ", String.valueOf(mArray[i]));
@@ -156,7 +175,7 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
     public void startPlayingLabels() {
 
         mPlayer = new MediaPlayer();
-            String mFileName = CameraFragment.mAudioFolder + "/" + ViewActivity.parentName + ".3gp";
+            String mFileName = Statics.mAudioFolder + "/" + parentName + ".3gp";
         try {
             mPlayer.setDataSource(mFileName);
             mPlayer.prepare();
@@ -175,6 +194,19 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
                  //   int timeSpends = mPlayer.getDuration() - mPlayer.getCurrentPosition();
                     int timeSpends = mPlayer.getCurrentPosition();
 
+                    //todo Change Radius of the label which is currently playing
+
+//                    if(canvasList.size()!=0) {
+//                        Log.wtf("CanvasList ", "works in if!");
+//                        Canvas canvas = (Canvas) canvasList.get(0);
+//                        Paint Circle = new Paint();
+//                        Circle.setColor(Color.BLUE);
+//                        Circle.setAntiAlias(true);
+//                        canvas.drawCircle(100, 100, 15, Circle);
+//                    }
+
+
+                    Log.wtf("timeSpends: ", String.valueOf(timeSpends));
                     if (timeSpends>=Integer.parseInt(String.valueOf(zeroTime.get(timeStampIterator)))-100 &&timeSpends<=Integer.parseInt(String.valueOf(zeroTime.get(timeStampIterator)))+100) {
                         mPager.setCurrentItem(Integer.parseInt(String.valueOf(zeroLabelPosition.get(timeStampIterator))));
                         if(timeStampIterator<zeroTime.size()-1) {
@@ -234,7 +266,7 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         parentName = mArray[0].getParentFile().getName();
 
         try {
-            File labelsFile = new File(CameraFragment.mLabelsFolder, parentName + ".txt");
+            File labelsFile = new File(Statics.mLabelsFolder, parentName + ".txt");
             BufferedReader br = new BufferedReader(new FileReader(labelsFile));
             String line;
 
@@ -295,9 +327,10 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
     }
 
     @Override
-    public void saveCanvas(Canvas canvas) {
+    public void saveCanvas(Canvas canvas, int position) {
         Log.wtf(TAG, "OnCreateCanvasListener callback");
         canvasList.add(canvas);
+        positionList.add(position);
     }
 
 

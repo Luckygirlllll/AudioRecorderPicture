@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.attracti.audiorecorderpicture.R;
+import com.example.attracti.audiorecorderpicture.Statics;
 import com.example.attracti.audiorecorderpicture.activities.ViewActivity;
 import com.example.attracti.audiorecorderpicture.async.BitmapDownloadTask;
 import com.example.attracti.audiorecorderpicture.interfaces.OnCreateCanvasListener;
@@ -32,6 +33,8 @@ import java.io.IOException;
 
 public class BitmapFragment extends Fragment {
 
+    OnCreateCanvasListener canvasListener = null;
+
     private static String BITMAP_TAG = "BITMAP_TAG";
 
     private String mFile = null;
@@ -39,9 +42,9 @@ public class BitmapFragment extends Fragment {
     private int positionCurrent;
 
     private GestureDetectorCompat DoubleTap;
-
     private MediaPlayer mPlayer;
-    OnCreateCanvasListener canvasListener = null;
+    private  ViewActivity viewActivity;
+
 
 //    private static OnCreateCanvasListener canvasListener = new OnCreateCanvasListener() {
 //        @Override
@@ -50,10 +53,13 @@ public class BitmapFragment extends Fragment {
 //        }
 //    };
 
+
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         canvasListener = (OnCreateCanvasListener) context;
+        this.viewActivity=(ViewActivity) context;
 
     }
 
@@ -94,7 +100,7 @@ public class BitmapFragment extends Fragment {
             imageView.setImageBitmap(bitmap);
         } else {
 
-            BitmapDownloadTask task = new BitmapDownloadTask(canvasListener,imageView, position);
+            BitmapDownloadTask task = new BitmapDownloadTask(viewActivity, canvasListener,imageView, position);
             task.execute(imageKey);
 
         }
@@ -113,20 +119,20 @@ public class BitmapFragment extends Fragment {
 
         mPlayer = new MediaPlayer();
         try {
-            String mFileName = CameraFragment.mAudioFolder + "/" + ViewActivity.parentName + ".3gp";
+            String mFileName = Statics.mAudioFolder + "/" + viewActivity.getParentName() + ".3gp";
             mPlayer.setDataSource(mFileName);
             mPlayer.prepare();
-            mPlayer.seekTo(Integer.parseInt((String) ViewActivity.fileTime.get(i)));
+            mPlayer.seekTo(Integer.parseInt((String) viewActivity.getFileTime().get(i)));
             mPlayer.start();
 
-            Log.wtf("FileTime: ", String.valueOf(ViewActivity.fileTime.size()));
+            Log.wtf("FileTime: ", String.valueOf(viewActivity.getFileTime().size()));
             Log.wtf("value of i: ", String.valueOf(i));
-            Log.wtf("Start playing time: ", (String) ViewActivity.fileTime.get(i));
+            Log.wtf("Start playing time: ", (String) viewActivity.getFileTime().get(i));
 
 
-            if (i < ViewActivity.fileTime.size() - 1) {
-                Log.wtf("Stop playing time: ", (String) ViewActivity.fileTime.get(i + 1));
-                new CountDownTimer(Integer.parseInt((String) ViewActivity.fileTime.get(i + 1)) - Integer.parseInt((String) ViewActivity.fileTime.get(i)), 1000) {
+            if (i < viewActivity.getFileTime().size() - 1) {
+                Log.wtf("Stop playing time: ", (String) viewActivity.getFileTime().get(i + 1));
+                new CountDownTimer(Integer.parseInt((String) viewActivity.getFileTime().get(i + 1)) - Integer.parseInt((String) viewActivity.getFileTime().get(i)), 1000) {
                     public void onTick(long millisUntilFinished) {
                     }
 
@@ -135,7 +141,7 @@ public class BitmapFragment extends Fragment {
                     }
                 }.start();
             } else {
-                Log.wtf("Stop playing time in else: ", (String) ViewActivity.fileTime.get(i) + 10000);
+                Log.wtf("Stop playing time in else: ", (String)  viewActivity.getFileTime().get(i) + 10000);
                 new CountDownTimer(10000, 1000) {
                     public void onTick(long millisUntilFinished) {
                     }
@@ -178,11 +184,11 @@ public class BitmapFragment extends Fragment {
                     Log.wtf("ylong: ", String.valueOf(ylong));
 
             }
-            for (int i = 0; i < ViewActivity.filePosition.size(); i++) {
-                if (positionCurrent == (Integer.parseInt((String) ViewActivity.filePosition.get(i)))) {
+            for (int i = 0; i < viewActivity.getFilePosition().size(); i++) {
+                if (positionCurrent == (Integer.parseInt((String) viewActivity.getFilePosition().get(i)))) {
 
-                    int xfile = Integer.parseInt((String) ViewActivity.xFile.get(i));
-                    int yfile = Integer.parseInt((String) ViewActivity.yFile.get(i));
+                    int xfile = Integer.parseInt((String) viewActivity.getxFile().get(i));
+                    int yfile = Integer.parseInt((String) viewActivity.getyFile().get(i));
 
                     if ((xlong < xfile * 0.68 + 30 && xlong > xfile * 0.68 - 30) && (ylong < yfile + 200 + 30 && ylong > yfile + 200 - 30)) {
 

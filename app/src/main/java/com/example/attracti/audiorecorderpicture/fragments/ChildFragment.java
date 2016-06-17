@@ -15,7 +15,6 @@ import android.widget.ImageView;
 
 import com.example.attracti.audiorecorderpicture.R;
 import com.example.attracti.audiorecorderpicture.activities.AudioRecord;
-import com.example.attracti.audiorecorderpicture.activities.FirstscreenActivity;
 import com.example.attracti.audiorecorderpicture.async.ChildDownloadTask;
 
 import java.io.File;
@@ -38,24 +37,23 @@ public class ChildFragment extends Fragment {
 
     private String mFile = null;
     private ImageView imageView;
-    private static int xCoord;
-    private static int yCoord;
 
     private GestureDetectorCompat DoubleTap;
-
     private Context context;
 
-    private static File labelFile;
-    public static ArrayList<Integer> xcoordList = new ArrayList();
-    public static ArrayList<Integer> ycoordList = new ArrayList();
-    public static ArrayList<Integer> positionList = new ArrayList<>();
+    private File labelFile;
 
+    private  ArrayList<Integer> xcoordList = new ArrayList();
+    private  ArrayList<Integer> ycoordList = new ArrayList();
+    private  ArrayList<Integer> positionList = new ArrayList<>();
 
+    private AudioRecord activity;
 
     @Override
     public void onAttach(Context context) {
         this.context = context;
         super.onAttach(context);
+        this.activity=(AudioRecord) context;
     }
 
     @Override
@@ -71,7 +69,7 @@ public class ChildFragment extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.fragment_screen_slide, container, false);
         imageView = (ImageView) rootView.findViewById(R.id.imageView);
-        loadBitmap(mFile, imageView, positionCurrent, xCoord, yCoord);
+        loadBitmap(mFile, imageView, positionCurrent, xcoordList, ycoordList, positionList);
 
         DoubleTap = new GestureDetectorCompat(getActivity(), new MyGestureListener());
 
@@ -85,7 +83,7 @@ public class ChildFragment extends Fragment {
         return rootView;
     }
 
-    public static void loadBitmap(String path, ImageView imageView, int position, int x, int y) {
+    public static void loadBitmap(String path, ImageView imageView, int position, ArrayList xcoordList, ArrayList ycoordList, ArrayList positionList) {
         final String imageKey = String.valueOf(path);
         Log.wtf("Image Key: ", String.valueOf(imageKey));
 
@@ -93,15 +91,13 @@ public class ChildFragment extends Fragment {
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
         } else {
-            ChildDownloadTask task = new ChildDownloadTask(imageView, position, x, y);
+            ChildDownloadTask task = new ChildDownloadTask(imageView, position, xcoordList, ycoordList, positionList);
             task.execute(imageKey);
         }
     }
 
 
-    public static ChildFragment createfragment(Context context, String file, int position, int x, int y) {
-        xCoord = x;
-        yCoord = y;
+    public static ChildFragment createfragment(Context context, String file, int position) {
         ChildFragment fragment = new ChildFragment();
         Bundle args = new Bundle();
         args.putString(BITMAP_TAG, file);
@@ -126,18 +122,18 @@ public class ChildFragment extends Fragment {
                     ycoordList.add(y);
                     positionList.add(positionCurrent);
 
-                    loadBitmap(mFile, imageView, positionCurrent, x, y);
+                    loadBitmap(mFile, imageView, positionCurrent, xcoordList, ycoordList, positionList);
 
                     Log.i("Events X: ", +x + " Events Y: " + y);
                     long after = System.currentTimeMillis();
-                    int difference = (int) (after - AudioRecord.startTimeAudio);
+                    int difference = (int) (after - activity.getStartTimeAudio());
                     int sBody = difference;
-                    String labelFileName = FirstscreenActivity.mCurrentProject + ".txt";
-                    if (!CameraFragment.mLabelsDirectory.exists() && !CameraFragment.mLabelsDirectory.mkdirs()) {
-                        CameraFragment.mLabelsDirectory = null;
+                    String labelFileName = activity.getmCurrentProject() + ".txt";
+                    if (!activity.getmLabelsDirectory().exists() && !activity.getmLabelsDirectory().mkdirs()) {
+                     //   activity.getmLabelsDirectory() = null;
 
                     } else {
-                        labelFile = new File(CameraFragment.mLabelsDirectory, labelFileName);
+                        labelFile = new File(activity.getmLabelsDirectory(), labelFileName);
                         //  Log.wtf("Second else works", "!!!");
                         FileWriter writer = null;
                         try {

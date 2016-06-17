@@ -7,6 +7,6 @@ import android.graphics.Canvas;
  */
 public interface OnCreateCanvasListener {
 
-    public void saveCanvas(Canvas canvas);
+    public void saveCanvas(Canvas canvas, int position);
 
 }
