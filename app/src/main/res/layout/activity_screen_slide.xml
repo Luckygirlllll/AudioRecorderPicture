@@ -10,12 +10,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <TextView
+        android:id="@+id/songDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_above="@+id/seekBar"
+        android:layout_marginBottom="10dp"
+        android:layout_centerHorizontal="true"
+        android:text="" />
+
     <SeekBar
         android:id="@+id/seekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/play_button"
-        />
+        android:layout_above="@+id/play_button" />
 
 
     <Button

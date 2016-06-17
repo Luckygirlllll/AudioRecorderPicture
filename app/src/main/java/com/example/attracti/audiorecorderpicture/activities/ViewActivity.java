@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.example.attracti.audiorecorderpicture.R;
 import com.example.attracti.audiorecorderpicture.Statics;
@@ -30,6 +31,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Iryna on 6/1/16.
@@ -69,7 +71,7 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
     private double timeElapsed = 0;
     private double finalTime = 0;
 
-
+    TextView duration;
 
     private ArrayList canvasList = new ArrayList();
     private ArrayList positionList = new ArrayList();
@@ -136,10 +138,9 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         playButton.setOnClickListener(playButtonListener);
 
         seekbar = (SeekBar) findViewById(R.id.seekBar);
-
-
         seekbar.setClickable(false);
 
+        duration = (TextView) findViewById(R.id.songDuration);
 
         getFromSdcardFolders();
 
@@ -286,7 +287,9 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
             seekbar.setProgress((int) timeElapsed);
             //set time remaing
             double timeRemaining = finalTime - timeElapsed;
-           // duration.setText(String.format("%d min, %d sec", TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining), TimeUnit.MILLISECONDS.toSeconds((long) timeRemaining) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining))));
+            //duration.setText(String.format("%d min, %d sec", TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining), TimeUnit.MILLISECONDS.toSeconds((long) timeRemaining) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining))));
+            duration.setText(String.format("%d:%d ", TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining), TimeUnit.MILLISECONDS.toSeconds((long) timeRemaining) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining))));
+
             //repeat yourself that again in 100 miliseconds
             durationHandler.postDelayed(this, 100);
         }
