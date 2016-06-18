@@ -31,7 +31,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.ViewActivity"></activity>
+        <activity android:name=".activities.ViewActivity">
+            android:label="@string/title_activity_display_message"
+            android:parentActivityName="com.example.attracti.audiorecorderpicture.activities.FirstscreenActivity" >
+        </activity>
     </application>
 
 </manifest>

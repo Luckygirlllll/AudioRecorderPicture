@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.util.Log;
 import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,13 +28,13 @@ import java.util.ArrayList;
 
 public class ViewFragment extends Fragment implements OnSwipePictureListener {
 
+    private static final String TAG = CameraFragment.class.getSimpleName();
+
     private LruCache<String, Bitmap> mMemoryCache;
 
     private CustomViewPagerH mPager;
     private ScreenSlidePagerAdapter mPagerAdapter;
     private ImageView imageView;
-
-    private String TAG = CameraFragment.class.getSimpleName();
 
     private ArrayList<File> arrayFilepaths;
 
@@ -56,7 +55,6 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable("arraylist", arrayFilepaths);
-        Log.d("works", "onSaveInstanceState");
     }
 
     @Override
@@ -129,8 +127,6 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
     public void updateArray(ArrayList<File> ArrayFilepaths) {
         this.arrayFilepaths = ArrayFilepaths;
         for (int i = 0; i < this.arrayFilepaths.size(); i++) {
-            Log.i("Array new ", String.valueOf(ArrayFilepaths.size()));
-            Log.wtf("Array item: ", String.valueOf(ArrayFilepaths.get(i)));
         }
         if (mPagerAdapter != null) {
             mPagerAdapter.notifyDataSetChanged();

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +25,8 @@ import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
+    private final  String LOG_TAG = RecyclerViewAdapter.class.getSimpleName();
+
     private final Activity context;
     private final ArrayList<Folder> FOLDERS;
     private View mView;
@@ -36,7 +37,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        Log.wtf("TAG", "Folders size: " + FOLDERS.size());
         return FOLDERS.size();
     }
 
@@ -159,7 +159,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public RecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                              int viewType) {
 
-        Log.wtf("TAG", "OnCreateViewHolder works!!!");
         mView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.mylist, parent, false);
         ViewHolder vh = new ViewHolder(mView);

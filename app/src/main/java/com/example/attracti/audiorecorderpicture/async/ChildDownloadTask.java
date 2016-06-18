@@ -24,6 +24,9 @@ import static com.example.attracti.audiorecorderpicture.adapters.RecyclerViewAda
  */
 
 public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
+
+    private final  String LOG_TAG = ChildDownloadTask.class.getSimpleName();
+
     private final WeakReference<ImageView> viewHolderWeakReference;
     private String data = null;
 

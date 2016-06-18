@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GestureDetectorCompat;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -33,8 +32,9 @@ import java.io.IOException;
 
 public class BitmapFragment extends Fragment {
 
-    OnCreateCanvasListener canvasListener = null;
 
+    private final  String LOG_TAG = BitmapFragment.class.getSimpleName();
+    OnCreateCanvasListener canvasListener = null;
     private static String BITMAP_TAG = "BITMAP_TAG";
 
     private String mFile = null;
@@ -92,8 +92,6 @@ public class BitmapFragment extends Fragment {
 
     public void loadBitmap(String path, ImageView imageView, int position) {
         final String imageKey = String.valueOf(path);
-        Log.wtf("Image Key: ", String.valueOf(imageKey));
-
         final Bitmap bitmap = null;
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
@@ -125,13 +123,8 @@ public class BitmapFragment extends Fragment {
             mPlayer.seekTo(Integer.parseInt((String) viewActivity.getFileTime().get(i)));
             mPlayer.start();
 
-            Log.wtf("FileTime: ", String.valueOf(viewActivity.getFileTime().size()));
-            Log.wtf("value of i: ", String.valueOf(i));
-            Log.wtf("Start playing time: ", (String) viewActivity.getFileTime().get(i));
-
 
             if (i < viewActivity.getFileTime().size() - 1) {
-                Log.wtf("Stop playing time: ", (String) viewActivity.getFileTime().get(i + 1));
                 new CountDownTimer(Integer.parseInt((String) viewActivity.getFileTime().get(i + 1)) - Integer.parseInt((String) viewActivity.getFileTime().get(i)), 1000) {
                     public void onTick(long millisUntilFinished) {
                     }
@@ -141,7 +134,6 @@ public class BitmapFragment extends Fragment {
                     }
                 }.start();
             } else {
-                Log.wtf("Stop playing time in else: ", (String) viewActivity.getFileTime().get(i) + 10000);
                 new CountDownTimer(10000, 1000) {
                     public void onTick(long millisUntilFinished) {
                     }
@@ -163,7 +155,7 @@ public class BitmapFragment extends Fragment {
             mPlayer.release();
             mPlayer = null;
         } else {
-            Log.i("mPlayer is null", "Nothing to stop");
+
         }
     }
 
@@ -171,7 +163,6 @@ public class BitmapFragment extends Fragment {
     private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onDown(MotionEvent e) {
-            Log.wtf("onDown works", "in Bitmap Fragment");
             int xlong = (int) e.getX();
             int ylong = (int) e.getY();
 
@@ -179,10 +170,6 @@ public class BitmapFragment extends Fragment {
                 case MotionEvent.ACTION_DOWN:
                     xlong = (int) e.getX();
                     ylong = (int) e.getY();
-
-                    Log.wtf("xlong: ", String.valueOf(xlong));
-                    Log.wtf("ylong: ", String.valueOf(ylong));
-
             }
             for (int i = 0; i < viewActivity.getFilePosition().size(); i++) {
                 if (positionCurrent == (Integer.parseInt((String) viewActivity.getFilePosition().get(i)))) {
@@ -191,11 +178,7 @@ public class BitmapFragment extends Fragment {
                     int yfile = Integer.parseInt((String) viewActivity.getyFile().get(i));
 
                     if ((xlong < xfile * 0.68 + 30 && xlong > xfile * 0.68 - 30) && (ylong < yfile + 200 + 30 && ylong > yfile + 200 - 30)) {
-
-                        Log.wtf("xFile: ", String.valueOf(xfile));
-                        Log.wtf("yFile: ", String.valueOf(yfile));
                         startPlayingPictureLabel(i);
-                        Log.i("Index i of the label", String.valueOf(i));
 
                     }
                 }

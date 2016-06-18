@@ -16,7 +16,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -52,6 +51,8 @@ public class CameraFragment extends Fragment
         AudioRecord.ReceivePictureListener {
 
     OnHeadlineSelectedListener mCallback;
+
+    private static final String LOG_TAG = CameraFragment.class.getSimpleName();
 
     public void setCallback(OnHeadlineSelectedListener callback) {
         mCallback = callback;
@@ -119,11 +120,8 @@ public class CameraFragment extends Fragment
         mIsCapturing = true;
 
         if (mCamera == null) {
-            Log.i("Camera open", "Camera open");
             try {
                 mCamera = Camera.open();
-                Log.i("Camera created: ", String.valueOf(mCamera != null));
-                Log.i("Camera open2", "Camera open2");
                 Camera.Parameters parameters = mCamera.getParameters();
                 parameters.set("orientation", "portrait");
                 mCamera.setParameters(parameters);
@@ -133,7 +131,6 @@ public class CameraFragment extends Fragment
 
                 int rotation = activity.getWindowManager().getDefaultDisplay()
                         .getRotation();
-                Log.wtf("Rotation : ", String.valueOf(rotation));
 
                 //setCameraDisplayOrientation(getActivity(), mCamera);
                 if (mIsCapturing) {
@@ -142,13 +139,11 @@ public class CameraFragment extends Fragment
             } catch (Exception e) {
                 Toast.makeText(context, "Unable to open camera.", Toast.LENGTH_LONG)
                         .show();
-                Log.i("Unable to open camera", "Unable to open camera");
             }
         }
 
         int rotation = activity.getWindowManager().getDefaultDisplay()
                 .getRotation();
-        Log.wtf("Rotation 2 : ", String.valueOf(rotation));
 
         int x = getActivity().getResources().getConfiguration().orientation;
 
@@ -157,16 +152,12 @@ public class CameraFragment extends Fragment
 
     public static void setCameraDisplayOrientation(Activity activity,
                                                    android.hardware.Camera camera) {
-        Log.wtf("setCameraDisplayOrientation", "works!");
 
         android.hardware.Camera.CameraInfo info =
                 new android.hardware.Camera.CameraInfo();
         //android.hardware.Camera.getCameraInfo( info);
         int rotation = activity.getWindowManager().getDefaultDisplay()
                 .getRotation();
-
-
-        Log.wtf("Camera rotation: ", String.valueOf(rotation));
 
         int degrees = 0;
         switch (rotation) {
@@ -210,10 +201,8 @@ public class CameraFragment extends Fragment
 //    }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.i("onActivityResult", "image");
         if (requestCode == TAKE_PICTURE_REQUEST_B) {
             if (resultCode == AppCompatActivity.RESULT_OK) {
-                Log.i("Bitmap", "bitmap recycled");
 
                 if (mCameraBitmap != null) {
                     mCameraBitmap.recycle();
@@ -245,26 +234,22 @@ public class CameraFragment extends Fragment
     }
 
     private void saveImageToFile(File file) {
-        Log.i("Save", "Save image");
+
         if (mCameraBitmap != null) {
-            Log.i("Save", "Save image2");
             FileOutputStream outStream = null;
             try {
                 outStream = new FileOutputStream(file);
                 if (!mCameraBitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream)) {
                     Toast.makeText(context, "Unable to save image to file.",
                             Toast.LENGTH_LONG).show();
-                    Log.i("Image", "Unable to save image to file.");
                 } else {
                     Toast.makeText(context, "Saved image to: " + file.getPath(),
                             Toast.LENGTH_LONG).show();
-                    Log.i("Image", "Saved image to:" + file.getPath());
                 }
                 outStream.close();
             } catch (Exception e) {
                 Toast.makeText(context, "Unable to save image to file.",
                         Toast.LENGTH_LONG).show();
-                Log.i("Image", "Unable to save image to file.");
                 e.printStackTrace();
             }
         }
@@ -273,7 +258,6 @@ public class CameraFragment extends Fragment
     @Override
     public void onPause() {
         super.onPause();
-        Log.i("On pause method works!", "works!");
         if (mCamera != null) {
             mCamera.release();
             mCamera = null;
@@ -390,9 +374,7 @@ public class CameraFragment extends Fragment
                         }
                         arrayFilepaths.add(file);
                         mCallback.onArticleSelected(arrayFilepaths);
-                        Log.i("Array", "size 3: " + String.valueOf(arrayFilepaths.size()));
                         for (int i = 0; i < arrayFilepaths.size(); i++) {
-                            Log.i("Array filepaths", String.valueOf(arrayFilepaths.get(i)));
                         }
                     }
                 }
@@ -405,7 +387,6 @@ public class CameraFragment extends Fragment
         File saveFile = openFileForImage();
         if (saveFile != null) {
             saveImageToFile(saveFile);
-            Log.i("Trying to save file", "Trying to save file");
         } else {
             Toast.makeText(context, "Unable to open file for saving image.",
                     Toast.LENGTH_LONG).show();

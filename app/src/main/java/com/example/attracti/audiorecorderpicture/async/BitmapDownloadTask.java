@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.example.attracti.audiorecorderpicture.activities.ViewActivity;
@@ -25,6 +24,8 @@ import static com.example.attracti.audiorecorderpicture.adapters.RecyclerViewAda
  */
 
 public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
+
+    private final  String LOG_TAG = BitmapDownloadTask.class.getSimpleName();
 
     private final WeakReference<ImageView> viewHolderWeakReference;
     private String mData = null;
@@ -48,9 +49,8 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
 
     @Override
     protected Bitmap doInBackground(String... params) {
-        Log.i("TAG", "Async task works in background");
+
         mData = String.valueOf(params[0]);
-        Log.wtf("Params: ", params[0]);
         final Bitmap bitmap = decodeSampledBitmapFromResource(mData, 100, 100);
 
         //addBitmapToMemoryCache(String.valueOf(params[0]), bitmap);
@@ -70,8 +70,6 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
         Rect bounds = new Rect();
 
         for (int i = 0; i < activity.getFilePosition().size(); i++) {
-            Log.wtf("filePosition size: ", String.valueOf(activity.getFilePosition().size()));
-            Log.wtf("file Position items: ", String.valueOf(activity.getFilePosition().get(i)));
             if (position == (Integer.parseInt((String) activity.getFilePosition().get(i)))) {
                 tempCanvas.drawCircle(Integer.parseInt((String) activity.getxFile().get(i)) / 4, Integer.parseInt((String) activity.getyFile().get(i)) / 4, 10, myPaint3);
 
@@ -86,7 +84,6 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
 
     @Override
     protected void onPostExecute(Bitmap bitmap) {
-        Log.i("onPostExecute", "works!");
         if (viewHolderWeakReference != null && bitmap != null) {
             final ImageView imageView = viewHolderWeakReference.get();
 

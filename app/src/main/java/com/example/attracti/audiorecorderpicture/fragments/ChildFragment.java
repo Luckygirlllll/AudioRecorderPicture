@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GestureDetectorCompat;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -31,8 +30,8 @@ import java.util.ArrayList;
 
 public class ChildFragment extends Fragment {
 
-    private static String BITMAP_TAG = "BITMAP_TAG";
     private static String TAG = ChildFragment.class.getSimpleName();
+    private static String BITMAP_TAG = "BITMAP_TAG";
     private int positionCurrent;
 
     private String mFile = null;
@@ -85,7 +84,6 @@ public class ChildFragment extends Fragment {
 
     public static void loadBitmap(String path, ImageView imageView, int position, ArrayList xcoordList, ArrayList ycoordList, ArrayList positionList) {
         final String imageKey = String.valueOf(path);
-        Log.wtf("Image Key: ", String.valueOf(imageKey));
 
         final Bitmap bitmap = null;
         if (bitmap != null) {
@@ -111,7 +109,6 @@ public class ChildFragment extends Fragment {
 
         @Override
         public void onLongPress(MotionEvent e) {
-            Log.wtf("Long press", " works!!!");
 
             switch (e.getAction()) {
                 case MotionEvent.ACTION_DOWN:
@@ -124,7 +121,6 @@ public class ChildFragment extends Fragment {
 
                     loadBitmap(mFile, imageView, positionCurrent, xcoordList, ycoordList, positionList);
 
-                    Log.i("Events X: ", +x + " Events Y: " + y);
                     long after = System.currentTimeMillis();
                     int difference = (int) (after - activity.getStartTimeAudio());
                     int sBody = difference;
@@ -138,7 +134,6 @@ public class ChildFragment extends Fragment {
                         FileWriter writer = null;
                         try {
                             writer = new FileWriter(labelFile, true);
-                            Log.wtf("Time", "Time:" + sBody + " X:" + x + "\n" + "Y" + y + "\n");
                             writer.append(positionCurrent + "\n" + sBody + "\n" + x + "\n" + y + "\n");
                             writer.flush();
                             writer.close();

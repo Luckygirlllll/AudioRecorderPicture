@@ -33,6 +33,8 @@ import java.util.Date;
 
 public class FirstscreenActivity extends AppCompatActivity implements RecyclerItemClickListener.OnItemClickListener {
 
+    private static final String LOG_TAG = FirstscreenActivity.class.getSimpleName();
+
     private  LruCache<String, Bitmap> mMemoryCache;
 
     private RecyclerViewAdapter mAdapter;
@@ -72,7 +74,6 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
                     }
                 }
                 FOLDERS.add(folderobject);
-                Log.wtf("TAG", "Folders size inside the getFRom:" + FOLDERS.size());
             }
         }
     }
@@ -81,8 +82,6 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.front);
-
-        Log.wtf("on Create works ", "in FirstscreenActivity");
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
@@ -167,9 +166,6 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
                 "/Audio_Recorder_Picture/Pictures", listFolders[position].getName());
         if (picturelist2.isDirectory()) {
             listFile2 = picturelist2.listFiles();
-            for (int i = 0; i < listFile2.length; i++) {
-                Log.i("LIST OF PICTURES: ", String.valueOf(listFile2[i]));
-            }
         }
         Intent viewScreen = new Intent(getApplicationContext(), ViewActivity.class);
         viewScreen.putExtra("FILE_TAG", listFile2);

@@ -51,7 +51,7 @@ import java.util.ArrayList;
 
 public class AudioRecord extends AppCompatActivity implements OnHeadlineSelectedListener {
 
-    private final String LOG_TAG = "AudioRecord";
+    private final  String LOG_TAG = AudioRecord.class.getSimpleName();
 
     private OnSwipePictureListener onSwipePictureListener;
     private SavePictureListener savePictureListener;
@@ -259,7 +259,6 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
             mPlayer.release();
             mPlayer = null;
         } else {
-            Log.i("mPlayer is null", "Nothing to stop");
         }
     }
 
@@ -279,7 +278,6 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         try {
             mRecorder.prepare();
         } catch (IOException e) {
-            Log.e(LOG_TAG, "prepare() failed");
         }
         mRecorder.start();
     }
@@ -313,9 +311,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         OnClickListener clicker = new OnClickListener() {
             public void onClick(View v) {
                 onRecord(mStartRecording);
-
                 startTimeAudio = System.currentTimeMillis();
-                android.util.Log.i("Time Current ", " Time value in millisecinds " + startTimeAudio);
 
                 if (mStartRecording) {
                     setText("Stop recording");
@@ -439,7 +435,6 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
             onRecord(mStartRecording);
             startTimeAudio = System.currentTimeMillis();
 
-            android.util.Log.i("Time Current ", " Time value in milliseconds " + startTimeAudio);
             if (mStartRecording) {
                 recordButtonpause.setBackgroundResource(R.drawable.pause_black);
                 myToolbar.setBackgroundColor(Color.RED);
@@ -535,7 +530,6 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         LinearLayout ll = (LinearLayout) findViewById(R.id.lin_three);
 
         myToolbar = (Toolbar) findViewById(R.id.toolbar);
-        Log.wtf("TAG", String.valueOf("TOOLBAR: " + myToolbar == null));
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("");
 
@@ -569,7 +563,6 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
         int rotation = this.getWindowManager().getDefaultDisplay()
                 .getRotation();
-        Log.wtf("Camera orientation: ", String.valueOf(getResources().getConfiguration().orientation));
 
         mCurrentProject = getIntent().getStringExtra("currentProject");
 
@@ -677,7 +670,6 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
                     saveImageOnDevice(Build.VERSION.SDK_INT, data.getData().getPath(), realPath);
 
-                    Log.e("TAG", "imageEncoded:" + realPath);
 
                 } else {
                     if (data.getClipData() != null) {
@@ -702,11 +694,9 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
                             saveImageOnDevice(Build.VERSION.SDK_INT, uri.getPath(), realPath);
 
-                            Log.e("TAG", "imageEncoded:" + realPath);
 
                             imagesPathList.add(realPath);
                         }
-                        Log.v("LOG_TAG", "Selected Images" + mArrayUri.size());
                     }
                 }
             } else {
@@ -724,8 +714,6 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
         Uri uriFromPath = Uri.fromFile(new File(realPath));
         Uri photoUri = uriFromPath;
-
-        Log.e("TAG", "photoUri: " + uriFromPath);
 
         // you have two ways to display selected image
 

@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -43,7 +44,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ViewActivity extends FragmentActivity implements OnCreateCanvasListener {
 
-    private String TAG = ViewActivity.class.getSimpleName();
+    private static final String TAG = ViewActivity.class.getSimpleName();
 
     private ArrayList<Folder> FOLDERS = new ArrayList<>();
     private ViewPager mPager;
@@ -108,7 +109,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
 
                 Folder folderobject = new Folder();
                 folderobject.setName(listFolders[i].getName());
-                Log.i("List of folders: ", String.valueOf(listFolders[i].getName()));
 
                 File picturelist = new File(Environment.getExternalStorageDirectory() +
                         "/Audio_Recorder_Picture/Pictures", listFolders[i].getName());
@@ -120,7 +120,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
                     }
                 }
                 FOLDERS.add(folderobject);
-                Log.wtf("TAG", "Folders size inside the getFRom:" + FOLDERS.size());
             }
         }
     }
@@ -139,8 +138,10 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
 
         seekbar = (SeekBar) findViewById(R.id.seekBar);
         seekbar.setClickable(false);
-
         duration = (TextView) findViewById(R.id.songDuration);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_view);
+
 
         getFromSdcardFolders();
 
@@ -171,7 +172,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         public void onClick(View v) {
             if (mStartPlaying) {
                 playButton.setBackgroundResource(R.drawable.pause_black);
-                Log.wtf("Play button ", "works!");
                 startPlayingLabels();
 
             } else {
@@ -192,7 +192,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
 
         mPlayer = new MediaPlayer();
         String mFileName = Statics.mAudioFolder + "/" + parentName + ".3gp";
-        Log.wtf("mFileName: ", mFileName);
 
         try {
             mPlayer.setDataSource(mFileName);
@@ -239,7 +238,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
 //                        canvas.drawCircle(100, 100, 15, Circle);
 //                    }
 
-                    Log.wtf("timeSpends: ", String.valueOf(timeSpends));
                     if (timeSpends >= Integer.parseInt(String.valueOf(zeroTime.get(timeStampIterator))) - 100 && timeSpends <= Integer.parseInt(String.valueOf(zeroTime.get(timeStampIterator))) + 100) {
                         mPager.setCurrentItem(Integer.parseInt(String.valueOf(zeroLabelPosition.get(timeStampIterator))));
                         if (timeStampIterator < zeroTime.size() - 1) {
@@ -260,7 +258,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
 
     void pause() {
         if (mPlayer.isPlaying()) {
-            Log.wtf("Pause of the MediaPlayer", "pause");
             mPlayer.pause();
             length = mPlayer.getCurrentPosition();
             timer.cancel();
@@ -274,7 +271,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
             mPlayer.release();
             mPlayer = null;
         } else {
-            Log.i("mPlayer is null", "Nothing to stop");
         }
     }
 
@@ -313,8 +309,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         yFile = new ArrayList();
         filePosition = new ArrayList();
 
-
-        Log.i("reading from File", "in View Activity");
         StringBuilder text = new StringBuilder();
         parentName = mArray[0].getParentFile().getName();
 
@@ -332,34 +326,28 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Log.i("TextInfo", String.valueOf(text));
 
         String[] filetime2 = text.toString().split("\n");
 
         for (int i = 0; i < filetime2.length; i = i + 4) {
-            Log.i("FILE", "Position: " + filetime2[i]);
 
             if (Integer.parseInt(String.valueOf(filetime2[i + 2])) != 0 && Integer.parseInt(String.valueOf(filetime2[i + 3])) != 0) {
                 filePosition.add(filetime2[i]);
             } else {
                 zeroLabelPosition.add(filetime2[i]);
             }
-            Log.i("FILE", "filePosition size: " + String.valueOf(fileTime.size()));
         }
 
         for (int i = 1; i < filetime2.length; i = i + 4) {
-            Log.i("FileTime elements: ", filetime2[i]);
             String n = filetime2[i];
             if (Integer.parseInt(String.valueOf(filetime2[i + 1])) != 0 && Integer.parseInt(String.valueOf(filetime2[i + 2])) != 0) {
                 fileTime.add(filetime2[i]);
             } else {
                 zeroTime.add(filetime2[i]);
             }
-            Log.i("FILE", "FileTime size: " + String.valueOf(fileTime.size()));
         }
 
         for (int i = 2; i < filetime2.length; i = i + 4) {
-            Log.i("FILE", "Coordinates of X: " + filetime2[i]);
             String n = filetime2[i];
             if (Integer.parseInt(String.valueOf(filetime2[i])) != 0 && Integer.parseInt(String.valueOf(filetime2[i + 1])) != 0) {
                 xFile.add(filetime2[i]);
@@ -369,7 +357,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         }
 
         for (int i = 3; i < filetime2.length; i = i + 4) {
-            Log.i("FILE", "Coordinates of Y: " + filetime2[i]);
             String n = filetime2[i];
             if (Integer.parseInt(String.valueOf(filetime2[i - 1])) != 0 && Integer.parseInt(String.valueOf(filetime2[i])) != 0) {
                 yFile.add(filetime2[i]);
@@ -381,7 +368,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
 
     @Override
     public void saveCanvas(Canvas canvas, int position) {
-        Log.wtf(TAG, "OnCreateCanvasListener callback");
         canvasList.add(canvas);
         positionList.add(position);
     }
