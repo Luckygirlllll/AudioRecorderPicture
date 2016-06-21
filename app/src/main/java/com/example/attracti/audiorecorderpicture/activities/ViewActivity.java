@@ -142,7 +142,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_view);
 
-
         getFromSdcardFolders();
 
         Intent intent = getIntent();
@@ -173,7 +172,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
             if (mStartPlaying) {
                 playButton.setBackgroundResource(R.drawable.pause_black);
                 startPlayingLabels();
-
             } else {
                 playButton.setBackgroundResource(R.drawable.play_circle);
                 pause();
@@ -290,7 +288,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
             durationHandler.postDelayed(this, 100);
         }
     };
-
 
 
     @Override

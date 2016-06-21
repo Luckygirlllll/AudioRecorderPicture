@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GestureDetectorCompat;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Iryna on 6/2/16.
- * <p>
+ * <p/>
  * this Fragment responsible for the showing of the picture which just have been captured
  */
 
@@ -108,8 +109,7 @@ public class ChildFragment extends Fragment {
     private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
 
         @Override
-        public void onLongPress(MotionEvent e) {
-
+        public boolean onDown(MotionEvent e) {
             switch (e.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     int x = (int) e.getX();
@@ -130,7 +130,6 @@ public class ChildFragment extends Fragment {
 
                     } else {
                         labelFile = new File(activity.getmLabelsDirectory(), labelFileName);
-                        //  Log.wtf("Second else works", "!!!");
                         FileWriter writer = null;
                         try {
                             writer = new FileWriter(labelFile, true);
@@ -144,6 +143,12 @@ public class ChildFragment extends Fragment {
                     }
             }
 
+            return true;
+        }
+
+        public void onLongPress(MotionEvent e) {
+            Log.wtf("onLongPress ", "works!");
+            //todo: delete labels while made a onLongPress
         }
     }
 }
