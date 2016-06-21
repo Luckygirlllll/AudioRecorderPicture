@@ -79,9 +79,8 @@ public class CameraFragment extends Fragment
 
     private View view;
 
-    //structure of the project's folders
-    private File mAudioDirectory = new File(Statics.mAudioFolder);
-    private File mLabelsDirectory = new File(Statics.mLabelsFolder);
+
+
 
     // array of the files of the pictures which have been taken in the current project
     private ArrayList<File> arrayFilepaths = new ArrayList<>();
@@ -306,7 +305,7 @@ public class CameraFragment extends Fragment
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_mm_dd_hh_mm_ss",
                             Locale.getDefault());
 
-                    File mPreviewDirectory = new File(Statics.mPreviewsFolder + "/" + activity.getmCurrentProject());
+                    File mPreviewDirectory = new File(Statics.mDiretoryName + "/" + activity.getmCurrentProject()+"/Previews");
 
                     if (!mPreviewDirectory.exists() && !mPreviewDirectory.mkdirs()) {
                         mPreviewDirectory = null;
@@ -327,7 +326,7 @@ public class CameraFragment extends Fragment
                         e.printStackTrace();
                     }
 
-                    File mPictureDirectory = new File(Statics.mPictureFolder + "/" + activity.getmCurrentProject());
+                    File mPictureDirectory = new File(Statics.mDiretoryName + "/" + activity.getmCurrentProject()+"/Pictures");
 
                     if (!mPictureDirectory.exists() && !mPictureDirectory.mkdirs()) {
                         mPictureDirectory = null;

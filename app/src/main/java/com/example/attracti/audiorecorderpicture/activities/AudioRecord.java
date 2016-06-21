@@ -92,15 +92,10 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
     private String mCurrentProject;
     private File mPreviewDirectory;
     private File mPictureDirectory;
-
-    private File mAudioDirectory = new File(Statics.mAudioFolder);
-    private File mLabelsDirectory = new File(Statics.mLabelsFolder);
+    private File mLabelsDirectory;
+    private File mAudioDirectory;
 
     private ArrayList<File> arrayFilepaths2 = new ArrayList<>();
-
-    public File getmPreviewDirectory() {
-        return mPreviewDirectory;
-    }
 
     public File getmPictureDirectory() {
         return mPictureDirectory;
@@ -112,10 +107,6 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
     public String getmCurrentProject() {
         return mCurrentProject;
-    }
-
-    public File getmAudioDirectory() {
-        return mAudioDirectory;
     }
 
     public File getmLabelsDirectory() {
@@ -269,7 +260,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         if (!mAudioDirectory.exists() && !mAudioDirectory.mkdirs()) {
             mAudioDirectory = null;
         } else {
-            mFileName = Statics.mAudioFolder + "/" + mCurrentProject + ".3gp";
+            mFileName = Statics.mDiretoryName + "/" + mCurrentProject +"/"+mCurrentProject+".3gp";
             mRecorder.setOutputFile(mFileName);
         }
 
@@ -566,8 +557,10 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
         mCurrentProject = getIntent().getStringExtra("currentProject");
 
-        mPreviewDirectory = new File(Statics.mPreviewsFolder + "/" + mCurrentProject);
-        mPictureDirectory = new File(Statics.mPictureFolder + "/" + mCurrentProject);
+        mPreviewDirectory = new File(Statics.mDiretoryName + "/" + mCurrentProject+"/Previews");
+        mPictureDirectory = new File(Statics.mDiretoryName + "/" + mCurrentProject+"/Pictures");
+        mLabelsDirectory =  new File (Statics.mDiretoryName + "/"+ mCurrentProject);
+        mAudioDirectory = new File(Statics.mDiretoryName + "/"+ mCurrentProject);
 
     }
 

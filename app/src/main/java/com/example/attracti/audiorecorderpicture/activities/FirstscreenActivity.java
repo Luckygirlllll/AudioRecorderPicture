@@ -56,17 +56,18 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
     public void getFromSdcardFolders() {
         FOLDERS = new ArrayList<>();
         File file = new File(Environment.getExternalStorageDirectory() +
-                "/Audio_Recorder_Picture", "Previews");
+                "/Audio_Recorder_Picture");
         if (file.isDirectory()) {
             listFolders = file.listFiles();
             for (int i = 0; i < listFolders.length; i++) {
 
                 Folder folderobject = new Folder();
                 folderobject.setName(listFolders[i].getName());
-                Log.i("List of FOLDERS: ", String.valueOf(listFolders[i].getName()));
+
+                Log.wtf("List of FOLDERS: ", String.valueOf(listFolders[i].getName()));
 
                 File picturelist = new File(Environment.getExternalStorageDirectory() +
-                        "/Audio_Recorder_Picture/Previews", listFolders[i].getName());
+                        "/Audio_Recorder_Picture/", listFolders[i].getName()+"/Previews");
                 if (picturelist.isDirectory()) {
                     listFile = picturelist.listFiles();
                     for (int j = 0; j < listFile.length; j++) {
@@ -149,7 +150,6 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss");
                 Date now = new Date();
                 mCurrentProject = String.valueOf(formatter.format(now));
-                Log.d("mCurrentProject ", "in FirstScreenActivity " + mCurrentProject);
                 Intent nextScreen = new Intent(getApplicationContext(), AudioRecord.class);
                 nextScreen.putExtra("currentProject", mCurrentProject);
                 startActivity(nextScreen);
@@ -163,10 +163,11 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
     public void onItemClick(View childView, int position) {
 
         File picturelist2 = new File(Environment.getExternalStorageDirectory() +
-                "/Audio_Recorder_Picture/Pictures", listFolders[position].getName());
+                "/Audio_Recorder_Picture/", listFolders[position].getName()+"/Pictures");
         if (picturelist2.isDirectory()) {
             listFile2 = picturelist2.listFiles();
         }
+
         Intent viewScreen = new Intent(getApplicationContext(), ViewActivity.class);
         viewScreen.putExtra("FILE_TAG", listFile2);
         viewScreen.putExtra("listFile", listFile );

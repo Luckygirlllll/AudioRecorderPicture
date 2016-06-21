@@ -189,7 +189,7 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
     public void startPlayingLabels() {
 
         mPlayer = new MediaPlayer();
-        String mFileName = Statics.mAudioFolder + "/" + parentName + ".3gp";
+        String mFileName = Statics.mDiretoryName + "/" + parentName +"/" +parentName + ".3gp";
 
         try {
             mPlayer.setDataSource(mFileName);
@@ -307,10 +307,11 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         filePosition = new ArrayList();
 
         StringBuilder text = new StringBuilder();
-        parentName = mArray[0].getParentFile().getName();
+        parentName = mArray[0].getParentFile().getParentFile().getName();
+        Log.wtf("mArray: ", String.valueOf(parentName));
 
         try {
-            File labelsFile = new File(Statics.mLabelsFolder, parentName + ".txt");
+            File labelsFile = new File(Statics.mDiretoryName+"/"+ parentName + "/"+parentName+ ".txt");
             BufferedReader br = new BufferedReader(new FileReader(labelsFile));
             String line;
 

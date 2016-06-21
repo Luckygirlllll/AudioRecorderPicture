@@ -117,7 +117,7 @@ public class BitmapFragment extends Fragment {
         mPlayer = new MediaPlayer();
 
         try {
-            String mFileName = Statics.mAudioFolder + "/" + viewActivity.getParentName() + ".3gp";
+            String mFileName = Statics.mDiretoryName + "/" + viewActivity.getParentName()+"/"+viewActivity.getParentName() + ".3gp";
             mPlayer.setDataSource(mFileName);
             mPlayer.prepare();
             mPlayer.seekTo(Integer.parseInt((String) viewActivity.getFileTime().get(i)));
