@@ -14,7 +14,7 @@ import android.widget.ImageView;
 
 import com.example.attracti.audiorecorderpicture.R;
 import com.example.attracti.audiorecorderpicture.interfaces.OnSwipePictureListener;
-import com.example.attracti.audiorecorderpicture.model.CustomViewPagerH;
+import com.example.attracti.audiorecorderpicture.widgets.CustomViewPagerH;
 
 import java.io.File;
 import java.util.ArrayList;

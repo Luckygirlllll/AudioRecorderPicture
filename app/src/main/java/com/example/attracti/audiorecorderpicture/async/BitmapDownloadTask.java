@@ -69,12 +69,12 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
         textPaint.setTextAlign(Paint.Align.CENTER);
         Rect bounds = new Rect();
 
-        for (int i = 0; i < activity.getFilePosition().size(); i++) {
-            if (position == (Integer.parseInt((String) activity.getFilePosition().get(i)))) {
-                tempCanvas.drawCircle(Integer.parseInt((String) activity.getxFile().get(i)) / 4, Integer.parseInt((String) activity.getyFile().get(i)) / 4, 10, myPaint3);
+        for (int i = 0; i < activity.getLabelList().size(); i++) {
+            if (position == (Integer.parseInt((String) activity.getLabelList().get(i).getPictureName()))) {
+                tempCanvas.drawCircle( activity.getLabelList().get(i).getxLabel() / 4, activity.getLabelList().get(i).getyLabel() / 4, 10, myPaint3);
 
                 textPaint.getTextBounds(String.valueOf(i), 0, String.valueOf(i).length(), bounds);
-                tempCanvas.drawText(String.valueOf(i + 1), Integer.parseInt((String) activity.getxFile().get(i)) / 4, Integer.parseInt((String) activity.getyFile().get(i)) / 4, textPaint);
+                tempCanvas.drawText(String.valueOf(i + 1),  activity.getLabelList().get(i).getxLabel() / 4, activity.getLabelList().get(i).getyLabel() / 4, textPaint);
                 tempCanvas.save();
             }
         }

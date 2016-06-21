@@ -1,4 +1,4 @@
-package com.example.attracti.audiorecorderpicture.model;
+package com.example.attracti.audiorecorderpicture.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

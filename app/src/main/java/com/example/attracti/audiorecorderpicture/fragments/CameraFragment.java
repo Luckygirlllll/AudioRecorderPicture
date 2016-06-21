@@ -27,7 +27,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.attracti.audiorecorderpicture.R;
-import com.example.attracti.audiorecorderpicture.Statics;
+import com.example.attracti.audiorecorderpicture.utils.Statics;
 import com.example.attracti.audiorecorderpicture.activities.AudioRecord;
 import com.example.attracti.audiorecorderpicture.interfaces.OnHeadlineSelectedListener;
 
@@ -78,8 +78,6 @@ public class CameraFragment extends Fragment
     private ImageView mCameraImageView;
 
     private View view;
-
-
 
 
     // array of the files of the pictures which have been taken in the current project

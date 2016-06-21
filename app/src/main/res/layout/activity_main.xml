@@ -97,7 +97,7 @@
             android:layout_alignParentTop="true"
             android:layout_above="@+id/linearLayout_button_case"
             >
-            <com.example.attracti.audiorecorderpicture.model.CustomViewPagerH
+            <com.example.attracti.audiorecorderpicture.widgets.CustomViewPagerH
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/pager"
                 android:layout_width="match_parent"

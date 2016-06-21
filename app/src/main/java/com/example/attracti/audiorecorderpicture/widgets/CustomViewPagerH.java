@@ -1,4 +1,4 @@
-package com.example.attracti.audiorecorderpicture.model;
+package com.example.attracti.audiorecorderpicture.widgets;
 
 /**
  * Created by Iryna on 5/25/16.

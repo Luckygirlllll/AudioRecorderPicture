@@ -133,7 +133,7 @@ public class ChildFragment extends Fragment {
                         FileWriter writer = null;
                         try {
                             writer = new FileWriter(labelFile, true);
-                            writer.append(positionCurrent + "\n" + sBody + "\n" + x + "\n" + y + "\n");
+                            writer.append(positionCurrent + "\t" + sBody + "\t" + x + "\t" + y + "\n");
                             writer.flush();
                             writer.close();
 

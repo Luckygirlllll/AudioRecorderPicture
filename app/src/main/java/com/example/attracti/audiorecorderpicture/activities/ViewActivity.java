@@ -22,16 +22,19 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.attracti.audiorecorderpicture.R;
-import com.example.attracti.audiorecorderpicture.Statics;
 import com.example.attracti.audiorecorderpicture.fragments.BitmapFragment;
 import com.example.attracti.audiorecorderpicture.interfaces.OnCreateCanvasListener;
 import com.example.attracti.audiorecorderpicture.model.Folder;
+import com.example.attracti.audiorecorderpicture.model.Label;
+import com.example.attracti.audiorecorderpicture.utils.Statics;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -73,6 +76,13 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
     private double finalTime = 0;
 
     TextView duration;
+
+    public LinkedList<Label> getLabelList() {
+        return labelList;
+    }
+
+    private LinkedList <Label>  labelList = new LinkedList <Label> ();
+
 
     private ArrayList canvasList = new ArrayList();
     private ArrayList positionList = new ArrayList();
@@ -155,13 +165,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         }
         if (savedInstanceState == null) {
             readFromFile();
-            for (int i = 0; i < zeroLabelPosition.size(); i++) {
-                Log.wtf("ZERO", "label position: " + zeroLabelPosition.get(i));
-                Log.wtf("ZERO", "zero Time: " + zeroTime.get(i));
-                Log.wtf("ZERO", "xZero: " + xZero.get(i));
-                Log.wtf("ZERO", "yZero: " + yZero.get(i));
-
-            }
         }
     }
 
@@ -215,33 +218,23 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
 
             }
 
+            // todo: change countDownTimer to recursive one
+            //todo Change Radius of the label which is currently playing
+
             timer = new CountDownTimer(mPlayer.getDuration() - mPlayer.getCurrentPosition(), 100) {
                 @Override
                 public void onTick(long millisUntilFinished) {
                     //   int timeSpends = mPlayer.getDuration() - mPlayer.getCurrentPosition();
                     int timeSpends = mPlayer.getCurrentPosition();
 
-//                    timeElapsed = mPlayer.getCurrentPosition();
-//                    seekbar.setProgress((int) timeElapsed);
-//                    durationHandler.postDelayed(updateSeekBarTime, 10000);
 
-                    //todo Change Radius of the label which is currently playing
 
-//                    if(canvasList.size()!=0) {
-//                        Log.wtf("CanvasList ", "works in if!");
-//                        Canvas canvas = (Canvas) canvasList.get(0);
-//                        Paint Circle = new Paint();
-//                        Circle.setColor(Color.BLUE);
-//                        Circle.setAntiAlias(true);
-//                        canvas.drawCircle(100, 100, 15, Circle);
+//                    if (timeSpends >= Integer.parseInt(String.valueOf(zeroTime.get(timeStampIterator))) - 100 && timeSpends <= Integer.parseInt(String.valueOf(zeroTime.get(timeStampIterator))) + 100) {
+//                        mPager.setCurrentItem(Integer.parseInt(String.valueOf(zeroLabelPosition.get(timeStampIterator))));
+//                        if (timeStampIterator < zeroTime.size() - 1) {
+//                            timeStampIterator++;
+//                        }
 //                    }
-
-                    if (timeSpends >= Integer.parseInt(String.valueOf(zeroTime.get(timeStampIterator))) - 100 && timeSpends <= Integer.parseInt(String.valueOf(zeroTime.get(timeStampIterator))) + 100) {
-                        mPager.setCurrentItem(Integer.parseInt(String.valueOf(zeroLabelPosition.get(timeStampIterator))));
-                        if (timeStampIterator < zeroTime.size() - 1) {
-                            timeStampIterator++;
-                        }
-                    }
                 }
 
                 @Override
@@ -308,7 +301,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
 
         StringBuilder text = new StringBuilder();
         parentName = mArray[0].getParentFile().getParentFile().getName();
-        Log.wtf("mArray: ", String.valueOf(parentName));
 
         try {
             File labelsFile = new File(Statics.mDiretoryName+"/"+ parentName + "/"+parentName+ ".txt");
@@ -316,52 +308,62 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
             String line;
 
             while ((line = br.readLine()) != null) {
+                String [] oneItem  = line.split("\t");
+                Label label = new Label(oneItem[0], Integer.parseInt(oneItem[1]), Integer.parseInt(oneItem[2]), Integer.parseInt(oneItem[3]));
+                labelList.add(label);
+
 
                 text.append(line);
-                text.append('\n');
+                text.append('\t');
             }
             br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        String[] filetime2 = text.toString().split("\n");
-
-        for (int i = 0; i < filetime2.length; i = i + 4) {
-
-            if (Integer.parseInt(String.valueOf(filetime2[i + 2])) != 0 && Integer.parseInt(String.valueOf(filetime2[i + 3])) != 0) {
-                filePosition.add(filetime2[i]);
-            } else {
-                zeroLabelPosition.add(filetime2[i]);
-            }
+        //sorted labellist
+        Collections.sort(labelList);
+        Log.wtf("LabelList size: ", String.valueOf(labelList.size()));
+        for(Object str: labelList){
+            Log.wtf("LabelList: ", str.toString() );
         }
 
-        for (int i = 1; i < filetime2.length; i = i + 4) {
-            String n = filetime2[i];
-            if (Integer.parseInt(String.valueOf(filetime2[i + 1])) != 0 && Integer.parseInt(String.valueOf(filetime2[i + 2])) != 0) {
-                fileTime.add(filetime2[i]);
-            } else {
-                zeroTime.add(filetime2[i]);
-            }
-        }
 
-        for (int i = 2; i < filetime2.length; i = i + 4) {
-            String n = filetime2[i];
-            if (Integer.parseInt(String.valueOf(filetime2[i])) != 0 && Integer.parseInt(String.valueOf(filetime2[i + 1])) != 0) {
-                xFile.add(filetime2[i]);
-            } else {
-                xZero.add(filetime2[i]);
-            }
-        }
-
-        for (int i = 3; i < filetime2.length; i = i + 4) {
-            String n = filetime2[i];
-            if (Integer.parseInt(String.valueOf(filetime2[i - 1])) != 0 && Integer.parseInt(String.valueOf(filetime2[i])) != 0) {
-                yFile.add(filetime2[i]);
-            } else {
-                yZero.add(filetime2[i]);
-            }
-        }
+//        for (int i = 0; i < filetime2.length; i = i + 4) {
+//
+//            if (Integer.parseInt(String.valueOf(filetime2[i + 2])) != 0 && Integer.parseInt(String.valueOf(filetime2[i + 3])) != 0) {
+//                filePosition.add(filetime2[i]);
+//            } else {
+//                zeroLabelPosition.add(filetime2[i]);
+//            }
+//        }
+//
+//        for (int i = 1; i < filetime2.length; i = i + 4) {
+//            String n = filetime2[i];
+//            if (Integer.parseInt(String.valueOf(filetime2[i + 1])) != 0 && Integer.parseInt(String.valueOf(filetime2[i + 2])) != 0) {
+//                fileTime.add(filetime2[i]);
+//            } else {
+//                zeroTime.add(filetime2[i]);
+//            }
+//        }
+//
+//        for (int i = 2; i < filetime2.length; i = i + 4) {
+//            String n = filetime2[i];
+//            if (Integer.parseInt(String.valueOf(filetime2[i])) != 0 && Integer.parseInt(String.valueOf(filetime2[i + 1])) != 0) {
+//                xFile.add(filetime2[i]);
+//            } else {
+//                xZero.add(filetime2[i]);
+//            }
+//        }
+//
+//        for (int i = 3; i < filetime2.length; i = i + 4) {
+//            String n = filetime2[i];
+//            if (Integer.parseInt(String.valueOf(filetime2[i - 1])) != 0 && Integer.parseInt(String.valueOf(filetime2[i])) != 0) {
+//                yFile.add(filetime2[i]);
+//            } else {
+//                yZero.add(filetime2[i]);
+//            }
+//        }
     }
 
     @Override

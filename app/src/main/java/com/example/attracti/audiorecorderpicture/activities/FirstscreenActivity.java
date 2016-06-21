@@ -17,7 +17,7 @@ import android.view.View;
 import com.example.attracti.audiorecorderpicture.R;
 import com.example.attracti.audiorecorderpicture.adapters.RecyclerViewAdapter;
 import com.example.attracti.audiorecorderpicture.model.Folder;
-import com.example.attracti.audiorecorderpicture.model.RecyclerItemClickListener;
+import com.example.attracti.audiorecorderpicture.utils.RecyclerItemClickListener;
 
 import java.io.File;
 import java.text.SimpleDateFormat;

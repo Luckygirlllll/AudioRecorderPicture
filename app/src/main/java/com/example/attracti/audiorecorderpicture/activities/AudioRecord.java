@@ -30,13 +30,13 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.attracti.audiorecorderpicture.R;
-import com.example.attracti.audiorecorderpicture.Statics;
+import com.example.attracti.audiorecorderpicture.utils.Statics;
 import com.example.attracti.audiorecorderpicture.fragments.CameraFragment;
 import com.example.attracti.audiorecorderpicture.fragments.ViewFragment;
 import com.example.attracti.audiorecorderpicture.interfaces.OnHeadlineSelectedListener;
 import com.example.attracti.audiorecorderpicture.interfaces.OnSwipePictureListener;
-import com.example.attracti.audiorecorderpicture.model.CustomViewPagerH;
-import com.example.attracti.audiorecorderpicture.model.RealPathUtil;
+import com.example.attracti.audiorecorderpicture.widgets.CustomViewPagerH;
+import com.example.attracti.audiorecorderpicture.utils.RealPathUtil;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -395,10 +395,10 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
                     }
                     try {
                         if (firstClick == 0) {
-                            writer2.append(viewFragment.getArrayFilepaths().size() + "\n" + 0 + "\n" + 0 + "\n" + 0 + "\n");
+                            writer2.append(viewFragment.getArrayFilepaths().size() + "\t" + 0 + "\t" + 0 + "\t" + 0 + "\n");
                             firstClick++;
                         } else {
-                            writer2.append(viewFragment.getArrayFilepaths().size() + "\n" + sBody + "\n" + 0 + "\n" + 0 + "\n");
+                            writer2.append(viewFragment.getArrayFilepaths().size() + "\t" + sBody + "\t" + 0 + "\t" + 0 + "\n");
                         }
 
                         writer2.flush();

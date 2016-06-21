@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.attracti.audiorecorderpicture.R;
-import com.example.attracti.audiorecorderpicture.Statics;
+import com.example.attracti.audiorecorderpicture.utils.Statics;
 import com.example.attracti.audiorecorderpicture.activities.ViewActivity;
 import com.example.attracti.audiorecorderpicture.async.BitmapDownloadTask;
 import com.example.attracti.audiorecorderpicture.interfaces.OnCreateCanvasListener;
@@ -120,12 +120,12 @@ public class BitmapFragment extends Fragment {
             String mFileName = Statics.mDiretoryName + "/" + viewActivity.getParentName()+"/"+viewActivity.getParentName() + ".3gp";
             mPlayer.setDataSource(mFileName);
             mPlayer.prepare();
-            mPlayer.seekTo(Integer.parseInt((String) viewActivity.getFileTime().get(i)));
+            mPlayer.seekTo(viewActivity.getLabelList().get(i).getLabelTime());
             mPlayer.start();
 
 
-            if (i < viewActivity.getFileTime().size() - 1) {
-                new CountDownTimer(Integer.parseInt((String) viewActivity.getFileTime().get(i + 1)) - Integer.parseInt((String) viewActivity.getFileTime().get(i)), 1000) {
+            if (i < viewActivity.getLabelList().size() - 1) {
+                new CountDownTimer(viewActivity.getLabelList().get(i + 1).getLabelTime() -  viewActivity.getLabelList().get(i).getLabelTime(), 1000) {
                     public void onTick(long millisUntilFinished) {
                     }
 
@@ -171,15 +171,14 @@ public class BitmapFragment extends Fragment {
                     xlong = (int) e.getX();
                     ylong = (int) e.getY();
             }
-            for (int i = 0; i < viewActivity.getFilePosition().size(); i++) {
-                if (positionCurrent == (Integer.parseInt((String) viewActivity.getFilePosition().get(i)))) {
+            for (int i = 0; i < viewActivity.getLabelList().size(); i++) {
+                if (positionCurrent == (Integer.parseInt((String) viewActivity.getLabelList().get(i).getPictureName()))) {
 
-                    int xfile = Integer.parseInt((String) viewActivity.getxFile().get(i));
-                    int yfile = Integer.parseInt((String) viewActivity.getyFile().get(i));
+                    int xfile = viewActivity.getLabelList().get(i).getxLabel();
+                    int yfile = viewActivity.getLabelList().get(i).getyLabel();
 
                     if ((xlong < xfile * 0.68 + 30 && xlong > xfile * 0.68 - 30) && (ylong < yfile + 200 + 30 && ylong > yfile + 200 - 30)) {
                         startPlayingPictureLabel(i);
-
                     }
                 }
             }
