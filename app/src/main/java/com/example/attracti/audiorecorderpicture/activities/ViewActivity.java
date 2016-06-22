@@ -11,13 +11,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -35,11 +33,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Iryna on 6/1/16.
- * <p>
+ * <p/>
  * in this class pictures are displayed from a certain project with labels and here user can listen the audio record
  * both from labels and in the order in which it was recorded.
  */
@@ -51,9 +48,7 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
 
     private ArrayList<Folder> FOLDERS = new ArrayList<>();
     private ViewPager mPager;
-    private PagerAdapter mPagerAdapter;
-
-    private ImageView imageView;
+    private ScreenSlidePagerAdapter mPagerAdapter;
     private File[] mArray;
 
     private ArrayList fileTime = null;
@@ -81,7 +76,7 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         return labelList;
     }
 
-    private LinkedList <Label>  labelList = new LinkedList <Label> ();
+    private LinkedList<Label> labelList = new LinkedList<Label>();
 
 
     private ArrayList canvasList = new ArrayList();
@@ -139,7 +134,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screen_slide);
         mPager = (ViewPager) findViewById(R.id.pager);
-        imageView = (ImageView) findViewById(R.id.imageView);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
@@ -168,6 +162,15 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         }
     }
 
+
+    public void updateCurrent(int x, int y){
+        int position = mPager.getCurrentItem();
+        BitmapFragment fragment = (BitmapFragment) mPagerAdapter.getItem(position);
+        Log.wtf("Position: ", String.valueOf(position));
+        int update =1;
+        fragment.updateBitmap(x, y, update);
+    }
+
     private boolean mStartPlaying = true;
     private View.OnClickListener playButtonListener = new View.OnClickListener() {
         @Override
@@ -192,49 +195,51 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
     public void startPlayingLabels() {
 
         mPlayer = new MediaPlayer();
-        String mFileName = Statics.mDiretoryName + "/" + parentName +"/" +parentName + ".3gp";
+        String mFileName = Statics.mDiretoryName + "/" + parentName + "/" + parentName + ".3gp";
+        Log.wtf("mFileName: ", mFileName);
 
         try {
             mPlayer.setDataSource(mFileName);
             mPlayer.prepare();
-
-            if (length == 0) {
-                finalTime = mPlayer.getDuration();
-                seekbar.setMax((int) finalTime);
-                mPlayer.start();
-                timeElapsed = mPlayer.getCurrentPosition();
-                seekbar.setProgress((int) timeElapsed);
-                durationHandler.postDelayed(updateSeekBarTime, 100);
-
-
-            } else {
-                mPlayer.seekTo(length);
-                finalTime = mPlayer.getDuration();
-                seekbar.setMax((int) finalTime);
-                mPlayer.start();
-                timeElapsed = mPlayer.getCurrentPosition();
-                seekbar.setProgress((int) timeElapsed);
-                durationHandler.postDelayed(updateSeekBarTime, 100);
-
-            }
-
-            // todo: change countDownTimer to recursive one
-            //todo Change Radius of the label which is currently playing
-
+            mPlayer.start();
+//            if (length == 0) {
+//                finalTime = mPlayer.getDuration();
+//                seekbar.setMax((int) finalTime);
+//                //  mPlayer.start();
+//                timeElapsed = mPlayer.getCurrentPosition();
+//                seekbar.setProgress((int) timeElapsed);
+//                durationHandler.postDelayed(updateSeekBarTime, 100);
+//
+//
+//            } else {
+//                mPlayer.seekTo(length);
+//                finalTime = mPlayer.getDuration();
+//                seekbar.setMax((int) finalTime);
+//                //  mPlayer.start();
+//                timeElapsed = mPlayer.getCurrentPosition();
+//                seekbar.setProgress((int) timeElapsed);
+//                durationHandler.postDelayed(updateSeekBarTime, 100);
+//
+//            }
             timer = new CountDownTimer(mPlayer.getDuration() - mPlayer.getCurrentPosition(), 100) {
                 @Override
                 public void onTick(long millisUntilFinished) {
-                    //   int timeSpends = mPlayer.getDuration() - mPlayer.getCurrentPosition();
                     int timeSpends = mPlayer.getCurrentPosition();
+                    if (timeSpends >= labelList.get(timeStampIterator).getLabelTime() - 100 && timeSpends <=labelList.get(timeStampIterator).getLabelTime()  + 100) {
+                        Log.wtf("Label was identified: ", "now!");
+
+                        BitmapFragment fragment= (BitmapFragment) mPagerAdapter.getFragment(Integer.parseInt(labelList.get(timeStampIterator).getPictureName()));
+                        int update =1;
+                        fragment.updateBitmap(labelList.get(timeStampIterator).getxLabel(),labelList.get(timeStampIterator).getyLabel(), update);
 
 
-
-//                    if (timeSpends >= Integer.parseInt(String.valueOf(zeroTime.get(timeStampIterator))) - 100 && timeSpends <= Integer.parseInt(String.valueOf(zeroTime.get(timeStampIterator))) + 100) {
-//                        mPager.setCurrentItem(Integer.parseInt(String.valueOf(zeroLabelPosition.get(timeStampIterator))));
-//                        if (timeStampIterator < zeroTime.size() - 1) {
-//                            timeStampIterator++;
-//                        }
-//                    }
+                        if (labelList.get(timeStampIterator).getxLabel() == 0 && labelList.get(timeStampIterator).getyLabel() == 0) {
+                        mPager.setCurrentItem(Integer.parseInt(labelList.get(timeStampIterator).getPictureName()));
+                    }
+                        if (timeStampIterator < labelList.size() - 1) {
+                            timeStampIterator++;
+                        }
+                    }
                 }
 
                 @Override
@@ -246,6 +251,40 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
             e.printStackTrace();
         }
     }
+
+            // recursive CountDownTimer -
+//            timer = new CountDownTimer(labelList.get(timeStampIterator).getLabelTime() - labelList.get(timeStampIterator - 1).getLabelTime(), labelList.get(timeStampIterator).getLabelTime() - labelList.get(timeStampIterator - 1).getLabelTime()) {
+//                @Override
+//                public void onTick(long millisUntilFinished) {
+//
+//                    mPlayer.start();
+//                    mPlayer.seekTo(labelList.get(timeStampIterator).getLabelTime());
+//                    if (labelList.get(timeStampIterator).getxLabel() == 0 && labelList.get(timeStampIterator).getyLabel() == 0) {
+//                        mPager.setCurrentItem(Integer.parseInt(labelList.get(timeStampIterator).getPictureName()));
+//                    }
+//                    if (timeStampIterator < labelList.size() - 1) {
+//                        timeStampIterator++;
+//                    }
+//                }
+//
+//                @Override
+//                public void onFinish() {
+//                    Log.wtf("timeStampIterator: ", String.valueOf(timeStampIterator));
+//
+//                    if (timeStampIterator + 1 < labelList.size()) {
+//                        timer.start();
+//                    } else {
+//                        stopPlaying();
+//                    }
+//
+//                }
+//            }.start();
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
 
     void pause() {
         if (mPlayer.isPlaying()) {
@@ -269,16 +308,16 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
     private Runnable updateSeekBarTime = new Runnable() {
         public void run() {
             //get current position
-            timeElapsed = mPlayer.getCurrentPosition();
-            //set seekbar progress
-            seekbar.setProgress((int) timeElapsed);
-            //set time remaing
-            double timeRemaining = finalTime - timeElapsed;
-            //duration.setText(String.format("%d min, %d sec", TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining), TimeUnit.MILLISECONDS.toSeconds((long) timeRemaining) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining))));
-            duration.setText(String.format("%d:%d ", TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining), TimeUnit.MILLISECONDS.toSeconds((long) timeRemaining) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining))));
-
-            //repeat yourself that again in 100 miliseconds
-            durationHandler.postDelayed(this, 100);
+//            timeElapsed = mPlayer.getCurrentPosition();
+//            //set seekbar progress
+//            seekbar.setProgress((int) timeElapsed);
+//            //set time remaing
+//            double timeRemaining = finalTime - timeElapsed;
+//            //duration.setText(String.format("%d min, %d sec", TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining), TimeUnit.MILLISECONDS.toSeconds((long) timeRemaining) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining))));
+//            duration.setText(String.format("%d:%d ", TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining), TimeUnit.MILLISECONDS.toSeconds((long) timeRemaining) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining))));
+//
+//            //repeat yourself that again in 100 miliseconds
+//            durationHandler.postDelayed(this, 100);
         }
     };
 
@@ -303,12 +342,12 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         parentName = mArray[0].getParentFile().getParentFile().getName();
 
         try {
-            File labelsFile = new File(Statics.mDiretoryName+"/"+ parentName + "/"+parentName+ ".txt");
+            File labelsFile = new File(Statics.mDiretoryName + "/" + parentName + "/" + parentName + ".txt");
             BufferedReader br = new BufferedReader(new FileReader(labelsFile));
             String line;
 
             while ((line = br.readLine()) != null) {
-                String [] oneItem  = line.split("\t");
+                String[] oneItem = line.split("\t");
                 Label label = new Label(oneItem[0], Integer.parseInt(oneItem[1]), Integer.parseInt(oneItem[2]), Integer.parseInt(oneItem[3]));
                 labelList.add(label);
 
@@ -323,53 +362,15 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
 
         //sorted labellist
         Collections.sort(labelList);
-        Log.wtf("LabelList size: ", String.valueOf(labelList.size()));
-        for(Object str: labelList){
-            Log.wtf("LabelList: ", str.toString() );
+        for (Object str : labelList) {
         }
-
-
-//        for (int i = 0; i < filetime2.length; i = i + 4) {
-//
-//            if (Integer.parseInt(String.valueOf(filetime2[i + 2])) != 0 && Integer.parseInt(String.valueOf(filetime2[i + 3])) != 0) {
-//                filePosition.add(filetime2[i]);
-//            } else {
-//                zeroLabelPosition.add(filetime2[i]);
-//            }
-//        }
-//
-//        for (int i = 1; i < filetime2.length; i = i + 4) {
-//            String n = filetime2[i];
-//            if (Integer.parseInt(String.valueOf(filetime2[i + 1])) != 0 && Integer.parseInt(String.valueOf(filetime2[i + 2])) != 0) {
-//                fileTime.add(filetime2[i]);
-//            } else {
-//                zeroTime.add(filetime2[i]);
-//            }
-//        }
-//
-//        for (int i = 2; i < filetime2.length; i = i + 4) {
-//            String n = filetime2[i];
-//            if (Integer.parseInt(String.valueOf(filetime2[i])) != 0 && Integer.parseInt(String.valueOf(filetime2[i + 1])) != 0) {
-//                xFile.add(filetime2[i]);
-//            } else {
-//                xZero.add(filetime2[i]);
-//            }
-//        }
-//
-//        for (int i = 3; i < filetime2.length; i = i + 4) {
-//            String n = filetime2[i];
-//            if (Integer.parseInt(String.valueOf(filetime2[i - 1])) != 0 && Integer.parseInt(String.valueOf(filetime2[i])) != 0) {
-//                yFile.add(filetime2[i]);
-//            } else {
-//                yZero.add(filetime2[i]);
-//            }
-//        }
     }
 
     @Override
     public void saveCanvas(Canvas canvas, int position) {
         canvasList.add(canvas);
         positionList.add(position);
+
     }
 
 
@@ -385,8 +386,9 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         public Fragment getItem(int position) {
             Intent intent = getIntent();
             array = (File[]) intent.getSerializableExtra("FILE_TAG");
-
-            return BitmapFragment.create(array[position].getPath(), position);
+            BitmapFragment fragment = BitmapFragment.create(array[position].getPath(), position);
+            fragments.add(fragment);
+            return fragment;
         }
 
         @Override
@@ -394,6 +396,10 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
             Intent intent = getIntent();
             array = (File[]) intent.getSerializableExtra("FILE_TAG");
             return array.length;
+        }
+
+        public Fragment getFragment(int position) {
+            return fragments.get(position);
         }
     }
 }

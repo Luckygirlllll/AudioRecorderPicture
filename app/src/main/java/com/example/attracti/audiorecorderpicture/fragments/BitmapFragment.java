@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GestureDetectorCompat;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -15,10 +16,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.attracti.audiorecorderpicture.R;
-import com.example.attracti.audiorecorderpicture.utils.Statics;
 import com.example.attracti.audiorecorderpicture.activities.ViewActivity;
 import com.example.attracti.audiorecorderpicture.async.BitmapDownloadTask;
 import com.example.attracti.audiorecorderpicture.interfaces.OnCreateCanvasListener;
+import com.example.attracti.audiorecorderpicture.utils.Statics;
 
 import java.io.IOException;
 
@@ -37,7 +38,7 @@ public class BitmapFragment extends Fragment {
     OnCreateCanvasListener canvasListener = null;
     private static String BITMAP_TAG = "BITMAP_TAG";
 
-    private String mFile = null;
+    private String mFile;
     private ImageView imageView;
     private int positionCurrent;
 
@@ -66,6 +67,7 @@ public class BitmapFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFile = getArguments().getString(BITMAP_TAG);
+        Log.wtf("mFile in onCreate: ", mFile);
         positionCurrent = getArguments().getInt("INT");
 
     }
@@ -76,7 +78,10 @@ public class BitmapFragment extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.fragment_screen_slide, container, false);
         imageView = (ImageView) rootView.findViewById(R.id.imageView);
-        loadBitmap(mFile, imageView, positionCurrent);
+        int x=0;
+        int y=0;
+        int update =0;
+        loadBitmap(viewActivity, mFile, imageView, positionCurrent, x, y, update);
 
         DoubleTap = new GestureDetectorCompat(getActivity(), new MyGestureListener());
 
@@ -90,14 +95,14 @@ public class BitmapFragment extends Fragment {
         return rootView;
     }
 
-    public void loadBitmap(String path, ImageView imageView, int position) {
+    public void loadBitmap(ViewActivity viewActivity, String path, ImageView imageView, int position, int x, int y, int update) {
         final String imageKey = String.valueOf(path);
         final Bitmap bitmap = null;
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
         } else {
-
-            BitmapDownloadTask task = new BitmapDownloadTask(viewActivity, canvasListener, imageView, position);
+            ViewActivity activity = (ViewActivity)getActivity();
+            BitmapDownloadTask task = new BitmapDownloadTask(viewActivity, canvasListener, imageView, position, x, y, update);
             task.execute(imageKey);
 
         }
@@ -148,6 +153,12 @@ public class BitmapFragment extends Fragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void updateBitmap(int x, int y, int update){
+        mFile=getArguments().getString(BITMAP_TAG);
+        update =1;
+        loadBitmap(viewActivity, mFile,  imageView ,positionCurrent, x, y, update);
     }
 
     private void stopPlaying() {

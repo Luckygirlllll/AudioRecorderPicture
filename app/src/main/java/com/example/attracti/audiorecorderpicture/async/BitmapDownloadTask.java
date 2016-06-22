@@ -39,11 +39,20 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
     OnCreateCanvasListener canvasListener;
     ViewActivity activity;
 
-    public BitmapDownloadTask(ViewActivity activity, OnCreateCanvasListener canvasListener, ImageView imageView, int position) {
+    private int x;
+    private int y;
+    private int update;
+    ImageView imageView;
+
+    public BitmapDownloadTask(ViewActivity activity, OnCreateCanvasListener canvasListener, ImageView imageView, int position, int x, int y , int update) {
         this.activity = activity;
         this.canvasListener = canvasListener;
         viewHolderWeakReference = new WeakReference<ImageView>(imageView);
+        this.imageView=imageView;
         this.position = position;
+        this.x=x;
+        this.y=y;
+        this.update=update;
     }
 
 
@@ -54,6 +63,11 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
         final Bitmap bitmap = decodeSampledBitmapFromResource(mData, 100, 100);
 
         //addBitmapToMemoryCache(String.valueOf(params[0]), bitmap);
+        return bitmap;
+    }
+
+    @Override
+    protected void onPostExecute(Bitmap bitmap) {
 
         tempBitmapTest = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.RGB_565);
         tempCanvas = new Canvas(tempBitmapTest);
@@ -69,32 +83,41 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
         textPaint.setTextAlign(Paint.Align.CENTER);
         Rect bounds = new Rect();
 
-        for (int i = 0; i < activity.getLabelList().size(); i++) {
-            if (position == (Integer.parseInt((String) activity.getLabelList().get(i).getPictureName()))) {
-                tempCanvas.drawCircle( activity.getLabelList().get(i).getxLabel() / 4, activity.getLabelList().get(i).getyLabel() / 4, 10, myPaint3);
+            for (int i = 0; i < activity.getLabelList().size(); i++) {
+                if (position == (Integer.parseInt((String) activity.getLabelList().get(i).getPictureName()))) {
+                    if(activity.getLabelList().get(i).getxLabel()!=0 &&activity.getLabelList().get(i).getyLabel()!=0) {
+                        tempCanvas.drawCircle(activity.getLabelList().get(i).getxLabel() / 4, activity.getLabelList().get(i).getyLabel() / 4, 10, myPaint3);
+                        textPaint.getTextBounds(String.valueOf(i), 0, String.valueOf(i).length(), bounds);
+                        tempCanvas.drawText(String.valueOf(i + 1), activity.getLabelList().get(i).getxLabel() / 4, activity.getLabelList().get(i).getyLabel() / 4, textPaint);
+                    }
+                        if (x != 0 && y != 0) {
+                            Paint myPaint4 = new Paint();
+                            myPaint4.setAntiAlias(true);
+                            myPaint4.setColor(Color.RED);
+                            tempCanvas.drawCircle(x / 4, y / 4, 11, myPaint4);
+                            tempCanvas.drawCircle(x / 4, y / 4, 12, myPaint4);
+                            tempCanvas.drawCircle(x / 4, y / 4, 13, myPaint4);
+                            tempCanvas.drawCircle(x / 4, y / 4, 14, myPaint4);
+                            tempCanvas.drawCircle(x / 4, y / 4, 15, myPaint4);
+////                        textPaint.getTextBounds(String.valueOf(i), 0, String.valueOf(i).length(), bounds);
+//                        tempCanvas.drawText(String.valueOf(i + 1), activity.getLabelList().get(i).getxLabel() / 4, activity.getLabelList().get(i).getyLabel() / 4, textPaint);
+                        }
+                        //   tempCanvas.save();
 
-                textPaint.getTextBounds(String.valueOf(i), 0, String.valueOf(i).length(), bounds);
-                tempCanvas.drawText(String.valueOf(i + 1),  activity.getLabelList().get(i).getxLabel() / 4, activity.getLabelList().get(i).getyLabel() / 4, textPaint);
-                tempCanvas.save();
+                }
             }
-        }
 
-        return bitmap;
-    }
-
-    @Override
-    protected void onPostExecute(Bitmap bitmap) {
         if (viewHolderWeakReference != null && bitmap != null) {
             final ImageView imageView = viewHolderWeakReference.get();
 
             if (imageView != null) {
                 imageView.setImageBitmap(bitmap);
-
                 imageView.setImageDrawable(new BitmapDrawable(tempBitmapTest));
                 imageView.invalidate();
             }
         }
-        canvasListener.saveCanvas(tempCanvas, position);
+        // todo: do I need this line of code?
+       // canvasListener.saveCanvas(tempCanvas, position);
 
     }
 //    public  void addBitmapToMemoryCache(String key, Bitmap bitmap) {
