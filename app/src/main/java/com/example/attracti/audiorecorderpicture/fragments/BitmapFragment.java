@@ -33,7 +33,6 @@ import java.io.IOException;
 
 public class BitmapFragment extends Fragment {
 
-
     private final  String LOG_TAG = BitmapFragment.class.getSimpleName();
     OnCreateCanvasListener canvasListener = null;
     private static String BITMAP_TAG = "BITMAP_TAG";
@@ -45,15 +44,6 @@ public class BitmapFragment extends Fragment {
     private GestureDetectorCompat DoubleTap;
     private MediaPlayer mPlayer;
     private ViewActivity viewActivity;
-
-
-//    private static OnCreateCanvasListener canvasListener = new OnCreateCanvasListener() {
-//        @Override
-//        public void saveCanvas(Canvas canvas) {
-//            Log.wtf("Lalala" , " SaveCanvas");
-//        }
-//    };
-
 
     @Override
     public void onAttach(Context context) {

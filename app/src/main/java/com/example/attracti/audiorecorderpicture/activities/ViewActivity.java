@@ -145,18 +145,12 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         duration = (TextView) findViewById(R.id.songDuration);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_view);
-
         getFromSdcardFolders();
-
         Intent intent = getIntent();
         mArray = (File[]) intent.getSerializableExtra("FILE_TAG");
         listFile = (File[]) intent.getSerializableExtra("listFile");
 
         listFile[0].getAbsolutePath();
-
-        for (int i = 0; i < mArray.length; i++) {
-            Log.wtf("Array elements ", String.valueOf(mArray[i]));
-        }
         if (savedInstanceState == null) {
             readFromFile();
         }
@@ -166,7 +160,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
     public void updateCurrent(int x, int y){
         int position = mPager.getCurrentItem();
         BitmapFragment fragment = (BitmapFragment) mPagerAdapter.getItem(position);
-        Log.wtf("Position: ", String.valueOf(position));
         int update =1;
         fragment.updateBitmap(x, y, update);
     }
@@ -196,7 +189,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
 
         mPlayer = new MediaPlayer();
         String mFileName = Statics.mDiretoryName + "/" + parentName + "/" + parentName + ".3gp";
-        Log.wtf("mFileName: ", mFileName);
 
         try {
             mPlayer.setDataSource(mFileName);
@@ -401,6 +393,8 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         public Fragment getFragment(int position) {
             return fragments.get(position);
         }
+
+
     }
 }
 
