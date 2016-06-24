@@ -137,6 +137,7 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 // React to state change
+
             }
 
             @Override
@@ -230,6 +231,8 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
 
 
     private void showBottomSheetDialog() {
+
+
         if (behavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         }
@@ -267,10 +270,9 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
 
     public List<Item> createItems() {
         ArrayList<Item> items = new ArrayList<>();
-        items.add(new Item(R.mipmap.ic_launcher, "Item 1"));
-        items.add(new Item(R.mipmap.ic_launcher, "Item 2"));
-        items.add(new Item(R.mipmap.ic_launcher, "Item 3"));
-        items.add(new Item(R.mipmap.ic_launcher, "Item 4"));
+        items.add(new Item("Add new record"));
+        items.add(new Item(R.drawable.camera, "from new shoots"));
+        items.add(new Item(R.drawable.folder_multiple_image, "from ready images"));
         return items;
     }
 
