@@ -13,7 +13,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -33,6 +32,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Iryna on 6/1/16.
@@ -56,10 +56,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
     private ArrayList yFile = null;
 
     public ArrayList filePosition = null;
-    private ArrayList zeroLabelPosition = new ArrayList();
-    private ArrayList xZero = new ArrayList();
-    private ArrayList yZero = new ArrayList();
-    private ArrayList zeroTime = new ArrayList();
     private String parentName;
 
     private MediaPlayer mPlayer;
@@ -72,12 +68,11 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
 
     TextView duration;
 
+    private LinkedList<Label> labelList = new LinkedList<Label>();
+
     public LinkedList<Label> getLabelList() {
         return labelList;
     }
-
-    private LinkedList<Label> labelList = new LinkedList<Label>();
-
 
     private ArrayList canvasList = new ArrayList();
     private ArrayList positionList = new ArrayList();
@@ -157,10 +152,10 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
     }
 
 
-    public void updateCurrent(int x, int y){
+    public void updateCurrent(int x, int y) {
         int position = mPager.getCurrentItem();
         BitmapFragment fragment = (BitmapFragment) mPagerAdapter.getItem(position);
-        int update =1;
+        int update = 1;
         fragment.updateBitmap(x, y, update);
     }
 
@@ -217,17 +212,26 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
                 @Override
                 public void onTick(long millisUntilFinished) {
                     int timeSpends = mPlayer.getCurrentPosition();
-                    if (timeSpends >= labelList.get(timeStampIterator).getLabelTime() - 100 && timeSpends <=labelList.get(timeStampIterator).getLabelTime()  + 100) {
-                        Log.wtf("Label was identified: ", "now!");
+                    if (timeSpends >= labelList.get(timeStampIterator).getLabelTime() - 100 && timeSpends <= labelList.get(timeStampIterator).getLabelTime() + 100) {
 
-                        BitmapFragment fragment= (BitmapFragment) mPagerAdapter.getFragment(Integer.parseInt(labelList.get(timeStampIterator).getPictureName()));
-                        int update =1;
-                        fragment.updateBitmap(labelList.get(timeStampIterator).getxLabel(),labelList.get(timeStampIterator).getyLabel(), update);
+
+                        BitmapFragment fragment = (BitmapFragment) mPagerAdapter.getFragment(Integer.parseInt(labelList.get(timeStampIterator).getPictureName()));
+                        int update = 1;
+                        fragment.updateBitmap(labelList.get(timeStampIterator).getxLabel(), labelList.get(timeStampIterator).getyLabel(), update);
+
+
+
 
 
                         if (labelList.get(timeStampIterator).getxLabel() == 0 && labelList.get(timeStampIterator).getyLabel() == 0) {
-                        mPager.setCurrentItem(Integer.parseInt(labelList.get(timeStampIterator).getPictureName()));
-                    }
+                            mPager.setCurrentItem(Integer.parseInt(labelList.get(timeStampIterator).getPictureName()));
+
+                            finalTime = labelList.get(timeStampIterator).getLabelTime();
+                            seekbar.setMax((int) finalTime);
+                            timeElapsed = mPlayer.getCurrentPosition();
+                            seekbar.setProgress((int) timeElapsed);
+                            durationHandler.postDelayed(updateSeekBarTime, 100);
+                        }
                         if (timeStampIterator < labelList.size() - 1) {
                             timeStampIterator++;
                         }
@@ -244,7 +248,7 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         }
     }
 
-            // recursive CountDownTimer -
+    // recursive CountDownTimer -
 //            timer = new CountDownTimer(labelList.get(timeStampIterator).getLabelTime() - labelList.get(timeStampIterator - 1).getLabelTime(), labelList.get(timeStampIterator).getLabelTime() - labelList.get(timeStampIterator - 1).getLabelTime()) {
 //                @Override
 //                public void onTick(long millisUntilFinished) {
@@ -300,16 +304,16 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
     private Runnable updateSeekBarTime = new Runnable() {
         public void run() {
             //get current position
-//            timeElapsed = mPlayer.getCurrentPosition();
-//            //set seekbar progress
-//            seekbar.setProgress((int) timeElapsed);
-//            //set time remaing
-//            double timeRemaining = finalTime - timeElapsed;
-//            //duration.setText(String.format("%d min, %d sec", TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining), TimeUnit.MILLISECONDS.toSeconds((long) timeRemaining) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining))));
-//            duration.setText(String.format("%d:%d ", TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining), TimeUnit.MILLISECONDS.toSeconds((long) timeRemaining) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining))));
-//
-//            //repeat yourself that again in 100 miliseconds
-//            durationHandler.postDelayed(this, 100);
+            timeElapsed = mPlayer.getCurrentPosition();
+            //set seekbar progress
+            seekbar.setProgress((int) timeElapsed);
+            //set time remaing
+            double timeRemaining = finalTime - timeElapsed;
+            //duration.setText(String.format("%d min, %d sec", TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining), TimeUnit.MILLISECONDS.toSeconds((long) timeRemaining) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining))));
+            duration.setText(String.format("%d:%d ", TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining), TimeUnit.MILLISECONDS.toSeconds((long) timeRemaining) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining))));
+
+            //repeat yourself that again in 100 miliseconds
+            durationHandler.postDelayed(this, 100);
         }
     };
 

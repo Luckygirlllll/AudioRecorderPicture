@@ -48,7 +48,7 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
 
     // Matrix
     private int framesPerSecond = 5;
-    private long animationDuration = 10; // 10 seconds
+    private long animationDuration = 1000; // 10 seconds
     private Matrix matrix = new Matrix(); // transformation matrix
     private Path path = new Path();
     private long startTime;
@@ -89,7 +89,7 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
         Paint myPaint3 = new Paint();
         myPaint3.setAntiAlias(true);
         myPaint3.setColor(Color.RED);
-       // myPaint3.setStyle(Paint.Style.STROKE);
+       //myPaint3.setStyle(Paint.Style.STROKE);
 
         textPaint = new Paint();
         textPaint.setTextSize(15);
@@ -126,8 +126,9 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
 
                           //  tempCanvas.concat(matrix);        // call this before drawing on the canvas!!
                             tempCanvas.drawPath(path, myPaint4); // draw on canvas
-                            if(elapsedTime < animationDuration)
-                                imageView.postInvalidateDelayed(1000 / framesPerSecond);
+
+ //                           if(elapsedTime < animationDuration)
+ //                           imageView.postInvalidateDelayed(10 / framesPerSecond);
 
 //                        textPaint.getTextBounds(String.valueOf(i), 0, String.valueOf(i).length(), bounds);
 //                        tempCanvas.drawText(String.valueOf(i), x / 4, y / 4, textPaint);

@@ -24,12 +24,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
+import android.widget.ZoomControls;
 
 import com.example.attracti.audiorecorderpicture.R;
-import com.example.attracti.audiorecorderpicture.utils.Statics;
 import com.example.attracti.audiorecorderpicture.activities.AudioRecord;
 import com.example.attracti.audiorecorderpicture.interfaces.OnHeadlineSelectedListener;
+import com.example.attracti.audiorecorderpicture.utils.Statics;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -79,9 +81,11 @@ public class CameraFragment extends Fragment
 
     private View view;
 
-
     // array of the files of the pictures which have been taken in the current project
     private ArrayList<File> arrayFilepaths = new ArrayList<>();
+
+    private RelativeLayout cameraLayout;
+    private ZoomControls zoomControls ;
 
 
     @Override
@@ -105,7 +109,7 @@ public class CameraFragment extends Fragment
 
         view = inflater.inflate(R.layout.camera_fragment,
                 container, false);
-
+        cameraLayout = (RelativeLayout) view.findViewById(R.id.fragment);
         mCameraImage = (ImageView) view.findViewById(R.id.camera_image_view);
         mCameraPreview = (SurfaceView) view.findViewById(R.id.preview_view);
 
@@ -115,6 +119,8 @@ public class CameraFragment extends Fragment
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
         mIsCapturing = true;
+
+        zoomControls = (ZoomControls) view.findViewById(R.id.zoomControls);
 
         if (mCamera == null) {
             try {
@@ -143,9 +149,62 @@ public class CameraFragment extends Fragment
                 .getRotation();
 
         int x = getActivity().getResources().getConfiguration().orientation;
+        enableZoom();
 
         return view;
     }
+
+    private void enableZoom() {
+     //   zoomControls = new ZoomControls(getActivity());
+        zoomControls.setIsZoomInEnabled(true);
+        zoomControls.setIsZoomOutEnabled(true);
+        zoomControls.setOnZoomInClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                zoomCamera(false);
+
+            }
+        });
+        zoomControls.setOnZoomOutClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                zoomCamera(true);
+            }
+        });
+       // cameraLayout.addView(zoomControls);
+    }
+
+    /**
+     * Enables zoom feature in native camera .  Called from listener of the view
+     * used for zoom in  and zoom out.
+     *
+     *
+     * @param zoomInOrOut  "false" for zoom in and "true" for zoom out
+     */
+    public void zoomCamera(boolean zoomInOrOut) {
+        if (mCamera != null) {
+            Camera.Parameters parameter = mCamera.getParameters();
+
+            if (parameter.isZoomSupported()) {
+                int MAX_ZOOM = parameter.getMaxZoom();
+                int currnetZoom = parameter.getZoom();
+                if (zoomInOrOut && (currnetZoom < MAX_ZOOM && currnetZoom >= 0)) {
+                    parameter.setZoom(++currnetZoom);
+                } else if (!zoomInOrOut && (currnetZoom <= MAX_ZOOM && currnetZoom > 0)) {
+                    parameter.setZoom(--currnetZoom);
+                }
+            } else
+                Toast.makeText(context, "Zoom Not Avaliable", Toast.LENGTH_LONG).show();
+
+            mCamera.setParameters(parameter);
+        }
+    }
+
+
 
     public static void setCameraDisplayOrientation(Activity activity,
                                                    android.hardware.Camera camera) {
