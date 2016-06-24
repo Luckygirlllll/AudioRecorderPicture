@@ -22,38 +22,4 @@
         />
 
 
-    <!--android:layout_below="@+id/button_frame"-->
-
-    <!--<ZoomControls-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:layout_below="@+id/preview_view"-->
-        <!--android:id="@+id/cameraZoom">-->
-    <!--</ZoomControls>-->
-
-    <!--<LinearLayout-->
-        <!--android:id="@+id/button_frame"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:gravity="center"-->
-        <!--android:orientation="horizontal"-->
-        <!-->-->
-        <!--&lt;!&ndash;android:layout_below="@+id/cameraZoom"&ndash;&gt;-->
-
-        <!--<Button-->
-            <!--android:id="@+id/capture_image_button"-->
-            <!--android:layout_width="150dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="@string/capture_image" />-->
-
-        <!--<Button-->
-            <!--android:id="@+id/done_button"-->
-            <!--android:layout_width="150dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="@string/done" />-->
-    <!--</LinearLayout>-->
-
 </RelativeLayout>
