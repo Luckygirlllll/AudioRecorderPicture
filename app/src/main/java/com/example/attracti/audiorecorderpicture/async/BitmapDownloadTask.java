@@ -115,20 +115,11 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
 //                            }
                             long elapsedTime = System.currentTimeMillis() - startTime;
 
-//                            matrix.postRotate(30 * elapsedTime/1000);        // rotate 30° every second
-//                            matrix.postTranslate(100 * elapsedTime/1000, 0); // move 100 pixels to the right
-
                             path.addCircle(x/4, y/4, 10, Path.Direction.CW);
                             matrix.setScale(1.1f, 1.1f, x/4-5, y/4-5);
-
-                            // other transformations...
                             path.transform(matrix);
-
-                          //  tempCanvas.concat(matrix);        // call this before drawing on the canvas!!
                             tempCanvas.drawPath(path, myPaint4); // draw on canvas
 
- //                           if(elapsedTime < animationDuration)
- //                           imageView.postInvalidateDelayed(10 / framesPerSecond);
 
 //                        textPaint.getTextBounds(String.valueOf(i), 0, String.valueOf(i).length(), bounds);
 //                        tempCanvas.drawText(String.valueOf(i), x / 4, y / 4, textPaint);

@@ -15,9 +15,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.LruCache;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.example.attracti.audiorecorderpicture.R;
 import com.example.attracti.audiorecorderpicture.adapters.ItemAdapter;
@@ -124,14 +126,18 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
             @Override
             public void onClick(View v) {
                 showBottomSheetDialog();
-                // behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                mBottomSheetDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                mBottomSheetDialog.getWindow().setGravity(Gravity.BOTTOM);
+
             }
         });
 
-        View bottomSheet = findViewById(R.id.bottom_sheet);
-        Log.wtf("bottomSheet==null: ", String.valueOf(bottomSheet==null));
 
+        View bottomSheet = findViewById(R.id.bottom_sheet);
         behavior = BottomSheetBehavior.from(bottomSheet);
+//        behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+
 
         behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
@@ -145,12 +151,14 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
                 // React to dragging events
             }
         });
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //расскомментировать
+//        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+//        recyclerView.setHasFixedSize(true);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         mAdapterItem = new ItemAdapter(createItems(), this);
-        recyclerView.setAdapter(mAdapterItem);
+        //расскомментировать
+//        recyclerView.setAdapter(mAdapterItem);
 
 
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
@@ -187,25 +195,24 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.addItem:
+//        switch (item.getItemId()) {
+//            case R.id.addItem:
 
 // ----  you can delete it soon
 //                AudioRecord.arrayFilepaths2.clear();
 //                ChildFragment.xcoordList.clear();
 //                ChildFragment.ycoordList.clear();
 //                ChildFragment.positionList.clear();
-
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss");
-                Date now = new Date();
-                mCurrentProject = String.valueOf(formatter.format(now));
-                Intent nextScreen = new Intent(getApplicationContext(), AudioRecord.class);
-                nextScreen.putExtra("currentProject", mCurrentProject);
-                startActivity(nextScreen);
-                return true;
-            default:
+//                SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss");
+//                Date now = new Date();
+//                mCurrentProject = String.valueOf(formatter.format(now));
+//                Intent nextScreen = new Intent(getApplicationContext(), AudioRecord.class);
+//                nextScreen.putExtra("currentProject", mCurrentProject);
+//                startActivity(nextScreen);
+//                return true;
+//            default:
                 return super.onOptionsItemSelected(item);
-        }
+//       }
     }
 
     @Override
@@ -232,12 +239,12 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
 
     private void showBottomSheetDialog() {
 
-
         if (behavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         }
 
         mBottomSheetDialog = new BottomSheetDialog(this);
+
         View view = getLayoutInflater().inflate(R.layout.sheet, null);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -246,6 +253,15 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
             @Override
             public void onItemClick(Item item) {
                 if (mBottomSheetDialog != null) {
+                    if(item.getTitle()=="from new shoots"){
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss");
+                        Date now = new Date();
+                        mCurrentProject = String.valueOf(formatter.format(now));
+                        Intent nextScreen = new Intent(getApplicationContext(), AudioRecord.class);
+                        nextScreen.putExtra("currentProject", mCurrentProject);
+                        startActivity(nextScreen);
+                    }
+
                     mBottomSheetDialog.dismiss();
                 }
             }

@@ -28,31 +28,40 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_margin="16dp"
-        android:src="@drawable/add_white" />
+        android:src="@drawable/add_white"
+        app:backgroundTint="@color/red"
+        />
 
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="0dp"
         android:layout_height="0dp">
 
-
         <LinearLayout
             android:id="@+id/bottom_sheet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#fff"
-            android:gravity="center"
+            android:gravity="bottom"
             android:orientation="vertical"
             app:layout_behavior="@string/bottom_sheet_behavior">
 
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Add new record"-->
+                <!--android:textSize="20dp"-->
+                <!--/>-->
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="16dp"
-                android:background="#fff" />
+            <!--<android.support.v7.widget.RecyclerView-->
+                <!--android:id="@+id/recyclerView"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginBottom="16dp"-->
+                <!--android:layout_marginTop="16dp" />-->
+
+
+
         </LinearLayout>
 
     </android.support.design.widget.CoordinatorLayout>

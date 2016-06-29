@@ -32,6 +32,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         return new ViewHolder(LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.adapter, parent, false));
     }
@@ -75,5 +76,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     public interface ItemListener {
         void onItemClick(Item item);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
     }
 }
