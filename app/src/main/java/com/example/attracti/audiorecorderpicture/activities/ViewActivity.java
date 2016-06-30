@@ -334,7 +334,7 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         yFile = new ArrayList();
         filePosition = new ArrayList();
 
-        StringBuilder text = new StringBuilder();
+      //  StringBuilder text = new StringBuilder();
         parentName = mArray[0].getParentFile().getParentFile().getName();
 
         try {
@@ -347,9 +347,8 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
                 Label label = new Label(oneItem[0], Integer.parseInt(oneItem[1]), Integer.parseInt(oneItem[2]), Integer.parseInt(oneItem[3]));
                 labelList.add(label);
 
-
-                text.append(line);
-                text.append('\t');
+              //  text.append(line);
+              //  text.append('\t');
             }
             br.close();
         } catch (IOException e) {

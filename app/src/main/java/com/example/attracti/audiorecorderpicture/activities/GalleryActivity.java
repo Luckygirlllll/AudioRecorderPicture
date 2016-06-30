@@ -28,6 +28,7 @@ public class GalleryActivity extends Activity  implements AdapterView.OnItemClic
     private String pathExtra = Environment.getExternalStorageDirectory().getAbsolutePath() + "/PICTURES";
 
     private File[] listFile;
+    private File[] listFileExtra;
     private File[] listFolders;
     private ArrayList<Folder> FOLDERS = null;
     ;
@@ -88,7 +89,13 @@ public class GalleryActivity extends Activity  implements AdapterView.OnItemClic
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+        File picturelist2 = new File(path, listFolders[position].getName());
+        if (picturelist2.isDirectory()) {
+            listFileExtra = picturelist2.listFiles();
+        }
+
         Intent chooseScreen = new Intent(getApplicationContext(), ChooseActivity.class);
+        chooseScreen.putExtra("LIST_FILES", listFileExtra);
         startActivity(chooseScreen);
     }
 
