@@ -19,7 +19,7 @@ import java.util.ArrayList;
 /**
  * Created by Iryna on 5/23/16.
  * <p>
- * adapter for the RecyclerView on the first screen of the project (FirstScreenActivity)
+ * item for the RecyclerView on the first screen of the project (FirstScreenActivity)
  */
 
 

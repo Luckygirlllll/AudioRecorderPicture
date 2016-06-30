@@ -83,7 +83,4 @@
             android:gravity="right"
             android:text="TextView" />
     </LinearLayout>
-
-
-
 </LinearLayout>

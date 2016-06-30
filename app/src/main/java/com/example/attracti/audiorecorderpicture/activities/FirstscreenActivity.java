@@ -13,7 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.util.LruCache;
 import android.view.Gravity;
 import android.view.Menu;
@@ -80,9 +79,6 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
 
                 Folder folderobject = new Folder();
                 folderobject.setName(listFolders[i].getName());
-
-                Log.wtf("List of FOLDERS: ", String.valueOf(listFolders[i].getName()));
-
                 File picturelist = new File(Environment.getExternalStorageDirectory() +
                         "/Audio_Recorder_Picture/", listFolders[i].getName() + "/Previews");
                 if (picturelist.isDirectory()) {
@@ -260,6 +256,10 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
                         Intent nextScreen = new Intent(getApplicationContext(), AudioRecord.class);
                         nextScreen.putExtra("currentProject", mCurrentProject);
                         startActivity(nextScreen);
+                    }
+                    else if(item.getTitle()=="from ready images"){
+                        Intent galleryScreen = new Intent(getApplicationContext(), GalleryActivity.class);
+                        startActivity(galleryScreen);
                     }
 
                     mBottomSheetDialog.dismiss();

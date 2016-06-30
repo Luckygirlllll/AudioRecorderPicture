@@ -16,7 +16,7 @@ import java.util.List;
  * Created by Iryna on 6/24/16.
  */
 
-public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
+public class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Item> mItems;
     private ItemListener mListener;
@@ -31,15 +31,29 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        return new ViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.adapter, parent, false));
+        switch (viewType) {
+            case 0:
+                return new ViewHolderModified(LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.bottom_title, parent, false));
+            default:
+                return new ViewHolder(LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.item, parent, false));
+        }
+
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.setData(mItems.get(position));
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (position == 0){
+            ViewHolderModified  holderModified = (ViewHolderModified)holder;
+            holderModified.setData(mItems.get(position));
+        }
+        else {
+            ViewHolder  viewHolder = (ViewHolder)holder;
+            viewHolder.setData(mItems.get(position));
+        }
     }
 
     @Override
@@ -74,12 +88,37 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         }
     }
 
+    public class ViewHolderModified extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        public TextView textView;
+        public Item item;
+
+        public ViewHolderModified(View itemView) {
+            super(itemView);
+            itemView.setOnClickListener(this);
+            textView = (TextView) itemView.findViewById(R.id.titleView);
+        }
+
+        public void setData(Item item) {
+            this.item = item;
+            textView.setText(item.getTitle());
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (mListener != null) {
+                mListener.onItemClick(item);
+            }
+        }
+    }
+
+
     public interface ItemListener {
         void onItemClick(Item item);
     }
 
     @Override
     public int getItemViewType(int position) {
-        return super.getItemViewType(position);
+        return position;
     }
 }

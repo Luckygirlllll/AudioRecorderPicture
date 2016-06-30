@@ -23,8 +23,7 @@
             android:name=".activities.AudioRecord"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".activities.FirstscreenActivity">
+        <activity android:name=".activities.FirstscreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,8 +32,13 @@
         </activity>
         <activity android:name=".activities.ViewActivity">
             android:label="@string/title_activity_display_message"
-            android:parentActivityName="com.example.attracti.audiorecorderpicture.activities.FirstscreenActivity" >
+            android:parentActivityName="com.example.attracti.audiorecorderpicture.activities.FirstscreenActivity"
+            >
         </activity>
+
+        <activity android:name=".activities.GalleryActivity"></activity>
+        <activity android:name=".activities.ChooseActivity"></activity>
+
     </application>
 
 </manifest>

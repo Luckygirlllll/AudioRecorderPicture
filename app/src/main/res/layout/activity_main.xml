@@ -16,9 +16,6 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-
-    <!--android:theme="@style/ThemeOverlay.AppCompat.ActionBar"-->
-
     <LinearLayout
         android:id="@+id/lin_one"
         android:orientation="horizontal"
@@ -28,44 +25,12 @@
         android:layout_below="@+id/toolbar">
     </LinearLayout>
 
-<!--These buttons were responsible for the playing next, previous and first label-->
-
     <LinearLayout
         android:id="@+id/lin_two"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/lin_one">
-
-        <!--<Button-->
-            <!--android:id="@+id/test4"-->
-            <!--android:layout_width="100dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_column="1"-->
-            <!--android:layout_gravity="center_horizontal|fill_vertical"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:text="Next Label" />-->
-        <!--<Button-->
-            <!--android:id="@+id/test5"-->
-            <!--android:layout_width="100dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_column="1"-->
-            <!--android:layout_gravity="center_horizontal|fill_vertical"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:text="Previous Label" />-->
-
-        <!--<Button-->
-            <!--android:id="@+id/test6"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_column="1"-->
-            <!--android:layout_gravity="center_horizontal|fill_vertical"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:text="Play Label" />-->
-
     </LinearLayout>
 
     <LinearLayout
@@ -83,12 +48,6 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/lin_two">
 
-
-        <!--<ImageView-->
-            <!--android:id="@+id/camera_image_view"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1" />-->
 
         <FrameLayout
             android:id="@+id/camera_frame2"
