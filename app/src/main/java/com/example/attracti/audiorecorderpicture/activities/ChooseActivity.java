@@ -1,8 +1,12 @@
 package com.example.attracti.audiorecorderpicture.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.GridView;
 
 import com.example.attracti.audiorecorderpicture.R;
@@ -17,7 +21,7 @@ import java.util.ArrayList;
  *
  */
 
-public class ChooseActivity extends Activity {
+public class ChooseActivity extends AppCompatActivity {
 
     private ArrayList listFile;
 
@@ -28,9 +32,32 @@ public class ChooseActivity extends Activity {
         Intent intent = getIntent();
         listFile = (ArrayList) intent.getSerializableExtra("LIST_FILES");
 
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+
         GridChooseAdapter adapter = new GridChooseAdapter(this, listFile);
         GridView gridView = (GridView) findViewById(R.id.gridChooseView);
         gridView.setAdapter(adapter);
-
+        setSupportActionBar(myToolbar);
+        getSupportActionBar().setTitle("");
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.doneItem:
+                Log.wtf("Done item", "has been pressed!");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
 }
