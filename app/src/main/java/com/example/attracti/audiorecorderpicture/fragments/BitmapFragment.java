@@ -94,7 +94,6 @@ public class BitmapFragment extends Fragment {
             ViewActivity activity = (ViewActivity)getActivity();
             BitmapDownloadTask task = new BitmapDownloadTask(viewActivity, canvasListener, imageView, position, x, y, update);
             task.execute(imageKey);
-
         }
     }
 

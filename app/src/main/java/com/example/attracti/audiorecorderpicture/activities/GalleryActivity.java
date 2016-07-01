@@ -1,9 +1,11 @@
 package com.example.attracti.audiorecorderpicture.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -22,7 +24,7 @@ import java.util.ArrayList;
  * This is the class which displays pictures from the folders of the user phone
  */
 
-public class GalleryActivity extends Activity  implements AdapterView.OnItemClickListener {
+public class GalleryActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM";
     private String pathExtra = Environment.getExternalStorageDirectory().getAbsolutePath() + "/PICTURES";
@@ -72,6 +74,16 @@ public class GalleryActivity extends Activity  implements AdapterView.OnItemClic
         gridView.setAdapter(adapter);
 
         gridView.setOnItemClickListener(this);
+
+        Toolbar toolbar= (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("");
+        }
+
     }
 
     /**
@@ -89,21 +101,16 @@ public class GalleryActivity extends Activity  implements AdapterView.OnItemClic
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-
-//        File picturelist2 = new File(path, listFolders[position+1].getName());
-//        if (picturelist2.isDirectory()) {
-//            listFileExtra = picturelist2.listFiles();
-//        }
-//
-//        for(int i=0; i<listFileExtra.length; i++) {
-//            Log.wtf("listFileExtra ", String.valueOf(listFileExtra[i]));
-//        }
-
         Intent chooseScreen = new Intent(getApplicationContext(), ChooseActivity.class);
         chooseScreen.putExtra("LIST_FILES", FOLDERS.get(position).getPictureList());
         startActivity(chooseScreen);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+                onBackPressed();
+                return super.onOptionsItemSelected(item);
+    }
 
     private class ImageFileFilter implements FileFilter {
 

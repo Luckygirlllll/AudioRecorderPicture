@@ -56,11 +56,8 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
 
     @Override
     protected Bitmap doInBackground(String... params) {
-        Log.i("TAG", "Async task works in background");
         data = String.valueOf(params[0]);
         f = new File(data);
-        Log.wtf("Params: ", params[0]);
-
         final Bitmap bitmap = decodeSampledBitmapFromResource(data, 100, 100);
         //addBitmapToMemoryCache(String.valueOf(params[0]), bitmap);
 
@@ -70,7 +67,6 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
 
     @Override
     protected void onPostExecute(Bitmap bitmap) {
-        Log.i("onPostExecute", "works!");
         tempBitmapTest = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.RGB_565);
         tempCanvas = new Canvas(tempBitmapTest);
         tempCanvas.drawBitmap(bitmap, 0, 0, null);

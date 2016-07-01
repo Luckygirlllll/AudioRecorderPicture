@@ -1,9 +1,7 @@
 package com.example.attracti.audiorecorderpicture.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.example.attracti.audiorecorderpicture.R;
+import com.example.attracti.audiorecorderpicture.async.ChooseDownloadTask;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -47,21 +46,38 @@ public class GridChooseAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+        ViewHolder viewHolder;
+
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.choose_item, null);
+            viewHolder = new ViewHolder();
+            viewHolder.imageView = (ImageView) convertView.findViewById(R.id.imageView);
+            viewHolder.imageView.setImageBitmap(null);
+            convertView.setTag(viewHolder);
         }
 
-        ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
+        else{
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
         //  Bitmap image = items.get(position).getImage();
         File image = new File(String.valueOf(items.get(position)));
 
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
         //  Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath(),bmOptions);
-       Log.wtf("items get(position)", String.valueOf(items.get(position)));
+        final String imageKey = String.valueOf(items.get(position));
 
-        Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(items.get(position)));
+//        final Bitmap bitmap = null;
+//        if (bitmap != null) {
+//            imageView.setImageBitmap(bitmap);
+//        } else {
+            ChooseDownloadTask task = new ChooseDownloadTask(viewHolder.imageView);
+            task.execute(imageKey);
+   //     }
+
+
+//        Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(items.get(position)));
 //        bitmap = Bitmap.createScaledBitmap(bitmap,parent.getWidth(),parent.getHeight(),true);
-        imageView.setImageBitmap(bitmap);
+//        imageView.setImageBitmap(bitmap);
 
 //        if (image != null){
 //            imageView.setImageBitmap(image);
@@ -70,8 +86,11 @@ public class GridChooseAdapter extends BaseAdapter {
         // If no image is provided, display a folder icon.
         //    imageView.setImageResource(R.drawable.your_folder_icon);
 //        }
-
         return convertView;
+    }
+
+    static class ViewHolder {
+        ImageView imageView;
     }
 }
 

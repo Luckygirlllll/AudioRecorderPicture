@@ -13,6 +13,7 @@
 
     </ImageView>
 
+
     <!--Use for the API 21 and higher-->
     <!--<CheckBox-->
         <!--android:id="@+id/checkBox"-->
