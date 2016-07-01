@@ -59,6 +59,7 @@ public class GridChooseAdapter extends BaseAdapter {
         else{
             viewHolder = (ViewHolder) convertView.getTag();
         }
+        viewHolder.imageView.setImageBitmap(null);
         //  Bitmap image = items.get(position).getImage();
         File image = new File(String.valueOf(items.get(position)));
 
