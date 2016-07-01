@@ -89,13 +89,18 @@ public class GalleryActivity extends Activity  implements AdapterView.OnItemClic
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        File picturelist2 = new File(path, listFolders[position].getName());
-        if (picturelist2.isDirectory()) {
-            listFileExtra = picturelist2.listFiles();
-        }
+
+//        File picturelist2 = new File(path, listFolders[position+1].getName());
+//        if (picturelist2.isDirectory()) {
+//            listFileExtra = picturelist2.listFiles();
+//        }
+//
+//        for(int i=0; i<listFileExtra.length; i++) {
+//            Log.wtf("listFileExtra ", String.valueOf(listFileExtra[i]));
+//        }
 
         Intent chooseScreen = new Intent(getApplicationContext(), ChooseActivity.class);
-        chooseScreen.putExtra("LIST_FILES", listFileExtra);
+        chooseScreen.putExtra("LIST_FILES", FOLDERS.get(position).getPictureList());
         startActivity(chooseScreen);
     }
 

@@ -2,13 +2,32 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="150dp"
     android:layout_height="150dp"
-    android:padding="5dp" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="5dp">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:scaleType="centerCrop">
+
     </ImageView>
+
+    <!--Use for the API 21 and higher-->
+    <!--<CheckBox-->
+        <!--android:id="@+id/checkBox"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@android:color/transparent"-->
+        <!--android:backgroundTint="@color/white"-->
+        <!--android:buttonTint="@color/white">-->
+    <!--</CheckBox>-->
+
+    <android.support.v7.widget.AppCompatCheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:buttonTint="@color/white"
+        />
+
 
 </RelativeLayout>

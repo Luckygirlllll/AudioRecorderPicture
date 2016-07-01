@@ -3,7 +3,6 @@ package com.example.attracti.audiorecorderpicture.adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +66,7 @@ public class GridViewAdapter extends BaseAdapter {
 
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
         //  Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath(),bmOptions);
-        Log.wtf("items get(position)", String.valueOf(items.get(position).getPictureList().get(0)));
+
         Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(items.get(position).getPictureList().get(0)));
 //        bitmap = Bitmap.createScaledBitmap(bitmap,parent.getWidth(),parent.getHeight(),true);
         imageView.setImageBitmap(bitmap);
