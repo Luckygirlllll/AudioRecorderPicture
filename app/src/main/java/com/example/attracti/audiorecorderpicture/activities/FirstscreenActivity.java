@@ -155,14 +155,10 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
                 // React to dragging events
             }
         });
-        //расскомментировать
-//        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-//        recyclerView.setHasFixedSize(true);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
 
         mAdapterItem = new ItemAdapter(createItems(), this);
-        //расскомментировать
-//        recyclerView.setAdapter(mAdapterItem);
+
 
 
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);

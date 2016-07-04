@@ -95,37 +95,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Bitmap bitmap = getBitmapFromMemCache(imageKey);
         if (bitmap != null) {
 
-//            tempBitmapTest = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.RGB_565);
-//            tempCanvas = new Canvas(tempBitmapTest);
-//            tempCanvas.drawBitmap(bitmap, 0, 0, null);
-//            Paint myPaint3 = new Paint();
-//            myPaint3.setAntiAlias(true);
-//            myPaint3.setColor(Color.RED);
-//            tempCanvas.drawCircle(500, 500, 1000, myPaint3);
-
             imageView.setImageBitmap(bitmap);
         } else {
 
             bitmap = decodeSampledBitmapFromResource(path, 100, 100);
-
-//            tempBitmapTest = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.RGB_565);
-//            tempCanvas = new Canvas(tempBitmapTest);
-//            tempCanvas.drawBitmap(bitmap, 0, 0, null);
-//            Paint myPaint3 = new Paint();
-//            myPaint3.setAntiAlias(true);
-//            myPaint3.setColor(Color.RED);
-//            tempCanvas.drawCircle(500, 500, 1000, myPaint3);
-
             imageView.setImageBitmap(bitmap);
-            // BitmapWorkerTask task = new BitmapWorkerTask(imageView, position);
-            // task.execute(path);
+
         }
     }
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView mTextView;
+        private TextView titleMain;
+        private TextView numbSlides;
         private TextView title;
+        private TextView date;
         private ImageView image1;
         private ImageView image2;
         private ImageView image3;
@@ -135,14 +119,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         public ViewHolder(View v) {
             super(v);
+            titleMain=(TextView) v.findViewById(R.id.title_main) ;
+            numbSlides = (TextView) v.findViewById(R.id.number);
             title = (TextView) v.findViewById(R.id.item);
+            slides = (TextView) v.findViewById(R.id.textView1);
+            date =(TextView) v.findViewById(R.id.date);
             image1 = (ImageView) v.findViewById(R.id.icon1);
             image2 = (ImageView) v.findViewById(R.id.icon2);
             image3 = (ImageView) v.findViewById(R.id.icon3);
             image4 = (ImageView) v.findViewById(R.id.icon4);
             image5 = (ImageView) v.findViewById(R.id.icon5);
-            slides = (TextView) v.findViewById(R.id.textView1);
-
         }
     }
 
@@ -169,15 +155,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         Folder folder = FOLDERS.get(position);
 
-        holder.image1.setImageResource(R.drawable.placeholder);
-        holder.image2.setImageResource(R.drawable.placeholder);
-        holder.image3.setImageResource(R.drawable.placeholder);
-        holder.image4.setImageResource(R.drawable.placeholder);
-        holder.image5.setImageResource(R.drawable.placeholder);
-
         ArrayList<String> imgs = folder.getPictureList();
 
-        holder.title.setText(folder.getName());
+        String projectDate = folder.getName();
+        String[] dateItem =projectDate.split("_");
+        String dateProject = dateItem[2]+"."+dateItem[1]+"."+dateItem[0];
+
+        holder.title.setText(dateProject);
+        holder.date.setText(dateProject);
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.RGB_565;
@@ -199,7 +184,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         loadBitmap(imgs.get(i), holder.image2, position);
                     } else {
                         holder.image2.setImageBitmap(null);
-                        // holder.image2.setImageResource(R.drawable.placeholder);
                     }
                     break;
                 case 2:
@@ -207,7 +191,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         loadBitmap(imgs.get(i), holder.image3, position);
                     } else {
                         holder.image3.setImageBitmap(null);
-                        // holder.image3.setImageResource(R.drawable.placeholder);
                     }
                     break;
                 case 3:
@@ -215,7 +198,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         loadBitmap(imgs.get(i), holder.image4, position);
                     } else {
                         holder.image4.setImageBitmap(null);
-                        // holder.image4.setImageResource(R.drawable.placeholder);
                     }
                     break;
                 case 4:
@@ -223,14 +205,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         loadBitmap(imgs.get(i), holder.image5, position);
                     } else {
                         holder.image5.setImageBitmap(null);
-                        // holder.image5.setImageResource(R.drawable.placeholder);
                     }
                     break;
             }
         }
 
-        holder.slides.setText("Количество слайдов: " + imgs.size());
+        //number of pictures in the project
+        holder.slides.setText(" "+imgs.size());
         mView.setTag(holder);
+        int number=position+1;
+        holder.numbSlides.setText(" "+number);
     }
 
     public Bitmap getBitmapFromMemCache(String key) {

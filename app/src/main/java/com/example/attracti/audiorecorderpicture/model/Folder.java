@@ -13,6 +13,7 @@ public class Folder {
     public String mName;
     public ArrayList<String> pictureList;
 
+
     public Folder() {
         pictureList = new ArrayList<>();
     }
