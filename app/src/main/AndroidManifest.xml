@@ -38,6 +38,7 @@
 
         <activity android:name=".activities.GalleryActivity"></activity>
         <activity android:name=".activities.ChooseActivity"></activity>
+        <activity android:name=".activities.SortActivity"></activity>
 
     </application>
 

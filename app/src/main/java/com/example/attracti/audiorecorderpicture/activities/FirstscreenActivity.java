@@ -18,6 +18,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.LinearLayout;
 
 import com.example.attracti.audiorecorderpicture.R;
@@ -99,7 +100,14 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle("");
+        getSupportActionBar().setTitle(" ");
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        View viewCustom = getLayoutInflater().inflate(R.layout.custom_toolbar, null);
+        Toolbar.LayoutParams layout = new Toolbar.LayoutParams(Toolbar.LayoutParams.MATCH_PARENT, Toolbar.LayoutParams.MATCH_PARENT);
+        getSupportActionBar().setCustomView(viewCustom, layout);
+
+        Window window = getWindow();
+        window.setStatusBarColor(getResources().getColor(R.color.statusBarColor));
 
         mList = (RecyclerView) findViewById(R.id.list);
 

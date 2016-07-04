@@ -54,9 +54,7 @@ public class GridChooseAdapter extends BaseAdapter {
             viewHolder.imageView = (ImageView) convertView.findViewById(R.id.imageView);
             viewHolder.imageView.setImageBitmap(null);
             convertView.setTag(viewHolder);
-        }
-
-        else{
+        } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.imageView.setImageBitmap(null);
@@ -67,26 +65,14 @@ public class GridChooseAdapter extends BaseAdapter {
         //  Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath(),bmOptions);
         final String imageKey = String.valueOf(items.get(position));
 
-//        final Bitmap bitmap = null;
-//        if (bitmap != null) {
-//            imageView.setImageBitmap(bitmap);
-//        } else {
-            ChooseDownloadTask task = new ChooseDownloadTask(viewHolder.imageView);
-            task.execute(imageKey);
-   //     }
+        ChooseDownloadTask task = new ChooseDownloadTask(viewHolder.imageView);
+        task.execute(imageKey);
 
 
 //        Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(items.get(position)));
 //        bitmap = Bitmap.createScaledBitmap(bitmap,parent.getWidth(),parent.getHeight(),true);
-//        imageView.setImageBitmap(bitmap);
 
-//        if (image != null){
-//            imageView.setImageBitmap(image);
-//        }
-//        else {
-        // If no image is provided, display a folder icon.
-        //    imageView.setImageResource(R.drawable.your_folder_icon);
-//        }
+
         return convertView;
     }
 

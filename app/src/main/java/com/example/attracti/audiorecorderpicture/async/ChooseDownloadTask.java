@@ -2,7 +2,6 @@ package com.example.attracti.audiorecorderpicture.async;
 
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.ImageView;
 
 import java.lang.ref.WeakReference;
@@ -29,7 +28,6 @@ public class ChooseDownloadTask extends AsyncTask<String, Void, Bitmap> {
 
     @Override
     protected Bitmap doInBackground(String... params) {
-        Log.wtf("ChooseDownloadTask ", "works!!!");
         data = String.valueOf(params[0]);
         final Bitmap bitmap = decodeSampledBitmapFromResource(data, 100, 100);
         return bitmap;
