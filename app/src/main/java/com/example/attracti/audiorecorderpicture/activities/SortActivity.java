@@ -1,6 +1,7 @@
 package com.example.attracti.audiorecorderpicture.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,7 +13,6 @@ import com.example.attracti.audiorecorderpicture.adapters.SortDynamicAdapter;
 import com.example.attracti.audiorecorderpicture.widgets.dynamicgrid.DynamicGridView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by Iryna on 7/1/16.
@@ -20,6 +20,7 @@ import java.util.Arrays;
 public class SortActivity extends Activity {
 
     private DynamicGridView gridView;
+    private ArrayList pictureList;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,9 +30,11 @@ public class SortActivity extends Activity {
         gridView = new DynamicGridView(this);
         gridView.setNumColumns(3);
         container.addView(gridView);
+        Intent intent = getIntent();
+        pictureList = (ArrayList) intent.getSerializableExtra("chooseItems");
 
         gridView.setAdapter(new SortDynamicAdapter(this,
-                new ArrayList<String>(Arrays.asList(Cheeses.sCheeseStrings)),
+                pictureList,
                 getResources().getInteger(R.integer.column_count)));
         gridView.setOnDragListener(new DynamicGridView.OnDragListener() {
             @Override

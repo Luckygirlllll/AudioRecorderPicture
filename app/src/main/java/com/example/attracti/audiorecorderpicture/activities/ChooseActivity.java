@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.GridView;
@@ -57,11 +56,9 @@ public class ChooseActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.doneItem:
                 Intent sortScreen = new Intent(getApplicationContext(), SortActivity.class);
-                startActivity(sortScreen);
                 chooseItems = adapter.getChoosedItems();
-                for(int i=0; i<chooseItems.size(); i++) {
-                    Log.wtf("Pictures  ", (String) chooseItems.get(i));
-                }
+                sortScreen.putExtra("chooseItems", chooseItems);
+                startActivity(sortScreen);
 
                 return true;
             default:
