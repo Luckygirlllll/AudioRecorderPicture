@@ -11,19 +11,10 @@
 
     <ImageView
         android:id="@+id/item_img"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
+        android:layout_height="115dp"
+        android:layout_width="115dp"
         android:layout_gravity="center_horizontal"
-        />
-
-    <TextView
-        android:id="@+id/item_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:ellipsize="end"
-        android:padding="1dp"
-        android:gravity="center"
+        android:scaleType="centerCrop"
         />
 
 </LinearLayout>

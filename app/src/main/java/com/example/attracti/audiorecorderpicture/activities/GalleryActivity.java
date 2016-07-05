@@ -3,6 +3,7 @@ package com.example.attracti.audiorecorderpicture.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -72,6 +73,10 @@ public class GalleryActivity extends AppCompatActivity implements AdapterView.On
         GridViewAdapter adapter = new GridViewAdapter(this, FOLDERS);
         GridView gridView = (GridView) findViewById(R.id.gridView);
         gridView.setAdapter(adapter);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout.addTab(tabLayout.newTab().setText("Галерея"));
+        tabLayout.addTab(tabLayout.newTab().setText("Google Drive"));
 
         gridView.setOnItemClickListener(this);
 
