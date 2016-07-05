@@ -262,6 +262,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         } else {
             mFileName = Statics.mDiretoryName + "/" + mCurrentProject +"/"+mCurrentProject+".3gp";
             mRecorder.setOutputFile(mFileName);
+
         }
 
         mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);

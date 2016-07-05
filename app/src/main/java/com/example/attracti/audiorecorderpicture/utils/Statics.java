@@ -8,17 +8,9 @@ import android.os.Environment;
 public class Statics {
 
     public final static String mDiretoryName;
-//    public final static String mAudioFolder;
-//    public final static String mPictureFolder;
-//    public final static String mLabelsFolder;
-//    public final static String mPreviewsFolder;
 
     static {
         mDiretoryName = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Audio_Recorder_Picture";
-//        mAudioFolder = mDiretoryName + "/Audios";
-//        mPictureFolder = mDiretoryName + "/Pictures";
-//        mLabelsFolder = mDiretoryName + "/Labels";
-//        mPreviewsFolder = mDiretoryName + "/Previews";
     }
 
 }

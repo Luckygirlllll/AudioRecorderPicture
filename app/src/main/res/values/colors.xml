@@ -6,7 +6,8 @@
     <color name="red">#e60721</color>
     <color name="black">#200105</color>
     <color name="white">#faf5f6</color>
-    <color name="colorToolbar">#EBEBEB</color>
-    <color name="statusBarColor">#D8D8D8</color>
+    <color name="colorToolbar">#320040</color>
+    <color name="statusBarColor">#290035</color>
+    <color name="textToolbarColor">#faf5f6</color>
 
 </resources>

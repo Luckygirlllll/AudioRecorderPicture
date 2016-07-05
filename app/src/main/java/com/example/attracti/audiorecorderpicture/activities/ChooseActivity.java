@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.GridView;
@@ -23,6 +24,9 @@ import java.util.ArrayList;
 public class ChooseActivity extends AppCompatActivity {
 
     private ArrayList listFile;
+    private GridChooseAdapter adapter;
+    private ArrayList chooseItems;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,11 +37,12 @@ public class ChooseActivity extends AppCompatActivity {
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        GridChooseAdapter adapter = new GridChooseAdapter(this, listFile);
+        adapter = new GridChooseAdapter(this, listFile);
         GridView gridView = (GridView) findViewById(R.id.gridChooseView);
         gridView.setAdapter(adapter);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("");
+
     }
 
     @Override
@@ -53,6 +58,11 @@ public class ChooseActivity extends AppCompatActivity {
             case R.id.doneItem:
                 Intent sortScreen = new Intent(getApplicationContext(), SortActivity.class);
                 startActivity(sortScreen);
+                chooseItems = adapter.getChoosedItems();
+                for(int i=0; i<chooseItems.size(); i++) {
+                    Log.wtf("Pictures  ", (String) chooseItems.get(i));
+                }
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

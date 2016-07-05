@@ -2,10 +2,12 @@ package com.example.attracti.audiorecorderpicture.adapters;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 
 import com.example.attracti.audiorecorderpicture.R;
@@ -18,8 +20,13 @@ import java.util.ArrayList;
  * Created by Iryna on 6/30/16.
  */
 public class GridChooseAdapter extends BaseAdapter {
-    LayoutInflater inflater;
-    ArrayList items;
+    private LayoutInflater inflater;
+    private ArrayList items;
+    private ArrayList choosedItems =new ArrayList();
+
+    public ArrayList getChoosedItems() {
+        return choosedItems;
+    }
 
     public GridChooseAdapter(Context context, ArrayList items) {
         this.items = items;
@@ -44,7 +51,7 @@ public class GridChooseAdapter extends BaseAdapter {
 
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         ViewHolder viewHolder;
 
@@ -53,6 +60,10 @@ public class GridChooseAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             viewHolder.imageView = (ImageView) convertView.findViewById(R.id.imageView);
             viewHolder.imageView.setImageBitmap(null);
+            viewHolder.checkBox = (AppCompatCheckBox) convertView.findViewById(R.id.checkbox);
+
+
+
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -72,12 +83,29 @@ public class GridChooseAdapter extends BaseAdapter {
 //        Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(items.get(position)));
 //        bitmap = Bitmap.createScaledBitmap(bitmap,parent.getWidth(),parent.getHeight(),true);
 
+        final int checked =0;
+
+        viewHolder.checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if( !choosedItems.contains(items.get(position))) {
+                    choosedItems.add(items.get(position));
+                }
+                else{
+                    choosedItems.remove(items.get(position));
+                }
+            }
+        });
+
 
         return convertView;
     }
 
+
+
     static class ViewHolder {
         ImageView imageView;
+        CheckBox checkBox;
     }
 }
 

@@ -18,14 +18,14 @@ import java.util.ArrayList;
 
 /**
  * Created by Iryna on 5/23/16.
- * <p>
+ * <p/>
  * item for the RecyclerView on the first screen of the project (FirstScreenActivity)
  */
 
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    private final  String LOG_TAG = RecyclerViewAdapter.class.getSimpleName();
+    private final String LOG_TAG = RecyclerViewAdapter.class.getSimpleName();
 
     private final Activity context;
     private final ArrayList<Folder> FOLDERS;
@@ -40,9 +40,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return FOLDERS.size();
     }
 
-
     // optimisation of bitmap
-
     public static int calculateInSampleSize(
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
         // Raw height and width of image
@@ -119,11 +117,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         public ViewHolder(View v) {
             super(v);
-            titleMain=(TextView) v.findViewById(R.id.title_main) ;
+            titleMain = (TextView) v.findViewById(R.id.title_main);
             numbSlides = (TextView) v.findViewById(R.id.number);
             title = (TextView) v.findViewById(R.id.item);
             slides = (TextView) v.findViewById(R.id.textView1);
-            date =(TextView) v.findViewById(R.id.date);
+            date = (TextView) v.findViewById(R.id.date);
             image1 = (ImageView) v.findViewById(R.id.icon1);
             image2 = (ImageView) v.findViewById(R.id.icon2);
             image3 = (ImageView) v.findViewById(R.id.icon3);
@@ -155,11 +153,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         Folder folder = FOLDERS.get(position);
 
+
+        String projectName = FOLDERS.get(position).getName();
+     // String myFile = Statics.mDiretoryName + "/" + projectName + "/" + projectName + ".3gp";
+
+
         ArrayList<String> imgs = folder.getPictureList();
 
         String projectDate = folder.getName();
-        String[] dateItem =projectDate.split("_");
-        String dateProject = dateItem[2]+"."+dateItem[1]+"."+dateItem[0];
+        String[] dateItem = projectDate.split("_");
+        String dateProject = dateItem[2] + "." + dateItem[1] + "." + dateItem[0];
 
         holder.title.setText(dateProject);
         holder.date.setText(dateProject);
@@ -211,10 +214,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
 
         //number of pictures in the project
-        holder.slides.setText(" "+imgs.size());
+        holder.slides.setText(" " + imgs.size());
         mView.setTag(holder);
-        int number=position+1;
-        holder.numbSlides.setText(" "+number);
+        int number = position + 1;
+        holder.numbSlides.setText(" " + number);
     }
 
     public Bitmap getBitmapFromMemCache(String key) {
