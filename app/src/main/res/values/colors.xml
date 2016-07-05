@@ -9,5 +9,8 @@
     <color name="colorToolbar">#320040</color>
     <color name="statusBarColor">#290035</color>
     <color name="textToolbarColor">#faf5f6</color>
+    <color name="tabTextColor">#320040</color>
+
+
 
 </resources>
