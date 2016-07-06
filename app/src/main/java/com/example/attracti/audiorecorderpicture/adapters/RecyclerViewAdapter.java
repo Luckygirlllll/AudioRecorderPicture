@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
  */
 
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> implements View.OnCreateContextMenuListener {
 
     private final String LOG_TAG = RecyclerViewAdapter.class.getSimpleName();
 
@@ -102,8 +103,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        menu.setHeaderTitle("Select");
+        menu.add(0, v.getId(), 0, "Share");//groupId, itemId, order, title
+        menu.add(0, v.getId(), 0, "Delete");
+    }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+    public static class ViewHolder extends RecyclerView.ViewHolder  {
         private TextView titleMain;
         private TextView numbSlides;
         private TextView title;
@@ -127,7 +135,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             image3 = (ImageView) v.findViewById(R.id.icon3);
             image4 = (ImageView) v.findViewById(R.id.icon4);
             image5 = (ImageView) v.findViewById(R.id.icon5);
+
         }
+
     }
 
     FirstscreenActivity activity;
@@ -153,7 +163,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         Folder folder = FOLDERS.get(position);
 
-
         String projectName = FOLDERS.get(position).getName();
      // String myFile = Statics.mDiretoryName + "/" + projectName + "/" + projectName + ".3gp";
 
@@ -170,6 +179,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.RGB_565;
         options.inSampleSize = 10;
+
+        mView.setOnCreateContextMenuListener(this);
 
 
         for (int i = 0; i < 5; i++) {

@@ -26,7 +26,7 @@
             android:ellipsize="start"
             android:gravity="center_vertical"
             android:singleLine="true"
-            android:paddingLeft="1dp"
+            android:paddingLeft="12dp"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
             />
