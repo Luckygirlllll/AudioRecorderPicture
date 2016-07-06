@@ -164,10 +164,10 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         @Override
         public void onClick(View v) {
             if (mStartPlaying) {
-                playButton.setBackgroundResource(R.drawable.pause_black);
+                playButton.setBackgroundResource(R.drawable.pause_violet);
                 startPlayingLabels();
             } else {
-                playButton.setBackgroundResource(R.drawable.play_circle);
+                playButton.setBackgroundResource(R.drawable.play_violet);
                 pause();
             }
             mStartPlaying = !mStartPlaying;

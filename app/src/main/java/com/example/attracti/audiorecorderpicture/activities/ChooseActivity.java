@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.GridView;
 
 import com.example.attracti.audiorecorderpicture.R;
@@ -35,6 +36,9 @@ public class ChooseActivity extends AppCompatActivity {
         listFile = (ArrayList) intent.getSerializableExtra("LIST_FILES");
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        Window window = getWindow();
+        window.setStatusBarColor(getResources().getColor(R.color.statusBarColor));
 
         adapter = new GridChooseAdapter(this, listFile);
         GridView gridView = (GridView) findViewById(R.id.gridChooseView);

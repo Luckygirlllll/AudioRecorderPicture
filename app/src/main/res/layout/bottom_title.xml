@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="74dp"
+    android:layout_height="56dp"
     android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
     android:gravity="center_vertical"
@@ -15,6 +15,6 @@
         android:layout_marginStart="16dp"
         android:gravity="center_vertical"
         android:textColor="#787878"
-        android:textSize="20sp" />
+        android:textSize="16sp" />
 
 </LinearLayout>

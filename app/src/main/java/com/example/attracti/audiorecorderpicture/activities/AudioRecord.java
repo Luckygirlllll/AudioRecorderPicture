@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -17,6 +16,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -25,18 +25,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.attracti.audiorecorderpicture.R;
-import com.example.attracti.audiorecorderpicture.utils.Statics;
 import com.example.attracti.audiorecorderpicture.fragments.CameraFragment;
 import com.example.attracti.audiorecorderpicture.fragments.ViewFragment;
 import com.example.attracti.audiorecorderpicture.interfaces.OnHeadlineSelectedListener;
 import com.example.attracti.audiorecorderpicture.interfaces.OnSwipePictureListener;
-import com.example.attracti.audiorecorderpicture.widgets.CustomViewPagerH;
 import com.example.attracti.audiorecorderpicture.utils.RealPathUtil;
+import com.example.attracti.audiorecorderpicture.utils.Statics;
+import com.example.attracti.audiorecorderpicture.widgets.CustomViewPagerH;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -78,7 +79,6 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
     private Button mCaptureImageButton;
     private Button mSaveImageButton;
     private Button recordButtonpause;
-    private Button chooseButton;
     private Toolbar myToolbar;
     private Button leftButton;
     private Button rightButton;
@@ -94,6 +94,8 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
     private File mPictureDirectory;
     private File mLabelsDirectory;
     private File mAudioDirectory;
+
+    private Window window;
 
     private ArrayList<File> arrayFilepaths2 = new ArrayList<>();
 
@@ -428,13 +430,14 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
             startTimeAudio = System.currentTimeMillis();
 
             if (mStartRecording) {
-                recordButtonpause.setBackgroundResource(R.drawable.pause_black);
-                myToolbar.setBackgroundColor(Color.RED);
-
+                recordButtonpause.setBackgroundResource(R.drawable.pause_red);
+                myToolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.toolbarRecordingActiveColor ));
+                window.setStatusBarColor(getResources().getColor(R.color.statusBarRecordingActiveColor));
 
             } else {
-                recordButtonpause.setBackgroundResource(R.drawable.mic_black);
-                myToolbar.setBackgroundColor(Color.parseColor("#118b0a"));
+                recordButtonpause.setBackgroundResource(R.drawable.record_red);
+                myToolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.toolbarRecordingColor));
+                window.setStatusBarColor(getResources().getColor(R.color.statusBarRecordingColor));
             }
             mStartRecording = !mStartRecording;
 
@@ -532,11 +535,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
         recordButtonpause = (Button) findViewById(R.id.record_button);
         recordButtonpause.setOnClickListener(recordButtonListener);
-        //  findViewById(R.id.record_button).setOnClickListener(recordButtonListener);
 
-        chooseButton = (Button) findViewById(R.id.choose_button);
-        chooseButton.setOnClickListener(chooseButtonListener);
-        //  findViewById(R.id.choose_button).setOnClickListener(chooseButtonListener);
 
         leftButton = (Button) findViewById(R.id.left_button);
         leftButton.setOnClickListener(leftButtonListener);
@@ -549,6 +548,10 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+
+        window = getWindow();
+        window.setStatusBarColor(getResources().getColor(R.color.statusBarRecordingColor));
+
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.weight = 1;

@@ -10,6 +10,14 @@
     <color name="statusBarColor">#290035</color>
     <color name="textToolbarColor">#faf5f6</color>
     <color name="tabTextColor">#320040</color>
+    <color name="floatingActionButtonColor">#A001CD</color>
+    <color name="checkBoxColor">#A001CD</color>
+    <color name="toolbarRecordingColor">#EBEBEB</color>
+    <color name="statusBarRecordingColor">#979797</color>
+    <color name="toolbarRecordingActiveColor">#D90000</color>
+    <color name="statusBarRecordingActiveColor">#B50000</color>
+
+
 
 
 

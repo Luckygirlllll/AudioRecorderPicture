@@ -40,10 +40,10 @@
 
     <Button
         android:id="@+id/play_button"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="22dp"
+        android:layout_height="26dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/play_circle" />
+        android:background="@drawable/play_violet" />
 
 </RelativeLayout>

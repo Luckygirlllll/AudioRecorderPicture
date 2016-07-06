@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -32,6 +33,9 @@ public class SortActivity extends Activity {
         container.addView(gridView);
         Intent intent = getIntent();
         pictureList = (ArrayList) intent.getSerializableExtra("chooseItems");
+
+        Window window = getWindow();
+        window.setStatusBarColor(getResources().getColor(R.color.statusBarColor));
 
         gridView.setAdapter(new SortDynamicAdapter(this,
                 pictureList,

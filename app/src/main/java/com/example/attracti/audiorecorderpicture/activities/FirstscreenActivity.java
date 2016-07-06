@@ -253,7 +253,7 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
             @Override
             public void onItemClick(Item item) {
                 if (mBottomSheetDialog != null) {
-                    if(item.getTitle()=="from new shoots"){
+                    if(item.getTitle()=="Camera"){
                         SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss");
                         Date now = new Date();
                         mCurrentProject = String.valueOf(formatter.format(now));
@@ -261,7 +261,7 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
                         nextScreen.putExtra("currentProject", mCurrentProject);
                         startActivity(nextScreen);
                     }
-                    else if(item.getTitle()=="from ready images"){
+                    else if(item.getTitle()=="Gallery"){
                         Intent galleryScreen = new Intent(getApplicationContext(), GalleryActivity.class);
                         startActivity(galleryScreen);
                     }
@@ -290,9 +290,10 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
 
     public List<Item> createItems() {
         ArrayList<Item> items = new ArrayList<>();
-        items.add(new Item("Add new record"));
-        items.add(new Item(R.drawable.camera, "from new shoots"));
-        items.add(new Item(R.drawable.folder_multiple_image, "from ready images"));
+        items.add(new Item("New record"));
+        items.add(new Item(R.drawable.camera_gray, "Camera"));
+        items.add(new Item(R.drawable.folder_multiple_gray, "Gallery"));
+        items.add(new Item(R.drawable.google_drive, "Google Drive"));
         return items;
     }
 
