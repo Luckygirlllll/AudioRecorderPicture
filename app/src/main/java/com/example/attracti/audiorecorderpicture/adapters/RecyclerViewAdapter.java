@@ -38,7 +38,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private final Activity context;
     private final ArrayList<Folder> FOLDERS;
     private View mView;
-    private File[] listFile2;
+    private File[] listFile;
 
     public long getItemId(int position) {
         return position;
@@ -279,14 +279,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.pictureLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent viewScreen = new Intent(activity, ViewActivity.class);
                 File picturelist2 = new File(Environment.getExternalStorageDirectory() +
                 "/Audio_Recorder_Picture/",FOLDERS.get(position).getName() + "/Pictures");
         if (picturelist2.isDirectory()) {
-            listFile2 = picturelist2.listFiles();
+            listFile = picturelist2.listFiles();
         }
-                viewScreen.putExtra("FILE_TAG", listFile2);
+                viewScreen.putExtra("FILE_TAG", listFile);
                 context.startActivity(viewScreen);
             }
         });

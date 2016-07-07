@@ -137,7 +137,7 @@ public class FirstscreenActivity extends AppCompatActivity implements
         View bottomSheet = findViewById(R.id.bottom_sheet);
         bottomSheet.setMinimumHeight(30);
         behavior = BottomSheetBehavior.from(bottomSheet);
-        
+
         behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {

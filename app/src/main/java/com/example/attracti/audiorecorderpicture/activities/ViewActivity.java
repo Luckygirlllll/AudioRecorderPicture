@@ -143,9 +143,7 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         getFromSdcardFolders();
         Intent intent = getIntent();
         mArray = (File[]) intent.getSerializableExtra("FILE_TAG");
-      //  listFile = (File[]) intent.getSerializableExtra("listFile");
 
-       // listFile[0].getAbsolutePath();
         if (savedInstanceState == null) {
             readFromFile();
         }
