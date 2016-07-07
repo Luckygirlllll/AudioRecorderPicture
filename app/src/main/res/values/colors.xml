@@ -16,6 +16,7 @@
     <color name="statusBarRecordingColor">#979797</color>
     <color name="toolbarRecordingActiveColor">#D90000</color>
     <color name="statusBarRecordingActiveColor">#B50000</color>
+    <color name="gray">#F0F0F0</color>
 
 
 

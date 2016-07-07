@@ -1,11 +1,15 @@
 package com.example.attracti.audiorecorderpicture.adapters;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.view.ContextMenu;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -13,8 +17,11 @@ import android.widget.TextView;
 
 import com.example.attracti.audiorecorderpicture.R;
 import com.example.attracti.audiorecorderpicture.activities.FirstscreenActivity;
+import com.example.attracti.audiorecorderpicture.activities.ViewActivity;
 import com.example.attracti.audiorecorderpicture.model.Folder;
+import com.example.attracti.audiorecorderpicture.utils.Statics;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -24,13 +31,14 @@ import java.util.ArrayList;
  */
 
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> implements View.OnCreateContextMenuListener {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> implements PopupMenu.OnMenuItemClickListener {
 
     private final String LOG_TAG = RecyclerViewAdapter.class.getSimpleName();
 
     private final Activity context;
     private final ArrayList<Folder> FOLDERS;
     private View mView;
+    private File[] listFile2;
 
     public long getItemId(int position) {
         return position;
@@ -104,12 +112,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        menu.setHeaderTitle("Select");
-        menu.add(0, v.getId(), 0, "Share");//groupId, itemId, order, title
-        menu.add(0, v.getId(), 0, "Delete");
+    public boolean onMenuItemClick(MenuItem item) {
+        return true;
     }
-
 
     public static class ViewHolder extends RecyclerView.ViewHolder  {
         private TextView titleMain;
@@ -122,6 +127,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         private ImageView image4;
         private ImageView image5;
         private TextView slides;
+        private View popupMenu;
+        private View pictureLayout;
 
         public ViewHolder(View v) {
             super(v);
@@ -135,6 +142,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             image3 = (ImageView) v.findViewById(R.id.icon3);
             image4 = (ImageView) v.findViewById(R.id.icon4);
             image5 = (ImageView) v.findViewById(R.id.icon5);
+            popupMenu =(View) v.findViewById(R.id.popup);
+            pictureLayout = (View) v.findViewById(R.id.picture_layout);
 
         }
 
@@ -159,8 +168,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return vh;
     }
 
+    void deleteRecursive(File dir) {
+        if (dir.isDirectory())
+            for (File child : dir.listFiles())
+                deleteRecursive(child);
+        dir.delete();
+    }
+
+
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         Folder folder = FOLDERS.get(position);
 
         String projectName = FOLDERS.get(position).getName();
@@ -179,8 +196,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.RGB_565;
         options.inSampleSize = 10;
-
-        mView.setOnCreateContextMenuListener(this);
 
 
         for (int i = 0; i < 5; i++) {
@@ -229,6 +244,53 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         mView.setTag(holder);
         int number = position + 1;
         holder.numbSlides.setText(" " + number);
+
+
+
+
+
+        holder.popupMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(activity, view);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.item_delete:
+                                String projectName=FOLDERS.get(position).getName();
+                                File dir = new File(Statics.mDiretoryName + "/" + projectName);
+                                deleteRecursive(dir);
+                                FOLDERS.remove(FOLDERS.get(position));
+                                notifyDataSetChanged();
+                                return true;
+                            case R.id.item_share:
+                                Log.wtf("Share", "works!");
+                                return true;
+                        }
+                        return true;
+                    }
+                });
+                popupMenu.inflate(R.menu.popup_menu);
+                popupMenu.show();
+            }
+        });
+
+        holder.pictureLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent viewScreen = new Intent(activity, ViewActivity.class);
+                File picturelist2 = new File(Environment.getExternalStorageDirectory() +
+                "/Audio_Recorder_Picture/",FOLDERS.get(position).getName() + "/Pictures");
+        if (picturelist2.isDirectory()) {
+            listFile2 = picturelist2.listFiles();
+        }
+                viewScreen.putExtra("FILE_TAG", listFile2);
+                context.startActivity(viewScreen);
+            }
+        });
+
     }
 
     public Bitmap getBitmapFromMemCache(String key) {

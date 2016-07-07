@@ -26,7 +26,6 @@ import com.example.attracti.audiorecorderpicture.adapters.ItemAdapter;
 import com.example.attracti.audiorecorderpicture.adapters.RecyclerViewAdapter;
 import com.example.attracti.audiorecorderpicture.model.Folder;
 import com.example.attracti.audiorecorderpicture.model.Item;
-import com.example.attracti.audiorecorderpicture.utils.RecyclerItemClickListener;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -41,7 +40,7 @@ import java.util.List;
  */
 
 
-public class FirstscreenActivity extends AppCompatActivity implements RecyclerItemClickListener.OnItemClickListener,
+public class FirstscreenActivity extends AppCompatActivity implements
         ItemAdapter.ItemListener {
 
     private static final String LOG_TAG = FirstscreenActivity.class.getSimpleName();
@@ -58,8 +57,6 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
     private File[] listFolders;
 
     private ArrayList<Folder> FOLDERS = null;
-    private File[] listFile2;
-
     public LruCache<String, Bitmap> getmMemoryCache() {
         return mMemoryCache;
     }
@@ -115,7 +112,7 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
 
         mLayoutManager = new LinearLayoutManager(getApplicationContext());
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mList.addOnItemTouchListener(new RecyclerItemClickListener(this, this));
+      //  mList.addOnItemTouchListener(new RecyclerItemClickListener(this, this));
 
         getFromSdcardFolders();
 
@@ -138,11 +135,9 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
 
 
         View bottomSheet = findViewById(R.id.bottom_sheet);
+        bottomSheet.setMinimumHeight(30);
         behavior = BottomSheetBehavior.from(bottomSheet);
-//        behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-
-
-
+        
         behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
@@ -159,8 +154,6 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
 
         mAdapterItem = new ItemAdapter(createItems(), this);
 
-
-
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
 
         // Use 1/8th of the available memory for this memory cache.
@@ -176,6 +169,8 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
             }
         };
     }
+
+
 
     @Override
     protected void onResume() {
@@ -214,28 +209,6 @@ public class FirstscreenActivity extends AppCompatActivity implements RecyclerIt
                 return super.onOptionsItemSelected(item);
 //       }
     }
-
-    @Override
-    public void onItemClick(View childView, int position) {
-
-        File picturelist2 = new File(Environment.getExternalStorageDirectory() +
-                "/Audio_Recorder_Picture/", listFolders[position].getName() + "/Pictures");
-        if (picturelist2.isDirectory()) {
-            listFile2 = picturelist2.listFiles();
-        }
-
-        Intent viewScreen = new Intent(getApplicationContext(), ViewActivity.class);
-        viewScreen.putExtra("FILE_TAG", listFile2);
-        viewScreen.putExtra("listFile", listFile);
-        startActivity(viewScreen);
-
-    }
-
-    @Override
-    public void onItemLongPress(View childView, int position) {
-
-    }
-
 
     private void showBottomSheetDialog() {
 
