@@ -3,13 +3,11 @@ package com.example.attracti.audiorecorderpicture.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 
 import com.example.attracti.audiorecorderpicture.R;
@@ -36,8 +34,8 @@ public class GalleryActivity extends AppCompatActivity implements AdapterView.On
     private File[] listFolders;
     private ArrayList<Folder> FOLDERS = null;
 
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
+    private Button backButton;
+    private Button done;
 
     public void getFromSdcardFolders(String path) {
 
@@ -81,18 +79,16 @@ public class GalleryActivity extends AppCompatActivity implements AdapterView.On
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(this);
 
+        backButton= (Button) findViewById(R.id.back_button);
 
-
-
-        Toolbar toolbar= (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setHomeButtonEnabled(true);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("");
-        }
-
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent firstScreen = new Intent(getApplicationContext(), FirstscreenActivity.class);
+                startActivity(firstScreen);
+                finish();
+            }
+        });
     }
 
     @Override
@@ -128,4 +124,6 @@ public class GalleryActivity extends AppCompatActivity implements AdapterView.On
             return false;
         }
     }
+
+
 }
