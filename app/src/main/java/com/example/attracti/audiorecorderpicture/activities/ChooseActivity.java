@@ -3,11 +3,12 @@ package com.example.attracti.audiorecorderpicture.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
+import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.example.attracti.audiorecorderpicture.R;
 import com.example.attracti.audiorecorderpicture.adapters.GridChooseAdapter;
@@ -27,6 +28,9 @@ public class ChooseActivity extends AppCompatActivity {
     private GridChooseAdapter adapter;
     private ArrayList chooseItems;
 
+    private Button backButton;
+    private TextView doneButton;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +39,29 @@ public class ChooseActivity extends AppCompatActivity {
         Intent intent = getIntent();
         listFile = (ArrayList) intent.getSerializableExtra("LIST_FILES");
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        backButton=(Button) findViewById(R.id.back_button);
+        doneButton =(TextView) findViewById(R.id.done);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.wtf("Back button ", "works!");
+                Intent chooseActivity = new Intent(getApplicationContext(), ChooseActivity.class);
+                startActivity(chooseActivity);
+                finish();
+            }
+        });
+
+        doneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sortScreen = new Intent(getApplicationContext(), SortActivity.class);
+                chooseItems = adapter.getChoosedItems();
+                sortScreen.putExtra("chooseItems", chooseItems);
+                startActivity(sortScreen);
+
+            }
+        });
 
         Window window = getWindow();
         window.setStatusBarColor(getResources().getColor(R.color.statusBarColor));
@@ -43,32 +69,5 @@ public class ChooseActivity extends AppCompatActivity {
         adapter = new GridChooseAdapter(this, listFile);
         GridView gridView = (GridView) findViewById(R.id.gridChooseView);
         gridView.setAdapter(adapter);
-        setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle("");
-
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.doneItem:
-                Intent sortScreen = new Intent(getApplicationContext(), SortActivity.class);
-                chooseItems = adapter.getChoosedItems();
-                sortScreen.putExtra("chooseItems", chooseItems);
-                startActivity(sortScreen);
-
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-
 }

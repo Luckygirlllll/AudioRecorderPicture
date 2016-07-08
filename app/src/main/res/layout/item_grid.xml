@@ -17,11 +17,11 @@
         android:layout_gravity="center_horizontal"
         android:scaleType="centerCrop" />
 
-    <android.support.v7.widget.AppCompatCheckBox
-        android:id="@+id/checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:buttonTint="@color/checkBoxColor" />
+    <!--<Button-->
+        <!--android:id="@+id/checkbox"-->
+        <!--android:layout_width="24dp"-->
+        <!--android:layout_height="24dp"-->
+        <!--android:background="@drawable/check_box_white" />-->
 
 
 </RelativeLayout>

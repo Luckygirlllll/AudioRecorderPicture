@@ -35,7 +35,6 @@ public class GalleryActivity extends AppCompatActivity implements AdapterView.On
     private ArrayList<Folder> FOLDERS = null;
 
     private Button backButton;
-    private Button done;
 
     public void getFromSdcardFolders(String path) {
 
