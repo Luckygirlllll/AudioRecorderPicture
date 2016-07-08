@@ -183,7 +183,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         String projectName = FOLDERS.get(position).getName();
      // String myFile = Statics.mDiretoryName + "/" + projectName + "/" + projectName + ".3gp";
 
-
         ArrayList<String> imgs = folder.getPictureList();
 
         String projectDate = folder.getName();

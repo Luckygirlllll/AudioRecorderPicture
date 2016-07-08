@@ -8,11 +8,13 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.LruCache;
 import android.view.Gravity;
 import android.view.Menu;
@@ -104,7 +106,9 @@ public class FirstscreenActivity extends AppCompatActivity implements
         getSupportActionBar().setCustomView(viewCustom, layout);
 
         Window window = getWindow();
-        window.setStatusBarColor(getResources().getColor(R.color.statusBarColor));
+        if (android.os.Build.VERSION.SDK_INT>=21) {
+            window.setStatusBarColor(getResources().getColor(R.color.statusBarColor));
+        }
 
         mList = (RecyclerView) findViewById(R.id.list);
 
@@ -136,9 +140,10 @@ public class FirstscreenActivity extends AppCompatActivity implements
 
 
         View bottomSheet = findViewById(R.id.bottom_sheet);
-        bottomSheet.setMinimumHeight(30);
-        behavior = BottomSheetBehavior.from(bottomSheet);
+        float bottomSheeHeight = ((CoordinatorLayout.LayoutParams)bottomSheet.getLayoutParams()).height;
+        Log.wtf("Height", String.valueOf(bottomSheeHeight));
 
+        behavior = BottomSheetBehavior.from(bottomSheet);
         behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
