@@ -591,8 +591,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
     }
 
-
-    //play first label
+// play first label
 //        mLabelPlayButton.setOnClickListener(new OnClickListener() {
 //
 //            @Override
