@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.example.attracti.audiorecorderpicture.R;
@@ -22,6 +23,9 @@ public class SortActivity extends Activity {
     private DynamicGridView gridView;
     private ArrayList pictureList;
 
+    private Button backButton;
+    private View doneButton;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grid);
@@ -35,6 +39,16 @@ public class SortActivity extends Activity {
 
         Window window = getWindow();
         window.setStatusBarColor(getResources().getColor(R.color.statusBarColor));
+
+        doneButton = (View) findViewById(R.id.done);
+        doneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent readyRecord = new Intent(getApplicationContext(), ReadyRecord.class);
+                startActivity(readyRecord);
+                finish();
+            }
+        });
 
         gridView.setAdapter(new SortDynamicAdapter(this,
                 pictureList,
@@ -61,7 +75,7 @@ public class SortActivity extends Activity {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               
+
             }
         });
     }

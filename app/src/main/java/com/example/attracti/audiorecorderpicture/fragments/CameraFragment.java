@@ -303,7 +303,7 @@ public class CameraFragment extends Fragment
                     mCameraData = data;
 
                     Bitmap picture = BitmapFactory.decodeByteArray(mCameraData, 0, mCameraData.length);
-                    Bitmap resized = ThumbnailUtils.extractThumbnail(picture, 60, 60);
+                    Bitmap resized = ThumbnailUtils.extractThumbnail(picture, 80, 80);
 
                     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                     resized.compress(Bitmap.CompressFormat.JPEG, 90, bytes);

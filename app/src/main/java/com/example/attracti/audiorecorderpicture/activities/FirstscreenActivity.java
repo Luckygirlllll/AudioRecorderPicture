@@ -8,17 +8,14 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.util.LruCache;
 import android.view.Gravity;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
@@ -140,8 +137,6 @@ public class FirstscreenActivity extends AppCompatActivity implements
 
 
         View bottomSheet = findViewById(R.id.bottom_sheet);
-        float bottomSheeHeight = ((CoordinatorLayout.LayoutParams)bottomSheet.getLayoutParams()).height;
-        Log.wtf("Height", String.valueOf(bottomSheeHeight));
 
         behavior = BottomSheetBehavior.from(bottomSheet);
         behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
@@ -194,27 +189,6 @@ public class FirstscreenActivity extends AppCompatActivity implements
     }
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.addItem:
-
-// ----  you can delete it soon
-//                AudioRecord.arrayFilepaths2.clear();
-//                ChildFragment.xcoordList.clear();
-//                ChildFragment.ycoordList.clear();
-//                ChildFragment.positionList.clear();
-//                SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss");
-//                Date now = new Date();
-//                mCurrentProject = String.valueOf(formatter.format(now));
-//                Intent nextScreen = new Intent(getApplicationContext(), AudioRecord.class);
-//                nextScreen.putExtra("currentProject", mCurrentProject);
-//                startActivity(nextScreen);
-//                return true;
-//            default:
-                return super.onOptionsItemSelected(item);
-//       }
-    }
 
     private void showBottomSheetDialog() {
 
