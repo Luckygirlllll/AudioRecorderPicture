@@ -18,7 +18,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +27,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.attracti.audiorecorderpicture.R;
@@ -79,14 +79,19 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
     private Button mCaptureImageButton;
     private Button mSaveImageButton;
     private Button recordButtonpause;
-    private Toolbar myToolbar;
     private Button leftButton;
     private Button rightButton;
+
+    private View myToolbar;
+    private Button backButton;
+    private TextView doneView;
 
     private CameraFragment fragment;
     private ViewFragment viewFragment;
 
     private long timePictureChange;
+
+    public int done = 0;
 
     private File labelFile;
     private String mCurrentProject;
@@ -524,18 +529,14 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         setContentView(R.layout.activity_main);
         LinearLayout ll = (LinearLayout) findViewById(R.id.lin_three);
 
-        myToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle("");
+        myToolbar = (View) findViewById(R.id.custom_toolbar);
+        backButton =(Button) findViewById(R.id.back_button);
 
-        //-----Camera features
         mCaptureImageButton = (Button) findViewById(R.id.capture_image);
         mCaptureImageButton.setOnClickListener(mCaptureImageButtonClickListener);
 
-
         recordButtonpause = (Button) findViewById(R.id.record_button);
         recordButtonpause.setOnClickListener(recordButtonListener);
-
 
         leftButton = (Button) findViewById(R.id.left_button);
         leftButton.setOnClickListener(leftButtonListener);
@@ -548,6 +549,28 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+
+        doneView= (TextView) findViewById(R.id.done);
+        doneView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                done++;
+                arrayFilepaths2.clear();
+                Intent firstScreen = new Intent(getApplicationContext(), FirstscreenActivity.class);
+                startActivity(firstScreen);
+            }
+        });
+
+        backButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                done++;
+                arrayFilepaths2.clear();
+                Intent firstScreen = new Intent(getApplicationContext(), FirstscreenActivity.class);
+                startActivity(firstScreen);
+            }
+        });
+
 
         window = getWindow();
         window.setStatusBarColor(getResources().getColor(R.color.statusBarRecordingColor));
@@ -567,6 +590,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         mAudioDirectory = new File(Statics.mDiretoryName + "/"+ mCurrentProject);
 
     }
+
 
     //play first label
 //        mLabelPlayButton.setOnClickListener(new OnClickListener() {
@@ -752,6 +776,8 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         public void recievePicture(Bitmap bitmap);
     }
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -759,7 +785,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         return super.onPrepareOptionsMenu(menu);
     }
 
-    public static int done = 0;
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
