@@ -127,7 +127,8 @@ public class FirstscreenActivity extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
                 showBottomSheetDialog();
-                mBottomSheetDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                mBottomSheetDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, 700);
+               // LinearLayout.LayoutParams.WRAP_CONTENT
                 mBottomSheetDialog.getWindow().setGravity(Gravity.BOTTOM);
 
             }

@@ -38,7 +38,7 @@
         <LinearLayout
             android:id="@+id/bottom_sheet"
             android:layout_width="match_parent"
-            android:layout_height="205dp"
+            android:layout_height="wrap_content"
             android:background="#fff"
             android:gravity="bottom"
             android:orientation="vertical"
