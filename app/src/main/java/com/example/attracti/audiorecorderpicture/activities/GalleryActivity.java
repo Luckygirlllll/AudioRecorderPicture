@@ -1,6 +1,7 @@
 package com.example.attracti.audiorecorderpicture.activities;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -67,8 +68,10 @@ public class GalleryActivity extends AppCompatActivity implements AdapterView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gallery_view);
 
-        Window window = getWindow();
-        window.setStatusBarColor(getResources().getColor(R.color.statusBarColor));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.setStatusBarColor(getResources().getColor(R.color.statusBarColor));
+        }
 
         getFromSdcardFolders(path);
         //  getFromSdcardFolders(pathExtra);

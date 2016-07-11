@@ -3,7 +3,6 @@ package com.example.attracti.audiorecorderpicture.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -45,7 +44,6 @@ public class ChooseActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.wtf("Back button ", "works!");
                 Intent chooseActivity = new Intent(getApplicationContext(), ChooseActivity.class);
                 startActivity(chooseActivity);
                 finish();
@@ -55,10 +53,15 @@ public class ChooseActivity extends AppCompatActivity {
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent sortScreen = new Intent(getApplicationContext(), SortActivity.class);
+//                Intent sortScreen = new Intent(getApplicationContext(), SortActivity.class);
+//                chooseItems = adapter.getChoosedItems();
+//                sortScreen.putExtra("chooseItems", chooseItems);
+//                startActivity(sortScreen);
+
+                Intent recyclerGridActivity = new Intent(getApplicationContext(), RecyclerGridActivity.class);
                 chooseItems = adapter.getChoosedItems();
-                sortScreen.putExtra("chooseItems", chooseItems);
-                startActivity(sortScreen);
+                recyclerGridActivity.putExtra("chooseItems", chooseItems);
+                startActivity(recyclerGridActivity);
 
             }
         });

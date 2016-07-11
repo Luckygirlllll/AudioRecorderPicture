@@ -391,8 +391,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         public Fragment getFragment(int position) {
             return fragments.get(position);
         }
-
-
     }
 }
 

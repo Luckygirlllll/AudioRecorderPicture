@@ -4,6 +4,7 @@ package com.example.attracti.audiorecorderpicture.widgets.dynamicgrid;
  * Created by Iryna on 7/5/16.
  */
 
+import android.util.Log;
 import android.view.View;
 
 import java.util.List;
@@ -20,7 +21,9 @@ public class DynamicGridUtils {
      */
     public static void reorder(List list, int indexFrom, int indexTwo) {
         Object obj = list.remove(indexFrom);
+        Log.wtf("List size 1: ", String.valueOf(list.size()));
         list.add(indexTwo, obj);
+        Log.wtf("List size 2: ", String.valueOf(list.size()));
     }
 
     /**

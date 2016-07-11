@@ -22,7 +22,12 @@ import static com.example.attracti.audiorecorderpicture.adapters.RecyclerViewAda
 
 public class SortDynamicAdapter extends BaseDynamicGridAdapter {
 
-        ArrayList pictureList;
+
+    ArrayList pictureList;
+
+    public ArrayList getPictureList() {
+        return pictureList;
+    }
 
         public SortDynamicAdapter(Context context, List<?> items, int columnCount) {
             super(context, items, columnCount);

@@ -6,6 +6,7 @@ package com.example.attracti.audiorecorderpicture.widgets.dynamicgrid;
 
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,6 +95,7 @@ public abstract class BaseDynamicGridAdapter extends AbstractDynamicGridAdapter 
     @Override
     public void reorderItems(int originalPosition, int newPosition) {
         if (newPosition < getCount()) {
+            Log.wtf("reorderItems ", "works!");
             DynamicGridUtils.reorder(mItems, originalPosition, newPosition);
             notifyDataSetChanged();
         }

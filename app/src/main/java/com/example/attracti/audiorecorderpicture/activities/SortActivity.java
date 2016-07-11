@@ -21,15 +21,17 @@ import java.util.ArrayList;
 public class SortActivity extends Activity {
 
     private DynamicGridView gridView;
+    private SortDynamicAdapter sortDynamicAdapter;
+
     private ArrayList pictureList;
 
     private Button backButton;
     private View doneButton;
 
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grid);
-        // gridView = (DynamicGridView) findViewById(R.id.dynamic_grid);
         RelativeLayout container = (RelativeLayout) findViewById(R.id.dynamic_grid);
         gridView = new DynamicGridView(this);
         gridView.setNumColumns(3);
@@ -40,28 +42,16 @@ public class SortActivity extends Activity {
         Window window = getWindow();
         window.setStatusBarColor(getResources().getColor(R.color.statusBarColor));
 
-        doneButton = (View) findViewById(R.id.done);
-        doneButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent readyRecord = new Intent(getApplicationContext(), ReadyRecord.class);
-                startActivity(readyRecord);
-                finish();
-            }
-        });
+        sortDynamicAdapter = new SortDynamicAdapter(this, pictureList, getResources().getInteger(R.integer.column_count));
 
-        gridView.setAdapter(new SortDynamicAdapter(this,
-                pictureList,
-                getResources().getInteger(R.integer.column_count)));
+        gridView.setAdapter(sortDynamicAdapter);
         gridView.setOnDragListener(new DynamicGridView.OnDragListener() {
             @Override
             public void onDragStarted(int position) {
-
             }
 
             @Override
             public void onDragPositionsChanged(int oldPosition, int newPosition) {
-
             }
         });
         gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -76,6 +66,18 @@ public class SortActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+            }
+        });
+
+        doneButton = (View) findViewById(R.id.done);
+        doneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent readyRecord = new Intent(getApplicationContext(), ReadyRecordActivity.class);
+                ArrayList sortedItems = sortDynamicAdapter.getPictureList();
+                readyRecord.putExtra("sortedItems",sortedItems);
+                startActivity(readyRecord);
+                finish();
             }
         });
     }
