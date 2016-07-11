@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -139,7 +138,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         seekbar.setClickable(false);
         duration = (TextView) findViewById(R.id.songDuration);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_view);
         getFromSdcardFolders();
         Intent intent = getIntent();
         mArray = (File[]) intent.getSerializableExtra("FILE_TAG");

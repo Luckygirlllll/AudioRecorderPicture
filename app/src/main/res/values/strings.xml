@@ -8,6 +8,8 @@
     <string name="capturing_image">Taking New Picture</string>
     <string name="done">Done</string>
     <string name="action_add">Add</string>
+    <string name="edit_text">EDIT</string>
+
 
     <array name="dummy_items">
         <item>One</item>

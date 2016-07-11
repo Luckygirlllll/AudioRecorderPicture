@@ -366,9 +366,6 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         public void savePicture();
     }
 
-//    public AudioRecord() {
-//        mFileName = Statics.mAudioFolder + "/" + mCurrentProject + ".3gp";
-//    }
 
     private static int firstClick = 0;
 
