@@ -5,6 +5,5 @@ package com.example.attracti.audiorecorderpicture.interfaces;
  */
 public interface OnSwipePictureListener {
     public void next();
-
     public void previous();
 }

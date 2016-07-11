@@ -466,9 +466,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
     private OnClickListener leftButtonListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            Log.wtf("Left button", "works!");
             onSwipePictureListener.previous();
-
         }
     };
 
@@ -476,7 +474,6 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         @Override
         public void onClick(View v) {
             onSwipePictureListener.next();
-            Log.wtf("Rigth button", "works!");
 
         }
     };

@@ -101,6 +101,10 @@ public class ReadyViewFragment extends Fragment {
     }
 
 
+
+
+
+
     private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onDown(MotionEvent e) {
