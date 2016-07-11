@@ -104,7 +104,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             imageView.setImageBitmap(bitmap);
         } else {
-
             bitmap = decodeSampledBitmapFromResource(path, 100, 100);
             imageView.setImageBitmap(bitmap);
 

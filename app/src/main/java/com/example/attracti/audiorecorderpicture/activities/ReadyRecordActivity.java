@@ -7,11 +7,11 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.Window;
 
 import com.example.attracti.audiorecorderpicture.R;
 import com.example.attracti.audiorecorderpicture.fragments.ReadyViewFragment;
 
-import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -28,6 +28,8 @@ public class ReadyRecordActivity extends FragmentActivity {
 
     private ArrayList pictureList;
 
+    private Window window;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ready_view);
@@ -37,12 +39,14 @@ public class ReadyRecordActivity extends FragmentActivity {
         mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+
+        window = getWindow();
+        window.setStatusBarColor(getResources().getColor(R.color.statusBarRecordingColor));
     }
 
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         ArrayList<Fragment> fragments = new ArrayList<>();
-        File[] array;
 
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
@@ -50,9 +54,6 @@ public class ReadyRecordActivity extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            Intent intent = getIntent();
-            //array = (File[]) intent.getSerializableExtra("FILE_TAG");
-
             ReadyViewFragment fragment = ReadyViewFragment.create((String) pictureList.get(position), position);
             fragments.add(fragment);
             return fragment;
@@ -60,8 +61,6 @@ public class ReadyRecordActivity extends FragmentActivity {
 
         @Override
         public int getCount() {
-            // Intent intent = getIntent();
-            // array = (File[]) intent.getSerializableExtra("FILE_TAG");
             return pictureList.size();
         }
 

@@ -9,7 +9,6 @@
     android:minHeight="96dp"
     android:orientation="vertical">
 
-
     <ImageView
         android:id="@+id/item_img"
         android:layout_width="115dp"

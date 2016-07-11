@@ -43,9 +43,7 @@ public class RecyclerGridActivity extends Activity implements OnStartDragListene
 
         Intent intent = getIntent();
         pictureList = (ArrayList) intent.getSerializableExtra("chooseItems");
-
         final RecyclerListAdapter adapter = new RecyclerListAdapter(getApplicationContext(), this, pictureList);
-
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view_sorted);
 //        recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);

@@ -38,10 +38,10 @@
 
     </RelativeLayout>
 
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_sorted"
         android:layout_width="wrap_content"
+        android:layout_marginLeft="2dp"
         android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
 
 

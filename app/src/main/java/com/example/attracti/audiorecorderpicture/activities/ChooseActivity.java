@@ -53,10 +53,6 @@ public class ChooseActivity extends AppCompatActivity {
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent sortScreen = new Intent(getApplicationContext(), SortActivity.class);
-//                chooseItems = adapter.getChoosedItems();
-//                sortScreen.putExtra("chooseItems", chooseItems);
-//                startActivity(sortScreen);
 
                 Intent recyclerGridActivity = new Intent(getApplicationContext(), RecyclerGridActivity.class);
                 chooseItems = adapter.getChoosedItems();

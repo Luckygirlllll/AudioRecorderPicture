@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (C) 2015 Paul Burke
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -21,12 +20,11 @@
     android:focusable="true"
     android:foreground="?selectableItemBackground">
 
-
     <ImageView
         android:id="@+id/handle"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_gravity="center_vertical|right"
-        android:scaleType="center"
-        android:src="@drawable/camera" />
+        android:layout_width="86dp"
+        android:layout_height="86dp"
+        android:layout_gravity="center_horizontal"
+        android:scaleType="centerCrop"
+         />
 </FrameLayout>

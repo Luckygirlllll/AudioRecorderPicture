@@ -38,7 +38,6 @@
 
         <activity android:name=".activities.GalleryActivity"></activity>
         <activity android:name=".activities.ChooseActivity"></activity>
-        <activity android:name=".activities.SortActivity"></activity>
         <activity android:name=".activities.ReadyRecordActivity"></activity>
         <activity android:name=".activities.RecyclerGridActivity"></activity>
 
