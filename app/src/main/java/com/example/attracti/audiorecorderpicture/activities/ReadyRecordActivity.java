@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Window;
+import android.widget.TextView;
 
 import com.example.attracti.audiorecorderpicture.R;
 import com.example.attracti.audiorecorderpicture.fragments.ReadyViewFragment;
@@ -27,8 +28,9 @@ public class ReadyRecordActivity extends FragmentActivity {
     private ScreenSlidePagerAdapter mPagerAdapter;
 
     private ArrayList pictureList;
-
     private Window window;
+
+    private TextView pictureCounter;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +39,24 @@ public class ReadyRecordActivity extends FragmentActivity {
         pictureList = (ArrayList) intent.getSerializableExtra("sortedItems");
 
         mPager = (ViewPager) findViewById(R.id.pager);
+        pictureCounter = (TextView) findViewById(R.id.picture_counter);
+        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                    int realPosition = position+1;
+                    pictureCounter.setText(realPosition + " из "+pictureList.size());
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 

@@ -104,7 +104,6 @@ public class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerListAdapte
 
             handleView = (ImageView) itemView.findViewById(R.id.handle);
 
-
         }
 
         @Override
