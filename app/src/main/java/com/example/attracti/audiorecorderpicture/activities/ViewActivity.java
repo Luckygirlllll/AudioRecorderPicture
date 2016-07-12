@@ -76,6 +76,8 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
     private ArrayList canvasList = new ArrayList();
     private ArrayList positionList = new ArrayList();
 
+    private TextView pictureCounter;
+
     private File[] listFile;
 
     public ArrayList getFileTime() {
@@ -145,6 +147,27 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         if (savedInstanceState == null) {
             readFromFile();
         }
+
+        pictureCounter = (TextView) findViewById(R.id.picture_counter);
+
+        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                int realPosition = position+1;
+                pictureCounter.setText(realPosition + " из "+mArray.length);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
     }
 
 
