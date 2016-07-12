@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="150dp"
     android:layout_height="150dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="1dp">
 
     <ImageView
@@ -24,12 +24,22 @@
     <!--android:buttonTint="@color/white">-->
     <!--</CheckBox>-->
 
-    <android.support.v7.widget.AppCompatCheckBox
+    <!--<android.support.v7.widget.AppCompatCheckBox-->
+    <!--android:id="@+id/checkbox"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--app:buttonTint="@color/checkBoxColor"-->
+    <!--/>-->
+
+    <CheckBox
         android:id="@+id/checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:buttonTint="@color/checkBoxColor"
-        />
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="2dp"
+        android:button="@drawable/selector_checkbox"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+         />
 
 
 </RelativeLayout>
