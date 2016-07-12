@@ -372,7 +372,6 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
     private OnClickListener mCaptureImageButtonClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-
             if (firstSlide == 0) {
                 firstSlide++;
 

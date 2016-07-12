@@ -134,9 +134,9 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         playButton = (Button) findViewById(R.id.play_button);
         playButton.setOnClickListener(playButtonListener);
 
-        seekbar = (SeekBar) findViewById(R.id.seekBar);
-        seekbar.setClickable(false);
-        duration = (TextView) findViewById(R.id.songDuration);
+//        seekbar = (SeekBar) findViewById(R.id.seekBar);
+//        seekbar.setClickable(false);
+//        duration = (TextView) findViewById(R.id.songDuration);
 
         getFromSdcardFolders();
         Intent intent = getIntent();
