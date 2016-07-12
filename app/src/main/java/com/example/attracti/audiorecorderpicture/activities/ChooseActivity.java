@@ -29,6 +29,9 @@ public class ChooseActivity extends AppCompatActivity {
 
     private Button backButton;
     private TextView doneButton;
+    private TextView folderPictures;
+
+    private String folderName;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +40,13 @@ public class ChooseActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         listFile = (ArrayList) intent.getSerializableExtra("LIST_FILES");
+        folderName = (String) intent.getSerializableExtra("FOLDER_NAME");
 
         backButton=(Button) findViewById(R.id.back_button);
         doneButton =(TextView) findViewById(R.id.done);
+        folderPictures =(TextView) findViewById(R.id.folder_name);
+
+        folderPictures.setText(folderName);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override

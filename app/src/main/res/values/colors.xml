@@ -19,6 +19,7 @@
     <color name="gray">#F0F0F0</color>
     <color name="toolbarTextAccentColor">#4A005F</color>
     <color name="backgroundColor">#F3F3F3</color>
+    <color name="toolbarGrayColor">#777777</color>
 
 
 

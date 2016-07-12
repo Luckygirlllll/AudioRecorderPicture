@@ -98,6 +98,7 @@ public class GalleryActivity extends AppCompatActivity implements AdapterView.On
 
         Intent chooseScreen = new Intent(getApplicationContext(), ChooseActivity.class);
         chooseScreen.putExtra("LIST_FILES", FOLDERS.get(position).getPictureList());
+        chooseScreen.putExtra("FOLDER_NAME", FOLDERS.get(position).getName());
         startActivity(chooseScreen);
     }
 

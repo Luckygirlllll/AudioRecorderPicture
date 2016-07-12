@@ -23,7 +23,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:background="@drawable/back_arrow" />
+            android:background="@drawable/arrow_back_violet" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -40,10 +40,12 @@
                 android:textSize="20dp" />
 
             <TextView
+                android:id="@+id/track_lenght"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/picture_counter"
                 android:layout_centerHorizontal="true"
+                android:textColor="@color/toolbarGrayColor"
                 android:text="00:00"
                 android:textSize="14dp" />
 
@@ -68,27 +70,27 @@
     >
 
 
-    <LinearLayout
-        android:id="@+id/lin_one"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
-        android:orientation="horizontal"
-        android:weightSum="3"></LinearLayout>
+    <!--<LinearLayout-->
+        <!--android:id="@+id/lin_one"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/toolbar"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:weightSum="3"></LinearLayout>-->
 
-    <LinearLayout
-        android:id="@+id/lin_two"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/lin_one"
-        android:orientation="horizontal"></LinearLayout>
+    <!--<LinearLayout-->
+        <!--android:id="@+id/lin_two"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/lin_one"-->
+        <!--android:orientation="horizontal"></LinearLayout>-->
 
-    <LinearLayout
-        android:id="@+id/lin_three"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_below="@+id/lin_two"
-        android:orientation="horizontal"></LinearLayout>
+    <!--<LinearLayout-->
+        <!--android:id="@+id/lin_three"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="80dp"-->
+        <!--android:layout_below="@+id/lin_two"-->
+        <!--android:orientation="horizontal"></LinearLayout>-->
 
     <RelativeLayout
         android:id="@+id/lin_four"

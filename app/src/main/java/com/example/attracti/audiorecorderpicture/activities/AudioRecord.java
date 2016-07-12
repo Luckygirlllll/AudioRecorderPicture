@@ -85,6 +85,8 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
     private View myToolbar;
     private Button backButton;
     private TextView doneView;
+    private TextView trackDuration;
+    public static TextView pictureCounter;
 
     private CameraFragment fragment;
     private ViewFragment viewFragment;
@@ -432,13 +434,23 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
             if (mStartRecording) {
                 recordButtonpause.setBackgroundResource(R.drawable.pause_red);
+                doneView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.toolbarRecordingActiveColor));
+                doneView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
                 myToolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.toolbarRecordingActiveColor ));
                 window.setStatusBarColor(getResources().getColor(R.color.statusBarRecordingActiveColor));
+                backButton.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.arrow_back_white));
+                pictureCounter.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
+                trackDuration.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
 
             } else {
                 recordButtonpause.setBackgroundResource(R.drawable.record_red);
+                doneView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.toolbarRecordingColor));
+                doneView.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.toolbarTextAccentColor));
+                pictureCounter.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
+                trackDuration.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.toolbarGrayColor));
                 myToolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.toolbarRecordingColor));
                 window.setStatusBarColor(getResources().getColor(R.color.statusBarRecordingColor));
+                backButton.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.arrow_back_violet));
             }
             mStartRecording = !mStartRecording;
 
@@ -520,7 +532,6 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.activity_main);
-        LinearLayout ll = (LinearLayout) findViewById(R.id.lin_three);
 
         myToolbar = (View) findViewById(R.id.custom_toolbar);
         backButton =(Button) findViewById(R.id.back_button);
@@ -542,6 +553,9 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+
+        pictureCounter = (TextView) findViewById(R.id.picture_counter);
+        trackDuration= (TextView) findViewById(R.id.track_lenght);
 
         doneView= (TextView) findViewById(R.id.done);
         doneView.setOnClickListener(new OnClickListener() {

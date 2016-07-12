@@ -88,8 +88,6 @@ public class CameraFragment extends Fragment
     private RelativeLayout cameraLayout;
     private double mDist;
 
-
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -109,13 +107,11 @@ public class CameraFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-
         view = inflater.inflate(R.layout.camera_fragment,
                 container, false);
         cameraLayout = (RelativeLayout) view.findViewById(R.id.fragment);
         mCameraImage = (ImageView) view.findViewById(R.id.camera_image_view);
         mCameraPreview = (SurfaceView) view.findViewById(R.id.preview_view);
-
 
         final SurfaceHolder surfaceHolder = mCameraPreview.getHolder();
         surfaceHolder.addCallback(this);

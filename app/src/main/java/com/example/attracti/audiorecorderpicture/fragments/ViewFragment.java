@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.attracti.audiorecorderpicture.R;
+import com.example.attracti.audiorecorderpicture.activities.AudioRecord;
 import com.example.attracti.audiorecorderpicture.interfaces.OnSwipePictureListener;
 import com.example.attracti.audiorecorderpicture.widgets.CustomViewPagerH;
 
@@ -93,6 +95,29 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
         mPagerAdapter = new ScreenSlidePagerAdapter(getFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
+        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if(arrayFilepaths.size()==0){
+                    AudioRecord.pictureCounter.setText(position + " из " + arrayFilepaths.size());
+                }
+                else {
+                    int realPosition = position + 1;
+                    AudioRecord.pictureCounter.setText(realPosition + " из " + arrayFilepaths.size());
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
 
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
         // Use 1/8th of the available memory for this memory cache.
@@ -151,7 +176,10 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
 
         @Override
         public int getCount() {
-            return arrayFilepaths.size();
+             if(arrayFilepaths!=null) {
+                 return arrayFilepaths.size();
+             }
+            else return 0;
         }
     }
 }
