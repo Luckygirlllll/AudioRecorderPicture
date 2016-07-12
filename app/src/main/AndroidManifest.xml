@@ -22,7 +22,7 @@
         <activity
             android:name=".activities.AudioRecord"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"></activity>
+            ></activity>
         <activity android:name=".activities.FirstscreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
