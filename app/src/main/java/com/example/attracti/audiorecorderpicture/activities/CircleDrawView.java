@@ -1,5 +1,9 @@
 package com.example.attracti.audiorecorderpicture.activities;
 
+/**
+ * Created by Iryna on 7/13/16.
+ */
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -14,29 +18,30 @@ import android.view.View;
  *
  */
 
-public class DrawView extends View {
+public class CircleDrawView extends View {
     private Paint paint;
-    private int xRatio;
-    private String labelName;
+    private int x;
+    private int y;
 
 
-    public DrawView(Context context, AttributeSet attrs)
+
+    public CircleDrawView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
     }
 
-    public DrawView(Context context)
+    public CircleDrawView(Context context)
     {
         super(context);
         paint = new Paint();
     }
 
-    public DrawView(Context context, int xRatio, String labelName)
+    public CircleDrawView(Context context, int x, int y)
     {
         super(context);
         paint = new Paint();
-        this.xRatio=xRatio;
-        this.labelName=labelName;
+        this.x=x;
+        this.y=y;
     }
 
 
@@ -44,10 +49,7 @@ public class DrawView extends View {
     protected void onDraw(Canvas canvas)
     {
         super.onDraw(canvas);
-        paint.setColor(Color.WHITE);
-        paint.setTextSize(getHeight());
-        canvas.drawText(labelName, getWidth()/xRatio, (float) (getHeight()*0.8), paint);
-        //canvas.drawText("Б", getWidth()/3, (float) (getHeight()*0.8), paint);
-
+        paint.setColor(Color.RED);
+        canvas.drawCircle(x, y, 50, paint);
     }
 }
