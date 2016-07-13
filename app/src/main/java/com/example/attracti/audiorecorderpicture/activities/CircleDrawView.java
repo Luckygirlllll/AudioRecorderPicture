@@ -51,5 +51,9 @@ public class CircleDrawView extends View {
         super.onDraw(canvas);
         paint.setColor(Color.RED);
         canvas.drawCircle(x, y, 50, paint);
+//        Paint paintExtra = new Paint();
+//        paintExtra.setTextSize(40);
+//        paintExtra.setColor(Color.WHITE);
+//        canvas.drawText("A", x, y, paintExtra);
     }
 }
