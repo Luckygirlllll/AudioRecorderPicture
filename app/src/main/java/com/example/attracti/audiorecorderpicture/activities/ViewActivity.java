@@ -246,10 +246,10 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
                             mPager.setCurrentItem(Integer.parseInt(labelList.get(timeStampIterator).getPictureName()));
 
                             finalTime = labelList.get(timeStampIterator).getLabelTime();
-                            seekbar.setMax((int) finalTime);
-                            timeElapsed = mPlayer.getCurrentPosition();
-                            seekbar.setProgress((int) timeElapsed);
-                            durationHandler.postDelayed(updateSeekBarTime, 100);
+//                            seekbar.setMax((int) finalTime);
+//                            timeElapsed = mPlayer.getCurrentPosition();
+//                            seekbar.setProgress((int) timeElapsed);
+//                            durationHandler.postDelayed(updateSeekBarTime, 100);
                         }
                         if (timeStampIterator < labelList.size() - 1) {
                             timeStampIterator++;

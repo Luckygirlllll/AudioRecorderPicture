@@ -65,14 +65,15 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
         if (savedInstanceState != null) {
             // Restore last state for checked position.
             arrayFilepaths = (ArrayList<File>) savedInstanceState.getSerializable("arraylist");
+            scrolToLast();
         }
     }
 
     //// TODO: 6/15/16 add programmatically swipe to the last picture
 
     public void scrolToLast() {
-        //   mPager.setCurrentItem(mPagerAdapter.getCount()+1);
-//        mPagerAdapter.notifyDataSetChanged();
+        mPager.setCurrentItem(arrayFilepaths.size());
+        mPagerAdapter.notifyDataSetChanged();
 //        mPager.post(new Runnable() {
 //            @Override
 //            public void run() {
@@ -95,13 +96,13 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
         mPagerAdapter = new ScreenSlidePagerAdapter(getFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
+
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if(arrayFilepaths.size()==0){
+                if (arrayFilepaths.size() == 0) {
                     AudioRecord.pictureCounter.setText(position + " из " + arrayFilepaths.size());
-                }
-                else {
+                } else {
                     int realPosition = position + 1;
                     AudioRecord.pictureCounter.setText(realPosition + " из " + arrayFilepaths.size());
                 }
@@ -171,15 +172,16 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
         @Override
         public Fragment getItem(int position) {
             positionArr.add(position);
+
             return ChildFragment.createfragment(context, arrayFilepaths.get(position).getPath(), position);
+
         }
 
         @Override
         public int getCount() {
-             if(arrayFilepaths!=null) {
-                 return arrayFilepaths.size();
-             }
-            else return 0;
+            if (arrayFilepaths != null) {
+                return arrayFilepaths.size();
+            } else return 0;
         }
     }
 }

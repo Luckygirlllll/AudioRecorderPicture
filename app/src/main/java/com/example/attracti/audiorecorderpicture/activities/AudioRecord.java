@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -532,6 +533,12 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.activity_main);
+
+        RelativeLayout progressBar = (RelativeLayout) findViewById(R.id.progress_bar);
+
+        DrawView draw = new DrawView(this);
+        progressBar.addView(draw);
+        progressBar.invalidate();
 
         myToolbar = (View) findViewById(R.id.custom_toolbar);
         backButton =(Button) findViewById(R.id.back_button);
