@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.example.attracti.audiorecorderpicture.R;
 import com.example.attracti.audiorecorderpicture.activities.AudioRecord;
@@ -37,6 +38,8 @@ public class ChildFragment extends Fragment {
 
     private String mFile = null;
     private ImageView imageView;
+    private RelativeLayout layout;
+    private ViewGroup rootView;
 
     private GestureDetectorCompat DoubleTap;
     private Context context;
@@ -66,10 +69,11 @@ public class ChildFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(
+        rootView = (ViewGroup) inflater.inflate(
                 R.layout.fragment_screen_slide, container, false);
+
         imageView = (ImageView) rootView.findViewById(R.id.imageView);
-        loadBitmap(mFile, imageView, positionCurrent, xcoordList, ycoordList, positionList);
+        loadBitmap(getActivity(), rootView,mFile, imageView, positionCurrent, xcoordList, ycoordList, positionList);
 
         DoubleTap = new GestureDetectorCompat(getActivity(), new MyGestureListener());
 
@@ -83,14 +87,14 @@ public class ChildFragment extends Fragment {
         return rootView;
     }
 
-    public static void loadBitmap(String path, ImageView imageView, int position, ArrayList xcoordList, ArrayList ycoordList, ArrayList positionList) {
+    public static void loadBitmap(Context context, ViewGroup view, String path, ImageView imageView, int position, ArrayList xcoordList, ArrayList ycoordList, ArrayList positionList) {
         final String imageKey = String.valueOf(path);
 
         final Bitmap bitmap = null;
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
         } else {
-            ChildDownloadTask task = new ChildDownloadTask(imageView, position, xcoordList, ycoordList, positionList);
+            ChildDownloadTask task = new ChildDownloadTask(context, view,  imageView, position, xcoordList, ycoordList, positionList);
             task.execute(imageKey);
         }
     }
@@ -119,7 +123,7 @@ public class ChildFragment extends Fragment {
                     ycoordList.add(y);
                     positionList.add(positionCurrent);
 
-                    loadBitmap(mFile, imageView, positionCurrent, xcoordList, ycoordList, positionList);
+                    loadBitmap(getActivity(), rootView, mFile, imageView, positionCurrent, xcoordList, ycoordList, positionList);
 
                     long after = System.currentTimeMillis();
                     int difference = (int) (after - activity.getStartTimeAudio());

@@ -1,5 +1,6 @@
 package com.example.attracti.audiorecorderpicture.async;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -7,8 +8,10 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
-import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.example.attracti.audiorecorderpicture.activities.CircleDrawView;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -30,6 +33,7 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
     private final WeakReference<ImageView> viewHolderWeakReference;
     private String data = null;
 
+    private Context context;
     private Bitmap tempBitmapTest;
     private Canvas tempCanvas;
     private int position;
@@ -40,13 +44,16 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
 
     private Paint textPaint;
     private ImageView imageView;
+    private ViewGroup rootView;
 
     private ArrayList<Integer> xCoordList;
     private ArrayList<Integer> yCoordList;
     private ArrayList<Integer> positionList;
 
-    public ChildDownloadTask(ImageView imageView, int position, ArrayList xCoordList, ArrayList yCoordList, ArrayList positionList) {
+    public ChildDownloadTask(Context context,ViewGroup view,  ImageView imageView, int position, ArrayList xCoordList, ArrayList yCoordList, ArrayList positionList) {
         viewHolderWeakReference = new WeakReference<ImageView>(imageView);
+        this.rootView=view;
+        this.context=context;
         this.position = position;
         this.xCoordList = xCoordList;
         this.yCoordList = yCoordList;
@@ -84,12 +91,17 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
 
         if (positionList != null) {
             for (int i = 0; i < positionList.size(); i++) {
-                Log.i("filePosition size: ", String.valueOf(positionList.size()));
+
                 if (position == (positionList.get(i))) {
+                    // awesome labels! :)     
+                    CircleDrawView circle1 = new CircleDrawView(context, xCoordList.get(i), yCoordList.get(i)  );
+
                     tempCanvas.drawCircle(xCoordList.get(i) / 4, yCoordList.get(i) / 4, 10, myPaint3);
 
                     //  tempCanvas.drawCircle(ChildFragment.xcoordList.get(i)/4, ChildFragment.ycoordList.get(i)/4 - (bounds.height() / 2), bounds.width() + 10, myPaint3);
+
                     textPaint.getTextBounds(String.valueOf(i), 0, String.valueOf(i).length(), bounds);
+
 //                    if (i < 10 && i>1) {
 //                        tempCanvas.drawCircle(ChildFragment.xcoordList.get(i)/4, ChildFragment.ycoordList.get(i)/4 - (bounds.height() / 2), bounds.width() + 6, myPaint3);
 //                    } else if (i==1) {
@@ -98,8 +110,14 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
 //                    else {
 //                        tempCanvas.drawCircle(ChildFragment.xcoordList.get(i)/4, ChildFragment.ycoordList.get(i)/4 - (bounds.height() / 2), bounds.width() + 3, myPaint3);
 //                    };
+
+
                     tempCanvas.drawText(String.valueOf(i + 1), xCoordList.get(i) / 4, yCoordList.get(i) / 4, textPaint);
                     tempCanvas.save();
+
+                    rootView.addView(circle1);
+                    rootView.invalidate();
+
 
                 }
             }
@@ -109,8 +127,10 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
             if (imageView != null) {
                 imageView.setImageBitmap(bitmap);
                 imageView.setImageDrawable(new BitmapDrawable(tempBitmapTest));
-
                 imageView.invalidate();
+
+
+
             }
         }
 

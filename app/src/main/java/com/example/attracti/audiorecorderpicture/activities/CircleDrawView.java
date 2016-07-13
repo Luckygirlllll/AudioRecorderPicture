@@ -49,7 +49,7 @@ public class CircleDrawView extends View {
     protected void onDraw(Canvas canvas)
     {
         super.onDraw(canvas);
-        paint.setColor(Color.RED);
+        paint.setColor(Color.YELLOW);
         canvas.drawCircle(x, y, 50, paint);
 //        Paint paintExtra = new Paint();
 //        paintExtra.setTextSize(40);

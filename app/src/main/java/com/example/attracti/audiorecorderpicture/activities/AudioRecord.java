@@ -549,18 +549,18 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
         FrameLayout cameraLayout = (FrameLayout) findViewById(R.id.camera_frame2);
 
-        CircleDrawView circle1 = new CircleDrawView(this, 300, 300);
-        CircleDrawView circle2 = new CircleDrawView(this, 500, 500);
-        CircleDrawView circle3 = new CircleDrawView(this, 150, 700);
-
-        cameraLayout.addView(circle1);
-        cameraLayout.addView(circle2);
-        cameraLayout.addView(circle3);
-
-        cameraLayout.invalidate();
-        circle1.animate().scaleX(1.2f).scaleY(1.2f).setDuration(2000);
-        circle2.animate().scaleX(0.5f).scaleY(0.5f).setDuration(2000);
-        circle3.animate().scaleX(0.5f).scaleY(0.5f).setDuration(2000);
+//        CircleDrawView circle1 = new CircleDrawView(this, 300, 300);
+//        CircleDrawView circle2 = new CircleDrawView(this, 500, 500);
+//        CircleDrawView circle3 = new CircleDrawView(this, 150, 700);
+//
+//        cameraLayout.addView(circle1);
+//        cameraLayout.addView(circle2);
+//        cameraLayout.addView(circle3);
+//
+//        cameraLayout.invalidate();
+//        circle1.animate().scaleX(1.2f).scaleY(1.2f).setDuration(2000);
+//        circle2.animate().scaleX(0.5f).scaleY(0.5f).setDuration(2000);
+//        circle3.animate().scaleX(0.5f).scaleY(0.5f).setDuration(2000);
         //------------------------
 
         myToolbar = (View) findViewById(R.id.custom_toolbar);
