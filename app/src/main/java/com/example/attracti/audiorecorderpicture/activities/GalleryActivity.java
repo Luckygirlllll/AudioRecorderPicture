@@ -14,9 +14,8 @@ import android.widget.GridView;
 import com.example.attracti.audiorecorderpicture.R;
 import com.example.attracti.audiorecorderpicture.adapters.GridViewAdapter;
 import com.example.attracti.audiorecorderpicture.model.Folder;
+import com.example.attracti.audiorecorderpicture.utils.SdCardDataRetriwHеlper;
 
-import java.io.File;
-import java.io.FileFilter;
 import java.util.ArrayList;
 
 /**
@@ -30,38 +29,9 @@ public class GalleryActivity extends AppCompatActivity implements AdapterView.On
     private String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM";
     private String pathExtra = Environment.getExternalStorageDirectory().getAbsolutePath() + "/PICTURES";
 
-    private File[] listFile;
-    private File[] listFileExtra;
-    private File[] listFolders;
     private ArrayList<Folder> FOLDERS = null;
 
     private Button backButton;
-
-    public void getFromSdcardFolders(String path) {
-
-        FOLDERS = new ArrayList<>();
-        File file = new File(path);
-        if (file.isDirectory()) {
-            listFolders = file.listFiles(new ImageFileFilter());
-
-            for (int i = 0; i < listFolders.length; i++) {
-                String name = listFolders[i].getName();
-                if (name.toCharArray()[0] != '.') {
-                    Folder folderobject = new Folder();
-                    folderobject.setName(listFolders[i].getName());
-
-                    File picturelist = new File(path, listFolders[i].getName());
-                    if (picturelist.isDirectory()) {
-                        listFile = picturelist.listFiles();
-                        for (int j = 0; j < listFile.length; j++) {
-                            folderobject.addFile(listFile[j].getAbsolutePath());
-                        }
-                    }
-                    FOLDERS.add(folderobject);
-                }
-            }
-        }
-    }
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +43,8 @@ public class GalleryActivity extends AppCompatActivity implements AdapterView.On
             window.setStatusBarColor(getResources().getColor(R.color.statusBarColor));
         }
 
-        getFromSdcardFolders(path);
-        //  getFromSdcardFolders(pathExtra);
+        FOLDERS = SdCardDataRetriwHеlper.getFromSdcardPicturesFolders(path);
+
         GridViewAdapter adapter = new GridViewAdapter(getApplicationContext(), FOLDERS);
 
         GridView gridView = (GridView) findViewById(R.id.gridView);
@@ -101,32 +71,4 @@ public class GalleryActivity extends AppCompatActivity implements AdapterView.On
         chooseScreen.putExtra("FOLDER_NAME", FOLDERS.get(position).getName());
         startActivity(chooseScreen);
     }
-
-    /**
-     * Checks the file to see if it has a compatible extension.
-     */
-    private boolean isImageFile(String filePath) {
-        if (filePath.endsWith(".jpg") || filePath.endsWith(".png"))
-        // Add other formats as desired
-        {
-            return true;
-        }
-        return false;
-    }
-
-
-    private class ImageFileFilter implements FileFilter {
-
-        @Override
-        public boolean accept(File file) {
-            if (file.isDirectory()) {
-                return true;
-            } else if (isImageFile(file.getAbsolutePath())) {
-                return true;
-            }
-            return false;
-        }
-    }
-
-
 }
