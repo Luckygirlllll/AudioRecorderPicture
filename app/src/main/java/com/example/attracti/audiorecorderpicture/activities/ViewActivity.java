@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -20,7 +19,6 @@ import android.widget.TextView;
 import com.example.attracti.audiorecorderpicture.R;
 import com.example.attracti.audiorecorderpicture.fragments.BitmapFragment;
 import com.example.attracti.audiorecorderpicture.interfaces.OnCreateCanvasListener;
-import com.example.attracti.audiorecorderpicture.model.Folder;
 import com.example.attracti.audiorecorderpicture.model.Label;
 import com.example.attracti.audiorecorderpicture.utils.Statics;
 
@@ -35,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Iryna on 6/1/16.
- * <p/>
+ * <p>
  * in this class pictures are displayed from a certain project with labels and here user can listen the audio record
  * both from labels and in the order in which it was recorded.
  */
@@ -45,7 +43,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
 
     private static final String TAG = ViewActivity.class.getSimpleName();
 
-    private ArrayList<Folder> FOLDERS = new ArrayList<>();
     private ViewPager mPager;
     private ScreenSlidePagerAdapter mPagerAdapter;
     private File[] mArray;
@@ -100,32 +97,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         return parentName;
     }
 
-
-    public void getFromSdcardFolders() {
-        File file = new File(Environment.getExternalStorageDirectory() +
-                "/Audio_Recorder_Picture", "Pictures");
-        if (file.isDirectory()) {
-            File[] listFolders = file.listFiles();
-            for (int i = 0; i < listFolders.length; i++) {
-
-                Folder folderobject = new Folder();
-                folderobject.setName(listFolders[i].getName());
-
-                File picturelist = new File(Environment.getExternalStorageDirectory() +
-                        "/Audio_Recorder_Picture/Pictures", listFolders[i].getName());
-                if (picturelist.isDirectory()) {
-                    File[] listFile
-                            = picturelist.listFiles();
-                    for (int j = 0; j < listFile.length; j++) {
-                        folderobject.addFile(listFile[j].getAbsolutePath());
-                    }
-                }
-                FOLDERS.add(folderobject);
-            }
-        }
-    }
-
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screen_slide);
@@ -140,7 +111,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
 //        seekbar.setClickable(false);
 //        duration = (TextView) findViewById(R.id.songDuration);
 
-        getFromSdcardFolders();
         Intent intent = getIntent();
         mArray = (File[]) intent.getSerializableExtra("FILE_TAG");
 
@@ -153,8 +123,8 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                int realPosition = position+1;
-                pictureCounter.setText(realPosition + " из "+mArray.length);
+                int realPosition = position + 1;
+                pictureCounter.setText(realPosition + " из " + mArray.length);
             }
 
             @Override
@@ -237,9 +207,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
                         BitmapFragment fragment = (BitmapFragment) mPagerAdapter.getFragment(Integer.parseInt(labelList.get(timeStampIterator).getPictureName()));
                         int update = 1;
                         fragment.updateBitmap(labelList.get(timeStampIterator).getxLabel(), labelList.get(timeStampIterator).getyLabel(), update);
-
-
-
 
 
                         if (labelList.get(timeStampIterator).getxLabel() == 0 && labelList.get(timeStampIterator).getyLabel() == 0) {
