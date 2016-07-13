@@ -1,4 +1,4 @@
-package com.example.attracti.audiorecorderpicture.activities;
+package com.example.attracti.audiorecorderpicture.views;
 
 import android.content.Context;
 import android.graphics.Canvas;

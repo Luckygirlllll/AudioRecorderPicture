@@ -11,7 +11,7 @@ import android.os.AsyncTask;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.example.attracti.audiorecorderpicture.activities.CircleDrawView;
+import com.example.attracti.audiorecorderpicture.views.CircleDrawView;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -28,7 +28,7 @@ import static com.example.attracti.audiorecorderpicture.adapters.RecyclerViewAda
 
 public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
 
-    private final  String LOG_TAG = ChildDownloadTask.class.getSimpleName();
+    private final String LOG_TAG = ChildDownloadTask.class.getSimpleName();
 
     private final WeakReference<ImageView> viewHolderWeakReference;
     private String data = null;
@@ -50,10 +50,10 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
     private ArrayList<Integer> yCoordList;
     private ArrayList<Integer> positionList;
 
-    public ChildDownloadTask(Context context,ViewGroup view,  ImageView imageView, int position, ArrayList xCoordList, ArrayList yCoordList, ArrayList positionList) {
+    public ChildDownloadTask(Context context, ViewGroup view, ImageView imageView, int position, ArrayList xCoordList, ArrayList yCoordList, ArrayList positionList) {
         viewHolderWeakReference = new WeakReference<ImageView>(imageView);
-        this.rootView=view;
-        this.context=context;
+        this.rootView = view;
+        this.context = context;
         this.position = position;
         this.xCoordList = xCoordList;
         this.yCoordList = yCoordList;
@@ -88,16 +88,15 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
         textPaint.setTextAlign(Paint.Align.CENTER);
         Rect bounds = new Rect();
 
-
         if (positionList != null) {
             for (int i = 0; i < positionList.size(); i++) {
 
                 if (position == (positionList.get(i))) {
+                    // TODO: 7/13/16 change canvas labels to the viewLabels 
                     // awesome labels! :)     
-                    CircleDrawView circle1 = new CircleDrawView(context, xCoordList.get(i), yCoordList.get(i)  );
+                    CircleDrawView circle = new CircleDrawView(context, xCoordList.get(i), yCoordList.get(i), String.valueOf(i + 1));
 
-                    tempCanvas.drawCircle(xCoordList.get(i) / 4, yCoordList.get(i) / 4, 10, myPaint3);
-
+                    //   tempCanvas.drawCircle(xCoordList.get(i) / 4, yCoordList.get(i) / 4, 10, myPaint3);
                     //  tempCanvas.drawCircle(ChildFragment.xcoordList.get(i)/4, ChildFragment.ycoordList.get(i)/4 - (bounds.height() / 2), bounds.width() + 10, myPaint3);
 
                     textPaint.getTextBounds(String.valueOf(i), 0, String.valueOf(i).length(), bounds);
@@ -111,13 +110,19 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
 //                        tempCanvas.drawCircle(ChildFragment.xcoordList.get(i)/4, ChildFragment.ycoordList.get(i)/4 - (bounds.height() / 2), bounds.width() + 3, myPaint3);
 //                    };
 
-
-                    tempCanvas.drawText(String.valueOf(i + 1), xCoordList.get(i) / 4, yCoordList.get(i) / 4, textPaint);
+                    //      tempCanvas.drawText(String.valueOf(i + 1), xCoordList.get(i) / 4, yCoordList.get(i) / 4, textPaint);
                     tempCanvas.save();
-
-                    rootView.addView(circle1);
+                    rootView.addView(circle);
                     rootView.invalidate();
 
+                    //animation
+//                    ScaleAnimation fade_in =  new ScaleAnimation(0f, 1f, 0f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+//                    fade_in.setDuration(2000);     // animation duration in milliseconds
+//                    fade_in.setFillAfter(true);    // If fillAfter is true, the transformation that this animation performed will persist when it is finished.
+//                    circle.startAnimation(fade_in);
+                    // circle.animate().scaleX(1.2f).scaleY(1.2f).setDuration(2000);
+//                    Animation a = AnimationUtils.loadAnimation(context, R.anim.animation_scale_circle);
+//                    circle.startAnimation(a);
 
                 }
             }
@@ -129,12 +134,8 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
                 imageView.setImageDrawable(new BitmapDrawable(tempBitmapTest));
                 imageView.invalidate();
 
-
-
             }
         }
-
-
     }
 //    public  void addBitmapToMemoryCache(String key, Bitmap bitmap) {
 //        if (getBitmapFromMemCache(key) == null) {

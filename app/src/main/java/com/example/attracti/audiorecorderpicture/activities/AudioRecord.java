@@ -39,6 +39,7 @@ import com.example.attracti.audiorecorderpicture.interfaces.OnHeadlineSelectedLi
 import com.example.attracti.audiorecorderpicture.interfaces.OnSwipePictureListener;
 import com.example.attracti.audiorecorderpicture.utils.RealPathUtil;
 import com.example.attracti.audiorecorderpicture.utils.Statics;
+import com.example.attracti.audiorecorderpicture.views.DrawView;
 import com.example.attracti.audiorecorderpicture.widgets.CustomViewPagerH;
 
 import java.io.File;

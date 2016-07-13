@@ -45,6 +45,8 @@ public class BitmapFragment extends Fragment {
     private MediaPlayer mPlayer;
     private ViewActivity viewActivity;
 
+    private ViewGroup rootView;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -65,13 +67,13 @@ public class BitmapFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(
+        rootView = (ViewGroup) inflater.inflate(
                 R.layout.fragment_screen_slide, container, false);
         imageView = (ImageView) rootView.findViewById(R.id.imageView);
         int x=0;
         int y=0;
         int update =0;
-        loadBitmap(viewActivity, mFile, imageView, positionCurrent, x, y, update);
+        loadBitmap(rootView,viewActivity, mFile, imageView, positionCurrent, x, y, update);
 
         DoubleTap = new GestureDetectorCompat(getActivity(), new MyGestureListener());
 
@@ -85,14 +87,14 @@ public class BitmapFragment extends Fragment {
         return rootView;
     }
 
-    public void loadBitmap(ViewActivity viewActivity, String path, ImageView imageView, int position, int x, int y, int update) {
+    public void loadBitmap(ViewGroup view, ViewActivity viewActivity, String path, ImageView imageView, int position, int x, int y, int update) {
         final String imageKey = String.valueOf(path);
         final Bitmap bitmap = null;
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
         } else {
             ViewActivity activity = (ViewActivity)getActivity();
-            BitmapDownloadTask task = new BitmapDownloadTask(viewActivity, canvasListener, imageView, position, x, y, update);
+            BitmapDownloadTask task = new BitmapDownloadTask(view, viewActivity, canvasListener, imageView, position, x, y, update);
             task.execute(imageKey);
         }
     }
@@ -147,7 +149,7 @@ public class BitmapFragment extends Fragment {
     public void updateBitmap(int x, int y, int update){
         mFile=getArguments().getString(BITMAP_TAG);
         update =1;
-        loadBitmap(viewActivity, mFile,  imageView ,positionCurrent, x, y, update);
+        loadBitmap(rootView, viewActivity, mFile,  imageView ,positionCurrent, x, y, update);
     }
 
     private void stopPlaying() {

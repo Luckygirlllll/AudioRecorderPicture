@@ -9,6 +9,7 @@ import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.attracti.audiorecorderpicture.activities.ViewActivity;
@@ -45,6 +46,7 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
     private int y;
     private int update;
     private ImageView imageView;
+    private ViewGroup rootView;
 
     // Matrix
     private int framesPerSecond = 5;
@@ -54,7 +56,8 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
     private long startTime;
 
 
-    public BitmapDownloadTask(ViewActivity activity, OnCreateCanvasListener canvasListener, ImageView imageView, int position, int x, int y , int update) {
+    public BitmapDownloadTask(ViewGroup rootView, ViewActivity activity, OnCreateCanvasListener canvasListener, ImageView imageView, int position, int x, int y , int update) {
+        this.rootView=rootView;
         this.activity = activity;
         this.canvasListener = canvasListener;
         viewHolderWeakReference = new WeakReference<ImageView>(imageView);
@@ -74,7 +77,6 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
 
         mData = String.valueOf(params[0]);
         final Bitmap bitmap = decodeSampledBitmapFromResource(mData, 100, 100);
-
         //addBitmapToMemoryCache(String.valueOf(params[0]), bitmap);
         return bitmap;
     }
@@ -97,29 +99,38 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
         textPaint.setAntiAlias(true);
         textPaint.setTextAlign(Paint.Align.CENTER);
         Rect bounds = new Rect();
-
+      //  CircleDrawView circle=null;
             for (int i = 0; i < activity.getLabelList().size(); i++) {
                 if (position == (Integer.parseInt((String) activity.getLabelList().get(i).getPictureName()))) {
                     if(activity.getLabelList().get(i).getxLabel()!=0 &&activity.getLabelList().get(i).getyLabel()!=0) {
+//----------animation test
+//                        int xLabel = activity.getLabelList().get(i).getxLabel();
+//                        int yLabel = activity.getLabelList().get(i).getyLabel();
+//                        CircleDrawView circle = new CircleDrawView(activity, xLabel , yLabel, String.valueOf(i));
+
                         tempCanvas.drawCircle(activity.getLabelList().get(i).getxLabel() / 4, activity.getLabelList().get(i).getyLabel() / 4, 10, myPaint3);
                         textPaint.getTextBounds(String.valueOf(i), 0, String.valueOf(i).length(), bounds);
                         tempCanvas.drawText(String.valueOf(i), activity.getLabelList().get(i).getxLabel() / 4, activity.getLabelList().get(i).getyLabel() / 4, textPaint);
+
+//                        rootView.addView(circle);
+//                        rootView.invalidate();
+//
+//                        if(x!=0 && y!=0 ){
+//                            Log.wtf("Animation", "block'");
+//                            circle.animate().scaleX(1.2f).scaleY(1.2f).setDuration(2000);
+//                        }
                     }
                         if (x != 0 && y != 0) {
-                           // j=1;
+
                             Paint myPaint4 = new Paint();
                             myPaint4.setAntiAlias(true);
                             myPaint4.setColor(Color.RED);
-//                            for(float j=10; j<=13; j= (float) (j+0.02)) {
-                               // tempCanvas.drawCircle(x / 4, y / 4, 10, myPaint4);
-//                            }
                             long elapsedTime = System.currentTimeMillis() - startTime;
 
                             path.addCircle(x/4, y/4, 10, Path.Direction.CW);
                             matrix.setScale(1.1f, 1.1f, x/4-5, y/4-5);
                             path.transform(matrix);
                             tempCanvas.drawPath(path, myPaint4); // draw on canvas
-
 
 //                        textPaint.getTextBounds(String.valueOf(i), 0, String.valueOf(i).length(), bounds);
 //                        tempCanvas.drawText(String.valueOf(i), x / 4, y / 4, textPaint);
