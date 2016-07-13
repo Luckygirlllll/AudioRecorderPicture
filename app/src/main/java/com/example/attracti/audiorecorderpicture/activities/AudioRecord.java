@@ -39,7 +39,6 @@ import com.example.attracti.audiorecorderpicture.interfaces.OnHeadlineSelectedLi
 import com.example.attracti.audiorecorderpicture.interfaces.OnSwipePictureListener;
 import com.example.attracti.audiorecorderpicture.utils.RealPathUtil;
 import com.example.attracti.audiorecorderpicture.utils.Statics;
-import com.example.attracti.audiorecorderpicture.views.DrawView;
 import com.example.attracti.audiorecorderpicture.widgets.CustomViewPagerH;
 
 import java.io.File;
@@ -90,6 +89,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
     private TextView doneView;
     private TextView trackDuration;
     public static TextView pictureCounter;
+    private RelativeLayout progressBar;
 
     private CameraFragment fragment;
     private ViewFragment viewFragment;
@@ -536,17 +536,17 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         super.onCreate(icicle);
         setContentView(R.layout.activity_main);
 
-        //test of animation-----------------------------------
-        RelativeLayout progressBar = (RelativeLayout) findViewById(R.id.progress_bar);
+        //test of animation----------------------------------
+        progressBar = (RelativeLayout) findViewById(R.id.progress_bar);
 
-        DrawView draw = new DrawView(this, 4, "A");
-        DrawView draw2 = new DrawView(this, 3, "B");
-        progressBar.addView(draw);
-        progressBar.addView(draw2);
-        progressBar.invalidate();
-
-        draw.animate().translationXBy(-100f).setDuration(2000);
-        draw2.animate().translationXBy(-100f).setDuration(2000);
+//        DrawView draw = new DrawView(this, 4, "A");
+//        DrawView draw2 = new DrawView(this, 3, "B");
+//        progressBar.addView(draw);
+//        progressBar.addView(draw2);
+//        progressBar.invalidate();
+//
+//        draw.animate().translationXBy(-100f).setDuration(2000);
+//        draw2.animate().translationXBy(-100f).setDuration(2000);
 
         FrameLayout cameraLayout = (FrameLayout) findViewById(R.id.camera_frame2);
 
@@ -866,6 +866,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
                 case 1:
                     viewFragment = new ViewFragment();
+                    viewFragment.sendView(progressBar);
                     onArticleSelected(arrayFilepaths2);
                     fragments.add(viewFragment);
                     onSwipePictureListener = viewFragment;

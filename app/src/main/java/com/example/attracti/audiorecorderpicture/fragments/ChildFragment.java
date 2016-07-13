@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import com.example.attracti.audiorecorderpicture.R;
 import com.example.attracti.audiorecorderpicture.activities.AudioRecord;
 import com.example.attracti.audiorecorderpicture.async.ChildDownloadTask;
+import com.example.attracti.audiorecorderpicture.views.DrawView;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -51,6 +52,7 @@ public class ChildFragment extends Fragment {
     private ArrayList<Integer> positionList = new ArrayList<>();
 
     private AudioRecord activity;
+    private RelativeLayout progressBar;
 
     @Override
     public void onAttach(Context context) {
@@ -106,7 +108,13 @@ public class ChildFragment extends Fragment {
         args.putString(BITMAP_TAG, file);
         args.putInt("INT", position);
         fragment.setArguments(args);
+
+
         return fragment;
+    }
+
+    public void sendLayout(RelativeLayout progressBar) {
+        this.progressBar = progressBar;
     }
 
 
@@ -122,6 +130,11 @@ public class ChildFragment extends Fragment {
                     xcoordList.add(x);
                     ycoordList.add(y);
                     positionList.add(positionCurrent);
+
+                    DrawView draw = new DrawView(getActivity(), 6 - xcoordList.size(), String.valueOf(xcoordList.size()));
+                    progressBar.addView(draw);
+                    progressBar.invalidate();
+                    draw.animate().translationXBy(-100f).setDuration(2000);
 
                     loadBitmap(getActivity(), rootView, mFile, imageView, positionCurrent, xcoordList, ycoordList, positionList);
 

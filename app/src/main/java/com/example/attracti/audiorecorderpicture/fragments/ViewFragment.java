@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.example.attracti.audiorecorderpicture.R;
 import com.example.attracti.audiorecorderpicture.activities.AudioRecord;
@@ -39,8 +40,10 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
     private ImageView imageView;
 
     private ArrayList<File> arrayFilepaths;
-
     private Context context;
+    private RelativeLayout progressBar;
+
+
 
     public ArrayList<File> getArrayFilepaths() {
         return arrayFilepaths;
@@ -86,16 +89,16 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.view_pager, container, false);
-
 
         mPager = (CustomViewPagerH) rootView.findViewById(R.id.pager_fragment);
         mPager.setPagingEnabled(false);
         imageView = (ImageView) rootView.findViewById(R.id.imageView);
         mPagerAdapter = new ScreenSlidePagerAdapter(getFragmentManager());
         mPager.setAdapter(mPagerAdapter);
-
 
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -159,6 +162,10 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
         }
     }
 
+    public void sendView(RelativeLayout view) {
+        this.progressBar = view;
+    }
+
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
 
@@ -172,8 +179,9 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
         @Override
         public Fragment getItem(int position) {
             positionArr.add(position);
-
-            return ChildFragment.createfragment(context, arrayFilepaths.get(position).getPath(), position);
+            ChildFragment fragment = ChildFragment.createfragment(context, arrayFilepaths.get(position).getPath(), position);
+            fragment.sendLayout(progressBar);
+            return fragment;
 
         }
 

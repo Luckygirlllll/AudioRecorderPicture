@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
@@ -23,10 +22,9 @@ import android.widget.LinearLayout;
 import com.example.attracti.audiorecorderpicture.R;
 import com.example.attracti.audiorecorderpicture.adapters.ItemAdapter;
 import com.example.attracti.audiorecorderpicture.adapters.RecyclerViewAdapter;
-import com.example.attracti.audiorecorderpicture.model.Folder;
 import com.example.attracti.audiorecorderpicture.model.Item;
+import com.example.attracti.audiorecorderpicture.utils.SdCardDataRetriwHеlper;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -52,10 +50,6 @@ public class FirstscreenActivity extends AppCompatActivity implements
     private String mCurrentProject = null;
     private RecyclerView mList;
 
-    private File[] listFile;
-    private File[] listFolders;
-
-    private ArrayList<Folder> FOLDERS = null;
     public LruCache<String, Bitmap> getmMemoryCache() {
         return mMemoryCache;
     }
@@ -64,31 +58,6 @@ public class FirstscreenActivity extends AppCompatActivity implements
     BottomSheetBehavior behavior;
     private ItemAdapter mAdapterItem;
     private FloatingActionButton floatButton;
-
-
-    public void getFromSdcardFolders() {
-        FOLDERS = new ArrayList<>();
-        File file = new File(Environment.getExternalStorageDirectory() +
-                "/Audio_Recorder_Picture");
-        if (file.isDirectory()) {
-            listFolders = file.listFiles();
-            for (int i = 0; i < listFolders.length; i++) {
-
-                Folder folderobject = new Folder();
-                folderobject.setName(listFolders[i].getName());
-                File picturelist = new File(Environment.getExternalStorageDirectory() +
-                        "/Audio_Recorder_Picture/", listFolders[i].getName() + "/Previews");
-                if (picturelist.isDirectory()) {
-                    listFile = picturelist.listFiles();
-                    for (int j = 0; j < listFile.length; j++) {
-                        folderobject.addFile(listFile[j].getAbsolutePath());
-                    }
-                }
-                FOLDERS.add(folderobject);
-            }
-        }
-    }
-
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,13 +82,10 @@ public class FirstscreenActivity extends AppCompatActivity implements
 
         mLayoutManager = new LinearLayoutManager(getApplicationContext());
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-      //  mList.addOnItemTouchListener(new RecyclerItemClickListener(this, this));
-
-        getFromSdcardFolders();
 
         mList.setLayoutManager(mLayoutManager);
 
-        mAdapter = new RecyclerViewAdapter(FirstscreenActivity.this, FOLDERS);
+        mAdapter = new RecyclerViewAdapter(FirstscreenActivity.this, SdCardDataRetriwHеlper.getFromSdcardFolders());
         mList.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
 

@@ -103,7 +103,8 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
             for (int i = 0; i < activity.getLabelList().size(); i++) {
                 if (position == (Integer.parseInt((String) activity.getLabelList().get(i).getPictureName()))) {
                     if(activity.getLabelList().get(i).getxLabel()!=0 &&activity.getLabelList().get(i).getyLabel()!=0) {
-//----------animation test
+
+//---------------------------animation test
 //                        int xLabel = activity.getLabelList().get(i).getxLabel();
 //                        int yLabel = activity.getLabelList().get(i).getyLabel();
 //                        CircleDrawView circle = new CircleDrawView(activity, xLabel , yLabel, String.valueOf(i));
@@ -114,7 +115,6 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
 
 //                        rootView.addView(circle);
 //                        rootView.invalidate();
-//
 //                        if(x!=0 && y!=0 ){
 //                            Log.wtf("Animation", "block'");
 //                            circle.animate().scaleX(1.2f).scaleY(1.2f).setDuration(2000);
