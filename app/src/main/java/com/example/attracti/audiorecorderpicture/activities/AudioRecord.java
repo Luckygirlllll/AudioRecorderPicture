@@ -12,6 +12,7 @@ import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -26,6 +27,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -71,6 +73,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
     private String mFileName = null;
 
     private MediaRecorder mRecorder = null;
+
     private MediaPlayer mPlayer = null;
 
     private PlayButton playButton = null;
@@ -87,7 +90,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
     private View myToolbar;
     private Button backButton;
     private TextView doneView;
-    private TextView trackDuration;
+    private Chronometer chronometer;
     public static TextView pictureCounter;
     private RelativeLayout progressBar;
 
@@ -125,6 +128,9 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         return mLabelsDirectory;
     }
 
+    public MediaPlayer getmPlayer() {
+        return mPlayer;
+    }
 
     private void onRecord(boolean start) {
         if (start) {
@@ -269,6 +275,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+
         if (!mAudioDirectory.exists() && !mAudioDirectory.mkdirs()) {
             mAudioDirectory = null;
         } else {
@@ -428,6 +435,8 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
 
     private boolean mStartRecording = true;
+    private long timeStop = 0;
+    private long startTime;
     private OnClickListener recordButtonListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -435,6 +444,13 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
             startTimeAudio = System.currentTimeMillis();
 
             if (mStartRecording) {
+                if (timeStop == 0) {
+                    startTime = SystemClock.elapsedRealtime();
+                    chronometer.setBase(startTime);
+                } else {
+                    chronometer.setBase(SystemClock.elapsedRealtime() - timeStop);
+                }
+                chronometer.start();
                 recordButtonpause.setBackgroundResource(R.drawable.pause_red);
                 doneView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.toolbarRecordingActiveColor));
                 doneView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
@@ -442,14 +458,18 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
                 window.setStatusBarColor(getResources().getColor(R.color.statusBarRecordingActiveColor));
                 backButton.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.arrow_back_white));
                 pictureCounter.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
-                trackDuration.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
+                chronometer.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
 
             } else {
+                timeStop = SystemClock.elapsedRealtime() - chronometer.getBase();
+                // SystemClock.elapsedRealtime() - chronometer.getBase()
+                chronometer.stop();
+
                 recordButtonpause.setBackgroundResource(R.drawable.record_red);
                 doneView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.toolbarRecordingColor));
                 doneView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.toolbarTextAccentColor));
                 pictureCounter.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
-                trackDuration.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.toolbarGrayColor));
+                chronometer.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.toolbarGrayColor));
                 myToolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.toolbarRecordingColor));
                 window.setStatusBarColor(getResources().getColor(R.color.statusBarRecordingColor));
                 backButton.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.arrow_back_violet));
@@ -535,7 +555,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         super.onCreate(icicle);
         setContentView(R.layout.activity_main);
 
-        //test of animation----------------------------------
+        //test of the animation----------------------------------
         progressBar = (RelativeLayout) findViewById(R.id.progress_bar);
 
 //        DrawView draw = new DrawView(this, 4, "A");
@@ -585,7 +605,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         mPager.setAdapter(mPagerAdapter);
 
         pictureCounter = (TextView) findViewById(R.id.picture_counter);
-        trackDuration = (TextView) findViewById(R.id.track_lenght);
+        chronometer = (Chronometer) findViewById(R.id.track_lenght);
 
         doneView = (TextView) findViewById(R.id.done);
         doneView.setOnClickListener(new OnClickListener() {
@@ -611,7 +631,6 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
         window = getWindow();
         window.setStatusBarColor(getResources().getColor(R.color.statusBarRecordingColor));
-
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.weight = 1;
@@ -815,7 +834,6 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return super.onPrepareOptionsMenu(menu);
     }

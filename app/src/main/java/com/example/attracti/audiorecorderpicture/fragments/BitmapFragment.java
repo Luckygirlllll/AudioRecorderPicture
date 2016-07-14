@@ -168,6 +168,7 @@ public class BitmapFragment extends Fragment {
             int xlong = (int) e.getX();
             int ylong = (int) e.getY();
 
+
             switch (e.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     xlong = (int) e.getX();
@@ -179,7 +180,10 @@ public class BitmapFragment extends Fragment {
                     int xfile = viewActivity.getLabelList().get(i).getxLabel();
                     int yfile = viewActivity.getLabelList().get(i).getyLabel();
 
-                    if ((xlong < xfile * 0.68 + 30 && xlong > xfile * 0.68 - 30) && (ylong < yfile + 200 + 30 && ylong > yfile + 200 - 30)) {
+                    Log.wtf("xlong 1", xlong + " ylong " + ylong);
+                    Log.wtf("xlong 2", xfile + " yfile " + yfile);
+
+                    if ((xlong < xfile + 100 && xlong > xfile - 100) && (ylong < yfile + 100 && ylong > yfile - 100)) {
                         startPlayingPictureLabel(i);
                     }
                 }

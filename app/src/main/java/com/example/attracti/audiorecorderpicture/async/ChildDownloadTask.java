@@ -50,6 +50,8 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
     private ArrayList<Integer> yCoordList;
     private ArrayList<Integer> positionList;
 
+    ArrayList<CircleDrawView> circleList = new ArrayList<>();
+
     public ChildDownloadTask(Context context, ViewGroup view, ImageView imageView, int position, ArrayList xCoordList, ArrayList yCoordList, ArrayList positionList) {
         viewHolderWeakReference = new WeakReference<ImageView>(imageView);
         this.rootView = view;
@@ -90,16 +92,14 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
 
         if (positionList != null) {
             for (int i = 0; i < positionList.size(); i++) {
-
                 if (position == (positionList.get(i))) {
-                    // TODO: 7/13/16 change canvas labels to the viewLabels 
-                    // awesome labels! :)     
+                    //// TODO: 7/14/16 Animate each Label, not all simulteniously
                     CircleDrawView circle = new CircleDrawView(context, xCoordList.get(i), yCoordList.get(i), String.valueOf(i + 1));
-
+                    circleList.add(circle);
                     //   tempCanvas.drawCircle(xCoordList.get(i) / 4, yCoordList.get(i) / 4, 10, myPaint3);
                     //  tempCanvas.drawCircle(ChildFragment.xcoordList.get(i)/4, ChildFragment.ycoordList.get(i)/4 - (bounds.height() / 2), bounds.width() + 10, myPaint3);
 
-                    textPaint.getTextBounds(String.valueOf(i), 0, String.valueOf(i).length(), bounds);
+                    //                   textPaint.getTextBounds(String.valueOf(i), 0, String.valueOf(i).length(), bounds);
 
 //                    if (i < 10 && i>1) {
 //                        tempCanvas.drawCircle(ChildFragment.xcoordList.get(i)/4, ChildFragment.ycoordList.get(i)/4 - (bounds.height() / 2), bounds.width() + 6, myPaint3);
@@ -120,11 +120,13 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
 //                    fade_in.setDuration(2000);     // animation duration in milliseconds
 //                    fade_in.setFillAfter(true);    // If fillAfter is true, the transformation that this animation performed will persist when it is finished.
 //                    circle.startAnimation(fade_in);
-                    // circle.animate().scaleX(1.2f).scaleY(1.2f).setDuration(2000);
+                    //  circleList.get(positionList.get(i)).animate().scaleX(1.2f).scaleY(1.2f).setDuration(2000);
 //                    Animation a = AnimationUtils.loadAnimation(context, R.anim.animation_scale_circle);
 //                    circle.startAnimation(a);
+//                    circleList.get(i).animate().scaleX(1.2f).scaleY(1.2f).setDuration(2000);
 
                 }
+
             }
         }
         if (viewHolderWeakReference != null && bitmap != null) {

@@ -107,6 +107,10 @@ public class SdCardDataRetriwHеlper {
         return false;
     }
 
+    /*
+     * this method read labels from the file
+     */
+
     public static LinkedList<Label> readFromFile(File[] mArray) {
 
         ArrayList fileTime = new ArrayList();

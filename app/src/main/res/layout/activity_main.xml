@@ -39,15 +39,25 @@
                 android:textColor="@color/black"
                 android:textSize="20dp" />
 
-            <TextView
+            <Chronometer
                 android:id="@+id/track_lenght"
+                android:format="%s"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/picture_counter"
                 android:layout_centerHorizontal="true"
                 android:textColor="@color/toolbarGrayColor"
-                android:text="00:00"
-                android:textSize="14dp" />
+                android:textSize="14sp" />
+
+            <!--<TextView-->
+            <!--android:id="@+id/track_lenght"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/picture_counter"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:textColor="@color/toolbarGrayColor"-->
+            <!--android:text="00:00"-->
+            <!--android:textSize="14dp" />-->
 
         </RelativeLayout>
 

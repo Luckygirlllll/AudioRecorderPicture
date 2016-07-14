@@ -3,6 +3,7 @@ package com.example.attracti.audiorecorderpicture.fragments;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GestureDetectorCompat;
 import android.util.Log;
@@ -53,6 +54,8 @@ public class ChildFragment extends Fragment {
 
     private AudioRecord activity;
     private RelativeLayout progressBar;
+
+    private DrawView draw;
 
     @Override
     public void onAttach(Context context) {
@@ -131,10 +134,24 @@ public class ChildFragment extends Fragment {
                     ycoordList.add(y);
                     positionList.add(positionCurrent);
 
-                    DrawView draw = new DrawView(getActivity(), 6 - xcoordList.size(), String.valueOf(xcoordList.size()));
+                    draw = new DrawView(getActivity(), 6 - xcoordList.size(), String.valueOf(xcoordList.size()));
                     progressBar.addView(draw);
                     progressBar.invalidate();
                     draw.animate().translationXBy(-100f).setDuration(2000);
+
+                    CountDownTimer timer = new CountDownTimer(5000, 1000) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            Log.wtf("CountDown timer", "works!");
+                            draw.animate().translationXBy(-10f).setDuration(1000);
+                        }
+
+                        @Override
+                        public void onFinish() {
+
+                        }
+                    }.start();
+
 
                     loadBitmap(getActivity(), rootView, mFile, imageView, positionCurrent, xcoordList, ycoordList, positionList);
 
