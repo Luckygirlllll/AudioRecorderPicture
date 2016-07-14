@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -20,14 +21,12 @@ import com.example.attracti.audiorecorderpicture.R;
 import com.example.attracti.audiorecorderpicture.fragments.BitmapFragment;
 import com.example.attracti.audiorecorderpicture.interfaces.OnCreateCanvasListener;
 import com.example.attracti.audiorecorderpicture.model.Label;
+import com.example.attracti.audiorecorderpicture.utils.SdCardDataRetriwHеlper;
 import com.example.attracti.audiorecorderpicture.utils.Statics;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 
@@ -46,12 +45,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
     private ViewPager mPager;
     private ScreenSlidePagerAdapter mPagerAdapter;
     private File[] mArray;
-
-    private ArrayList fileTime = null;
-    private ArrayList xFile = null;
-    private ArrayList yFile = null;
-
-    public ArrayList filePosition = null;
     private String parentName;
 
     private MediaPlayer mPlayer;
@@ -62,39 +55,21 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
     private double timeElapsed = 0;
     private double finalTime = 0;
 
-    TextView duration;
+    private TextView duration;
 
     private LinkedList<Label> labelList = new LinkedList<Label>();
-
-    public LinkedList<Label> getLabelList() {
-        return labelList;
-    }
-
+    
     private ArrayList canvasList = new ArrayList();
     private ArrayList positionList = new ArrayList();
 
     private TextView pictureCounter;
 
-    private File[] listFile;
-
-    public ArrayList getFileTime() {
-        return fileTime;
-    }
-
-    public ArrayList getxFile() {
-        return xFile;
-    }
-
-    public ArrayList getyFile() {
-        return yFile;
-    }
-
-    public ArrayList getFilePosition() {
-        return filePosition;
-    }
-
     public String getParentName() {
         return parentName;
+    }
+
+    public LinkedList<Label> getLabelList() {
+        return labelList;
     }
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +78,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
-
         playButton = (Button) findViewById(R.id.play_button);
         playButton.setOnClickListener(playButtonListener);
 
@@ -113,13 +87,10 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
 
         Intent intent = getIntent();
         mArray = (File[]) intent.getSerializableExtra("FILE_TAG");
-
-        if (savedInstanceState == null) {
-            readFromFile();
-        }
+        parentName = mArray[0].getParentFile().getParentFile().getName();
+        labelList = SdCardDataRetriwHеlper.readFromFile(mArray);
 
         pictureCounter = (TextView) findViewById(R.id.picture_counter);
-
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -137,9 +108,17 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
 
             }
         });
-
+        if (savedInstanceState != null) {
+            labelList = (LinkedList<Label>) savedInstanceState.getSerializable("labellist");
+            Log.wtf("labelist", labelList.toString());
+        }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable("labellist", labelList);
+        super.onSaveInstanceState(outState);
+    }
 
     public void updateCurrent(int x, int y) {
         int position = mPager.getCurrentItem();
@@ -203,11 +182,9 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
                     int timeSpends = mPlayer.getCurrentPosition();
                     if (timeSpends >= labelList.get(timeStampIterator).getLabelTime() - 100 && timeSpends <= labelList.get(timeStampIterator).getLabelTime() + 100) {
 
-
                         BitmapFragment fragment = (BitmapFragment) mPagerAdapter.getFragment(Integer.parseInt(labelList.get(timeStampIterator).getPictureName()));
                         int update = 1;
                         fragment.updateBitmap(labelList.get(timeStampIterator).getxLabel(), labelList.get(timeStampIterator).getyLabel(), update);
-
 
                         if (labelList.get(timeStampIterator).getxLabel() == 0 && labelList.get(timeStampIterator).getyLabel() == 0) {
                             mPager.setCurrentItem(Integer.parseInt(labelList.get(timeStampIterator).getPictureName()));
@@ -313,37 +290,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         }
     }
 
-    public void readFromFile() {
-
-        fileTime = new ArrayList();
-        xFile = new ArrayList();
-        yFile = new ArrayList();
-        filePosition = new ArrayList();
-
-        parentName = mArray[0].getParentFile().getParentFile().getName();
-
-        try {
-            File labelsFile = new File(Statics.mDiretoryName + "/" + parentName + "/" + parentName + ".txt");
-            BufferedReader br = new BufferedReader(new FileReader(labelsFile));
-            String line;
-
-            while ((line = br.readLine()) != null) {
-                String[] oneItem = line.split("\t");
-                Label label = new Label(oneItem[0], Integer.parseInt(oneItem[1]), Integer.parseInt(oneItem[2]), Integer.parseInt(oneItem[3]));
-                labelList.add(label);
-
-            }
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //sorted labellist
-        Collections.sort(labelList);
-        for (Object str : labelList) {
-        }
-    }
-
     @Override
     public void saveCanvas(Canvas canvas, int position) {
         canvasList.add(canvas);
@@ -374,6 +320,7 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
             array = (File[]) intent.getSerializableExtra("FILE_TAG");
             return array.length;
         }
+
         public Fragment getFragment(int position) {
             return fragments.get(position);
         }

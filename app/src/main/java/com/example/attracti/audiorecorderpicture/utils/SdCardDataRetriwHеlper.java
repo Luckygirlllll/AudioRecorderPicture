@@ -3,10 +3,16 @@ package com.example.attracti.audiorecorderpicture.utils;
 import android.os.Environment;
 
 import com.example.attracti.audiorecorderpicture.model.Folder;
+import com.example.attracti.audiorecorderpicture.model.Label;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 
 /**
  * Created by Iryna on 7/13/16.
@@ -101,5 +107,37 @@ public class SdCardDataRetriwHеlper {
         return false;
     }
 
+    public static LinkedList<Label> readFromFile(File[] mArray) {
 
+        ArrayList fileTime = new ArrayList();
+        ArrayList xFile = new ArrayList();
+        ArrayList yFile = new ArrayList();
+        ArrayList filePosition = new ArrayList();
+        LinkedList<Label> labelList = new LinkedList<Label>();
+        String parentName;
+
+        parentName = mArray[0].getParentFile().getParentFile().getName();
+
+        try {
+            File labelsFile = new File(Statics.mDiretoryName + "/" + parentName + "/" + parentName + ".txt");
+            BufferedReader br = new BufferedReader(new FileReader(labelsFile));
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                String[] oneItem = line.split("\t");
+                Label label = new Label(oneItem[0], Integer.parseInt(oneItem[1]), Integer.parseInt(oneItem[2]), Integer.parseInt(oneItem[3]));
+                labelList.add(label);
+
+            }
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //sorted labellist
+        Collections.sort(labelList);
+        for (Object str : labelList) {
+        }
+        return labelList;
+    }
 }
