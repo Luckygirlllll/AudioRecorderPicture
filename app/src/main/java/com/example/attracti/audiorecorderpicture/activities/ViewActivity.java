@@ -351,7 +351,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
 
     }
 
-
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         ArrayList<Fragment> fragments = new ArrayList<>();
         File[] array;
@@ -375,7 +374,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
             array = (File[]) intent.getSerializableExtra("FILE_TAG");
             return array.length;
         }
-
         public Fragment getFragment(int position) {
             return fragments.get(position);
         }

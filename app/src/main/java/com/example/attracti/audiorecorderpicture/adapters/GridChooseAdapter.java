@@ -79,7 +79,6 @@ public class GridChooseAdapter extends BaseAdapter {
         ChooseDownloadTask task = new ChooseDownloadTask(viewHolder.imageView);
         task.execute(imageKey);
 
-
 //        Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(items.get(position)));
 //        bitmap = Bitmap.createScaledBitmap(bitmap,parent.getWidth(),parent.getHeight(),true);
 

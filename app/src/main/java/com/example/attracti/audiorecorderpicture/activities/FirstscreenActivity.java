@@ -32,7 +32,7 @@ import java.util.List;
 
 /**
  * Created by Iryna on 5/17/16.
- * <p/>
+ * <p>
  * First screen of the project with RecyclerView  (shows pictures of the all projects)
  */
 
@@ -72,7 +72,7 @@ public class FirstscreenActivity extends AppCompatActivity implements
         getSupportActionBar().setCustomView(viewCustom, layout);
 
         Window window = getWindow();
-        if (android.os.Build.VERSION.SDK_INT>=21) {
+        if (android.os.Build.VERSION.SDK_INT >= 21) {
             window.setStatusBarColor(getResources().getColor(R.color.statusBarColor));
         }
 
@@ -95,7 +95,7 @@ public class FirstscreenActivity extends AppCompatActivity implements
             public void onClick(View v) {
                 showBottomSheetDialog();
                 mBottomSheetDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, 700);
-               // LinearLayout.LayoutParams.WRAP_CONTENT
+                // LinearLayout.LayoutParams.WRAP_CONTENT
                 mBottomSheetDialog.getWindow().setGravity(Gravity.BOTTOM);
 
             }
@@ -138,7 +138,6 @@ public class FirstscreenActivity extends AppCompatActivity implements
     }
 
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -153,8 +152,6 @@ public class FirstscreenActivity extends AppCompatActivity implements
         getMenuInflater().inflate(R.menu.menu, menu);
         return super.onPrepareOptionsMenu(menu);
     }
-
-
 
     private void showBottomSheetDialog() {
 
@@ -172,15 +169,14 @@ public class FirstscreenActivity extends AppCompatActivity implements
             @Override
             public void onItemClick(Item item) {
                 if (mBottomSheetDialog != null) {
-                    if(item.getTitle()=="Camera"){
+                    if (item.getTitle() == "Camera") {
                         SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss");
                         Date now = new Date();
                         mCurrentProject = String.valueOf(formatter.format(now));
                         Intent nextScreen = new Intent(getApplicationContext(), AudioRecord.class);
                         nextScreen.putExtra("currentProject", mCurrentProject);
                         startActivity(nextScreen);
-                    }
-                    else if(item.getTitle()=="Gallery"){
+                    } else if (item.getTitle() == "Gallery") {
                         Intent galleryScreen = new Intent(getApplicationContext(), GalleryActivity.class);
                         startActivity(galleryScreen);
                     }

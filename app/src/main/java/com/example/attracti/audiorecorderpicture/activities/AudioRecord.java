@@ -371,7 +371,6 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         public void savePicture();
     }
 
-
     private static int firstClick = 0;
 
     private OnClickListener mCaptureImageButtonClickListener = new OnClickListener() {
