@@ -26,7 +26,6 @@ public class CircleDrawView extends View {
     private String labelName;
 
 
-
     public CircleDrawView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
@@ -64,4 +63,18 @@ public class CircleDrawView extends View {
         canvas.drawText(labelName, x, y, textPaint);
 
     }
+
+    //  tempCanvas.drawCircle(xCoordList.get(i) / 4, yCoordList.get(i) / 4, 10, myPaint3);
+    //  tempCanvas.drawCircle(ChildFragment.xcoordList.get(i)/4, ChildFragment.ycoordList.get(i)/4 - (bounds.height() / 2), bounds.width() + 10, myPaint3);
+    //  textPaint.getTextBounds(String.valueOf(i), 0, String.valueOf(i).length(), bounds);
+    //                    if (i < 10 && i>1) {
+    //                        tempCanvas.drawCircle(ChildFragment.xcoordList.get(i)/4, ChildFragment.ycoordList.get(i)/4 - (bounds.height() / 2), bounds.width() + 6, myPaint3);
+    //                    } else if (i==1) {
+    //                        tempCanvas.drawCircle(ChildFragment.xcoordList.get(i)/4, ChildFragment.ycoordList.get(i)/4 - (bounds.height() / 2), bounds.width() + 15, myPaint3);
+    //                    }
+    //                    else {
+    //                        tempCanvas.drawCircle(ChildFragment.xcoordList.get(i)/4, ChildFragment.ycoordList.get(i)/4 - (bounds.height() / 2), bounds.width() + 3, myPaint3);
+    //                    };
+    //      tempCanvas.drawText(String.valueOf(i + 1), xCoordList.get(i) / 4, yCoordList.get(i) / 4, textPaint);
+
 }

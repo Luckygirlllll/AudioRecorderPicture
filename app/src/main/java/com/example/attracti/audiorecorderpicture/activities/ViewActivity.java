@@ -6,6 +6,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -14,6 +15,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -58,11 +60,16 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
     private TextView duration;
 
     private LinkedList<Label> labelList = new LinkedList<Label>();
-    
+
     private ArrayList canvasList = new ArrayList();
     private ArrayList positionList = new ArrayList();
 
     private TextView pictureCounter;
+    private Chronometer chronometer;
+    //todo Add chronometer here
+    private long timeStop = 0;
+    private long startTime;
+    private boolean mStartPlaying = true;
 
     public String getParentName() {
         return parentName;
@@ -79,7 +86,9 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         playButton = (Button) findViewById(R.id.play_button);
-        playButton.setOnClickListener(playButtonListener);
+
+
+        chronometer = (Chronometer) findViewById(R.id.track_lenght);
 
 //        seekbar = (SeekBar) findViewById(R.id.seekBar);
 //        seekbar.setClickable(false);
@@ -112,6 +121,36 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
             labelList = (LinkedList<Label>) savedInstanceState.getSerializable("labellist");
             Log.wtf("labelist", labelList.toString());
         }
+        View.OnClickListener playButtonListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (mStartPlaying) {
+                    playButton.setBackgroundResource(R.drawable.pause_violet);
+                    startPlayingLabels();
+
+                    if (timeStop == 0) {
+                        startTime = SystemClock.elapsedRealtime();
+                        chronometer.setBase(startTime);
+                    } else {
+                        chronometer.setBase(SystemClock.elapsedRealtime() - timeStop);
+                    }
+                    chronometer.start();
+
+
+                } else {
+
+                    playButton.setBackgroundResource(R.drawable.play_violet);
+                    pause();
+                    timeStop = SystemClock.elapsedRealtime() - chronometer.getBase();
+                    chronometer.stop();
+
+                }
+                mStartPlaying = !mStartPlaying;
+            }
+
+        };
+        playButton.setOnClickListener(playButtonListener);
     }
 
     @Override
@@ -126,22 +165,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         int update = 1;
         fragment.updateBitmap(x, y, update);
     }
-
-    private boolean mStartPlaying = true;
-    private View.OnClickListener playButtonListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (mStartPlaying) {
-                playButton.setBackgroundResource(R.drawable.pause_violet);
-                startPlayingLabels();
-            } else {
-                playButton.setBackgroundResource(R.drawable.play_violet);
-                pause();
-            }
-            mStartPlaying = !mStartPlaying;
-        }
-
-    };
 
 
     private CountDownTimer timer;

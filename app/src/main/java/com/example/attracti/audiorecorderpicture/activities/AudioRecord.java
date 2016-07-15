@@ -437,6 +437,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
     private boolean mStartRecording = true;
     private long timeStop = 0;
     private long startTime;
+
     private OnClickListener recordButtonListener = new OnClickListener() {
         @Override
         public void onClick(View v) {

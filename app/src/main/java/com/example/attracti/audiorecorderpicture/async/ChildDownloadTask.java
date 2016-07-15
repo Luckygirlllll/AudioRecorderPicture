@@ -51,6 +51,7 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
     private ArrayList<Integer> positionList;
 
     ArrayList<CircleDrawView> circleList = new ArrayList<>();
+    private CircleDrawView circle;
 
     public ChildDownloadTask(Context context, ViewGroup view, ImageView imageView, int position, ArrayList xCoordList, ArrayList yCoordList, ArrayList positionList) {
         viewHolderWeakReference = new WeakReference<ImageView>(imageView);
@@ -94,51 +95,48 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
             for (int i = 0; i < positionList.size(); i++) {
                 if (position == (positionList.get(i))) {
                     //// TODO: 7/14/16 Animate each Label, not all simulteniously
-                    CircleDrawView circle = new CircleDrawView(context, xCoordList.get(i), yCoordList.get(i), String.valueOf(i + 1));
-                    circleList.add(circle);
-                    //   tempCanvas.drawCircle(xCoordList.get(i) / 4, yCoordList.get(i) / 4, 10, myPaint3);
-                    //  tempCanvas.drawCircle(ChildFragment.xcoordList.get(i)/4, ChildFragment.ycoordList.get(i)/4 - (bounds.height() / 2), bounds.width() + 10, myPaint3);
+                    circle = new CircleDrawView(context, xCoordList.get(i), yCoordList.get(i), String.valueOf(i + 1));
 
-                    //                   textPaint.getTextBounds(String.valueOf(i), 0, String.valueOf(i).length(), bounds);
-
-//                    if (i < 10 && i>1) {
-//                        tempCanvas.drawCircle(ChildFragment.xcoordList.get(i)/4, ChildFragment.ycoordList.get(i)/4 - (bounds.height() / 2), bounds.width() + 6, myPaint3);
-//                    } else if (i==1) {
-//                        tempCanvas.drawCircle(ChildFragment.xcoordList.get(i)/4, ChildFragment.ycoordList.get(i)/4 - (bounds.height() / 2), bounds.width() + 15, myPaint3);
-//                    }
-//                    else {
-//                        tempCanvas.drawCircle(ChildFragment.xcoordList.get(i)/4, ChildFragment.ycoordList.get(i)/4 - (bounds.height() / 2), bounds.width() + 3, myPaint3);
-//                    };
-
-                    //      tempCanvas.drawText(String.valueOf(i + 1), xCoordList.get(i) / 4, yCoordList.get(i) / 4, textPaint);
                     tempCanvas.save();
                     rootView.addView(circle);
                     rootView.invalidate();
 
-                    //animation
+                    //--------------animation
 //                    ScaleAnimation fade_in =  new ScaleAnimation(0f, 1f, 0f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 //                    fade_in.setDuration(2000);     // animation duration in milliseconds
 //                    fade_in.setFillAfter(true);    // If fillAfter is true, the transformation that this animation performed will persist when it is finished.
 //                    circle.startAnimation(fade_in);
-                    //  circleList.get(positionList.get(i)).animate().scaleX(1.2f).scaleY(1.2f).setDuration(2000);
-//                    Animation a = AnimationUtils.loadAnimation(context, R.anim.animation_scale_circle);
-//                    circle.startAnimation(a);
-//                    circleList.get(i).animate().scaleX(1.2f).scaleY(1.2f).setDuration(2000);
+//  circleList.get(positionList.get(i)).animate().scaleX(1.2f).scaleY(1.2f).setDuration(2000);
 
                 }
-
             }
         }
+        if (circle != null) {
+            circleList.add(circle);
+//        Animation a = AnimationUtils.loadAnimation(context, R.anim.animation_scale_circle);
+//        circleList.get(circleList.size()-1).startAnimation(a);
+
+//            CircleDrawView circle = circleList.get(circleList.size()-1);
+//            ObjectAnimator animator = ObjectAnimator.ofFloat(circle, "scaleX", 2.5f);
+//            ObjectAnimator animator2 = ObjectAnimator.ofFloat(circle, "scaleY", 2.5f);
+//            AnimatorSet set = new AnimatorSet();
+//            set.playTogether(animator,animator2);
+//            set.setDuration(3000);
+//            set.start();
+
+//            circleList.get(circleList.size()-1).animate().scaleX(1.2f).scaleY(1.2f).setDuration(2000);
+        }
+
         if (viewHolderWeakReference != null && bitmap != null) {
             imageView = viewHolderWeakReference.get();
             if (imageView != null) {
                 imageView.setImageBitmap(bitmap);
                 imageView.setImageDrawable(new BitmapDrawable(tempBitmapTest));
                 imageView.invalidate();
-
             }
         }
     }
+
 //    public  void addBitmapToMemoryCache(String key, Bitmap bitmap) {
 //        if (getBitmapFromMemCache(key) == null) {
 //            FirstscreenActivity.mMemoryCache.put(key, bitmap);
