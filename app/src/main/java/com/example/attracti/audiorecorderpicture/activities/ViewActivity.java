@@ -66,7 +66,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
 
     private TextView pictureCounter;
     private Chronometer chronometer;
-    //todo Add chronometer here
     private long timeStop = 0;
     private long startTime;
     private boolean mStartPlaying = true;
@@ -86,13 +85,9 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         playButton = (Button) findViewById(R.id.play_button);
-
-
+        
         chronometer = (Chronometer) findViewById(R.id.track_lenght);
 
-//        seekbar = (SeekBar) findViewById(R.id.seekBar);
-//        seekbar.setClickable(false);
-//        duration = (TextView) findViewById(R.id.songDuration);
 
         Intent intent = getIntent();
         mArray = (File[]) intent.getSerializableExtra("FILE_TAG");
