@@ -85,9 +85,7 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         playButton = (Button) findViewById(R.id.play_button);
-        
         chronometer = (Chronometer) findViewById(R.id.track_lenght);
-
 
         Intent intent = getIntent();
         mArray = (File[]) intent.getSerializableExtra("FILE_TAG");
@@ -129,6 +127,7 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
                         chronometer.setBase(startTime);
                     } else {
                         chronometer.setBase(SystemClock.elapsedRealtime() - timeStop);
+
                     }
                     chronometer.start();
 

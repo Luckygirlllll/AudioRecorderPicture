@@ -379,6 +379,8 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
     }
 
     private static int firstClick = 0;
+    private int firstPressed = 0;
+
 
     private OnClickListener mCaptureImageButtonClickListener = new OnClickListener() {
         @Override
@@ -387,6 +389,13 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
                 firstSlide++;
 
                 fragment.takePicture();
+
+                if (firstPressed == 0) {
+                    recordButtonpause.setBackgroundResource(R.drawable.record_red);
+                    recordButtonpause.setEnabled(true);
+                }
+
+                firstPressed++;
 
                 timePictureChange = System.currentTimeMillis();
                 long sBody;
@@ -638,6 +647,8 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
 
         int rotation = this.getWindowManager().getDefaultDisplay()
                 .getRotation();
+
+        recordButtonpause.setEnabled(false);
 
         mCurrentProject = getIntent().getStringExtra("currentProject");
 
