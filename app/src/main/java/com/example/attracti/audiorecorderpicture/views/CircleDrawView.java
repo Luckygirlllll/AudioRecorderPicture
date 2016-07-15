@@ -44,6 +44,8 @@ public class CircleDrawView extends View {
         this.x=x;
         this.y=y;
         this.labelName=labelName;
+        setPivotX(x);
+        setPivotY(y);
     }
 
 

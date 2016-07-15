@@ -1,5 +1,6 @@
 package com.example.attracti.audiorecorderpicture.async;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -115,6 +116,30 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
             circleList.add(circle);
 //        Animation a = AnimationUtils.loadAnimation(context, R.anim.animation_scale_circle);
 //        circleList.get(circleList.size()-1).startAnimation(a);
+
+            circleList.get(circleList.size() - 1).animate().scaleX(1.5f).scaleY(1.5f).setDuration(2000).setListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    circleList.get(circleList.size() - 1).animate().scaleX(0.8f).scaleY(0.8f).setDuration(2000);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
+
+
 
 //            CircleDrawView circle = circleList.get(circleList.size()-1);
 //            ObjectAnimator animator = ObjectAnimator.ofFloat(circle, "scaleX", 2.5f);
