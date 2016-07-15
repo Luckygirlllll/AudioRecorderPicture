@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.view.ViewGroup;
@@ -84,31 +83,14 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
         Paint myPaint3 = new Paint();
         myPaint3.setAntiAlias(true);
         myPaint3.setColor(Color.RED);
-
-        textPaint = new Paint();
-        textPaint.setTextSize(10);
-        textPaint.setColor(Color.WHITE);
-        textPaint.setAntiAlias(true);
-        textPaint.setTextAlign(Paint.Align.CENTER);
-        Rect bounds = new Rect();
-
+        
         if (positionList != null) {
             for (int i = 0; i < positionList.size(); i++) {
-                if (position == (positionList.get(i))) {
-                    //// TODO: 7/14/16 Animate each Label, not all simulteniously
-                    circle = new CircleDrawView(context, xCoordList.get(i), yCoordList.get(i), String.valueOf(i + 1));
-
+                if (position == (positionList.get(positionList.size() - 1))) {
+                    circle = new CircleDrawView(context, xCoordList.get(xCoordList.size() - 1), yCoordList.get(yCoordList.size() - 1), String.valueOf(i + 1));
                     tempCanvas.save();
                     rootView.addView(circle);
                     rootView.invalidate();
-
-                    //--------------animation
-//                    ScaleAnimation fade_in =  new ScaleAnimation(0f, 1f, 0f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-//                    fade_in.setDuration(2000);     // animation duration in milliseconds
-//                    fade_in.setFillAfter(true);    // If fillAfter is true, the transformation that this animation performed will persist when it is finished.
-//                    circle.startAnimation(fade_in);
-//  circleList.get(positionList.get(i)).animate().scaleX(1.2f).scaleY(1.2f).setDuration(2000);
-
                 }
             }
         }

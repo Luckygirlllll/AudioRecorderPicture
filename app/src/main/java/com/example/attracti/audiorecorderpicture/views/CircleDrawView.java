@@ -8,7 +8,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -60,8 +59,8 @@ public class CircleDrawView extends View {
         textPaint.setColor(Color.WHITE);
         textPaint.setAntiAlias(true);
         textPaint.setTextAlign(Paint.Align.CENTER);
-        Rect bounds = new Rect();
-        textPaint.getTextBounds(labelName, 0, labelName.length(), bounds);
+//        Rect bounds = new Rect();
+//        textPaint.getTextBounds(labelName, 0, labelName.length(), bounds);
         canvas.drawText(labelName, x, y, textPaint);
 
     }
