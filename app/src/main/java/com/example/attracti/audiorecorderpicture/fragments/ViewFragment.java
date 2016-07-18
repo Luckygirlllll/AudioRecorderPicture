@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.example.attracti.audiorecorderpicture.R;
-import com.example.attracti.audiorecorderpicture.activities.AudioRecord;
+import com.example.attracti.audiorecorderpicture.activities.AudioRecordActivity;
 import com.example.attracti.audiorecorderpicture.interfaces.OnSwipePictureListener;
 import com.example.attracti.audiorecorderpicture.widgets.CustomViewPagerH;
 
@@ -104,10 +104,10 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 if (arrayFilepaths.size() == 0) {
-                    AudioRecord.pictureCounter.setText(position + " из " + arrayFilepaths.size());
+                    AudioRecordActivity.pictureCounter.setText(position + " из " + arrayFilepaths.size());
                 } else {
                     int realPosition = position + 1;
-                    AudioRecord.pictureCounter.setText(realPosition + " из " + arrayFilepaths.size());
+                    AudioRecordActivity.pictureCounter.setText(realPosition + " из " + arrayFilepaths.size());
                 }
             }
 

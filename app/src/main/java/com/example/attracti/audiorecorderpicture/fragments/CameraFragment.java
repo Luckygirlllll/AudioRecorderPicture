@@ -29,7 +29,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.attracti.audiorecorderpicture.R;
-import com.example.attracti.audiorecorderpicture.activities.AudioRecord;
+import com.example.attracti.audiorecorderpicture.activities.AudioRecordActivity;
 import com.example.attracti.audiorecorderpicture.interfaces.OnHeadlineSelectedListener;
 import com.example.attracti.audiorecorderpicture.utils.Statics;
 
@@ -45,13 +45,13 @@ import java.util.Locale;
 
 /**
  * In this Fragment is going the process of making pictures
- * AudioRecord is the activity of this fragment
+ * AudioRecordActivity is the activity of this fragment
  */
 
 
 public class CameraFragment extends Fragment
-        implements SurfaceHolder.Callback, AudioRecord.TakePictureListener, AudioRecord.SavePictureListener,
-        AudioRecord.ReceivePictureListener {
+        implements SurfaceHolder.Callback, AudioRecordActivity.TakePictureListener, AudioRecordActivity.SavePictureListener,
+        AudioRecordActivity.ReceivePictureListener {
 
     OnHeadlineSelectedListener mCallback;
 
@@ -65,7 +65,7 @@ public class CameraFragment extends Fragment
 
     private String TAG = CameraFragment.class.getSimpleName();
     private Context context;
-    private AudioRecord activity;
+    private AudioRecordActivity activity;
 
     private final String KEY_IS_CAPTURING = "is_capturing";
     private final int TAKE_PICTURE_REQUEST_B = 100;
@@ -92,7 +92,7 @@ public class CameraFragment extends Fragment
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
-        this.activity = (AudioRecord) context;
+        this.activity = (AudioRecordActivity) context;
 
         try {
         } catch (ClassCastException e) {

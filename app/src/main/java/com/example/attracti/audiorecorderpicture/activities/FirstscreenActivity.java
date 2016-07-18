@@ -173,7 +173,7 @@ public class FirstscreenActivity extends AppCompatActivity implements
                         SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss");
                         Date now = new Date();
                         mCurrentProject = String.valueOf(formatter.format(now));
-                        Intent nextScreen = new Intent(getApplicationContext(), AudioRecord.class);
+                        Intent nextScreen = new Intent(getApplicationContext(), AudioRecordActivity.class);
                         nextScreen.putExtra("currentProject", mCurrentProject);
                         startActivity(nextScreen);
                     } else if (item.getTitle() == "Gallery") {

@@ -54,9 +54,9 @@ import java.util.ArrayList;
  * CameraFragment and ViewFragment (ViewPager)
  */
 
-public class AudioRecord extends AppCompatActivity implements OnHeadlineSelectedListener {
+public class AudioRecordActivity extends AppCompatActivity implements OnHeadlineSelectedListener {
 
-    private final String LOG_TAG = AudioRecord.class.getSimpleName();
+    private final String LOG_TAG = AudioRecordActivity.class.getSimpleName();
 
     private OnSwipePictureListener onSwipePictureListener;
     private SavePictureListener savePictureListener;
@@ -281,7 +281,6 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
         } else {
             mFileName = Statics.mDiretoryName + "/" + mCurrentProject + "/" + mCurrentProject + ".3gp";
             mRecorder.setOutputFile(mFileName);
-
         }
 
         mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
@@ -889,7 +888,7 @@ public class AudioRecord extends AppCompatActivity implements OnHeadlineSelected
             switch (position) {
                 case 0:
                     fragment = new CameraFragment();
-                    fragment.setCallback(AudioRecord.this);
+                    fragment.setCallback(AudioRecordActivity.this);
                     fragments.add(fragment);
                     return fragment;
 

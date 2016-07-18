@@ -20,7 +20,7 @@
         <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
         <activity
-            android:name=".activities.AudioRecord"
+            android:name=".activities.AudioRecordActivity"
             android:configChanges="orientation|keyboardHidden"
             ></activity>
         <activity android:name=".activities.FirstscreenActivity">

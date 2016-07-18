@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.example.attracti.audiorecorderpicture.R;
-import com.example.attracti.audiorecorderpicture.activities.AudioRecord;
+import com.example.attracti.audiorecorderpicture.activities.AudioRecordActivity;
 import com.example.attracti.audiorecorderpicture.async.ChildDownloadTask;
 import com.example.attracti.audiorecorderpicture.views.DrawView;
 
@@ -56,9 +56,7 @@ public class ChildFragment extends Fragment {
     private ArrayList<DrawView> drawViewExtra = new ArrayList<>();
 
 
-
-
-    private AudioRecord activity;
+    private AudioRecordActivity activity;
     private RelativeLayout progressBar;
 
     private DrawView draw;
@@ -67,7 +65,7 @@ public class ChildFragment extends Fragment {
     public void onAttach(Context context) {
         this.context = context;
         super.onAttach(context);
-        this.activity = (AudioRecord) context;
+        this.activity = (AudioRecordActivity) context;
     }
 
     @Override
@@ -149,21 +147,25 @@ public class ChildFragment extends Fragment {
                     drawViewList.add(draw);
                     progressBar.addView(draw);
                     progressBar.invalidate();
-                    //    draw.animate().translationXBy(-100f).setDuration(2000);
-
+                    draw.animate().translationXBy(-360f).setDuration(1000);
 
                     CountDownTimer timer = new CountDownTimer(System.currentTimeMillis() + 2000 - timeList.get(0), 1000) {
-                        int j = 2;
+                        int j = 3;
 
                         @Override
                         public void onTick(long millisUntilFinished) {
-                            draw = new DrawView(getActivity(), j++, String.valueOf(xcoordList.size()));
-                            drawViewExtra.add(draw);
-                            if (drawViewExtra.size() > 1) {
-                                ((ViewGroup) drawViewExtra.get(drawViewExtra.size() - 2).getParent()).removeView(drawViewExtra.get(drawViewExtra.size() - 2));
-                            }
-                            progressBar.addView(drawViewExtra.get(drawViewExtra.size() - 1));
-                            progressBar.invalidate();
+                            // ------animation test
+                            draw.animate().translationXBy((-720f) / j).setDuration(1000);
+                            j++;
+                            //-------animation test
+
+//                            draw = new DrawView(getActivity(), j++, String.valueOf(xcoordList.size()));
+//                            drawViewExtra.add(draw);
+//                            if (drawViewExtra.size() > 1) {
+//                                ((ViewGroup) drawViewExtra.get(drawViewExtra.size() - 2).getParent()).removeView(drawViewExtra.get(drawViewExtra.size() - 2));
+//                            }
+//                            progressBar.addView(drawViewExtra.get(drawViewExtra.size() - 1));
+//                            progressBar.invalidate();
                         }
 
                         @Override
