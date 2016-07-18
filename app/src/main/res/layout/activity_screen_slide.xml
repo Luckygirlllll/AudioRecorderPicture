@@ -38,14 +38,14 @@
                 android:textColor="@color/black"
                 android:textSize="20dp" />
 
-            <Chronometer
-                android:id="@+id/track_lenght"
+            <TextView
+                android:id="@+id/track_lenght_seek"
                 android:layout_below="@+id/picture_counter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:format="%s"
                 android:layout_centerHorizontal="true"
                 android:textSize="14sp" />
+
 
         </RelativeLayout>
 

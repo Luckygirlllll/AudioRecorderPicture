@@ -6,7 +6,6 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -15,7 +14,6 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Chronometer;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -65,7 +63,7 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
     private ArrayList positionList = new ArrayList();
 
     private TextView pictureCounter;
-    private Chronometer chronometer;
+
     private long timeStop = 0;
     private long startTime;
     private boolean mStartPlaying = true;
@@ -78,6 +76,10 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         return labelList;
     }
 
+    private SeekBar seekBar;
+    private TextView songDuration;
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screen_slide);
@@ -85,8 +87,9 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         playButton = (Button) findViewById(R.id.play_button);
-        chronometer = (Chronometer) findViewById(R.id.track_lenght);
-
+        songDuration = (TextView) findViewById(R.id.track_lenght_seek);
+        seekbar = new SeekBar(getApplicationContext());
+        
         Intent intent = getIntent();
         mArray = (File[]) intent.getSerializableExtra("FILE_TAG");
         parentName = mArray[0].getParentFile().getParentFile().getName();
@@ -122,23 +125,9 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
                     playButton.setBackgroundResource(R.drawable.pause_violet);
                     startPlayingLabels();
 
-                    if (timeStop == 0) {
-                        startTime = SystemClock.elapsedRealtime();
-                        chronometer.setBase(startTime);
-                    } else {
-                        chronometer.setBase(SystemClock.elapsedRealtime() - timeStop);
-
-                    }
-                    chronometer.start();
-
-
                 } else {
-
                     playButton.setBackgroundResource(R.drawable.play_violet);
                     pause();
-                    timeStop = SystemClock.elapsedRealtime() - chronometer.getBase();
-                    chronometer.stop();
-
                 }
                 mStartPlaying = !mStartPlaying;
             }
@@ -146,6 +135,7 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         };
         playButton.setOnClickListener(playButtonListener);
     }
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -174,25 +164,25 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
             mPlayer.setDataSource(mFileName);
             mPlayer.prepare();
             mPlayer.start();
-//            if (length == 0) {
-//                finalTime = mPlayer.getDuration();
-//                seekbar.setMax((int) finalTime);
+            if (length == 0) {
+                finalTime = mPlayer.getDuration();
+                seekbar.setMax((int) finalTime);
+//                  mPlayer.start();
+                timeElapsed = mPlayer.getCurrentPosition();
+                seekbar.setProgress((int) timeElapsed);
+                durationHandler.postDelayed(updateSeekBarTime, 100);
+//
+//
+            } else {
+                mPlayer.seekTo(length);
+                finalTime = mPlayer.getDuration();
+                seekbar.setMax((int) finalTime);
 //                //  mPlayer.start();
-//                timeElapsed = mPlayer.getCurrentPosition();
-//                seekbar.setProgress((int) timeElapsed);
-//                durationHandler.postDelayed(updateSeekBarTime, 100);
+                timeElapsed = mPlayer.getCurrentPosition();
+                seekbar.setProgress((int) timeElapsed);
+                durationHandler.postDelayed(updateSeekBarTime, 100);
 //
-//
-//            } else {
-//                mPlayer.seekTo(length);
-//                finalTime = mPlayer.getDuration();
-//                seekbar.setMax((int) finalTime);
-//                //  mPlayer.start();
-//                timeElapsed = mPlayer.getCurrentPosition();
-//                seekbar.setProgress((int) timeElapsed);
-//                durationHandler.postDelayed(updateSeekBarTime, 100);
-//
-//            }
+            }
             timer = new CountDownTimer(mPlayer.getDuration() - mPlayer.getCurrentPosition(), 100) {
                 @Override
                 public void onTick(long millisUntilFinished) {
@@ -290,7 +280,7 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
             //set time remaing
             double timeRemaining = finalTime - timeElapsed;
             //duration.setText(String.format("%d min, %d sec", TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining), TimeUnit.MILLISECONDS.toSeconds((long) timeRemaining) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining))));
-            duration.setText(String.format("%d:%d ", TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining), TimeUnit.MILLISECONDS.toSeconds((long) timeRemaining) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining))));
+            songDuration.setText(String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes((long) timeElapsed), TimeUnit.MILLISECONDS.toSeconds((long) timeElapsed) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) timeElapsed))));
 
             //repeat yourself that again in 100 miliseconds
             durationHandler.postDelayed(this, 100);

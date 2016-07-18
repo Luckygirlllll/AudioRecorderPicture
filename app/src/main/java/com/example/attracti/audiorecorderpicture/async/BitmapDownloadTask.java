@@ -3,9 +3,6 @@ package com.example.attracti.audiorecorderpicture.async;
 import android.animation.Animator;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.Path;
 import android.os.AsyncTask;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -34,7 +31,6 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
 
     private Bitmap tempBitmapTest;
     private Canvas tempCanvas;
-    private Paint textPaint;
 
     private int position;
 
@@ -46,12 +42,6 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
     private int update;
     private ImageView imageView;
     private ViewGroup rootView;
-
-    // Matrix
-    private int framesPerSecond = 5;
-    private long animationDuration = 1000; // 10 seconds
-    private Matrix matrix = new Matrix(); // transformation matrix
-    private Path path = new Path();
     private long startTime;
 
     private CircleDrawView circle;
