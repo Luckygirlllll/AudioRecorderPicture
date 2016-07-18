@@ -157,7 +157,7 @@ public class ChildFragment extends Fragment {
                             // ------animation test
                             draw.animate().translationXBy((-720f) / j).setDuration(1000);
                             j++;
-                            //-------animation test
+                            //-------
 
 //                            draw = new DrawView(getActivity(), j++, String.valueOf(xcoordList.size()));
 //                            drawViewExtra.add(draw);
