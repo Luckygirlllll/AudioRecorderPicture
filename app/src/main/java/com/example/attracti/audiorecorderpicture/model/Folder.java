@@ -37,4 +37,12 @@ public class Folder {
     public void addFile(String path) {
         pictureList.add(path);
     }
+
+    @Override
+    public String toString() {
+        return "Folder{" +
+                "mName='" + mName + '\'' +
+                //      ", pictureList=" + pictureList +
+                '}';
+    }
 }

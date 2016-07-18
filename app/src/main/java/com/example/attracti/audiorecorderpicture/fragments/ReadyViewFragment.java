@@ -102,9 +102,6 @@ public class ReadyViewFragment extends Fragment {
 
 
 
-
-
-
     private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onDown(MotionEvent e) {
@@ -116,6 +113,8 @@ public class ReadyViewFragment extends Fragment {
                     xlong = (int) e.getX();
                     ylong = (int) e.getY();
             }
+
+            Log.wtf("Touch listener ", "works!");
 
             return true;
         }

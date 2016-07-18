@@ -46,7 +46,10 @@ public class DrawView extends View {
         super.onDraw(canvas);
         paint.setColor(Color.WHITE);
         paint.setTextSize(getHeight());
-        canvas.drawText(labelName, getWidth()/xRatio, (float) (getHeight()*0.8), paint);
+        canvas.drawText(labelName, (getWidth() - 20) / xRatio, (float) (getHeight() * 0.8), paint);
+
+        // canvas.drawText(labelName, 360, (float) (getHeight()*0.8), paint);
+
         //Log.wtf("Width", String.valueOf(getWidth()));
         // 720
         //canvas.drawText("Б", getWidth()/3, (float) (getHeight()*0.8), paint);

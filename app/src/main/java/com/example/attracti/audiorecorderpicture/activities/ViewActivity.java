@@ -89,7 +89,7 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         playButton = (Button) findViewById(R.id.play_button);
         songDuration = (TextView) findViewById(R.id.track_lenght_seek);
         seekbar = new SeekBar(getApplicationContext());
-        
+
         Intent intent = getIntent();
         mArray = (File[]) intent.getSerializableExtra("FILE_TAG");
         parentName = mArray[0].getParentFile().getParentFile().getName();

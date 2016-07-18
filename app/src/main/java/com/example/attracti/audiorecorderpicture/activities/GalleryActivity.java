@@ -45,6 +45,8 @@ public class GalleryActivity extends AppCompatActivity implements AdapterView.On
 
         FOLDERS = SdCardDataRetriwHеlper.getFromSdcardPicturesFolders(path);
 
+
+
         GridViewAdapter adapter = new GridViewAdapter(getApplicationContext(), FOLDERS);
 
         GridView gridView = (GridView) findViewById(R.id.gridView);

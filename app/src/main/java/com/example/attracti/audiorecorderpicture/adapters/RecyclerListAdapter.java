@@ -31,6 +31,7 @@ import static com.example.attracti.audiorecorderpicture.adapters.RecyclerViewAda
  * dismiss events from a {@link android.support.v7.widget.helper.ItemTouchHelper}.
  *
  */
+
 public class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerListAdapter.ItemViewHolder>
         implements ItemTouchHelperAdapter {
 

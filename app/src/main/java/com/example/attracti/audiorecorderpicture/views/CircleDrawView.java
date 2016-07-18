@@ -22,6 +22,11 @@ public class CircleDrawView extends View {
     private Paint paint;
     private int x;
     private int y;
+
+    public String getLabelName() {
+        return labelName;
+    }
+
     private String labelName;
 
 
@@ -59,9 +64,7 @@ public class CircleDrawView extends View {
         textPaint.setColor(Color.WHITE);
         textPaint.setAntiAlias(true);
         textPaint.setTextAlign(Paint.Align.CENTER);
-//        Rect bounds = new Rect();
-//        textPaint.getTextBounds(labelName, 0, labelName.length(), bounds);
-        canvas.drawText(labelName, x, y, textPaint);
+        canvas.drawText(labelName, x, y + 8, textPaint);
 
     }
 

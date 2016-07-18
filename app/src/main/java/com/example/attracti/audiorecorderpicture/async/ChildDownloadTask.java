@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
@@ -50,6 +49,7 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
     private ArrayList<Integer> yCoordList;
     private ArrayList<Integer> positionList;
 
+
     ArrayList<CircleDrawView> circleList = new ArrayList<>();
     private CircleDrawView circle;
 
@@ -74,19 +74,16 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
         return bitmap;
     }
 
-
     @Override
     protected void onPostExecute(Bitmap bitmap) {
         tempBitmapTest = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.RGB_565);
         tempCanvas = new Canvas(tempBitmapTest);
         tempCanvas.drawBitmap(bitmap, 0, 0, null);
-        Paint myPaint3 = new Paint();
-        myPaint3.setAntiAlias(true);
-        myPaint3.setColor(Color.RED);
 
         if (positionList != null) {
             for (int i = 0; i < positionList.size(); i++) {
                 if (position == (positionList.get(positionList.size() - 1))) {
+
                     circle = new CircleDrawView(context, xCoordList.get(xCoordList.size() - 1), yCoordList.get(yCoordList.size() - 1), String.valueOf(i + 1));
                     tempCanvas.save();
                     rootView.addView(circle);
@@ -96,9 +93,6 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
         }
         if (circle != null) {
             circleList.add(circle);
-//        Animation a = AnimationUtils.loadAnimation(context, R.anim.animation_scale_circle);
-//        circleList.get(circleList.size()-1).startAnimation(a);
-
             circleList.get(circleList.size() - 1).animate().scaleX(1.5f).scaleY(1.5f).setDuration(2000).setListener(new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationStart(Animator animation) {
@@ -107,7 +101,11 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
+                    if (circleList.get(circleList.size() - 1).getLabelName() != "1") {
                     circleList.get(circleList.size() - 1).animate().scaleX(0.8f).scaleY(0.8f).setDuration(2000);
+                    } else {
+                        circleList.get(circleList.size() - 1).animate().scaleX(0.97f).scaleY(0.97f).setDuration(2000);
+                    }
                 }
 
                 @Override
@@ -120,18 +118,6 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
 
                 }
             });
-
-
-
-//            CircleDrawView circle = circleList.get(circleList.size()-1);
-//            ObjectAnimator animator = ObjectAnimator.ofFloat(circle, "scaleX", 2.5f);
-//            ObjectAnimator animator2 = ObjectAnimator.ofFloat(circle, "scaleY", 2.5f);
-//            AnimatorSet set = new AnimatorSet();
-//            set.playTogether(animator,animator2);
-//            set.setDuration(3000);
-//            set.start();
-
-//            circleList.get(circleList.size()-1).animate().scaleX(1.2f).scaleY(1.2f).setDuration(2000);
         }
 
         if (viewHolderWeakReference != null && bitmap != null) {

@@ -51,6 +51,12 @@ public class ChildFragment extends Fragment {
     private ArrayList<Integer> xcoordList = new ArrayList();
     private ArrayList<Integer> ycoordList = new ArrayList();
     private ArrayList<Integer> positionList = new ArrayList<>();
+    private ArrayList<Integer> timeList = new ArrayList<>();
+    private ArrayList<DrawView> drawViewList = new ArrayList<>();
+    private ArrayList<DrawView> drawViewExtra = new ArrayList<>();
+
+
+
 
     private AudioRecord activity;
     private RelativeLayout progressBar;
@@ -134,16 +140,30 @@ public class ChildFragment extends Fragment {
                     ycoordList.add(y);
                     positionList.add(positionCurrent);
 
-                    draw = new DrawView(getActivity(), 6 - xcoordList.size(), String.valueOf(xcoordList.size()));
+                    long after = System.currentTimeMillis();
+                    int difference = (int) (after - activity.getStartTimeAudio());
+                    int sBody = difference;
+                    timeList.add(sBody);
+
+                    draw = new DrawView(getActivity(), 1, String.valueOf(xcoordList.size()));
+                    drawViewList.add(draw);
                     progressBar.addView(draw);
                     progressBar.invalidate();
-                    draw.animate().translationXBy(-100f).setDuration(2000);
+                    //    draw.animate().translationXBy(-100f).setDuration(2000);
 
-                    CountDownTimer timer = new CountDownTimer(5000, 1000) {
+
+                    CountDownTimer timer = new CountDownTimer(System.currentTimeMillis() + 2000 - timeList.get(0), 1000) {
+                        int j = 2;
+
                         @Override
                         public void onTick(long millisUntilFinished) {
-                            Log.wtf("CountDown timer", "works!");
-                            draw.animate().translationXBy(-10f).setDuration(1000);
+                            draw = new DrawView(getActivity(), j++, String.valueOf(xcoordList.size()));
+                            drawViewExtra.add(draw);
+                            if (drawViewExtra.size() > 1) {
+                                ((ViewGroup) drawViewExtra.get(drawViewExtra.size() - 2).getParent()).removeView(drawViewExtra.get(drawViewExtra.size() - 2));
+                            }
+                            progressBar.addView(drawViewExtra.get(drawViewExtra.size() - 1));
+                            progressBar.invalidate();
                         }
 
                         @Override
@@ -152,12 +172,8 @@ public class ChildFragment extends Fragment {
                         }
                     }.start();
 
-
                     loadBitmap(getActivity(), rootView, mFile, imageView, positionCurrent, xcoordList, ycoordList, positionList);
 
-                    long after = System.currentTimeMillis();
-                    int difference = (int) (after - activity.getStartTimeAudio());
-                    int sBody = difference;
                     String labelFileName = activity.getmCurrentProject() + ".txt";
                     if (!activity.getmLabelsDirectory().exists() && !activity.getmLabelsDirectory().mkdirs()) {
                         //   activity.getmLabelsDirectory() = null;
