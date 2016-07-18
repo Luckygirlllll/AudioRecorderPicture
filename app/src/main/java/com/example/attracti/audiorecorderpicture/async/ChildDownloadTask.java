@@ -83,7 +83,7 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
         Paint myPaint3 = new Paint();
         myPaint3.setAntiAlias(true);
         myPaint3.setColor(Color.RED);
-        
+
         if (positionList != null) {
             for (int i = 0; i < positionList.size(); i++) {
                 if (position == (positionList.get(positionList.size() - 1))) {

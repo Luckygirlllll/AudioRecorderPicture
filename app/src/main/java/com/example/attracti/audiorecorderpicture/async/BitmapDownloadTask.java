@@ -1,15 +1,12 @@
 package com.example.attracti.audiorecorderpicture.async;
 
+import android.animation.Animator;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -57,6 +54,8 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
     private Path path = new Path();
     private long startTime;
 
+    private CircleDrawView circle;
+
 
     public BitmapDownloadTask(ViewGroup rootView, ViewActivity activity, OnCreateCanvasListener canvasListener, ImageView imageView, int position, int x, int y , int update) {
         this.rootView=rootView;
@@ -90,58 +89,47 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
         tempBitmapTest = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.RGB_565);
         tempCanvas = new Canvas(tempBitmapTest);
         tempCanvas.drawBitmap(bitmap, 0, 0, null);
-        Paint myPaint3 = new Paint();
-        myPaint3.setAntiAlias(true);
-        myPaint3.setColor(Color.RED);
-       //myPaint3.setStyle(Paint.Style.STROKE);
 
-        textPaint = new Paint();
-        textPaint.setTextSize(15);
-        textPaint.setColor(Color.WHITE);
-        textPaint.setAntiAlias(true);
-        textPaint.setTextAlign(Paint.Align.CENTER);
-        Rect bounds = new Rect();
         CircleDrawView circle = null;
             for (int i = 0; i < activity.getLabelList().size(); i++) {
                 if (position == (Integer.parseInt((String) activity.getLabelList().get(i).getPictureName()))) {
                     if(activity.getLabelList().get(i).getxLabel()!=0 &&activity.getLabelList().get(i).getyLabel()!=0) {
 
-//---------------------------animation test
-//                        int xLabel = activity.getLabelList().get(i).getxLabel();
-//                        int yLabel = activity.getLabelList().get(i).getyLabel();
-//                         circle = new CircleDrawView(activity, xLabel , yLabel, String.valueOf(i));
+                        circle = new CircleDrawView(activity, activity.getLabelList().get(i).getxLabel(), activity.getLabelList().get(i).getyLabel(), String.valueOf(i));
+                        rootView.addView(circle);
+                        rootView.invalidate();
 
-                        //-------------------
-                        tempCanvas.drawCircle(activity.getLabelList().get(i).getxLabel() / 4, activity.getLabelList().get(i).getyLabel() / 4, 10, myPaint3);
-                        textPaint.getTextBounds(String.valueOf(i), 0, String.valueOf(i).length(), bounds);
-                        tempCanvas.drawText(String.valueOf(i), activity.getLabelList().get(i).getxLabel() / 4, activity.getLabelList().get(i).getyLabel() / 4, textPaint);
-                        //-------------------
-
-//                        rootView.addView(circle);
-//                        rootView.invalidate();
-//                        if(x!=0 && y!=0 ){
-//                            Log.wtf("Animation", "block'");
-//                            circle.animate().scaleX(1.2f).scaleY(1.2f).setDuration(2000);
-//                        }
                     }
+
                         if (x != 0 && y != 0) {
-                            Log.wtf("Animation of the Labels", "works!");
-                            Paint myPaint4 = new Paint();
-                            myPaint4.setAntiAlias(true);
-                            myPaint4.setColor(Color.RED);
-                            long elapsedTime = System.currentTimeMillis() - startTime;
 
-                            path.addCircle(x/4, y/4, 10, Path.Direction.CW);
-                            matrix.setScale(1.1f, 1.1f, x/4-5, y/4-5);
-                            path.transform(matrix);
-                            tempCanvas.drawPath(path, myPaint4); // draw on canvas
+                            circle = new CircleDrawView(activity, x, y, String.valueOf(i));
+                            rootView.addView(circle);
+                            rootView.invalidate();
+                            final CircleDrawView finalCircle = circle;
+                            circle.animate().scaleX(1.5f).scaleY(1.5f).setDuration(2000).setListener(new Animator.AnimatorListener() {
+                                @Override
+                                public void onAnimationStart(Animator animation) {
 
-//                            circle.animate().scaleX(1.2f).scaleY(1.2f).setDuration(2000);
+                                }
 
-//                        textPaint.getTextBounds(String.valueOf(i), 0, String.valueOf(i).length(), bounds);
-//                        tempCanvas.drawText(String.valueOf(i), x / 4, y / 4, textPaint);
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    finalCircle.animate().scaleX(0.8f).scaleY(0.8f).setDuration(2000);
+                                }
+
+                                @Override
+                                public void onAnimationCancel(Animator animation) {
+
+                                }
+
+                                @Override
+                                public void onAnimationRepeat(Animator animation) {
+
+                                }
+                            });
+                            ;
                         }
-                        //   tempCanvas.save();
                 }
             }
 
@@ -150,7 +138,6 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
 
             if (imageView != null) {
                 imageView.setImageBitmap(bitmap);
-                imageView.setImageDrawable(new BitmapDrawable(tempBitmapTest));
                 imageView.invalidate();
             }
         }
