@@ -92,7 +92,6 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
                     }
 
                         if (x != 0 && y != 0) {
-
                             circle = new CircleDrawView(activity, x, y, String.valueOf(i));
                             rootView.addView(circle);
                             rootView.invalidate();

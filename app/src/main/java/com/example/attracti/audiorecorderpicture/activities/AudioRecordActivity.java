@@ -1,9 +1,11 @@
 package com.example.attracti.audiorecorderpicture.activities;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -299,6 +301,7 @@ public class AudioRecordActivity extends AppCompatActivity implements OnHeadline
     }
 
 
+
     @Override
     public void onArticleSelected(ArrayList<File> arrayFilepaths) {
         this.arrayFilepaths2 = arrayFilepaths;
@@ -471,9 +474,11 @@ public class AudioRecordActivity extends AppCompatActivity implements OnHeadline
 
             } else {
                 timeStop = SystemClock.elapsedRealtime() - chronometer.getBase();
-                // SystemClock.elapsedRealtime() - chronometer.getBase()
-                chronometer.stop();
 
+                Intent intent = new Intent("Finish");
+                sendBroadcast(intent);
+
+                chronometer.stop();
                 recordButtonpause.setBackgroundResource(R.drawable.record_red);
                 doneView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.toolbarRecordingColor));
                 doneView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.toolbarTextAccentColor));
@@ -563,6 +568,9 @@ public class AudioRecordActivity extends AppCompatActivity implements OnHeadline
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.activity_main);
+
+        IntentFilter intentFilter = new IntentFilter("Finish");
+        registerReceiver(broadcastReceiver, intentFilter);
 
         //test of the animation----------------------------------
         progressBar = (RelativeLayout) findViewById(R.id.progress_bar);
@@ -837,6 +845,16 @@ public class AudioRecordActivity extends AppCompatActivity implements OnHeadline
 //        Log.d("HMKCODE", "URI Path:" + uriPath);
 //        Log.d("HMKCODE", "Real Path: " + realPath);
     }
+
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals("Finish")) {
+
+            }
+        }
+    };
 
     public interface ReceivePictureListener {
         public void recievePicture(Bitmap bitmap);
