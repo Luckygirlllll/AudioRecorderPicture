@@ -1,5 +1,6 @@
 package com.example.attracti.audiorecorderpicture.activities;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.media.MediaPlayer;
@@ -11,7 +12,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -23,6 +23,7 @@ import com.example.attracti.audiorecorderpicture.interfaces.OnCreateCanvasListen
 import com.example.attracti.audiorecorderpicture.model.Label;
 import com.example.attracti.audiorecorderpicture.utils.SdCardDataRetriwHеlper;
 import com.example.attracti.audiorecorderpicture.utils.Statics;
+import com.example.attracti.audiorecorderpicture.widgets.progressbar.LineProgressBar;
 
 import java.io.File;
 import java.io.IOException;
@@ -67,6 +68,8 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
     private long timeStop = 0;
     private long startTime;
     private boolean mStartPlaying = true;
+    private LineProgressBar lineProgressBar;
+    
 
     public String getParentName() {
         return parentName;
@@ -115,7 +118,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         });
         if (savedInstanceState != null) {
             labelList = (LinkedList<Label>) savedInstanceState.getSerializable("labellist");
-            Log.wtf("labelist", labelList.toString());
         }
         View.OnClickListener playButtonListener = new View.OnClickListener() {
             @Override
@@ -124,6 +126,8 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
                 if (mStartPlaying) {
                     playButton.setBackgroundResource(R.drawable.pause_violet);
                     startPlayingLabels();
+                    setTimer();
+
 
                 } else {
                     playButton.setBackgroundResource(R.drawable.play_violet);
@@ -134,6 +138,18 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
 
         };
         playButton.setOnClickListener(playButtonListener);
+
+        lineProgressBar = (LineProgressBar) findViewById(R.id.progress);
+        lineProgressBar.setMaximum_progress(10000);
+        //lineProgressBar.setLineOrientation(ProgressLineOrientation.VERTICAL);
+        lineProgressBar.setRoundEdgeProgress(true);
+    }
+
+
+    private void setTimer() {
+
+        new ObjectAnimator().ofInt(lineProgressBar, "progress", 0, 10000).setDuration(10000)
+                .start();
     }
 
 

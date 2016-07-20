@@ -31,7 +31,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Iryna on 6/2/16.
- * <p/>
+ * <p>
  * this Fragment responsible for the showing of the picture which just have been captured
  */
 
@@ -186,7 +186,8 @@ public class ChildFragment extends Fragment {
                                     int currentLabel = timeList.get(timeList.size() - 1);
                                     // drawView.animate().translationXBy((-720f) / j).setDuration(1000);
 
-                                    drawView.animate().translationXBy((-720f) / j).setDuration(1000).setListener(new Animator.AnimatorListener() {
+                                    drawView.animate().translationXBy((-720f) / j)
+                                            .setDuration(1000).setListener(new Animator.AnimatorListener() {
                                         @Override
                                         public void onAnimationStart(Animator animation) {
                                             j++;

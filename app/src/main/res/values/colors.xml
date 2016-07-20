@@ -20,6 +20,9 @@
     <color name="toolbarTextAccentColor">#4A005F</color>
     <color name="backgroundColor">#F3F3F3</color>
     <color name="toolbarGrayColor">#777777</color>
+    <color name="shader_color">#9b9b9b</color>
+    <color name="progress_color">#2af7f4f4</color>
+    <color name="background_color">#7c030000</color>
 
 
 

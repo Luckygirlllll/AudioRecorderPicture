@@ -98,6 +98,14 @@
     <!--android:layout_height="wrap_content"-->
     <!--android:layout_above="@+id/play_button" />-->
 
+    <com.example.attracti.audiorecorderpicture.widgets.progressbar.LineProgressBar
+        android:id="@+id/progress"
+        android:layout_above="@id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginBottom="-5dp" />
+
+
     <RelativeLayout
         android:id="@+id/bottom_layout"
         android:layout_width="match_parent"

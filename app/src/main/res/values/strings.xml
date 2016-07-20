@@ -9,6 +9,7 @@
     <string name="done">Done</string>
     <string name="action_add">Add</string>
     <string name="edit_text">EDIT</string>
+    <string name="progress">progress</string>
 
 
     <array name="dummy_items">
