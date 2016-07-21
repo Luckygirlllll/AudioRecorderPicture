@@ -79,7 +79,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
     private ArrayList<Float> usualLabelTime = new ArrayList();
     private ArrayList positionLabelList = new ArrayList();
     private ArrayList<Float> currenSlideTimeList = new ArrayList();
-    private boolean slideChanged;
 
 
     public String getParentName() {
@@ -116,7 +115,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
             }
         }
 
-        Log.wtf("labelist: ", labelList.toString());
 
         lineProgressBar = (LineProgressBar) findViewById(R.id.progress);
         // use it for the vertical orientation of the screen
@@ -129,6 +127,11 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 realPosition = position + 1;
+                //  lineProgressBar.cleanCanvas();
+                if (currenSlideTimeList != null) {
+                    currenSlideTimeList.clear();
+                }
+
                 pictureCounter.setText(realPosition + " из " + mArray.length);
                 lineProgressBar.resetProgressBar();
                 if (realPosition < nextTimeSlide.size()) {
@@ -136,6 +139,8 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
                     if (!mStartPlaying) {
                         setTimer((int) nextTimeSlide.get(realPosition) - (int) nextTimeSlide.get(position));
                         lineProgressBar.setMaximumAbsoluteTime(Float.parseFloat(nextTimeSlide.get(realPosition) + ""));
+                        //// TODO: 7/21/16 Be careful here! 
+                        // usualLabelTime.add(mPlayer.getDuration()-Float.parseFloat((Integer)nextTimeSlide.get(position)+""));
                     }
                 }
             }
@@ -182,16 +187,20 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
 
 
     private void setTimer(int maxProgress) {
-        new ObjectAnimator().ofInt(lineProgressBar, "progress", 0, maxProgress).setDuration(maxProgress)
-                .start();
         if (usualLabelTime != null) {
             for (int i = 0; i < usualLabelTime.size(); i++) {
                 if ((parseInt((String) positionLabelList.get(i))) == (mPager.getCurrentItem())) {
                     currenSlideTimeList.add(usualLabelTime.get(i) - Float.parseFloat(nextTimeSlide.get(mPager.getCurrentItem()) + ""));
                     lineProgressBar.setUsualLabelTime(currenSlideTimeList);
+                    for (int j = 0; j < currenSlideTimeList.size(); j++) {
+                        Log.wtf("currentSlideTimelist", String.valueOf(currenSlideTimeList.get(j)));
+                    }
                 }
             }
         }
+        new ObjectAnimator().ofInt(lineProgressBar, "progress", 0, maxProgress).setDuration(maxProgress)
+                .start();
+
     }
 
 

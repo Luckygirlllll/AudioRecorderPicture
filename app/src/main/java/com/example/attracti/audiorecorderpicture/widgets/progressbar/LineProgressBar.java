@@ -185,6 +185,7 @@ public class LineProgressBar extends ProgressView {
             textPaint.setTextSize(20);
             textPaint.setColor(Color.WHITE);
             for (int i = 0; i < usualLabelTime.size(); i++) {
+                Log.wtf("Test i", String.valueOf(i));
                 Log.wtf("Test width: ", String.valueOf(width));
                 Log.wtf("Test maximum time: ", String.valueOf(maximum_progress));
                 Log.wtf("Test label time: ", String.valueOf(usualLabelTime.get(i)));
