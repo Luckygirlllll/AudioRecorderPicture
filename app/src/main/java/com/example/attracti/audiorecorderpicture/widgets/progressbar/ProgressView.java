@@ -7,7 +7,6 @@ package com.example.attracti.audiorecorderpicture.widgets.progressbar;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -19,6 +18,8 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 
 import com.example.attracti.audiorecorderpicture.R;
+
+import java.util.ArrayList;
 
 
 abstract class ProgressView extends View implements ProgressShape {
@@ -42,16 +43,28 @@ abstract class ProgressView extends View implements ProgressShape {
             Color.LTGRAY, 42);
     private OnProgressViewListener listenr;
     protected boolean isShadow_background, isShadow_progress;
+    protected float maximum_progress;
+    private int shaderColor = getResources().getColor(R.color.shader_color);
+    protected ColorsHelper colorHelper;
+    protected int[] gradColors;
+    protected boolean isRoundEdge;
+
+    protected ArrayList<Float> usualLabelTime;
+
+    protected float maximumAbsoluteTime;
+
 
     public void setMaximum_progress(float maximum_progress) {
         this.maximum_progress = maximum_progress;
     }
 
-    protected float maximum_progress = 4000f;
-    private int shaderColor = getResources().getColor(R.color.shader_color);
-    protected ColorsHelper colorHelper;
-    protected int[] gradColors;
-    protected boolean isRoundEdge;
+    public void setUsualLabelTime(ArrayList usualLabelTime) {
+        this.usualLabelTime = usualLabelTime;
+    }
+
+    public void setMaximumAbsoluteTime(float maximumAbsoluteTime) {
+        this.maximumAbsoluteTime = maximumAbsoluteTime;
+    }
 
 
     abstract void init();
@@ -162,7 +175,6 @@ abstract class ProgressView extends View implements ProgressShape {
      */
     public void resetProgressBar() {
         setProgress(0);
-
     }
 
     // ********************PROGRESS WIDTH**********************************

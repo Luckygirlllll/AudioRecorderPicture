@@ -32,6 +32,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 
+import static java.lang.Integer.parseInt;
+
 /**
  * Created by Iryna on 6/1/16.
  * <p>
@@ -71,6 +73,13 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
     private boolean mStartPlaying = true;
     private LineProgressBar lineProgressBar;
     private int realPosition;
+    private float maxProgress;
+    private TextView songDuration;
+    private ArrayList nextTimeSlide = new ArrayList();
+    private ArrayList<Float> usualLabelTime = new ArrayList();
+    private ArrayList positionLabelList = new ArrayList();
+    private ArrayList<Float> currenSlideTimeList = new ArrayList();
+    private boolean slideChanged;
 
 
     public String getParentName() {
@@ -80,12 +89,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
     public LinkedList<Label> getLabelList() {
         return labelList;
     }
-
-    private SeekBar seekBar;
-    private TextView songDuration;
-    private ArrayList nextTimeSlide = new ArrayList();
-    private float maxProgress;
-
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,15 +105,21 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         parentName = mArray[0].getParentFile().getParentFile().getName();
         labelList = SdCardDataRetriwHеlper.readFromFile(mArray);
 
-        for (int i = 0; i < labelList.size(); i++) {
-            if (labelList.get(i).getxLabel() == 0 && labelList.get(i).getyLabel() == 0) {
-                nextTimeSlide.add(labelList.get(i).getLabelTime());
-                Log.wtf("Next: ", String.valueOf(labelList.get(i).getLabelTime()));
+        if (labelList != null) {
+            for (int i = 0; i < labelList.size(); i++) {
+                if (labelList.get(i).getxLabel() == 0 && labelList.get(i).getyLabel() == 0) {
+                    nextTimeSlide.add(labelList.get(i).getLabelTime());
+                } else {
+                    positionLabelList.add(labelList.get(i).getPictureName());
+                    usualLabelTime.add((float) labelList.get(i).getLabelTime());
+                }
             }
         }
 
+        Log.wtf("labelist: ", labelList.toString());
+
         lineProgressBar = (LineProgressBar) findViewById(R.id.progress);
-        //   lineProgressBar.setMaximum_progress(10000);
+        // use it for the vertical orientation of the screen
         //lineProgressBar.setLineOrientation(ProgressLineOrientation.VERTICAL);
         lineProgressBar.setRoundEdgeProgress(true);
 
@@ -126,6 +135,7 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
                     lineProgressBar.setMaximum_progress(Float.parseFloat((Integer) nextTimeSlide.get(realPosition) - (Integer) nextTimeSlide.get(position) + ""));
                     if (!mStartPlaying) {
                         setTimer((int) nextTimeSlide.get(realPosition) - (int) nextTimeSlide.get(position));
+                        lineProgressBar.setMaximumAbsoluteTime(Float.parseFloat(nextTimeSlide.get(realPosition) + ""));
                     }
                 }
             }
@@ -153,6 +163,7 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
                     Float.parseFloat(nextTimeSlide.get(mPager.getCurrentItem() + 1) + "");
 
                     lineProgressBar.setMaximum_progress(Float.parseFloat((Integer) nextTimeSlide.get(mPager.getCurrentItem() + 1) - (Integer) nextTimeSlide.get(mPager.getCurrentItem()) + ""));
+                    lineProgressBar.setMaximumAbsoluteTime(Float.parseFloat((Integer) nextTimeSlide.get(mPager.getCurrentItem() + 1) + ""));
                     setTimer((Integer) nextTimeSlide.get(mPager.getCurrentItem() + 1) - (Integer) nextTimeSlide.get(mPager.getCurrentItem()));
 
 
@@ -173,6 +184,14 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
     private void setTimer(int maxProgress) {
         new ObjectAnimator().ofInt(lineProgressBar, "progress", 0, maxProgress).setDuration(maxProgress)
                 .start();
+        if (usualLabelTime != null) {
+            for (int i = 0; i < usualLabelTime.size(); i++) {
+                if ((parseInt((String) positionLabelList.get(i))) == (mPager.getCurrentItem())) {
+                    currenSlideTimeList.add(usualLabelTime.get(i) - Float.parseFloat(nextTimeSlide.get(mPager.getCurrentItem()) + ""));
+                    lineProgressBar.setUsualLabelTime(currenSlideTimeList);
+                }
+            }
+        }
     }
 
 
@@ -228,12 +247,12 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
                     int timeSpends = mPlayer.getCurrentPosition();
                     if (timeSpends >= labelList.get(timeStampIterator).getLabelTime() - 100 && timeSpends <= labelList.get(timeStampIterator).getLabelTime() + 100) {
 
-                        BitmapFragment fragment = (BitmapFragment) mPagerAdapter.getFragment(Integer.parseInt(labelList.get(timeStampIterator).getPictureName()));
+                        BitmapFragment fragment = (BitmapFragment) mPagerAdapter.getFragment(parseInt(labelList.get(timeStampIterator).getPictureName()));
                         int update = 1;
                         fragment.updateBitmap(labelList.get(timeStampIterator).getxLabel(), labelList.get(timeStampIterator).getyLabel(), update);
 
                         if (labelList.get(timeStampIterator).getxLabel() == 0 && labelList.get(timeStampIterator).getyLabel() == 0) {
-                            mPager.setCurrentItem(Integer.parseInt(labelList.get(timeStampIterator).getPictureName()));
+                            mPager.setCurrentItem(parseInt(labelList.get(timeStampIterator).getPictureName()));
 
                             finalTime = labelList.get(timeStampIterator).getLabelTime();
 //                            seekbar.setMax((int) finalTime);
