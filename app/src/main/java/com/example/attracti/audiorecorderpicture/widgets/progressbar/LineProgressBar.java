@@ -12,6 +12,8 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.util.AttributeSet;
 
+import java.util.concurrent.TimeUnit;
+
 
 public class LineProgressBar extends ProgressView {
 
@@ -91,8 +93,8 @@ public class LineProgressBar extends ProgressView {
         int progressX = (int) (width * progress / maximum_progress);
 
         // long progressX = (long) (width * labelTime/(progress/1000-pastTime));
-
         //  canvas.drawLine(0, nMiddle, progressX, nMiddle, foregroundPaint);
+
         canvas.drawRect(0, nMiddle - 20, progressX, nMiddle, foregroundPaint);
 
         Point a = new Point(0 + progressX - 15, nMiddle + 30);
@@ -112,10 +114,7 @@ public class LineProgressBar extends ProgressView {
         canvas.drawPath(path, triangle);
 
         foregroundPaint.setTextSize(30);
-
-        Paint rectanglePaint = new Paint();
-        Paint circle = new Paint();
-
+        
         //go from the left to the right
         Paint textPaint = new Paint();
         textPaint.setTextSize(20);
@@ -130,7 +129,18 @@ public class LineProgressBar extends ProgressView {
         canvas.drawText("A", height / 2 + 20, nMiddle, textPaint);
         canvas.drawText("B", height / 2 + 50, nMiddle, textPaint);
         canvas.drawText("C", height / 2 + 80, nMiddle, textPaint);
-        //   canvas.drawText("D",height/2+120, nMiddle, textPaint);
+
+        String slideTime = String.format("%02d:%02d",
+                TimeUnit.MILLISECONDS.toMinutes((long) progress),
+                TimeUnit.MILLISECONDS.toSeconds((long) progress) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) progress))
+        );
+
+        Paint timePaint = new Paint();
+        timePaint.setTextSize(20);
+        timePaint.setColor(Color.WHITE);
+        canvas.drawText(slideTime, width - width / 10, nMiddle, timePaint);
+
 
         //nMiddle, progressX,
     }

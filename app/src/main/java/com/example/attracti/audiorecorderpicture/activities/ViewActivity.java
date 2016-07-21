@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -69,7 +70,8 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
     private long startTime;
     private boolean mStartPlaying = true;
     private LineProgressBar lineProgressBar;
-    
+    private int realPosition;
+
 
     public String getParentName() {
         return parentName;
@@ -81,6 +83,8 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
 
     private SeekBar seekBar;
     private TextView songDuration;
+    private ArrayList nextTimeSlide = new ArrayList();
+    private float maxProgress;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,12 +102,32 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         parentName = mArray[0].getParentFile().getParentFile().getName();
         labelList = SdCardDataRetriwHеlper.readFromFile(mArray);
 
+        for (int i = 0; i < labelList.size(); i++) {
+            if (labelList.get(i).getxLabel() == 0 && labelList.get(i).getyLabel() == 0) {
+                nextTimeSlide.add(labelList.get(i).getLabelTime());
+                Log.wtf("Next: ", String.valueOf(labelList.get(i).getLabelTime()));
+            }
+        }
+
+        lineProgressBar = (LineProgressBar) findViewById(R.id.progress);
+        //   lineProgressBar.setMaximum_progress(10000);
+        //lineProgressBar.setLineOrientation(ProgressLineOrientation.VERTICAL);
+        lineProgressBar.setRoundEdgeProgress(true);
+
+
         pictureCounter = (TextView) findViewById(R.id.picture_counter);
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                int realPosition = position + 1;
+                realPosition = position + 1;
                 pictureCounter.setText(realPosition + " из " + mArray.length);
+                lineProgressBar.resetProgressBar();
+                if (realPosition < nextTimeSlide.size()) {
+                    lineProgressBar.setMaximum_progress(Float.parseFloat((Integer) nextTimeSlide.get(realPosition) - (Integer) nextTimeSlide.get(position) + ""));
+                    if (!mStartPlaying) {
+                        setTimer((int) nextTimeSlide.get(realPosition) - (int) nextTimeSlide.get(position));
+                    }
+                }
             }
 
             @Override
@@ -126,7 +150,10 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
                 if (mStartPlaying) {
                     playButton.setBackgroundResource(R.drawable.pause_violet);
                     startPlayingLabels();
-                    setTimer();
+                    Float.parseFloat(nextTimeSlide.get(mPager.getCurrentItem() + 1) + "");
+
+                    lineProgressBar.setMaximum_progress(Float.parseFloat((Integer) nextTimeSlide.get(mPager.getCurrentItem() + 1) - (Integer) nextTimeSlide.get(mPager.getCurrentItem()) + ""));
+                    setTimer((Integer) nextTimeSlide.get(mPager.getCurrentItem() + 1) - (Integer) nextTimeSlide.get(mPager.getCurrentItem()));
 
 
                 } else {
@@ -139,16 +166,12 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         };
         playButton.setOnClickListener(playButtonListener);
 
-        lineProgressBar = (LineProgressBar) findViewById(R.id.progress);
-        lineProgressBar.setMaximum_progress(10000);
-        //lineProgressBar.setLineOrientation(ProgressLineOrientation.VERTICAL);
-        lineProgressBar.setRoundEdgeProgress(true);
+
     }
 
 
-    private void setTimer() {
-
-        new ObjectAnimator().ofInt(lineProgressBar, "progress", 0, 10000).setDuration(10000)
+    private void setTimer(int maxProgress) {
+        new ObjectAnimator().ofInt(lineProgressBar, "progress", 0, maxProgress).setDuration(maxProgress)
                 .start();
     }
 
