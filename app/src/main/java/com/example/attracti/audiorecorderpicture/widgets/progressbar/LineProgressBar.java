@@ -66,12 +66,6 @@ public class LineProgressBar extends ProgressView {
     @Override
     public void onDraw(Canvas canvas) {
 
-//        if (needClean) {
-//            canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-//        } else {
-//            //draw other elements
-//        }
-
         if (getLineOrientation() == ProgressLineOrientation.HORIZONTAL
                 .getValue()) {
             drawLineProgress(canvas);
@@ -110,14 +104,14 @@ public class LineProgressBar extends ProgressView {
         int nMiddle = height / 2;
         //canvas.drawLine(0, nMiddle, width, nMiddle, backgroundPaint);
         canvas.drawRect(0, nMiddle - getResources().getDimension(R.dimen.progress_bar_height), width, nMiddle, backgroundPaint);
-        Log.wtf("Progress height: ", String.valueOf(getResources().getDimension(R.dimen.progress_bar_height)));
+        Log.wtf("Progress height: ", String.valueOf(getResources().getDimensionPixelSize(R.dimen.progress_bar_height)));
 
         int progressX = (int) (width * progress / maximum_progress);
 
         // long progressX = (long) (width * labelTime/(progress/1000-pastTime));
         //  canvas.drawLine(0, nMiddle, progressX, nMiddle, foregroundPaint);
 
-        canvas.drawRect(0, nMiddle - getResources().getDimension(R.dimen.progress_bar_height), progressX, nMiddle, foregroundPaint);
+        canvas.drawRect(0, nMiddle - getResources().getDimensionPixelSize(R.dimen.progress_bar_height), progressX, nMiddle, foregroundPaint);
 
         Point a = new Point(0 + progressX - 15, nMiddle + 30);
         Point b = new Point(15 + progressX - 15, nMiddle);
@@ -139,8 +133,9 @@ public class LineProgressBar extends ProgressView {
 
         //go from the left to the right
         Paint textPaint = new Paint();
-        textPaint.setTextSize(getResources().getDimension(R.dimen.letters_in_progressbar_height));
+        textPaint.setTextSize(getResources().getDimensionPixelSize(R.dimen.letters_in_progressbar_height));
         textPaint.setColor(Color.WHITE);
+
 
 //        canvas.drawText("A",height/2-progressX, nMiddle, textPaint);
 //        canvas.drawText("B",height/2-progressX+50, nMiddle, textPaint);
@@ -163,19 +158,6 @@ public class LineProgressBar extends ProgressView {
         timePaint.setColor(Color.WHITE);
         canvas.drawText(slideTime, width - width / 10, nMiddle, timePaint);
 
-        if (usualLabelTime != null) {
-            Paint labelPaint = new Paint();
-            textPaint.setTextSize(100);
-            textPaint.setColor(Color.RED);
-            for (int i = 0; i < usualLabelTime.size(); i++) {
-//                Log.wtf("Test width: ", String.valueOf(width));
-//                Log.wtf("Test maximum time: ", String.valueOf(maximumAbsoluteTime));
-//                Log.wtf("Test label time: ", String.valueOf(usualLabelTime.get(i)));
-//                Log.wtf("Test labelPosition: ", String.valueOf((width * usualLabelTime.get(i)) / maximumAbsoluteTime));
-
-                //    canvas.drawText(String.valueOf(i),  width * (usualLabelTime.get(i) / maximumAbsoluteTime), nMiddle, labelPaint);
-            }
-        }
         //nMiddle, progressX
     }
 
@@ -184,7 +166,7 @@ public class LineProgressBar extends ProgressView {
         if (usualLabelTime != null) {
             int nMiddle = height / 2;
             Paint textPaint = new Paint();
-            textPaint.setTextSize(20);
+            textPaint.setTextSize(getResources().getDimensionPixelSize(R.dimen.letters_in_progressbar_height));
             textPaint.setColor(Color.WHITE);
             for (int i = 0; i < usualLabelTime.size(); i++) {
                 Log.wtf("Test maximum time: ", String.valueOf(maximum_progress));

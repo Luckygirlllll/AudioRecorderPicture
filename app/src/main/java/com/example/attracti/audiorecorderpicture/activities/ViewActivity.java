@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -177,12 +178,21 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         if (savedInstanceState != null) {
             labelList = (LinkedList<Label>) savedInstanceState.getSerializable("labellist");
         }
-        View.OnClickListener playButtonListener = new View.OnClickListener() {
+        final View.OnClickListener playButtonListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if (mStartPlaying) {
                     playButton.setBackgroundResource(R.drawable.pause_violet);
+                    ViewGroup.LayoutParams params = playButton.getLayoutParams();
+                    int sizeInPX = getApplicationContext().getResources().getDimensionPixelSize(R.dimen.pause_button_height);
+                    params.height = sizeInPX;
+                    params.width = sizeInPX;
+                    playButton.setLayoutParams(params);
+
+                    // playButton.setHeight(getApplicationContext().getResources().getDimensionPixelSize(R.dimen.pause_button_height));
+                    // playButton.setWidth(getApplicationContext().getResources().getDimensionPixelSize(R.dimen.pause_button_width));
+
                     startPlayingLabels();
                     Float.parseFloat(nextTimeSlide.get(mPager.getCurrentItem() + 1) + "");
 
@@ -193,6 +203,14 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
 
                 } else {
                     playButton.setBackgroundResource(R.drawable.play_violet);
+                    ViewGroup.LayoutParams params = playButton.getLayoutParams();
+                    int heightInPX = getApplicationContext().getResources().getDimensionPixelSize(R.dimen.play_button_height);
+                    int widthInPX = getApplicationContext().getResources().getDimensionPixelSize(R.dimen.play_button_width);
+                    params.height = heightInPX;
+                    params.width = widthInPX;
+                    playButton.setLayoutParams(params);
+
+
                     pause();
                 }
                 mStartPlaying = !mStartPlaying;

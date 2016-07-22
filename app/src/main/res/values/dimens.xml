@@ -6,6 +6,10 @@
     <dimen name="default_stroke_width">7dp</dimen>
     <dimen name="default_background_stroke_width">3dp</dimen>
     <dimen name="progress_bar_height">20dp</dimen>
-    <dimen name="letters_in_progressbar_height">15sp</dimen>
+    <dimen name="letters_in_progressbar_height">14sp</dimen>
+    <dimen name="pause_button_height">50dp</dimen>
+    <dimen name="play_button_height">26dp</dimen>
+    <dimen name="play_button_width">21dp</dimen>
+
 
 </resources>
