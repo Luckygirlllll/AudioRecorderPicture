@@ -13,6 +13,8 @@ import android.graphics.Point;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import com.example.attracti.audiorecorderpicture.R;
+
 import java.util.concurrent.TimeUnit;
 
 /*
@@ -107,14 +109,15 @@ public class LineProgressBar extends ProgressView {
 
         int nMiddle = height / 2;
         //canvas.drawLine(0, nMiddle, width, nMiddle, backgroundPaint);
-        canvas.drawRect(0, nMiddle - 20, width, nMiddle, backgroundPaint);
+        canvas.drawRect(0, nMiddle - getResources().getDimension(R.dimen.progress_bar_height), width, nMiddle, backgroundPaint);
+        Log.wtf("Progress height: ", String.valueOf(getResources().getDimension(R.dimen.progress_bar_height)));
 
         int progressX = (int) (width * progress / maximum_progress);
 
         // long progressX = (long) (width * labelTime/(progress/1000-pastTime));
         //  canvas.drawLine(0, nMiddle, progressX, nMiddle, foregroundPaint);
 
-        canvas.drawRect(0, nMiddle - 20, progressX, nMiddle, foregroundPaint);
+        canvas.drawRect(0, nMiddle - getResources().getDimension(R.dimen.progress_bar_height), progressX, nMiddle, foregroundPaint);
 
         Point a = new Point(0 + progressX - 15, nMiddle + 30);
         Point b = new Point(15 + progressX - 15, nMiddle);
@@ -136,7 +139,7 @@ public class LineProgressBar extends ProgressView {
 
         //go from the left to the right
         Paint textPaint = new Paint();
-        textPaint.setTextSize(20);
+        textPaint.setTextSize(getResources().getDimension(R.dimen.letters_in_progressbar_height));
         textPaint.setColor(Color.WHITE);
 
 //        canvas.drawText("A",height/2-progressX, nMiddle, textPaint);
@@ -156,7 +159,7 @@ public class LineProgressBar extends ProgressView {
         );
 
         Paint timePaint = new Paint();
-        timePaint.setTextSize(20);
+        timePaint.setTextSize(R.dimen.letters_in_progressbar_height);
         timePaint.setColor(Color.WHITE);
         canvas.drawText(slideTime, width - width / 10, nMiddle, timePaint);
 

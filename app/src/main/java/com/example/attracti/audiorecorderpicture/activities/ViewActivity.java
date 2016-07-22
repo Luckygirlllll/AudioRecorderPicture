@@ -23,6 +23,7 @@ import com.example.attracti.audiorecorderpicture.interfaces.OnCreateCanvasListen
 import com.example.attracti.audiorecorderpicture.model.Label;
 import com.example.attracti.audiorecorderpicture.utils.SdCardDataRetriwHеlper;
 import com.example.attracti.audiorecorderpicture.utils.Statics;
+import com.example.attracti.audiorecorderpicture.widgets.CustomViewPagerH;
 import com.example.attracti.audiorecorderpicture.widgets.progressbar.LineProgressBar;
 
 import java.io.File;
@@ -45,7 +46,7 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
 
     private static final String TAG = ViewActivity.class.getSimpleName();
 
-    private ViewPager mPager;
+    private CustomViewPagerH mPager;
     private ScreenSlidePagerAdapter mPagerAdapter;
     private File[] mArray;
     private String parentName;
@@ -79,6 +80,9 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
     private ArrayList positionLabelList = new ArrayList();
     private ArrayList<Float> currenSlideTimeList = new ArrayList();
 
+    private Button leftButton;
+    private Button rightButton;
+
 
     public String getParentName() {
         return parentName;
@@ -91,7 +95,8 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screen_slide);
-        mPager = (ViewPager) findViewById(R.id.pager);
+        mPager = (CustomViewPagerH) findViewById(R.id.pager);
+        mPager.setPagingEnabled(false);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         playButton = (Button) findViewById(R.id.play_button);
@@ -102,6 +107,12 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         mArray = (File[]) intent.getSerializableExtra("FILE_TAG");
         parentName = mArray[0].getParentFile().getParentFile().getName();
         labelList = SdCardDataRetriwHеlper.readFromFile(mArray);
+
+        leftButton = (Button) findViewById(R.id.left_button);
+        leftButton.setOnClickListener(leftButtonListener);
+
+        rightButton = (Button) findViewById(R.id.right_button);
+        rightButton.setOnClickListener(rightButtonListener);
 
         if (labelList != null) {
             for (int i = 0; i < labelList.size(); i++) {
@@ -192,6 +203,20 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
 
 
     }
+
+    private View.OnClickListener leftButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mPager.setCurrentItem(mPager.getCurrentItem() - 1, true);
+        }
+    };
+
+    private View.OnClickListener rightButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mPager.setCurrentItem(mPager.getCurrentItem() + 1, true);
+        }
+    };
 
 
     private void setTimer(int maxProgress) {

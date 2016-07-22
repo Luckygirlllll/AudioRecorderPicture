@@ -43,7 +43,9 @@ public class GalleryActivity extends AppCompatActivity implements AdapterView.On
             window.setStatusBarColor(getResources().getColor(R.color.statusBarColor));
         }
 
-        FOLDERS = SdCardDataRetriwHеlper.getFromSdcardPicturesFolders(path);
+        // FOLDERS = SdCardDataRetriwHеlper.getFromSdcardPicturesFolders(path);
+        FOLDERS = SdCardDataRetriwHеlper.getFromSdcardPicturesFolders(pathExtra);
+
 
 
 

@@ -3,6 +3,7 @@ package com.example.attracti.audiorecorderpicture.activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -94,7 +95,13 @@ public class FirstscreenActivity extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
                 showBottomSheetDialog();
-                mBottomSheetDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, 700);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    mBottomSheetDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, 700);
+                } else {
+                    mBottomSheetDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, 1100);
+                }
+
                 // LinearLayout.LayoutParams.WRAP_CONTENT
                 mBottomSheetDialog.getWindow().setGravity(Gravity.BOTTOM);
 

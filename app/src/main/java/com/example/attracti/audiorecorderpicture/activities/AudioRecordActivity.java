@@ -467,7 +467,9 @@ public class AudioRecordActivity extends AppCompatActivity implements OnHeadline
                 doneView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.toolbarRecordingActiveColor));
                 doneView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
                 myToolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.toolbarRecordingActiveColor));
-                window.setStatusBarColor(getResources().getColor(R.color.statusBarRecordingActiveColor));
+                if (android.os.Build.VERSION.SDK_INT >= 21) {
+                    window.setStatusBarColor(getResources().getColor(R.color.statusBarRecordingActiveColor));
+                }
                 backButton.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.arrow_back_white));
                 pictureCounter.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
                 chronometer.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
@@ -485,7 +487,9 @@ public class AudioRecordActivity extends AppCompatActivity implements OnHeadline
                 pictureCounter.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
                 chronometer.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.toolbarGrayColor));
                 myToolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.toolbarRecordingColor));
-                window.setStatusBarColor(getResources().getColor(R.color.statusBarRecordingColor));
+                if (android.os.Build.VERSION.SDK_INT >= 21) {
+                    window.setStatusBarColor(getResources().getColor(R.color.statusBarRecordingColor));
+                }
                 backButton.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.arrow_back_violet));
             }
             mStartRecording = !mStartRecording;
@@ -647,7 +651,9 @@ public class AudioRecordActivity extends AppCompatActivity implements OnHeadline
 
 
         window = getWindow();
-        window.setStatusBarColor(getResources().getColor(R.color.statusBarRecordingColor));
+        if (android.os.Build.VERSION.SDK_INT >= 21) {
+            window.setStatusBarColor(getResources().getColor(R.color.statusBarRecordingColor));
+        }
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.weight = 1;

@@ -186,10 +186,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         String projectDate = folder.getName();
         String[] dateItem = projectDate.split("_");
-        String dateProject = dateItem[2] + "." + dateItem[1] + "." + dateItem[0];
+        if (dateItem.length > 2) {
+            String dateProject = dateItem[2] + "." + dateItem[1] + "." + dateItem[0];
 
-        holder.title.setText(dateProject);
-        holder.date.setText(dateProject);
+            holder.title.setText(dateProject);
+            holder.date.setText(dateProject);
+        }
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.RGB_565;

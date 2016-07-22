@@ -73,7 +73,9 @@ public class ReadyRecordActivity extends FragmentActivity {
         mPager.setAdapter(mPagerAdapter);
 
         window = getWindow();
-        window.setStatusBarColor(getResources().getColor(R.color.statusBarRecordingColor));
+        if (android.os.Build.VERSION.SDK_INT >= 21) {
+            window.setStatusBarColor(getResources().getColor(R.color.statusBarRecordingColor));
+        }
     }
 
     private View.OnClickListener leftButtonListener = new View.OnClickListener() {

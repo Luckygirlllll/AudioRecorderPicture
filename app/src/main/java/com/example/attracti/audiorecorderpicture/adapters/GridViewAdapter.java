@@ -66,10 +66,11 @@ public class GridViewAdapter extends BaseAdapter {
 
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
         //  Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath(),bmOptions);
-
-        Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(items.get(position).getPictureList().get(0)));
+        if (items.size() > 0) {
+            Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(items.get(position).getPictureList().get(0)));
 //        bitmap = Bitmap.createScaledBitmap(bitmap,parent.getWidth(),parent.getHeight(),true);
-        imageView.setImageBitmap(bitmap);
+            imageView.setImageBitmap(bitmap);
+        }
 
 
 //        if (image != null){

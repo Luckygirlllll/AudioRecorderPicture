@@ -70,7 +70,9 @@ public class ChooseActivity extends AppCompatActivity {
         });
 
         Window window = getWindow();
-        window.setStatusBarColor(getResources().getColor(R.color.statusBarColor));
+        if (android.os.Build.VERSION.SDK_INT >= 21) {
+            window.setStatusBarColor(getResources().getColor(R.color.statusBarColor));
+        }
 
         adapter = new GridChooseAdapter(this, listFile);
         GridView gridView = (GridView) findViewById(R.id.gridChooseView);
