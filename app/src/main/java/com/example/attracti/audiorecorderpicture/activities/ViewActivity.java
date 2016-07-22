@@ -189,10 +189,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
                     params.height = sizeInPX;
                     params.width = sizeInPX;
                     playButton.setLayoutParams(params);
-
-                    // playButton.setHeight(getApplicationContext().getResources().getDimensionPixelSize(R.dimen.pause_button_height));
-                    // playButton.setWidth(getApplicationContext().getResources().getDimensionPixelSize(R.dimen.pause_button_width));
-
                     startPlayingLabels();
                     Float.parseFloat(nextTimeSlide.get(mPager.getCurrentItem() + 1) + "");
 
