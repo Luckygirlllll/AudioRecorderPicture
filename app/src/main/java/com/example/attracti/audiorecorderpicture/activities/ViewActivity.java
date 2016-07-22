@@ -30,6 +30,7 @@ import com.example.attracti.audiorecorderpicture.widgets.progressbar.LineProgres
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 
@@ -105,7 +106,10 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         seekbar = new SeekBar(getApplicationContext());
 
         Intent intent = getIntent();
-        mArray = (File[]) intent.getSerializableExtra("FILE_TAG");
+        // mArray = (File[]) intent.getSerializableExtra("FILE_TAG");
+        Object[] prearray = (Object[]) getIntent().getSerializableExtra("FILE_TAG");
+        mArray = Arrays.copyOf(prearray, prearray.length, File[].class);
+
         parentName = mArray[0].getParentFile().getParentFile().getName();
         labelList = SdCardDataRetriwHеlper.readFromFile(mArray);
 
@@ -190,11 +194,21 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
                     params.width = sizeInPX;
                     playButton.setLayoutParams(params);
                     startPlayingLabels();
-                    Float.parseFloat(nextTimeSlide.get(mPager.getCurrentItem() + 1) + "");
+                    //Float.parseFloat(nextTimeSlide.get(mPager.getCurrentItem() + 1) + "");
+
+                    if (mPager.getCurrentItem() + 1 < nextTimeSlide.size()) {
 
                     lineProgressBar.setMaximum_progress(Float.parseFloat((Integer) nextTimeSlide.get(mPager.getCurrentItem() + 1) - (Integer) nextTimeSlide.get(mPager.getCurrentItem()) + ""));
-                    lineProgressBar.setMaximumAbsoluteTime(Float.parseFloat((Integer) nextTimeSlide.get(mPager.getCurrentItem() + 1) + ""));
-                    setTimer((Integer) nextTimeSlide.get(mPager.getCurrentItem() + 1) - (Integer) nextTimeSlide.get(mPager.getCurrentItem()));
+                        // lineProgressBar.setMaximumAbsoluteTime(Float.parseFloat((Integer) nextTimeSlide.get(mPager.getCurrentItem() + 1) + ""));
+                        setTimer((Integer) nextTimeSlide.get(mPager.getCurrentItem() + 1) - (Integer) nextTimeSlide.get(mPager.getCurrentItem()));
+                    } else {
+                        //// TODO: 7/22/16 Be careful with this else@ 
+                        lineProgressBar.setMaximum_progress(mPlayer.getDuration());
+                        setTimer(mPlayer.getDuration());
+                    }
+
+
+
 
 
                 } else {
@@ -422,7 +436,12 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         @Override
         public Fragment getItem(int position) {
             Intent intent = getIntent();
-            array = (File[]) intent.getSerializableExtra("FILE_TAG");
+
+            //array = (File[]) intent.getSerializableExtra("FILE_TAG");
+
+            Object[] prearray = (Object[]) getIntent().getSerializableExtra("FILE_TAG");
+            array = Arrays.copyOf(prearray, prearray.length, File[].class);
+
             BitmapFragment fragment = BitmapFragment.create(array[position].getPath(), position);
             fragments.add(fragment);
             return fragment;
@@ -431,7 +450,10 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         @Override
         public int getCount() {
             Intent intent = getIntent();
-            array = (File[]) intent.getSerializableExtra("FILE_TAG");
+            Object[] prearray = (Object[]) getIntent().getSerializableExtra("FILE_TAG");
+            array = Arrays.copyOf(prearray, prearray.length, File[].class);
+
+            //  array = (File[]) intent.getSerializableExtra("FILE_TAG");
             return array.length;
         }
 
