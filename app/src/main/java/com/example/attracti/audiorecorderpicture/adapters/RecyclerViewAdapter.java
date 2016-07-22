@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.os.Environment;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -104,7 +105,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             imageView.setImageBitmap(bitmap);
         } else {
+
+
+            Matrix matrix = new Matrix();
+            matrix.postRotate(90);
             bitmap = decodeSampledBitmapFromResource(path, 100, 100);
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+
+
             imageView.setImageBitmap(bitmap);
 
         }

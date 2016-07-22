@@ -101,7 +101,6 @@ public class FirstscreenActivity extends AppCompatActivity implements
                 } else {
                     mBottomSheetDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, 1100);
                 }
-
                 // LinearLayout.LayoutParams.WRAP_CONTENT
                 mBottomSheetDialog.getWindow().setGravity(Gravity.BOTTOM);
 
@@ -127,7 +126,6 @@ public class FirstscreenActivity extends AppCompatActivity implements
 
 
         mAdapterItem = new ItemAdapter(createItems(), this);
-
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
 
         // Use 1/8th of the available memory for this memory cache.

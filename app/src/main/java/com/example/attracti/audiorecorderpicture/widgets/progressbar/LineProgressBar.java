@@ -14,6 +14,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 
 import com.example.attracti.audiorecorderpicture.R;
+import com.example.attracti.audiorecorderpicture.utils.Statics;
 
 import java.util.concurrent.TimeUnit;
 
@@ -103,7 +104,8 @@ public class LineProgressBar extends ProgressView {
 
         int nMiddle = height / 2;
         //canvas.drawLine(0, nMiddle, width, nMiddle, backgroundPaint);
-        canvas.drawRect(0, nMiddle - getResources().getDimension(R.dimen.progress_bar_height), width, nMiddle, backgroundPaint);
+        canvas.drawRect(0, nMiddle - 20, width, nMiddle, backgroundPaint);
+        //getResources().getDimension(R.dimen.progress_bar_height)
         Log.wtf("Progress height: ", String.valueOf(getResources().getDimensionPixelSize(R.dimen.progress_bar_height)));
 
         int progressX = (int) (width * progress / maximum_progress);
@@ -111,7 +113,9 @@ public class LineProgressBar extends ProgressView {
         // long progressX = (long) (width * labelTime/(progress/1000-pastTime));
         //  canvas.drawLine(0, nMiddle, progressX, nMiddle, foregroundPaint);
 
-        canvas.drawRect(0, nMiddle - getResources().getDimensionPixelSize(R.dimen.progress_bar_height), progressX, nMiddle, foregroundPaint);
+        canvas.drawRect(0, nMiddle - 20, progressX, nMiddle, foregroundPaint);
+
+        //getResources().getDimensionPixelSize(R.dimen.progress_bar_height)
 
         Point a = new Point(0 + progressX - 15, nMiddle + 30);
         Point b = new Point(15 + progressX - 15, nMiddle);
@@ -172,7 +176,8 @@ public class LineProgressBar extends ProgressView {
                 Log.wtf("Test maximum time: ", String.valueOf(maximum_progress));
                 Log.wtf("Test label time: ", String.valueOf(usualLabelTime.get(i)));
                 Log.wtf("Test labelPosition: ", String.valueOf((width * usualLabelTime.get(i)) / maximum_progress));
-                canvas.drawText(String.valueOf(i + 1), width * (usualLabelTime.get(i) / maximum_progress), nMiddle, textPaint);
+
+                canvas.drawText(String.valueOf(Statics.alphabetEnglish.get(i)), width * (usualLabelTime.get(i) / maximum_progress), nMiddle, textPaint);
             }
         }
     }

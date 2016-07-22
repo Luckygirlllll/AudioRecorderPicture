@@ -4,12 +4,14 @@ import android.animation.Animator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.attracti.audiorecorderpicture.utils.Statics;
 import com.example.attracti.audiorecorderpicture.views.CircleDrawView;
 
 import java.io.File;
@@ -68,7 +70,12 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
     protected Bitmap doInBackground(String... params) {
         data = String.valueOf(params[0]);
         f = new File(data);
-        final Bitmap bitmap = decodeSampledBitmapFromResource(data, 100, 100);
+        Matrix matrix = new Matrix();
+        matrix.postRotate(90);
+        Bitmap bitmap = decodeSampledBitmapFromResource(data, 100, 100);
+        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, false);
+        //bitmap=Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+
         //addBitmapToMemoryCache(String.valueOf(params[0]), bitmap);
 
         return bitmap;
@@ -84,7 +91,7 @@ public class ChildDownloadTask extends AsyncTask<String, Void, Bitmap> {
             for (int i = 0; i < positionList.size(); i++) {
                 if (position == (positionList.get(positionList.size() - 1))) {
 
-                    circle = new CircleDrawView(context, xCoordList.get(xCoordList.size() - 1), yCoordList.get(yCoordList.size() - 1), String.valueOf(i + 1));
+                    circle = new CircleDrawView(context, xCoordList.get(xCoordList.size() - 1), yCoordList.get(yCoordList.size() - 1), String.valueOf(Statics.alphabetEnglish.get(i)));
                     tempCanvas.save();
                     rootView.addView(circle);
                     rootView.invalidate();

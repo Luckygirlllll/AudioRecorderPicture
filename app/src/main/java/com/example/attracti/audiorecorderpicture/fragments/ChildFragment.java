@@ -22,6 +22,7 @@ import android.widget.RelativeLayout;
 import com.example.attracti.audiorecorderpicture.R;
 import com.example.attracti.audiorecorderpicture.activities.AudioRecordActivity;
 import com.example.attracti.audiorecorderpicture.async.ChildDownloadTask;
+import com.example.attracti.audiorecorderpicture.utils.Statics;
 import com.example.attracti.audiorecorderpicture.views.DrawView;
 
 import java.io.File;
@@ -166,7 +167,7 @@ public class ChildFragment extends Fragment {
                     int sBody = difference;
                     timeList.add(sBody);
 
-                    draw = new DrawView(getActivity(), 1, String.valueOf(xcoordList.size()));
+                    draw = new DrawView(getActivity(), 1, String.valueOf(Statics.alphabetEnglish.get(xcoordList.size() - 1)));
                     drawViewList.add(draw);
                     progressBar.addView(draw);
                     progressBar.invalidate();

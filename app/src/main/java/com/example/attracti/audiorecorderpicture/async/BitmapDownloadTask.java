@@ -3,12 +3,14 @@ package com.example.attracti.audiorecorderpicture.async;
 import android.animation.Animator;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.os.AsyncTask;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.attracti.audiorecorderpicture.activities.ViewActivity;
 import com.example.attracti.audiorecorderpicture.interfaces.OnCreateCanvasListener;
+import com.example.attracti.audiorecorderpicture.utils.Statics;
 import com.example.attracti.audiorecorderpicture.views.CircleDrawView;
 
 import java.lang.ref.WeakReference;
@@ -67,7 +69,12 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
     protected Bitmap doInBackground(String... params) {
 
         mData = String.valueOf(params[0]);
-        final Bitmap bitmap = decodeSampledBitmapFromResource(mData, 100, 100);
+        Matrix matrix = new Matrix();
+        matrix.postRotate(90);
+        Bitmap bitmap = decodeSampledBitmapFromResource(mData, 100, 100);
+        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, false);
+
+
         //addBitmapToMemoryCache(String.valueOf(params[0]), bitmap);
         return bitmap;
     }
@@ -85,14 +92,14 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
                 if (position == (Integer.parseInt((String) activity.getLabelList().get(i).getPictureName()))) {
                     if(activity.getLabelList().get(i).getxLabel()!=0 &&activity.getLabelList().get(i).getyLabel()!=0) {
 
-                        circle = new CircleDrawView(activity, activity.getLabelList().get(i).getxLabel(), activity.getLabelList().get(i).getyLabel(), String.valueOf(i));
+                        circle = new CircleDrawView(activity, activity.getLabelList().get(i).getxLabel(), activity.getLabelList().get(i).getyLabel(), String.valueOf(Statics.alphabetEnglish.get(i - 1)));
                         rootView.addView(circle);
                         rootView.invalidate();
 
                     }
 
                         if (x != 0 && y != 0) {
-                            circle = new CircleDrawView(activity, x, y, String.valueOf(i));
+                            circle = new CircleDrawView(activity, x, y, String.valueOf(Statics.alphabetEnglish.get(i)));
                             rootView.addView(circle);
                             rootView.invalidate();
                             final CircleDrawView finalCircle = circle;
@@ -130,9 +137,8 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
                 imageView.invalidate();
             }
         }
-        // todo: do I need this line of code?
-       // canvasListener.saveCanvas(tempCanvas, position);
 
+        // canvasListener.saveCanvas(tempCanvas, position);
     }
 //    public  void addBitmapToMemoryCache(String key, Bitmap bitmap) {
 //        if (getBitmapFromMemCache(key) == null) {
