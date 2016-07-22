@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
-import android.graphics.PorterDuff;
 import android.util.AttributeSet;
 import android.util.Log;
 
@@ -65,11 +64,11 @@ public class LineProgressBar extends ProgressView {
     @Override
     public void onDraw(Canvas canvas) {
 
-        if (needClean) {
-            canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-        } else {
-            //draw other elements
-        }
+//        if (needClean) {
+//            canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+//        } else {
+//            //draw other elements
+//        }
 
         if (getLineOrientation() == ProgressLineOrientation.HORIZONTAL
                 .getValue()) {
@@ -185,8 +184,6 @@ public class LineProgressBar extends ProgressView {
             textPaint.setTextSize(20);
             textPaint.setColor(Color.WHITE);
             for (int i = 0; i < usualLabelTime.size(); i++) {
-                Log.wtf("Test i", String.valueOf(i));
-                Log.wtf("Test width: ", String.valueOf(width));
                 Log.wtf("Test maximum time: ", String.valueOf(maximum_progress));
                 Log.wtf("Test label time: ", String.valueOf(usualLabelTime.get(i)));
                 Log.wtf("Test labelPosition: ", String.valueOf((width * usualLabelTime.get(i)) / maximum_progress));

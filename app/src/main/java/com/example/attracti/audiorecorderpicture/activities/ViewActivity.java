@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -121,6 +120,15 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
         //lineProgressBar.setLineOrientation(ProgressLineOrientation.VERTICAL);
         lineProgressBar.setRoundEdgeProgress(true);
 
+        Button backButton = (Button) findViewById(R.id.back_button);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent firstScreen = new Intent(getApplicationContext(), FirstscreenActivity.class);
+                startActivity(firstScreen);
+            }
+        });
+
 
         pictureCounter = (TextView) findViewById(R.id.picture_counter);
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -192,9 +200,6 @@ public class ViewActivity extends FragmentActivity implements OnCreateCanvasList
                 if ((parseInt((String) positionLabelList.get(i))) == (mPager.getCurrentItem())) {
                     currenSlideTimeList.add(usualLabelTime.get(i) - Float.parseFloat(nextTimeSlide.get(mPager.getCurrentItem()) + ""));
                     lineProgressBar.setUsualLabelTime(currenSlideTimeList);
-                    for (int j = 0; j < currenSlideTimeList.size(); j++) {
-                        Log.wtf("currentSlideTimelist", String.valueOf(currenSlideTimeList.get(j)));
-                    }
                 }
             }
         }
