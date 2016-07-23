@@ -102,7 +102,7 @@
         android:id="@+id/progress"
         android:layout_above="@id/bottom_layout"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_height="@dimen/progress_bar_height"
         android:layout_marginBottom="-5dp" />
 
 

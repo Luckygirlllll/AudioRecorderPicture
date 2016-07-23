@@ -99,8 +99,10 @@ public class FirstscreenActivity extends AppCompatActivity implements
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     mBottomSheetDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, 700);
                 } else {
-                    mBottomSheetDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, 1100);
+                    mBottomSheetDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 }
+                //1100
+
                 // LinearLayout.LayoutParams.WRAP_CONTENT
                 mBottomSheetDialog.getWindow().setGravity(Gravity.BOTTOM);
 

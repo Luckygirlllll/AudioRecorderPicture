@@ -88,18 +88,21 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
         tempCanvas.drawBitmap(bitmap, 0, 0, null);
 
         CircleDrawView circle = null;
+        int firstLabelName = 0;
+
             for (int i = 0; i < activity.getLabelList().size(); i++) {
                 if (position == (Integer.parseInt((String) activity.getLabelList().get(i).getPictureName()))) {
-                    if(activity.getLabelList().get(i).getxLabel()!=0 &&activity.getLabelList().get(i).getyLabel()!=0) {
 
-                        circle = new CircleDrawView(activity, activity.getLabelList().get(i).getxLabel(), activity.getLabelList().get(i).getyLabel(), String.valueOf(Statics.alphabetEnglish.get(i - 1)));
+                    if (activity.getLabelList().get(i).getxLabel() != 0 && activity.getLabelList().get(i).getyLabel() != 0) {
+                        circle = new CircleDrawView(activity, activity.getLabelList().get(i).getxLabel(), activity.getLabelList().get(i).getyLabel(), String.valueOf(Statics.alphabetEnglish.get(firstLabelName)));
                         rootView.addView(circle);
                         rootView.invalidate();
+                        firstLabelName++;
 
                     }
-
                         if (x != 0 && y != 0) {
-                            circle = new CircleDrawView(activity, x, y, String.valueOf(Statics.alphabetEnglish.get(i)));
+                            int letterName = 0;
+                            circle = new CircleDrawView(activity, x, y, String.valueOf(Statics.alphabetEnglish.get(letterName)));
                             rootView.addView(circle);
                             rootView.invalidate();
                             final CircleDrawView finalCircle = circle;
@@ -112,6 +115,7 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
                                 @Override
                                 public void onAnimationEnd(Animator animation) {
                                     finalCircle.animate().scaleX(0.8f).scaleY(0.8f).setDuration(2000);
+
                                 }
 
                                 @Override
@@ -124,7 +128,7 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
 
                                 }
                             });
-                            ;
+                            letterName++;
                         }
                 }
             }

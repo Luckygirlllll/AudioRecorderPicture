@@ -291,6 +291,9 @@ public class CameraFragment extends Fragment
     public void captureImage() {
 
         if (mCamera != null) {
+//test
+//            mCamera.startPreview();
+
             mCamera.takePicture(null, null, new PictureCallback() {
 
                 @Override
@@ -378,8 +381,11 @@ public class CameraFragment extends Fragment
                         for (int i = 0; i < arrayFilepaths.size(); i++) {
                         }
                     }
+
                 }
             });
+
+
         }
     }
 

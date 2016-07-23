@@ -105,7 +105,7 @@ public class LineProgressBar extends ProgressView {
         int nMiddle = height / 2;
         //canvas.drawLine(0, nMiddle, width, nMiddle, backgroundPaint);
         canvas.drawRect(0, nMiddle - 20, width, nMiddle, backgroundPaint);
-        //getResources().getDimension(R.dimen.progress_bar_height)
+        //getResources().getDimensionPixelSize(R.dimen.progress_bar_height)
         Log.wtf("Progress height: ", String.valueOf(getResources().getDimensionPixelSize(R.dimen.progress_bar_height)));
 
         int progressX = (int) (width * progress / maximum_progress);
