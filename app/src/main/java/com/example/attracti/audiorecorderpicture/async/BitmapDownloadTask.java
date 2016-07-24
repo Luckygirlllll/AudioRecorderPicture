@@ -90,6 +90,7 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
         CircleDrawView circle = null;
         int firstLabelName = 0;
 
+
             for (int i = 0; i < activity.getLabelList().size(); i++) {
                 if (position == (Integer.parseInt((String) activity.getLabelList().get(i).getPictureName()))) {
 
@@ -101,12 +102,14 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
 
                     }
                         if (x != 0 && y != 0) {
-                            int letterName = 0;
+                            final int letterName = 0;
                             circle = new CircleDrawView(activity, x, y, String.valueOf(Statics.alphabetEnglish.get(letterName)));
+                            // circle = new CircleDrawView(activity, x, y, "");
+
                             rootView.addView(circle);
                             rootView.invalidate();
                             final CircleDrawView finalCircle = circle;
-                            circle.animate().scaleX(1.5f).scaleY(1.5f).setDuration(2000).setListener(new Animator.AnimatorListener() {
+                            finalCircle.animate().scaleX(1.5f).scaleY(1.5f).setDuration(2000).setListener(new Animator.AnimatorListener() {
                                 @Override
                                 public void onAnimationStart(Animator animation) {
 
@@ -128,7 +131,7 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
 
                                 }
                             });
-                            letterName++;
+
                         }
                 }
             }

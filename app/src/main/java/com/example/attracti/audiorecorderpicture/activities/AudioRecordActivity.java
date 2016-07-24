@@ -112,7 +112,7 @@ public class AudioRecordActivity extends AppCompatActivity implements OnHeadline
 
     private Window window;
 
-    private ArrayList<File> arrayFilepaths2 = new ArrayList<>();
+    private ArrayList<File> arrayFilepathsPictures = new ArrayList<>();
 
     public File getmPictureDirectory() {
         return mPictureDirectory;
@@ -304,11 +304,11 @@ public class AudioRecordActivity extends AppCompatActivity implements OnHeadline
 
     @Override
     public void onArticleSelected(ArrayList<File> arrayFilepaths) {
-        this.arrayFilepaths2 = arrayFilepaths;
+        this.arrayFilepathsPictures = arrayFilepaths;
 //        ViewFragment viewFragment = (ViewFragment)
 //                getSupportFragmentManager().findFragmentById(R.id.pager_fragment);
-        if (this.arrayFilepaths2 != null && viewFragment != null) {
-            viewFragment.updateArray(arrayFilepaths2);
+        if (this.arrayFilepathsPictures != null && viewFragment != null) {
+            viewFragment.updateArray(arrayFilepathsPictures);
 
         }
         if ((ViewFragment) mPagerAdapter.getFragment(1) != null) {
@@ -633,7 +633,7 @@ public class AudioRecordActivity extends AppCompatActivity implements OnHeadline
             @Override
             public void onClick(View v) {
                 done++;
-                arrayFilepaths2.clear();
+                arrayFilepathsPictures.clear();
                 Intent firstScreen = new Intent(getApplicationContext(), FirstscreenActivity.class);
                 startActivity(firstScreen);
             }
@@ -643,7 +643,7 @@ public class AudioRecordActivity extends AppCompatActivity implements OnHeadline
             @Override
             public void onClick(View v) {
                 done++;
-                arrayFilepaths2.clear();
+                arrayFilepathsPictures.clear();
                 Intent firstScreen = new Intent(getApplicationContext(), FirstscreenActivity.class);
                 startActivity(firstScreen);
             }
@@ -879,7 +879,7 @@ public class AudioRecordActivity extends AppCompatActivity implements OnHeadline
         switch (item.getItemId()) {
             case R.id.doneItem:
                 done++;
-                arrayFilepaths2.clear();
+                arrayFilepathsPictures.clear();
                 Intent firstScreen = new Intent(getApplicationContext(), FirstscreenActivity.class);
                 startActivity(firstScreen);
                 return true;
@@ -919,7 +919,7 @@ public class AudioRecordActivity extends AppCompatActivity implements OnHeadline
                 case 1:
                     viewFragment = new ViewFragment();
                     viewFragment.sendView(progressBar);
-                    onArticleSelected(arrayFilepaths2);
+                    onArticleSelected(arrayFilepathsPictures);
                     fragments.add(viewFragment);
                     onSwipePictureListener = viewFragment;
                     return viewFragment;

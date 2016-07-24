@@ -44,7 +44,6 @@ public class ViewFragment extends Fragment implements OnSwipePictureListener {
     private RelativeLayout progressBar;
 
 
-
     public ArrayList<File> getArrayFilepaths() {
         return arrayFilepaths;
     }
